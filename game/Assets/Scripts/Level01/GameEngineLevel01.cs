@@ -2,12 +2,17 @@
 using System.Collections;
 
 public class GameEngineLevel01 : MonoBehaviour {
+	
+	public Texture2D[] cursor;
+	private CursorMode mode = CursorMode.Auto;
+	private Vector2 hotSpot = Vector2.zero;
 
 	public Transform[] prefab;
 	private GameObject character;
 	// Use this for initialization
 	void Start () {
-		
+		Cursor.SetCursor(cursor[0], hotSpot, mode);
+
 		string str_character = PlayerPrefs.GetString ("Character");
 		string dificulty = PlayerPrefs.GetString ("Dificulty");
 

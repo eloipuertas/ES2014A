@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameEngine : MonoBehaviour {
 
-	public Texture2D cursor;
+	public Texture2D[] cursor;
 
 	private CursorMode mode = CursorMode.Auto;
 
@@ -22,7 +22,7 @@ public class GameEngine : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		Cursor.SetCursor(cursor, hotSpot, mode);
+		Cursor.SetCursor(cursor[0], hotSpot, mode);
 
 		//if (GameObject.FindGameObjectWithTag ("back") && GameObject.FindGameObjectWithTag ("confirm"))
 			//GameObject.FindGameObjectWithTag ("character_menu").gameObject.SetActive (false);
@@ -41,7 +41,9 @@ public class GameEngine : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown (0)) {
 						Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			
+
+						Cursor.SetCursor(cursor[1], hotSpot, mode);
+
 						if (Physics.Raycast (ray, out this.getObjectScene, 100)) {
 								if (this.getObjectScene.transform.gameObject.tag.Equals ("new_game")) {
 
@@ -136,6 +138,8 @@ public class GameEngine : MonoBehaviour {
 				Debug.Log( this.getObjectScene.transform.gameObject.name );
 			}
 			
+		}else if(Input.GetMouseButtonUp(0)){
+			Cursor.SetCursor(cursor[0], hotSpot, mode);
 		}
 	}
 }

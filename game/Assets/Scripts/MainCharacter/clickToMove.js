@@ -34,7 +34,7 @@ function Update ()
 
     if(Input.GetKeyDown(KeyCode.Mouse0)) {                   
         //smooth=1;
-        speed = 70;
+        speed = 30;
 
         
         animation.Play("Armature|Correr");
