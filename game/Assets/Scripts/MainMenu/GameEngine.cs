@@ -98,7 +98,7 @@ public class GameEngine : MonoBehaviour {
 											//GameObject.FindGameObjectWithTag("attribute").gameObject.renderer.material = this.material_attributes [0];
 											//this.prefab[5].gameObject.renderer.material = this.material_attributes [0];
 											//this.prefab[5].transform.gameObject.renderer.material = this.material_attributes[0];
-											this.lastCharacter = "Cube";
+											this.lastCharacter = "Gordo";
 										}
 											
 								} else if (this.getObjectScene.transform.gameObject.name.Equals ("character_02")){
@@ -114,7 +114,7 @@ public class GameEngine : MonoBehaviour {
 											//Instantiate (this.prefab [3]);
 											//GameObject.FindGameObjectWithTag("attribute").gameObject.renderer.material = this.material_attributes [1];
 											//this.prefab[5].transform.gameObject.renderer.material = this.material_attributes [1];
-											this.lastCharacter = "Sphere";
+											this.lastCharacter = "Tia";
 										}
 
 								}else if (this.getObjectScene.transform.gameObject.name.Equals("character_03")){
@@ -129,7 +129,7 @@ public class GameEngine : MonoBehaviour {
 											//Instantiate (this.prefab [4]);
 											//GameObject.FindGameObjectWithTag("attribute").gameObject.renderer.material = this.material_attributes [2];
 											//this.prefab[5].transform.gameObject.renderer.material = this.material_attributes [2];
-											this.lastCharacter = "Triangle";
+											this.lastCharacter = "Nino";
 										}
 								}
 

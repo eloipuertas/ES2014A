@@ -11,11 +11,11 @@ public class GameEngineLevel01 : MonoBehaviour {
 		string str_character = PlayerPrefs.GetString ("Character");
 		string dificulty = PlayerPrefs.GetString ("Dificulty");
 
-		if (str_character.Equals ("Cube"))
+		if (str_character.Equals ("Gordo"))
 			Instantiate (prefab [0]);
-		else if (str_character.Equals ("Sphere"))
+		else if (str_character.Equals ("Tia"))
 			Instantiate (prefab [1]);
-		else if (str_character.Equals ("Triangle"))
+		else if (str_character.Equals ("Nino"))
 			Instantiate (prefab [2]);
 
 		this.character = GameObject.FindGameObjectWithTag ("Player");
