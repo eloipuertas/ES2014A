@@ -1,7 +1,7 @@
 ﻿#pragma strict
 
 var smooth : int;
-var speed : int;
+private var speed : int;
 
 private var targetPosition : Vector3;
 private var targetPoint : Vector3;
