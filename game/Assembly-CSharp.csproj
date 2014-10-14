@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\MainMenu\AspectRatio.cs" />
      <Compile Include="Assets\Scripts\MainMenu\ButtonAction.cs" />
      <Compile Include="Assets\Scripts\MainMenu\GameEngine.cs" />
+     <Compile Include="Assets\Scripts\NPC\Movement.cs" />
      <None Include="Assets\Extern\Standard Assets\Skyboxes\_skybox info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

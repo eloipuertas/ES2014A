@@ -46,7 +46,7 @@ public class GameEngine : MonoBehaviour {
 
 						if (Physics.Raycast (ray, out this.getObjectScene, 100)) {
 								if (this.getObjectScene.transform.gameObject.tag.Equals ("new_game")) {
-
+										this.audio.Play ();
 										print ("Has pulsado Nueva Partida.");
 										Destroy (GameObject.FindGameObjectWithTag ("option_menu"));
 										
@@ -60,16 +60,16 @@ public class GameEngine : MonoBehaviour {
 										//this.prefab[5].renderer.material = this.material_attributes [0];
 
 								} else if (this.getObjectScene.transform.gameObject.tag.Equals ("load_game")) {
-
+										this.audio.Play ();
 										print ("Has pulsado Cargar Partida.");
 
 								} else if (this.getObjectScene.transform.gameObject.tag.Equals ("exit")) {
-
+										this.audio.Play ();
 										print ("Has pulsado Salir.");
 										Application.Quit();
 
 								} else if (this.getObjectScene.transform.gameObject.tag.Equals ("back")) {
-
+										this.audio.Play ();
 										print ("Has pulsado Volver.");
 										
 										Destroy (GameObject.FindGameObjectWithTag ("character_menu"));
@@ -79,6 +79,7 @@ public class GameEngine : MonoBehaviour {
 										this.lastCharacter = "Gordo";
 
 								} else if (this.getObjectScene.transform.gameObject.tag.Equals ("confirm")) {
+										this.audio.Play ();	
 										print ("Has pulsado Confirmar.");
 
 										PlayerPrefs.SetString("Difficulty", "Normal");
@@ -86,7 +87,7 @@ public class GameEngine : MonoBehaviour {
 										//PlayerPrefs.Save();
 										Application.LoadLevel(1);
 								} else if (this.getObjectScene.transform.gameObject.name.Equals ("character_01")){
-										
+										this.audio.Play ();	
 										print ("Has seleccionado el personaje Cubo.");
 										if(!this.prefab[2].transform.name.Equals(this.lastCharacter)){
 											
@@ -104,7 +105,7 @@ public class GameEngine : MonoBehaviour {
 										}
 											
 								} else if (this.getObjectScene.transform.gameObject.name.Equals ("character_02")){
-										
+										this.audio.Play ();		
 										print ("Has seleccionado el personaje Esfera.");
 										if(!this.prefab[3].transform.name.Equals(this.lastCharacter)){
 											this.prefab[1].FindChild("Character").gameObject.renderer.material = this.material_attributes [4];
@@ -120,6 +121,7 @@ public class GameEngine : MonoBehaviour {
 										}
 
 								}else if (this.getObjectScene.transform.gameObject.name.Equals("character_03")){
+										this.audio.Play ();
 										print ("Has seleccionado el personaje Triangulo.");
 										if(!this.prefab[4].transform.name.Equals(this.lastCharacter)){
 											this.prefab[1].FindChild("Character").gameObject.renderer.material = this.material_attributes [3];
