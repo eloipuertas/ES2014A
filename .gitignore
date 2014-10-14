@@ -37,4 +37,4 @@ Thumbs.db
 # This line must be deleted...
 #
 
-*.meta
+!*.meta

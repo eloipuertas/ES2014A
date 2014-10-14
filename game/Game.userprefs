@@ -1,11 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Level01\GameEngineLevel01.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainCharacter\clickToMove.js">
     <Files>
       <File FileName="Assets\Scripts\Level01\GameEngineLevel01.cs" Line="14" Column="46" />
-      <File FileName="Assets\Scripts\MainMenu\GameEngine.cs" Line="15" Column="1" />
+      <File FileName="Assets\Scripts\MainMenu\GameEngine.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Camera\CameraMovement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainCharacter\clickToMove.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainCharacter\clickToMove.js" Line="4" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
