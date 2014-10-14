@@ -6,8 +6,8 @@ public class CameraMovement : MonoBehaviour {
 	public Transform target;					//Target position
 	private Transform _myTransform; 			//Camera position 
 	
-	private float distance = 5.0f;
-	private float height = 8.0f;
+	private float distance = 20.0f;
+	private float height = 20.0f;
 	private Vector3 scaleTarget;
 	
 	

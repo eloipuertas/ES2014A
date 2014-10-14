@@ -82,7 +82,7 @@ public class GameEngine : MonoBehaviour {
 										PlayerPrefs.SetString("Difficulty", "Normal");
 										PlayerPrefs.SetString("Character", this.lastCharacter);
 										//PlayerPrefs.Save();
-										Application.LoadLevel(2);
+										Application.LoadLevel(1);
 								} else if (this.getObjectScene.transform.gameObject.name.Equals ("character_01")){
 										
 										print ("Has seleccionado el personaje Cubo.");

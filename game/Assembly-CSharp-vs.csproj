@@ -46,19 +46,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Extern\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\Level01\GameEngineLevel01.cs" />
      <Compile Include="Assets\Scripts\MainMenu\AspectRatio.cs" />
      <Compile Include="Assets\Scripts\MainMenu\ButtonAction.cs" />
      <Compile Include="Assets\Scripts\MainMenu\GameEngine.cs" />
-     <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
- <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/Pablo/Documents/GitHub/ES2014A/game/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
- </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{C4670D74-53BA-CADB-D209-62996F2B0691}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
+     <None Include="Assets\Extern\Standard Assets\Skyboxes\_skybox info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

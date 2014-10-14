@@ -1,8 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Camera\CameraMovement.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Level01\GameEngineLevel01.cs">
     <Files>
-      <File FileName="Assets\Scripts\Camera\CameraMovement.cs" Line="49" Column="2" />
+      <File FileName="Assets\Scripts\MainMenu\GameEngine.cs" Line="85" Column="34" />
+      <File FileName="Assets\Scripts\Camera\CameraMovement.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Level01\GameEngineLevel01.cs" Line="25" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
