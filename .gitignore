@@ -31,10 +31,3 @@ ExportedObj/
 Icon?
 ehthumbs.db
 Thumbs.db
-
-
-#
-# This line must be deleted...
-#
-
-!*.meta

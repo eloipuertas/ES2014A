@@ -30,6 +30,7 @@ function Update(){
 
 function OnTriggerEnter (other : Collider) {
 
+	this.audio.Play();
 	
 	targetValue = AngleY;
 
