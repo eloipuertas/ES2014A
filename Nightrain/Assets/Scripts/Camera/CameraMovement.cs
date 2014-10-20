@@ -38,8 +38,6 @@ public class CameraMovement : MonoBehaviour {
 			//We can use the mouse wheel to zoom
 			height += Input.GetAxis("Mouse ScrollWheel") * -27;
 			distance += Input.GetAxis("Mouse ScrollWheel") * -20;
-<<<<<<< HEAD
-=======
 
 			//Limits zoom
 			if(height < scaleTarget[1] * 15.0f) height = scaleTarget[1] * 15.0f;
@@ -48,7 +46,7 @@ public class CameraMovement : MonoBehaviour {
 			if(distance > scaleTarget [2] * 40.0f) distance = scaleTarget [2] * 40.0f;
 
 			Debug.LogWarning(scaleTarget);	
->>>>>>> d_logic_programmer
+
 			
 			//Limits zoom
 			if(height < scaleTarget[1] * 15.0f) height = scaleTarget[1] * 15.0f;

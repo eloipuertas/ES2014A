@@ -9,7 +9,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 
 	public Transform[] prefab;
 	private GameObject character;
-	private GameObject npc;
+
 	// Use this for initialization
 	void Start () {
 		Cursor.SetCursor(cursor[0], hotSpot, mode);
@@ -25,10 +25,6 @@ public class GameEngineLevel01 : MonoBehaviour {
 						Instantiate (prefab [2]);
 
 		this.character = GameObject.FindGameObjectWithTag ("Player");
-
-		GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>() ;
-		foreach(object go in allObjects)
-				print(go) ;
 		//this.character.transform.position = Vector3.zero;
 		//this.character.transform.rotation = Quaternion.identity;
 
