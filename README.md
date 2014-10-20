@@ -1,6 +1,10 @@
-ES2014A
+NIGHTRAIN Project
 =======
 
-** Hierarchy **
+Nightrain is the codename for the game under development.
 
-Corresponding to issue #4
+The executables can be found on:
+
+*  Nightrain/bin/ ...
+* This is for model of main character
+
