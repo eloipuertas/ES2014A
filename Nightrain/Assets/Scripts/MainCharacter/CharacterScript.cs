@@ -2,8 +2,10 @@
 using System.Collections;
 
 public class CharacterScript : MonoBehaviour {
-	
-	// ATRIBUTES CHARACTER
+
+	public float scale;
+
+	// ATRIBUTES HEALTH/MAGIC CHARACTER
 	public int bar_health;
 	public int bar_magic;
 
@@ -33,30 +35,31 @@ public class CharacterScript : MonoBehaviour {
 	private Material HealthBarMaterial;
 	private Material MagicBarMaterial;
 	
-	// LOW HEALTH
+	// CRITICAL HEALTH
 	private Color c;
+	private bool critical = false;
 
 	// Use this for initialization
 	void Start () {
 
-		this.resize_health = 2 * Mathf.Pow(this.bar_health / this.max_health, -1);
-		this.resize_magic = 2 * Mathf.Pow(this.bar_magic / this.max_magic, -1);
+		this.resize_health = this.scale * Mathf.Pow(this.bar_health / this.max_health, -1);
+		this.resize_magic = this.scale * Mathf.Pow(this.bar_magic / this.max_magic, -1);
 
 		this.max_health = this.bar_health;
 		this.max_magic = this.bar_magic;
 
 		// ADD TEXTURES
-		this.AvatarTexture = Resources.LoadAssetAtPath<Texture2D>("Assets/Textures/HealthBar/avatar.png");
-		this.HealthTexture = Resources.LoadAssetAtPath<Texture2D>("Assets/Textures/HealthBar/health.png");
-		this.HealthBarTexture = Resources.LoadAssetAtPath<Texture2D>("Assets/Textures/HealthBar/bar_health.png");
-		this.MagicTexture = Resources.LoadAssetAtPath<Texture2D>("Assets/Textures/HealthBar/magic.png");
-		this.MagicBarTexture = Resources.LoadAssetAtPath<Texture2D>("Assets/Textures/HealthBar/bar_magic.png");
-		this.DecotrationTextureUp = Resources.LoadAssetAtPath<Texture2D>("Assets/Textures/HealthBar/decoracion_up.png");
-		this.DecotrationTextureDown = Resources.LoadAssetAtPath<Texture2D>("Assets/Textures/HealthBar/decoracion_down.png");
+		this.AvatarTexture = Resources.Load<Texture2D>("HealthBar/avatar_" + PlayerPrefs.GetString("Character"));
+		this.HealthTexture = Resources.Load<Texture2D>("HealthBar/health");
+		this.HealthBarTexture = Resources.Load<Texture2D>("HealthBar/bar_health");
+		this.MagicTexture = Resources.Load<Texture2D>("HealthBar/magic");
+		this.MagicBarTexture = Resources.Load<Texture2D>("HealthBar/bar_magic");
+		this.DecotrationTextureUp = Resources.Load<Texture2D>("HealthBar/decoracion_up");
+		this.DecotrationTextureDown = Resources.Load<Texture2D>("HealthBar/decoracion_down");
 
 		// ADD MATERIALS
-		this.HealthBarMaterial = Resources.LoadAssetAtPath<Material>("Assets/Textures/HealthBar/Materials/bar_health.mat");
-		this.MagicBarMaterial = Resources.LoadAssetAtPath<Material>("Assets/Textures/HealthBar/Materials/bar_magic.mat");
+		this.HealthBarMaterial = Resources.Load<Material>("HealthBar/Materials/bar_health");
+		this.MagicBarMaterial = Resources.Load<Material>("HealthBar/Materials/bar_magic");
 		
 		this.c = this.HealthBarMaterial.color;
 		
@@ -80,11 +83,13 @@ public class CharacterScript : MonoBehaviour {
 			this.c.g = 0;
 			this.c.b = 0;
 			this.HealthBarMaterial.color = c;
+			this.critical = true;
 		}else{
 			this.c.r = 1.0f;
 			this.c.g = 1.0f;
 			this.c.b = 1.0f;
 			this.HealthBarMaterial.color = c;
+			this.critical = false;
 		}
 
 		if(this.health == 1.0f){
@@ -98,71 +103,88 @@ public class CharacterScript : MonoBehaviour {
 
 	// Este metodo debera ser implementado mas adelante con el tema de magias etc
 	void UpdateMagic () {
-
-		/*if(this.magic == 1.0f){
-			this.bar_magic = 0;
-		}else{
-			this.magic = 1 - ((this.bar_magic / this.max_magic) * .5f);
-			this.MagicBarMaterial.SetFloat("_Cutoff", magic);
-			print ("Magic " + this.magic);
-		}*/
 		
 	}
 
-	
+
+	public bool isCritical(){
+		return this.critical;
+	}
+
+	public void setHeal(int heal){
+		if (this.bar_health < this.max_health) {
+			this.bar_health += heal;
+			if(this.bar_health > this.max_health)
+				this.bar_health = Mathf.FloorToInt(this.max_health);
+		}
+	}
+
+	public void setDamage(int damage){
+		this.bar_health -= damage;
+	}
+
+
 	void OnGUI(){
-		
+
+		// Comentar esta linia era solo para debug para ver como recuperaba vida, si la vida llega a 0 no recupera esta muerto
+		if (GUI.Button(new Rect(Screen.width - 125,50,100,50), "Heal")) {
+			print ("Heal");
+			this.setHeal(10);
+		}
+
 		if (Event.current.type.Equals (EventType.Repaint)) {
 	
 			// AVATAR ZONE
-			Rect avatar_box = new Rect (0, 0, this.AvatarTexture.width / 2, this.AvatarTexture.height / 2);
+			Rect avatar_box = new Rect (0, 0, this.AvatarTexture.width / this.scale, this.AvatarTexture.height / this.scale);
 			Graphics.DrawTexture (avatar_box, this.AvatarTexture);
 
 			// HEALTH BAR ZONE	
-			Rect healthbar_box = new Rect ((this.AvatarTexture.width / 2) - 5,
-			                                44, 
+			Rect healthbar_box = new Rect ((this.AvatarTexture.width / this.scale) - 3,
+			                                40, 
 			                                this.HealthBarTexture.width / this.resize_health, 
-			                                this.HealthBarTexture.height / 2);
+			                                this.HealthBarTexture.height / this.scale);
 
 			Graphics.DrawTexture (healthbar_box, this.HealthBarTexture, this.HealthBarMaterial);
 
-			Rect health_box = new Rect ((this.AvatarTexture.width / 2) - 5,
-			                             44, 
+			Rect health_box = new Rect ((this.AvatarTexture.width / this.scale) - 3,
+			                             40, 
 			                             this.HealthTexture.width / this.resize_health, 
-			                             this.HealthTexture.height / 2);
+			                             this.HealthTexture.height / this.scale);
 
 			Graphics.DrawTexture (health_box, this.HealthTexture);
 
-			Rect decorationUp_box = new Rect (((this.AvatarTexture.width / 2) + (this.HealthTexture.width / this.resize_health)) - 5,
-					                            44, 
-					                            this.DecotrationTextureUp.width / 2, 
-												this.DecotrationTextureUp.height / 2);
+			Rect decorationUp_box = new Rect (((this.AvatarTexture.width / this.scale) + (this.HealthTexture.width / this.resize_health)) - 3,
+					                            40, 
+			                                    this.DecotrationTextureUp.width / this.scale, 
+			                                    this.DecotrationTextureUp.height / this.scale);
 			
 			Graphics.DrawTexture (decorationUp_box, this.DecotrationTextureUp);
 
 			// MAGIC BAR ZONE
 
-			Rect magicbar_box = new Rect ((this.AvatarTexture.width / 2) - 5,
-	                             75, 
-	                             (this.MagicBarTexture.width / this.resize_magic), 
-	                             (this.MagicBarTexture.height / 2) - 8);
+			Rect magicbar_box = new Rect ((this.AvatarTexture.width / this.scale) - 3,
+	                             		   66, 
+	                             		   this.MagicBarTexture.width / this.resize_magic, 
+			                               (this.MagicBarTexture.height / this.scale) - 8);
 
 
 			Graphics.DrawTexture (magicbar_box, this.MagicBarTexture, this.MagicBarMaterial);
 
-			Rect magic_box = new Rect ((this.AvatarTexture.width / 2) - 5,
-		                                75, 
+			Rect magic_box = new Rect ((this.AvatarTexture.width / this.scale) - 3,
+		                                66, 
 		                                this.MagicTexture.width / this.resize_magic, 
-		                                this.MagicTexture.height / 2);
+			                            this.MagicTexture.height / this.scale);
 
 			Graphics.DrawTexture (magic_box, this.MagicTexture);
 
-			Rect decorationDown_box = new Rect (((this.AvatarTexture.width / 2) + (this.MagicTexture.width / this.resize_magic)) - 5,
-		                                  	  	75, 
-			                                  	this.DecotrationTextureDown.width / 2, 
-		                                    	this.DecotrationTextureDown.height / 2);
+			Rect decorationDown_box = new Rect (((this.AvatarTexture.width / this.scale) + (this.MagicTexture.width / this.resize_magic)) - 3,
+		                                  	  	66, 
+			                                    this.DecotrationTextureDown.width / this.scale, 
+			                                    this.DecotrationTextureDown.height / this.scale);
 			
 			Graphics.DrawTexture (decorationDown_box, this.DecotrationTextureDown);
+
+			
 		}
 	}
 }

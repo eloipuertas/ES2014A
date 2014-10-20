@@ -76,7 +76,7 @@ public class Movement : MonoBehaviour {
 	void OnTriggerEnter (Collider other){
 		print("Tocado."); 
 		if(other.gameObject == this.character){
-			this.character.GetComponent<CharacterScript>().bar_health -= 10;
+			this.character.GetComponent<CharacterScript>().setDamage(10);
 			print("Tocado."); 
 			Debug.Log("Debug:Tocado.");
 			System.Console.WriteLine("System:Tocado");	
