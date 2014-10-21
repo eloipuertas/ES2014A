@@ -10,10 +10,13 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private Transform prefab;
 	private GameObject character;
 
+<<<<<<< HEAD
 	public GameObject ambientLight;
 	private CharacterScript cs;
 	private Color c;
 
+=======
+>>>>>>> a8901c724187e1a39fe70f73c0aac69e85af51d5
 	// Use this for initialization
 	void Start () {
 
@@ -34,6 +37,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+<<<<<<< HEAD
 	
 		this.CautionScreen ();
 
@@ -62,5 +66,8 @@ public class GameEngineLevel01 : MonoBehaviour {
 				this.c.b += 0.02f;
 			this.ambientLight.light.color = this.c;
 		}
+=======
+
+>>>>>>> a8901c724187e1a39fe70f73c0aac69e85af51d5
 	}
 }
