@@ -2,16 +2,25 @@
 using System.Collections;
 
 public class Movement : MonoBehaviour {
+	
 	private float rotationSpeed = 1.0f;
 	private int moveSpeed = 20;
+
 	int[] degreesList = {90,180,270,360};
 	// Los nombres de los tres puntos que estan distribuidos por el mapa
 	string[] points = {"Point1", "Point2", "Point3"};
 	int i = 0, j=0;
 	int delay = 300;
-	
+
+
+	// CHARACTER
+	private GameObject character;
+
 	// Use this for initialization
 	void Start () {
+
+		// Buscamos al personaje principal
+		this.character = GameObject.FindGameObjectWithTag("Player");
 		// Mas adelante inicializar atributos del NPC
 	}
 	
@@ -60,5 +69,17 @@ public class Movement : MonoBehaviour {
 		Quaternion newRotation = Quaternion.AngleAxis (degrees, Vector3.up);
 		transform.rotation = Quaternion.Slerp (transform.rotation, newRotation, rotationSpeed);
 	}
-	
+
+
+	// Si el personaje colisiona con el NPC
+	// El script tiene k ser del mismo tipo o c# o js no mezclados si no no puedo acceder al objeto de la clase
+	void OnTriggerEnter (Collider other){
+		print("Tocado."); 
+		if(other.gameObject == this.character){
+			this.character.GetComponent<CharacterScript>().setDamage(10);
+			print("Tocado."); 
+			Debug.Log("Debug:Tocado.");
+			System.Console.WriteLine("System:Tocado");	
+		}	
+	}
 }

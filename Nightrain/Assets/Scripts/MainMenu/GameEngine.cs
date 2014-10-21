@@ -14,7 +14,7 @@ public class GameEngine : MonoBehaviour {
 	
 	private Vector2 hotSpot = Vector2.zero;
 
-	private string lastCharacter = "Gordo";
+	private string lastCharacter = "hombre";
 
 	public Transform[] prefab;
 	public Material[] material_attributes;
@@ -101,7 +101,7 @@ public class GameEngine : MonoBehaviour {
 											//GameObject.FindGameObjectWithTag("attribute").gameObject.renderer.material = this.material_attributes [0];
 											//this.prefab[5].gameObject.renderer.material = this.material_attributes [0];
 											//this.prefab[5].transform.gameObject.renderer.material = this.material_attributes[0];
-											this.lastCharacter = "Gordo";
+											this.lastCharacter = "hombre";
 										}
 											
 								} else if (this.getObjectScene.transform.gameObject.name.Equals ("character_02")){
@@ -117,7 +117,7 @@ public class GameEngine : MonoBehaviour {
 											//Instantiate (this.prefab [3]);
 											//GameObject.FindGameObjectWithTag("attribute").gameObject.renderer.material = this.material_attributes [1];
 											//this.prefab[5].transform.gameObject.renderer.material = this.material_attributes [1];
-											this.lastCharacter = "Tia";
+											this.lastCharacter = "mujer";
 										}
 
 								}else if (this.getObjectScene.transform.gameObject.name.Equals("character_03")){
@@ -133,7 +133,7 @@ public class GameEngine : MonoBehaviour {
 											//Instantiate (this.prefab [4]);
 											//GameObject.FindGameObjectWithTag("attribute").gameObject.renderer.material = this.material_attributes [2];
 											//this.prefab[5].transform.gameObject.renderer.material = this.material_attributes [2];
-											this.lastCharacter = "Nino";
+											this.lastCharacter = "joven";
 										}
 								}
 
