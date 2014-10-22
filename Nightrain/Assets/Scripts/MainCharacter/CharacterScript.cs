@@ -62,9 +62,12 @@ public class CharacterScript : MonoBehaviour {
 		this.MagicBarMaterial = Resources.Load<Material>("HealthBar/Materials/bar_magic");
 		
 		this.c = this.HealthBarMaterial.color;
-		
-		this.HealthBarMaterial.SetFloat("_Cutoff", .5f);
-		this.MagicBarMaterial.SetFloat("_Cutoff", .5f);
+
+		this.health = .5f;
+		this.HealthBarMaterial.SetFloat("_Cutoff", this.health);
+
+		this.magic = .5f;
+		this.MagicBarMaterial.SetFloat("_Cutoff", this.magic);
 	
 	}
 	

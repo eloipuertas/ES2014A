@@ -1,0 +1,18 @@
+Initialize engine version: 4.5.4f1 (e036f44c54c9)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: Intel(R) HD Graphics Family (ID=0x116)
+    Vendor:   Intel
+    VRAM:     2090 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Joshua\Downloads\ES2014A-master\ES2014A-master\Nightrain\bin\Windows\nightrain_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Joshua\Downloads\ES2014A-master\ES2014A-master\Nightrain\bin\Windows\nightrain_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Joshua\Downloads\ES2014A-master\ES2014A-master\Nightrain\bin\Windows\nightrain_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Joshua\Downloads\ES2014A-master\ES2014A-master\Nightrain\bin\Windows\nightrain_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Joshua\Downloads\ES2014A-master\ES2014A-master\Nightrain\bin\Windows\nightrain_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Users\Joshua\Downloads\ES2014A-master\ES2014A-master\Nightrain\bin\Windows\nightrain_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+- Completed reload, in  0.055 seconds
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
