@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameEngine_Scene01 : MonoBehaviour {
+public class GameEngineScene01 : MonoBehaviour {
 
 	public Texture2D[] cutscene;
 	public GameObject screen_video;
@@ -12,7 +12,7 @@ public class GameEngine_Scene01 : MonoBehaviour {
 	// Use this for initialization
 	void Start() { 
 
-		cutscene = new Texture2D[500];
+		cutscene = new Texture2D[800];
 
 		for (int i = 0; i < cutscene.Length; i++) {
 			if((i+1) < 10)
@@ -31,7 +31,7 @@ public class GameEngine_Scene01 : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Escape))
 			Application.LoadLevel(1);
-		else if ((frame/delay) == 500)
+		else if ((frame/delay) == 800)
 			Application.LoadLevel (1);
 		else
 			this.screen_video.renderer.material.mainTexture = this.cutscene [(frame/delay)];

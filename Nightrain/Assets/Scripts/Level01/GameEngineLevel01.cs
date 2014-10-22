@@ -28,19 +28,13 @@ public class GameEngineLevel01 : MonoBehaviour {
 	// --- CHARACTER ---
 	private Transform prefab;
 	private GameObject character;
-
-<<<<<<< HEAD
+	
 	// --- LIGHT
 	public GameObject ambientLight;
 	private CharacterScript cs;
 	private Color c;
-	
-=======
-	public GameObject ambientLight;
-	private CharacterScript cs;
-	private Color c;
 
->>>>>>> 1300e096021d0fe17a89a8c08ed864d1cdaec814
+	
 	// Use this for initialization
 	void Start () {
 
@@ -73,15 +67,13 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-<<<<<<< HEAD
+
 	
 		this.PauseScreen ();
 		this.StateMachine ();
 
 	}
-=======
-		this.CautionScreen ();
->>>>>>> 1300e096021d0fe17a89a8c08ed864d1cdaec814
+
 
 	void StateMachine(){
 	
@@ -96,9 +88,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 			this.pause = false;
 			Time.timeScale = 1;
 		}
-<<<<<<< HEAD
 
-=======
 		this.isAlive ();
 	}
 
@@ -106,8 +96,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 	void isAlive(){
 		int num = this.character.GetComponent<CharacterScript> ().getHeal();
 		//If the character is dead we show "game over" scene
-		if(num <= 0) Application.LoadLevel(2);
->>>>>>> 1300e096021d0fe17a89a8c08ed864d1cdaec814
+		if(num <= 0) Application.LoadLevel(3);
 	}
 
 
@@ -142,7 +131,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 				this.c.b += 0.02f;
 			this.ambientLight.light.color = this.c;
 		}
-<<<<<<< HEAD
+
 	}
 	
 
@@ -183,7 +172,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 						Graphics.DrawTexture (reset_box, this.reset_hover_Texture);
 						if (Input.GetMouseButtonDown (0)){
 							Time.timeScale = 1;
-							Application.LoadLevel (1);	
+							Application.LoadLevel (2);	
 						}
 				} else
 						Graphics.DrawTexture (reset_box, this.resetTexture);
@@ -209,15 +198,11 @@ public class GameEngineLevel01 : MonoBehaviour {
 					Graphics.DrawTexture (exit_box, this.exit_hover_Texture);
 					if (Input.GetMouseButtonDown (0)){
 						Time.timeScale = 1;
-						Application.LoadLevel (0);	
+						Application.LoadLevel (1);	
 					}
 				}else
 					Graphics.DrawTexture (exit_box, this.exitTexture);
 
-		//}
-
-=======
->>>>>>> 1300e096021d0fe17a89a8c08ed864d1cdaec814
 	}
 
 
