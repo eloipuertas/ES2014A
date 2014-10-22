@@ -119,6 +119,11 @@ public class CharacterScript : MonoBehaviour {
 		}
 	}
 
+	//Devolvemos la vida
+	public int getHeal(){
+		return bar_health;
+	}
+
 	public void setDamage(int damage){
 		this.bar_health -= damage;
 	}

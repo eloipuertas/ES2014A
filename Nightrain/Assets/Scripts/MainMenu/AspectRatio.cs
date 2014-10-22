@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AspectRatio : MonoBehaviour {
+public class AspectRatioGameOver : MonoBehaviour {
 
 
 	// Use this for initialization

@@ -10,13 +10,10 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private Transform prefab;
 	private GameObject character;
 
-<<<<<<< HEAD
 	public GameObject ambientLight;
 	private CharacterScript cs;
 	private Color c;
 
-=======
->>>>>>> a8901c724187e1a39fe70f73c0aac69e85af51d5
 	// Use this for initialization
 	void Start () {
 
@@ -37,8 +34,6 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-<<<<<<< HEAD
-	
 		this.CautionScreen ();
 
 		if (Input.GetMouseButtonDown (0)) {
@@ -46,6 +41,14 @@ public class GameEngineLevel01 : MonoBehaviour {
 		}else if(Input.GetMouseButtonUp(0)){
 			Cursor.SetCursor(cursor[0], hotSpot, mode);
 		}
+		this.isAlive ();
+	}
+
+	//Comprueba si el personaje sigue vivo
+	void isAlive(){
+		int num = this.character.GetComponent<CharacterScript> ().getHeal();
+		//If the character is dead we show "game over" scene
+		if(num <= 0) Application.LoadLevel(2);
 	}
 
 	// Efecto critico con luz roja
@@ -66,8 +69,5 @@ public class GameEngineLevel01 : MonoBehaviour {
 				this.c.b += 0.02f;
 			this.ambientLight.light.color = this.c;
 		}
-=======
-
->>>>>>> a8901c724187e1a39fe70f73c0aac69e85af51d5
 	}
 }
