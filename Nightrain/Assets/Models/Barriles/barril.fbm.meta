@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: cfbd6e97bcb991e488a22c3345a41290
+=======
+guid: da81d9bb911497f4d9b64b2956b32c7c
+>>>>>>> origin/devel_c_Terrain_s2_issue#43
 folderAsset: yes
 DefaultImporter:
   userData: 
