@@ -29,11 +29,18 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private Transform prefab;
 	private GameObject character;
 
+<<<<<<< HEAD
 	// --- LIGHT
 	public GameObject ambientLight;
 	private CharacterScript cs;
 	private Color c;
 	
+=======
+	public GameObject ambientLight;
+	private CharacterScript cs;
+	private Color c;
+
+>>>>>>> 1300e096021d0fe17a89a8c08ed864d1cdaec814
 	// Use this for initialization
 	void Start () {
 
@@ -66,11 +73,15 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+<<<<<<< HEAD
 	
 		this.PauseScreen ();
 		this.StateMachine ();
 
 	}
+=======
+		this.CautionScreen ();
+>>>>>>> 1300e096021d0fe17a89a8c08ed864d1cdaec814
 
 	void StateMachine(){
 	
@@ -85,7 +96,18 @@ public class GameEngineLevel01 : MonoBehaviour {
 			this.pause = false;
 			Time.timeScale = 1;
 		}
+<<<<<<< HEAD
 
+=======
+		this.isAlive ();
+	}
+
+	//Comprueba si el personaje sigue vivo
+	void isAlive(){
+		int num = this.character.GetComponent<CharacterScript> ().getHeal();
+		//If the character is dead we show "game over" scene
+		if(num <= 0) Application.LoadLevel(2);
+>>>>>>> 1300e096021d0fe17a89a8c08ed864d1cdaec814
 	}
 
 
@@ -120,6 +142,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 				this.c.b += 0.02f;
 			this.ambientLight.light.color = this.c;
 		}
+<<<<<<< HEAD
 	}
 	
 
@@ -193,6 +216,8 @@ public class GameEngineLevel01 : MonoBehaviour {
 
 		//}
 
+=======
+>>>>>>> 1300e096021d0fe17a89a8c08ed864d1cdaec814
 	}
 
 
