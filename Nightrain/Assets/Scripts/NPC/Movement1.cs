@@ -1,18 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Movement : MonoBehaviour {
+public class Movement1 : MonoBehaviour {
 	private float health = 100;
 	private string state;
 	private float damageAtack = 5;
 	
 	private float rotationSpeed = 1.0f;
-<<<<<<< HEAD
-	private int moveSpeed = 20;
-	private Animator anim;
-
-	int[] degreesList = {90,180,270,360};
-=======
 	private int moveSpeed = 5;
 
 	private Animator anim;
@@ -20,7 +14,6 @@ public class Movement : MonoBehaviour {
 
 	private float max_health = 100;
 	
->>>>>>> origin/b_npc_programmer
 	// Los nombres de los tres puntos que estan distribuidos por el mapa
 	string[] points = {"Point1", "Point2", "Point3"};
 	int j = 0;
@@ -32,29 +25,24 @@ public class Movement : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-<<<<<<< HEAD
-		// Mas adelante inicializar atributos del NPC
-		anim = GetComponent<Animator>();
-=======
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
 
 		this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
->>>>>>> origin/b_npc_programmer
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		// Cosas a determinar por el programador de IA
 		float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
-		if (distance_to_player < 10) {
+		/*if (distance_to_player < 10) {
 			atack ();
 		} else if (distance_to_player < 60) {
 			perseguir();
-		} else {
-			seguirPuntos();
-		}
+		} else {*/
+		seguirPuntos();
+		//}
 	}
 	
 	// Metodo que hace que el personaje vaya uno a uno a los tres puntos del mapa
@@ -63,7 +51,6 @@ public class Movement : MonoBehaviour {
 		anim.SetBool("a_walk", true);
 		anim.SetBool ("walk", true);
 		GameObject punto = GameObject.Find(points[j]);
-		anim.SetBool ("walk", true);
 		// Calculamos la distancia entre nuestra posicion y el punto del mapa
 		float distancia = Vector3.Distance(transform.position, punto.transform.position);
 		// Si ya hemos llegado al punto, cambiamos la i para ir al siguiente
@@ -102,7 +89,7 @@ public class Movement : MonoBehaviour {
 		Vector3 p= player_transform.position;
 		p.y = transform.position.y;
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
-		//Debug.Log("attack");
+		Debug.Log("attack");
 		anim.SetBool("a_walk", false);
 		anim.SetBool("walk", false);
 		anim.SetBool ("w_attack", true);
@@ -116,6 +103,7 @@ public class Movement : MonoBehaviour {
 	
 	public void setDamage(float damage){
 		health -= damage;
+
 		this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
 		if (health < 1) {
 			Debug.Log ("NPC muerto");
