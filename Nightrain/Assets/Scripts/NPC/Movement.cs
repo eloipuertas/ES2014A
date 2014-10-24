@@ -30,11 +30,17 @@ public class Movement : MonoBehaviour {
 	void Update () {
 		// Cosas a determinar por el programador de IA
 		float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
+<<<<<<< HEAD
 		//atack ();
 		Debug.Log (distance_to_player);
 		if (distance_to_player < 8) {
 			atack ();
 		} else if (distance_to_player < 60) {
+=======
+		if (distance_to_player < 15) {
+			atack ();
+		} else if (distance_to_player < 50) {
+>>>>>>> origin/b_npc_programmer
 			perseguir();
 		} else {
 			seguirPuntos();
@@ -43,9 +49,12 @@ public class Movement : MonoBehaviour {
 	
 	// Metodo que hace que el personaje vaya uno a uno a los tres puntos del mapa
 	void seguirPuntos(){
+<<<<<<< HEAD
 		anim.SetBool("w_attack", false);
 		anim.SetBool("a_walk", true);
 		anim.SetBool ("walk", true);
+=======
+>>>>>>> origin/b_npc_programmer
 		GameObject punto = GameObject.Find(points[j]);
 		// Calculamos la distancia entre nuestra posicion y el punto del mapa
 		float distancia = Vector3.Distance(transform.position, punto.transform.position);
@@ -62,6 +71,7 @@ public class Movement : MonoBehaviour {
 		// Transladamos el NPC hacia el punto
 		transform.position += transform.forward * moveSpeed * Time.deltaTime;
 	}
+<<<<<<< HEAD
 	
 	void perseguir(){
 		anim.SetBool("w_attack", false);
@@ -74,6 +84,17 @@ public class Movement : MonoBehaviour {
 	}
 	
 	
+=======
+
+	void perseguir(){
+		Vector3 p= player_transform.position;
+		p.y = transform.position.y;
+		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
+		transform.position += transform.forward * moveSpeed * Time.deltaTime;
+	}
+
+
+>>>>>>> origin/b_npc_programmer
 	// Metodo que rota el NPC unos determinados grados
 	void rotar(int degrees){
 		Quaternion newRotation = Quaternion.AngleAxis (degrees, Vector3.up);
@@ -82,6 +103,7 @@ public class Movement : MonoBehaviour {
 	
 	
 	void atack(){
+<<<<<<< HEAD
 		Vector3 p= player_transform.position;
 		p.y = transform.position.y;
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
@@ -94,6 +116,11 @@ public class Movement : MonoBehaviour {
 			//player.GetComponent<CharacterScript>().setDamage(10);
 			attackTime = Time.time + 1.0f;
 		}
+=======
+		// cambiar de animacion
+		// cargar la animacion de atacar
+		// atacar(verificar colision con el player y enviarle via metodo que ha sido atacado)
+>>>>>>> origin/b_npc_programmer
 	}
 	
 	
