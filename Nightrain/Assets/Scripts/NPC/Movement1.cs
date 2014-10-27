@@ -36,13 +36,13 @@ public class Movement1 : MonoBehaviour {
 	void Update () {
 		// Cosas a determinar por el programador de IA
 		float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
-		/*if (distance_to_player < 10) {
+		if (distance_to_player < 10) {
 			atack ();
 		} else if (distance_to_player < 60) {
 			perseguir();
-		} else {*/
-		seguirPuntos();
-		//}
+		} else {
+			seguirPuntos();
+		}
 	}
 	
 	// Metodo que hace que el personaje vaya uno a uno a los tres puntos del mapa
