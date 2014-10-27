@@ -56,6 +56,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 
 		// --- LOAD RESOURCES TO CHARACTER ---
 		this.prefab = Resources.Load<Transform>("Prefabs/MainCharacters/" + PlayerPrefs.GetString("Character"));
+
 		Instantiate (prefab);
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 
