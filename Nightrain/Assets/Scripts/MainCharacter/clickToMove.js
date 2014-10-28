@@ -1,13 +1,13 @@
 ﻿#pragma strict
 
 
-var smooth : int;
+private var smooth : int;
 private var speed : int;
 
+private var getObjectScene : RaycastHit;
 private var targetPosition : Vector3;
 private var targetPoint : Vector3;
 private var moving : boolean = false; //Whether the player is moving or has stopped
-
 // SCREEN VALUES
 /*private var width:int = Screen.width;
 private var height:int = Screen.height;
@@ -38,7 +38,8 @@ private var c:Color;*/
 function Start()
 {
     // Walk at double speed
-    animation["Armature|Correr"].speed = 3.75;
+    animation["metarig|Caminar"].speed = 2.75;
+    animation["metarig|Atacar"].speed = 1.5;
     
     /*this.bar_health = 100;
 	this.bar_magic = 100;
@@ -73,37 +74,51 @@ function Update ()
         // Stop animation
         if(transform.position == targetPoint){
             //animation.CrossFade("Armature|Idle",0.2f);
-            animation.Stop("Armature|Correr");
+            Debug.Log ("moved to target location");
+            animation.Stop("metarig|Caminar"); 
             moving = false;
         //Set walking animation
         } else {
-            animation.Play("Armature|Correr");
+            animation.Play("metarig|Caminar");
+            Debug.Log ("on the way...");
         }
     }
-    
 
-    if(Input.GetKeyDown(KeyCode.Mouse0)) {                   
-        //smooth=1;
-        speed = 30;
 
+    if(Input.GetKeyDown(KeyCode.Mouse0)) { 
+       //smooth=1;
+        speed = 30; 
         
-        animation.Play("Armature|Correr");
-        moving = true;
-
-        //animation["Armature|Correr"].wrapMode = WrapMode.Loop;
-
-        var playerPlane = new Plane(Vector3.up, transform.position);
+    	var playerPlane = new Plane(Vector3.up, transform.position);
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         var hitdist = 0.0;
-
+        
+    	//deteccion movimiento
         if (playerPlane.Raycast(ray, hitdist))
         {
-            Debug.DrawLine(transform.position, transform.position + ray.GetPoint(hitdist), Color.red, 2, false);
             targetPoint = ray.GetPoint(hitdist);
             targetPosition = ray.GetPoint(hitdist);
             var targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
             transform.rotation = targetRotation;
         }
+       
+    	if(Physics.Raycast(ray, getObjectScene, 100)){
+            if(getObjectScene.transform.gameObject.tag.Equals("Enemy")){
+            	Debug.Log("Enemigo seleccionado");
+            	//animation.Stop("metarig|Caminar");
+            	moving = false;
+            	//attack = true;
+            	animation.CrossFade("metarig|Atacar",0.2f);
+			} else {
+		        animation.Play("metarig|Caminar");
+		        moving = true;
+		        //animation["Armature|Correr"].wrapMode = WrapMode.Loop;
+			}
+		} 
+		
+		
+		
+
 
     }
 
@@ -122,10 +137,14 @@ function Update ()
     // move the character:
     GetComponent(CharacterController).Move(movement);
 
+	
 
 }
 
-
+function SelectTarget(){
+	 //selectedTarget.renderer.material.color = Color.red;
+	 Debug.Log ("Enemy Targeted");
+}
 
 /*function UpdateHealth () {
 
