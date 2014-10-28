@@ -156,6 +156,7 @@ ModelImporter:
     7400004: metarig|Caminar
     7400006: metarig|Morir
     9500000: //RootNode
+    11100000: //RootNode
     13700000: Plane.002_MeshPart0
     13700002: Plane.002_MeshPart1
     13700004: Plane.002_MeshPart2
@@ -211,6 +212,6 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   additionalBone: 0
   userData: 
