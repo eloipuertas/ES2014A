@@ -36,6 +36,7 @@ public class Movement : MonoBehaviour {
 	void Update () {
 		// Cosas a determinar por el programador de IA
 		float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
+
 		if (distance_to_player < 10) {
 			atack ();
 		} else if (distance_to_player < 60) {
@@ -43,6 +44,11 @@ public class Movement : MonoBehaviour {
 		} else {
 			seguirPuntos();
 		}
+	}
+
+	//Return health
+	public float getHealth(){
+		return health;
 	}
 	
 	// Metodo que hace que el personaje vaya uno a uno a los tres puntos del mapa
@@ -71,7 +77,7 @@ public class Movement : MonoBehaviour {
 		anim.SetBool("w_attack", false);
 		anim.SetBool("a_walk", true);
 		anim.SetBool ("walk", true);
-		Vector3 p= player_transform.position;
+		Vector3 p= player_transform.position ;
 		p.y = transform.position.y;
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
 		transform.position += transform.forward * moveSpeed * 2 * Time.deltaTime;
@@ -92,7 +98,9 @@ public class Movement : MonoBehaviour {
 		//Debug.Log("attack");
 		anim.SetBool("a_walk", false);
 		anim.SetBool("walk", false);
+		p.y += 5f;
 		anim.SetBool ("w_attack", true);
+		p.y -= 5f;
 		if (Time.time > attackTime) {
 			// atacar(verificar colision con el player y enviarle via metodo que ha sido atacado)
 			player.GetComponent<CharacterScript>().setDamage(10);
