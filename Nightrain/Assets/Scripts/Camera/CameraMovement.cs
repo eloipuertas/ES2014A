@@ -45,16 +45,9 @@ public class CameraMovement : MonoBehaviour {
 			if(distance < scaleTarget [2] * 10.0f) distance = scaleTarget [2] * 10.0f;
 			if(distance > scaleTarget [2] * 40.0f) distance = scaleTarget [2] * 40.0f;
 			
+
 			//Debug.LogWarning(scaleTarget);	
-			
-			
-			//Limits zoom
-			if(height < scaleTarget[1] * 15.0f) height = scaleTarget[1] * 15.0f;
-			if(height > scaleTarget[1] * 60.0f) height = scaleTarget[1] * 60.0f;
-			if(distance < scaleTarget [2] * 10.0f) distance = scaleTarget [2] * 10.0f;
-			if(distance > scaleTarget [2] * 40.0f) distance = scaleTarget [2] * 40.0f;
-			
-			//Debug.LogWarning(scaleTarget);
+
 			
 			//In each frame we get the position of the target and we update the position camera
 			_myTransform.position = new Vector3(target.position.x + distance,
