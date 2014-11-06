@@ -21,8 +21,8 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private string[] nameNPC = {"Enemy"};
 	private GameObject npc;
 	private Movement ms;
-
 	
+
 	// Use this for initialization
 	void Start () {
 
@@ -31,9 +31,6 @@ public class GameEngineLevel01 : MonoBehaviour {
 		Instantiate (prefab);
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
-
-		this.npc = GameObject.FindGameObjectWithTag ("Enemy");
-		this.ms = this.npc.GetComponent<Movement> ();
 
 		// --- LOAD RESOURCES TO MENU ---
 		gui = new PauseMenuGUI ();
@@ -48,14 +45,10 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(ms.getHealth() <= 0.0f){
-			Destroy(npc);
-			isAllEnemysDead ();
-		}
-	
+		isAllEnemysDead ();
+
 		this.PauseScreen ();
 		this.StateMachine ();
-
 	}
 
 
@@ -83,6 +76,12 @@ public class GameEngineLevel01 : MonoBehaviour {
 	void isAllEnemysDead(){
 		foreach (string item in nameNPC) {
 			this.npc = GameObject.FindGameObjectWithTag (item);
+			this.ms = this.npc.GetComponent<Movement> ();
+
+			if(ms.getHealth() <= 0.0f){
+				Destroy(npc);
+				npc = null;
+			}
 			if(npc != null){
 				print ("No nulo");
 				break;
@@ -92,8 +91,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 			Application.LoadLevel(4);
 		}
 	}
-
-
+	
 	void PauseScreen(){
 		
 		if (this.pause && !this.cs.isCritical ())
@@ -127,13 +125,11 @@ public class GameEngineLevel01 : MonoBehaviour {
 		}
 
 	}
-	
 
 	void OnGUI(){	
 		if (this.pause) 
 			this.pause = this.gui.pauseMenu (this.pause);
 
 		this.gui.confirmMenu(this.pause);
-
 	}
 }
