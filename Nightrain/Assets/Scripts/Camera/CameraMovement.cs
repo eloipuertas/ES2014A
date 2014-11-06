@@ -10,7 +10,7 @@ public class CameraMovement : MonoBehaviour {
 	private float height;
 	private Vector3 scaleTarget;
 	
-	
+
 	// Use this for initialization
 	void Start () {
 		
