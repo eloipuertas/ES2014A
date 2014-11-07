@@ -4,6 +4,8 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 	private float rotationSpeed = 1.0f;
 	private int moveSpeed = 20;
+	private Animator anim;
+
 	int[] degreesList = {90,180,270,360};
 	// Los nombres de los tres puntos que estan distribuidos por el mapa
 	string[] points = {"Point1", "Point2", "Point3"};
@@ -13,6 +15,7 @@ public class Movement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Mas adelante inicializar atributos del NPC
+		anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -23,6 +26,7 @@ public class Movement : MonoBehaviour {
 	// Metodo que hace que el personaje vaya uno a uno a los tres puntos del mapa
 	void seguirPuntos(){
 		GameObject punto = GameObject.Find(points[j]);
+		anim.SetBool ("walk", true);
 		// Calculamos la distancia entre nuestra posicion y el punto del mapa
 		float distancia = Vector3.Distance(transform.position, punto.transform.position);
 		// Si ya hemos llegado al punto, cambiamos la i para ir al siguiente
