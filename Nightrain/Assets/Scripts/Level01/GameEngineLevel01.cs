@@ -76,11 +76,14 @@ public class GameEngineLevel01 : MonoBehaviour {
 	void isAllEnemysDead(){
 		foreach (string item in nameNPC) {
 			this.npc = GameObject.FindGameObjectWithTag (item);
-			this.ms = this.npc.GetComponent<Movement> ();
 
-			if(ms.getHealth() <= 0.0f){
-				Destroy(npc);
-				npc = null;
+			if(this.npc != null){
+				this.ms = this.npc.GetComponent<Movement> ();
+
+				if(ms.getHealth() <= 0.0f){
+					Destroy(npc);
+					npc = null;
+				}
 			}
 			if(npc != null){
 				print ("No nulo");
@@ -88,7 +91,8 @@ public class GameEngineLevel01 : MonoBehaviour {
 			}
 		}
 		if (this.npc == null) {
-			Application.LoadLevel(4);
+			Destroy(GameObject.FindGameObjectWithTag("FireWall"));
+			//Application.LoadLevel(4);
 		}
 	}
 	
