@@ -1,9 +1,10 @@
 var apear : GameObject;
 var destroy : GameObject;
+
 function Start(){
-	apear.active=false;
+	apear.SetActive(false);
 }
 function OnTriggerEnter (other : Collider) {
-	apear.active=true;
+	apear.SetActive(true);
 	Destroy(destroy.gameObject);
 }
