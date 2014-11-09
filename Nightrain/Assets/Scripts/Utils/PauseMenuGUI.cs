@@ -124,7 +124,7 @@ public class PauseMenuGUI {
 					Graphics.DrawTexture (reset_box, this.hoverResetTexture);
 					if (Input.GetMouseButtonDown (0)) {
 							Time.timeScale = 1;
-							Application.LoadLevel (2);	
+							Application.LoadLevel (3);	
 					}
 			} else
 					Graphics.DrawTexture (reset_box, this.resetTexture);

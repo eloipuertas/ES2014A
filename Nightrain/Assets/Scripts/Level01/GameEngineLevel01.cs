@@ -69,7 +69,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 	void isAlive(){
 		int num = this.character.GetComponent<CharacterScript> ().getHealth();
 		//If the character is dead we show "game over" scene
-		if(num <= 0) Application.LoadLevel(3);
+		if(num <= 0) Application.LoadLevel(5);
 	}
 	
 	//Comprueba si los enemigos de la lista estan muertos
