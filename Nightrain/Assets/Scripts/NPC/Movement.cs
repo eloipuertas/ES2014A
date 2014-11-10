@@ -79,7 +79,7 @@ public class Movement : MonoBehaviour {
 	
 	void perseguir(){
 		if (persiguiendo == false) {
-			music.play_Golem_Agresive ();
+			if(music != null) music.play_Golem_Agresive ();
 			persiguiendo = true;
 		}
 		anim.SetBool("w_attack", false);
@@ -111,8 +111,10 @@ public class Movement : MonoBehaviour {
 		p.y -= 5f;
 		if (Time.time > attackTime) {
 			// atacar(verificar colision con el player y enviarle via metodo que ha sido atacado)
-			music.play_Golem_Agresive();
-			music.play_Golem_Attack();
+			if(music != null) {
+				music.play_Golem_Agresive();
+				music.play_Golem_Attack();
+			}
 			player.GetComponent<CharacterScript>().setDamage(10);
 			attackTime = Time.time + 1.0f;
 		}
