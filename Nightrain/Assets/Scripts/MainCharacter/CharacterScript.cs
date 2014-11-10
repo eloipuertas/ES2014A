@@ -19,12 +19,17 @@ public class CharacterScript : MonoBehaviour {
 	// =========================
 	private GameObject NPCs;
 
+	// MusicEngine GameObject that plays audio effects
+	private Music_Engine_Script music;
+
 	// Use this for initialization
 	void Start () {
-	
+		
 		// ADD COMPONENT
 		// Buscamos al personaje principal
 		this.NPCs = GameObject.FindGameObjectWithTag("Enemy");
+
+		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
 	
 	// Update is called once per frame.
@@ -90,6 +95,8 @@ public class CharacterScript : MonoBehaviour {
 	// Method to Damage the 'Character'
 	public void setDamage(int damage){
 		this.bar_health -= damage;
+		// Reproducimos un sonido de dolor del personaje al recibir el golpe
+		if (music != null) music.play_Player_Hurt ();
 	}
 
 	// === METHODS MAGIC ===

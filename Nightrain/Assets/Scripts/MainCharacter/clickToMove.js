@@ -8,6 +8,7 @@ private var getObjectScene : RaycastHit;
 private var targetPosition : Vector3;
 private var targetPoint : Vector3;
 private var moving : boolean = false; //Whether the player is moving or has stopped
+private var music : Component;
 // SCREEN VALUES
 /*private var width:int = Screen.width;
 private var height:int = Screen.height;
@@ -40,7 +41,7 @@ function Start()
     // Walk at double speed
     animation["metarig|Caminar"].speed = 2.75;
     animation["metarig|Atacar"].speed = 1.5;
-    
+    music = GameObject.Find("MusicEngine").GetComponent("Music_Engine_Script");
     /*this.bar_health = 100;
 	this.bar_magic = 100;
 	
@@ -109,6 +110,7 @@ function Update ()
             	moving = false;
             	//attack = true;
             	animation.CrossFade("metarig|Atacar",0.2f);
+            	music.SendMessage("play_Player_Sword_Attack");
 			} else {
 		        animation.Play("metarig|Caminar");
 		        moving = true;
