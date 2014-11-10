@@ -37,14 +37,15 @@ public class Movement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// Cosas a determinar por el programador de IA
-		float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
-
-		if (distance_to_player < 10) {
-			atack ();
-		} else if (distance_to_player < 60) {
-			perseguir();
-		} else {
-			seguirPuntos();
+		if (!state.Equals("Dead")) {
+			float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
+			if (distance_to_player < 10) {
+					atack ();
+			} else if (distance_to_player < 60) {
+					perseguir ();
+			} else {
+					seguirPuntos ();
+			}
 		}
 	}
 
@@ -104,7 +105,7 @@ public class Movement : MonoBehaviour {
 		if (Time.time > attackTime) {
 			// Reproducir sonido atacar
 			// atacar(verificar colision con el player y enviarle via metodo que ha sido atacado)
-			player.GetComponent<CharacterScript>().setDamage(attackPower);
+			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
 			attackTime = Time.time + 1.0f;
 		}
 	}
@@ -125,36 +126,36 @@ public class Movement : MonoBehaviour {
 		}
 	}
 
-	private void setHealth(float health){
+	public void setHealth(float health){
 		this.health = health;
 		this.max_health = health;
 	}
 
-	private void setDefense(float defense){
+	public void setDefense(float defense){
 		this.defense = defense;
 	}
 
-	private void setAttackPower(float attackPower){
+	public void setAttackPower(float attackPower){
 		this.attackPower = attackPower;
 	}
 
-	private void setMoveSpeed(float moveSpeed){
+	public void setMoveSpeed(float moveSpeed){
 		this.moveSpeed = moveSpeed;
 	}
 
-	private float getHealth(){
+	public float getHealth(){
 		return this.health;
 	}
 
-	private float getDefense(){
+	public float getDefense(){
 		return this.defense;
 	}
 
-	private float getMoveSpeed(){
+	public float getMoveSpeed(){
 		return this.moveSpeed;
 	}
 
-	private float getAttackPower(){
+	public float getAttackPower(){
 		return this.attackPower;
 	}
 
