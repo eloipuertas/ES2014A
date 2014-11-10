@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 9bdb2cbb7a36e46a29f8c440341e0125
+=======
+guid: 26fa24126236d4831a3ab16a236b9db0
+>>>>>>> devel_c
 folderAsset: yes
 DefaultImporter:
   userData: 
