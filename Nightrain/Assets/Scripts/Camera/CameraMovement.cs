@@ -12,8 +12,7 @@ public class CameraMovement : MonoBehaviour {
 
 	private bool mov = false;
 	private float timeLeft = 4.0f;
-	private float zMoviment = 80.0f;
-	
+	private float zMoviment = 80.0f;	
 
 	// Use this for initialization
 	void Start () {
@@ -23,7 +22,7 @@ public class CameraMovement : MonoBehaviour {
 		}
 		else{
 			//Set up the camera
-			CameraSetUp();													
+			CameraSetUp();
 		}		
 	}
 	
@@ -41,6 +40,7 @@ public class CameraMovement : MonoBehaviour {
 	}
 	
 	void LateUpdate(){
+		//Si es true la camara mostrara donde tiene que ir el usuario
 		if (!mov) {
 			//If a target is setted to the camera in order to follow it 
 			if (target != null) {
