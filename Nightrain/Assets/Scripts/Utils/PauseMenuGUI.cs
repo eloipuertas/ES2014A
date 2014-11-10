@@ -182,9 +182,7 @@ public class PauseMenuGUI {
 				Graphics.DrawTexture (exit_box, this.exitTexture);
 				if(hoveredButton == exit_box) hoveredButton = new Rect();
 			}
-
 		}
-
 		return pause;
 	}
 
