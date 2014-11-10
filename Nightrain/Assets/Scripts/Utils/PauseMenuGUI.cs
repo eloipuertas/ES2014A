@@ -156,7 +156,6 @@ public class PauseMenuGUI {
 	// CONFIRM MENU
 	public void confirmMenu(bool pause){
 	
-		Debug.Log ("Pause: " + pause + " Confirm: " + confirm);
 		if (pause && this.confirm) {
 			// CONFIRM INTERFACE
 			Rect confirm_box = new Rect ((Screen.width / 2) - (this.resizeTextureWidth (this.confirmTexture)*1.25f / 2),
