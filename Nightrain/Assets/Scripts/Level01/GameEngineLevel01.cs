@@ -21,7 +21,12 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private string[] nameNPC = {"Enemy"};
 	private GameObject npc;
 	private Movement ms;
-	
+	private bool allIsDead = false;
+
+	// --- Camaras ---
+	private GameObject camera1;
+	private CameraMovement cm;
+
 
 	// Use this for initialization
 	void Start () {
@@ -32,9 +37,16 @@ public class GameEngineLevel01 : MonoBehaviour {
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
 
+		this.camera1 = GameObject.FindGameObjectWithTag ("MainCamera");
+		this.cm = this.camera1.GetComponent<CameraMovement> ();
+
+
+
 		// --- LOAD RESOURCES TO MENU ---
 		gui = new PauseMenuGUI ();
 		gui.initResources ();
+
+
 
 
 		this.c = this.ambientLight.light.color;
@@ -45,8 +57,9 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		isAllEnemysDead ();
-
+		if (!allIsDead) {
+			isAllEnemysDead ();
+		} 
 		this.PauseScreen ();
 		this.StateMachine ();
 	}
@@ -91,8 +104,8 @@ public class GameEngineLevel01 : MonoBehaviour {
 			}
 		}
 		if (this.npc == null) {
-			Destroy(GameObject.FindGameObjectWithTag("FireWall"));
-			//Application.LoadLevel(4);
+			allIsDead = true;
+			this.cm.movimiento();
 		}
 	}
 	

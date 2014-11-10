@@ -9,6 +9,10 @@ public class CameraMovement : MonoBehaviour {
 	private float distance;
 	private float height;
 	private Vector3 scaleTarget;
+
+	private bool mov = false;
+	private float timeLeft = 4.0f;
+	private float zMoviment = 80.0f;
 	
 
 	// Use this for initialization
@@ -31,26 +35,46 @@ public class CameraMovement : MonoBehaviour {
 		height = scaleTarget[1] * 20.0f;
 		distance = scaleTarget [2] * 12.0f;
 	}
+
+	public void movimiento(){
+		mov = true;
+	}
 	
 	void LateUpdate(){
-		//If a target is setted to the camera in order to follow it 
-		if(target != null){
-			//We can use the mouse wheel to zoom
-			height += Input.GetAxis("Mouse ScrollWheel") * -25;
-			distance += Input.GetAxis("Mouse ScrollWheel") * -20;
-			
-			//Limits zoom
-			if(height < scaleTarget[1] * 15.0f) height = scaleTarget[1] * 15.0f;
-			if(height > scaleTarget[1] * 25.0f) height = scaleTarget[1] * 25.0f;
-			if(distance < scaleTarget [2] * 10.0f) distance = scaleTarget [2] * 10.0f;
-			if(distance > scaleTarget [2] * 15.0f) distance = scaleTarget [2] * 15.0f;
+		if (!mov) {
+			//If a target is setted to the camera in order to follow it 
+			if (target != null) {
+					//We can use the mouse wheel to zoom
+					height += Input.GetAxis ("Mouse ScrollWheel") * -25;
+					distance += Input.GetAxis ("Mouse ScrollWheel") * -20;
 
-			//In each frame we get the position of the target and we update the position camera
-			_myTransform.position = new Vector3(target.position.x + distance,
-			                                    target.position.y + height,
-			                                    target.position.z - distance);
-			//We must update LookAt because the target can change position
-			_myTransform.LookAt(target);
+					//Limits zoom
+					if (height < scaleTarget [1] * 15.0f)
+							height = scaleTarget [1] * 15.0f;
+					if (height > scaleTarget [1] * 25.0f)
+							height = scaleTarget [1] * 25.0f;
+					if (distance < scaleTarget [2] * 10.0f)
+							distance = scaleTarget [2] * 10.0f;
+					if (distance > scaleTarget [2] * 15.0f)
+							distance = scaleTarget [2] * 15.0f;
+
+					//In each frame we get the position of the target and we update the position camera
+					_myTransform.position = new Vector3 (target.position.x + distance,
+				    target.position.y + height,
+				    target.position.z - distance);
+					//We must update LookAt because the target can change position
+					_myTransform.LookAt (target);
+			}
+		} else {
+			//Valores esta puestos a mano para hacer pruebas
+			_myTransform.LookAt(new Vector3(92,5,330));
+			timeLeft -= Time.deltaTime;				
+			if ( timeLeft < 0 )
+			{
+				mov = false;
+			} else if(timeLeft < 2){
+				Destroy(GameObject.FindGameObjectWithTag("FireWall"));
+			}
 		}
 	}
 }
