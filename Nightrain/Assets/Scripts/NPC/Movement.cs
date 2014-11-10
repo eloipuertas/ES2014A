@@ -4,14 +4,14 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 	//##############################
 	//Atributos personaje
-	private float moveSpeed = 5; 
+	private float moveSpeed = 2; 
 	private float health = 100;
 	private float max_health = 100;
 	private float defense = 10;
 	private float attackPower = 5;
 	//##############################
 
-	private string state;
+	private string state = "None";
 	string[] states = {"Walk", "Find", "Attack", "Dead"};
 	private float rotationSpeed = 1.0f;
 	private float attackTime = 3.0f;
@@ -25,6 +25,7 @@ public class Movement : MonoBehaviour {
 	private Animator anim;
 
 	private GameObject NPCbar;
+	private Music_Engine_Script music;
 	
 	// Use this for initialization
 	void Start () {
@@ -32,6 +33,7 @@ public class Movement : MonoBehaviour {
 		player_transform = player.transform;
 		anim = GetComponent<Animator> ();
 		this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
+		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
 	
 	// Update is called once per frame
@@ -73,6 +75,9 @@ public class Movement : MonoBehaviour {
 	}
 	
 	void perseguir(){
+		if (!state.Equals("Find")) {
+			if(music != null) music.play_Golem_Agresive ();
+		}
 		state = "Find";
 		anim.SetBool("w_attack", false);
 		anim.SetBool("a_walk", true);
@@ -82,34 +87,32 @@ public class Movement : MonoBehaviour {
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
 		transform.position += transform.forward * moveSpeed * 2 * Time.deltaTime;
 	}
-	
-	
+
 	// Metodo que rota el NPC unos determinados grados
 	void rotar(int degrees){
 		Quaternion newRotation = Quaternion.AngleAxis (degrees, Vector3.up);
 		transform.rotation = Quaternion.Slerp (transform.rotation, newRotation, rotationSpeed);
 	}
-	
-	
+
 	void atack(){
 		state = "Attack";
 		Vector3 p= player_transform.position;
 		p.y = transform.position.y;
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
-		//Debug.Log("attack");
 		anim.SetBool("a_walk", false);
 		anim.SetBool("walk", false);
 		p.y += 5f;
 		anim.SetBool ("w_attack", true);
 		p.y -= 5f;
 		if (Time.time > attackTime) {
-			// Reproducir sonido atacar
-			// atacar(verificar colision con el player y enviarle via metodo que ha sido atacado)
 			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
 			attackTime = Time.time + 1.0f;
+			if(music != null) {
+				music.play_Golem_Agresive();
+				music.play_Golem_Attack();
+			}
 		}
-	}
-	
+	}	
 	
 	public void setDamage(float damage){
 		health -= damage / defense;
