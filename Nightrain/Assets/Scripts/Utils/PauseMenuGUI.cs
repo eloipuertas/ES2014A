@@ -28,6 +28,10 @@ public class PauseMenuGUI {
 	// SHOW MENU CONFIRM
 	private bool confirm = false;
 
+	// Buttons sound effects
+	private Rect hoveredButton = new Rect();
+	private Music_Engine_Script music;
+
 	// CONSTRUCTOR
 	public PauseMenuGUI(){}
 
@@ -58,6 +62,7 @@ public class PauseMenuGUI {
 		this.noTexture = Resources.Load<Texture2D>("PauseMenu/no");
 		this.hoverNoTexture = Resources.Load<Texture2D>("PauseMenu/hover_no");
 
+		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
 	}
 
@@ -111,41 +116,72 @@ public class PauseMenuGUI {
 
 			// ACTION CONTINUE BUTTON
 			if (continue_box.Contains (Event.current.mousePosition)) {
-					Graphics.DrawTexture (continue_box, this.hoverContinueTexture);
-					if (Input.GetMouseButtonDown (0)) { 
-							pause = false;
-							Time.timeScale = 1;
-					}
-			} else
-					Graphics.DrawTexture (continue_box, this.continueTexture);
+				Graphics.DrawTexture (continue_box, this.hoverContinueTexture);
+				if (hoveredButton != continue_box) {
+					music.Play_Button_Hover ();
+					hoveredButton = continue_box;
+				}
+				if (Input.GetMouseButtonDown (0)) { 
+					pause = false;
+					Time.timeScale = 1;
+					music.Play_Button_Click();
+				}
+			} else {
+				Graphics.DrawTexture (continue_box, this.continueTexture);
+				if(hoveredButton == continue_box) hoveredButton = new Rect();
+			}
 
 			// ACTION RESTART BUTTON
 			if (reset_box.Contains (Event.current.mousePosition)) {
-					Graphics.DrawTexture (reset_box, this.hoverResetTexture);
-					if (Input.GetMouseButtonDown (0)) {
-							Time.timeScale = 1;
-							Application.LoadLevel (2);	
-					}
-			} else
-					Graphics.DrawTexture (reset_box, this.resetTexture);
+				Graphics.DrawTexture (reset_box, this.hoverResetTexture);
+				if (hoveredButton != reset_box) {
+					music.Play_Button_Hover ();
+					hoveredButton = reset_box;
+				}	
+				if (Input.GetMouseButtonDown (0)) {
+					Time.timeScale = 1;
+					music.Play_Button_Click();
+					Application.LoadLevel (2);	
+				}
+			} else {
+				Graphics.DrawTexture (reset_box, this.resetTexture);
+				if(hoveredButton == reset_box) hoveredButton = new Rect();
+			}
 
 			// ACTION OPTION BUTTON
-			if (option_box.Contains (Event.current.mousePosition))
-					Graphics.DrawTexture (option_box, this.hoverOptionTexture);
-			else
-					Graphics.DrawTexture (option_box, this.optionTexture);
+			if (option_box.Contains (Event.current.mousePosition)) {
+				Graphics.DrawTexture (option_box, this.hoverOptionTexture);
+				if (hoveredButton != option_box) {
+					music.Play_Button_Hover ();
+					hoveredButton = option_box;
+				}
+				if (Input.GetMouseButtonDown (0)) {
+					music.Play_Button_Click();
+				}
+			}
+			else {
+				Graphics.DrawTexture (option_box, this.optionTexture);
+				if(hoveredButton == option_box) hoveredButton = new Rect();
+			}
 
 			// ACTION EXIT BUTTON
 			if (exit_box.Contains (Event.current.mousePosition)) {
-					Graphics.DrawTexture (exit_box, this.hoverExitTexture);
-					if (Input.GetMouseButtonDown (0)) {
-							confirm = true;
-							//this.confirmMenu(pause);
-							//Time.timeScale = 1;
-							//Application.LoadLevel (1);	
-					}
-			} else
-					Graphics.DrawTexture (exit_box, this.exitTexture);
+				Graphics.DrawTexture (exit_box, this.hoverExitTexture);
+				if (hoveredButton != exit_box) {
+					music.Play_Button_Hover ();
+					hoveredButton = exit_box;
+				}	
+				if (Input.GetMouseButtonDown (0)) {
+					confirm = true;
+					music.Play_Button_Click();
+					//this.confirmMenu(pause);
+					//Time.timeScale = 1;
+					//Application.LoadLevel (1);	
+				}
+			} else {
+				Graphics.DrawTexture (exit_box, this.exitTexture);
+				if(hoveredButton == exit_box) hoveredButton = new Rect();
+			}
 
 		}
 
@@ -187,22 +223,35 @@ public class PauseMenuGUI {
 			// ACTION YES BUTTON
 			if (yes_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (yes_box, this.hoverYesTexture);
+				if (hoveredButton != yes_box) {
+					music.Play_Button_Hover ();
+					hoveredButton = yes_box;
+				}	
 				if (Input.GetMouseButtonDown (0)) { 
 					Time.timeScale = 1;
+					music.Play_Button_Click();
 					Application.LoadLevel (1);	
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (yes_box, this.yesTexture);
+				if(hoveredButton == yes_box) hoveredButton = new Rect();
+			}
 
 			// ACTION NO BUTTON
 			if (no_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (no_box, this.hoverNoTexture);
-				if (Input.GetMouseButtonDown (0)) 
-					this.confirm = false;	
-			
-			} else
+				if (hoveredButton != no_box) {
+					music.Play_Button_Hover ();
+					hoveredButton = no_box;
+				}	
+				if (Input.GetMouseButtonDown (0)) { 
+					this.confirm = false;
+					music.Play_Button_Click();
+				}
+			} else {
 				Graphics.DrawTexture (no_box, this.noTexture);
-			
+				if(hoveredButton == no_box) hoveredButton = new Rect();
+			}
 		} else
 				this.confirm = false;
 	}

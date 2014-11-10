@@ -9,7 +9,9 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip character_hurt;
 	public AudioClip character_steps;
 	public AudioClip barrel_open;
-	
+	public AudioClip button_click;
+	public AudioClip button_hover;
+
 	// Use this for initialization
 	void Start () {
 	}
@@ -19,37 +21,47 @@ public class Music_Engine_Script : MonoBehaviour {
 	}
 	
 	public void play_Golem_Attack() {
-		Debug.Log ("Reproduciendo sonido");
+		//Debug.Log ("Reproduciendo sonido");
 		audio.PlayOneShot (npc_golem_attack);
 	}
 	
 	public void play_Golem_Agresive() {
-		Debug.Log ("Reproduciendo sonido");
+		//Debug.Log ("Reproduciendo sonido");
 		audio.PlayOneShot (npc_golem_agresive);
 	}
 	
 	public void play_Player_Sword_Attack() {
-		Debug.Log ("Reproduciendo sonido");
+		//Debug.Log ("Reproduciendo sonido");
 		audio.PlayOneShot (character_attack);
 	}
 	
 	public void play_Player_Hurt() {
-		Debug.Log ("Reproduciendo sonido");
+		//Debug.Log ("Reproduciendo sonido");
 		audio.PlayOneShot (character_hurt);
 	}
 	
 	public void play_Player_Steps() {
-		Debug.Log ("Reproduciendo sonido");
+		//Debug.Log ("Reproduciendo sonido");
 		audio.PlayOneShot (character_steps);
 	}
 	
 	public void stop_Player_Steps() {
-		Debug.Log ("Reproduciendo sonido");
+		//Debug.Log ("Reproduciendo sonido");
 		audio.Stop ();
 	}
 	
 	public void Play_Barrel_Open() {
-		Debug.Log ("Reproduciendo sonido");
+		//Debug.Log ("Reproduciendo sonido");
 		audio.PlayOneShot (barrel_open);
+	}
+
+	public void Play_Button_Click() {
+		//Debug.Log ("Reproduciendo sonido");
+		audio.PlayOneShot (button_click);
+	}
+
+	public void Play_Button_Hover() {
+		//Debug.Log ("Reproduciendo sonido");
+		audio.PlayOneShot (button_hover);
 	}
 }
