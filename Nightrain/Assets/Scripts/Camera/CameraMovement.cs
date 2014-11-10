@@ -11,7 +11,7 @@ public class CameraMovement : MonoBehaviour {
 	private Vector3 scaleTarget;
 
 	private bool mov = false;
-	private float timeLeft = 4.0f;
+	private float timeLeft = 7.0f;
 	private float zMoviment = 80.0f;	
 
 	// Use this for initialization
@@ -67,13 +67,18 @@ public class CameraMovement : MonoBehaviour {
 			}
 		} else {
 			//Valores esta puestos a mano para hacer pruebas
-			_myTransform.LookAt(new Vector3(92,5,330));
+			//_myTransform.LookAt(new Vector3(92,5,330));
 			timeLeft -= Time.deltaTime;				
-			if ( timeLeft < 0 )
+			if ( timeLeft < 5 )
 			{
-				mov = false;
-			} else if(timeLeft < 2){
+				Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+				_myTransform.LookAt(new Vector3(92,5,330));
+			}
+			if(timeLeft < 2){
 				Destroy(GameObject.FindGameObjectWithTag("FireWall"));
+			} 
+			if(timeLeft < 0){
+				mov = false;
 			}
 		}
 	}

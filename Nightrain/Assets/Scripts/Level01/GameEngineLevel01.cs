@@ -40,13 +40,9 @@ public class GameEngineLevel01 : MonoBehaviour {
 		this.camera1 = GameObject.FindGameObjectWithTag ("MainCamera");
 		this.cm = this.camera1.GetComponent<CameraMovement> ();
 
-
-
 		// --- LOAD RESOURCES TO MENU ---
 		gui = new PauseMenuGUI ();
 		gui.initResources ();
-
-
 
 
 		this.c = this.ambientLight.light.color;
@@ -94,7 +90,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 				this.ms = this.npc.GetComponent<Movement> ();
 
 				if(ms.getHealth() <= 0.0f){
-					Destroy(npc);
+					//Destroy(npc);
 					npc = null;
 				}
 			}
