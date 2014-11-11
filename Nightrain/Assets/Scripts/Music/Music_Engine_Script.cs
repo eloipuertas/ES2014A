@@ -11,6 +11,7 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip barrel_open;
 	public AudioClip button_click;
 	public AudioClip button_hover;
+	public AudioClip open_chest;
 
 	// Use this for initialization
 	void Start () {
@@ -63,5 +64,9 @@ public class Music_Engine_Script : MonoBehaviour {
 	public void Play_Button_Hover() {
 		//Debug.Log ("Reproduciendo sonido");
 		audio.PlayOneShot (button_hover);
+	}
+
+	public void play_Open_Chest() {
+		audio.PlayOneShot (open_chest);
 	}
 }

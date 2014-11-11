@@ -13,16 +13,20 @@ public class getWeapon : MonoBehaviour {
 	private float easing = 0.05f;
 	private bool first = true;
 
+	private Music_Engine_Script music;
+
 	// ========================= COLISION CON Player ==================================
 	void Start(){
 		arma1.SetActive(false);
 		arma2.SetActive(false);
+		music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
 	void OnTriggerEnter (Collider other){
 		if(other.gameObject == GameObject.FindGameObjectWithTag ("Player")){
 			targetValue = AngleX;
 			currentValue = 0;
 			first=true;
+			music.play_Open_Chest();
 		}
 	}
 	void OnTriggerExit (Collider other) {
