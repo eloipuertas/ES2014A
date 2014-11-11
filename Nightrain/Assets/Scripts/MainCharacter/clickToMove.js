@@ -74,7 +74,7 @@ function Update ()
         // Stop animation
         if(transform.position == targetPoint){
             //animation.CrossFade("Armature|Idle",0.2f);
-            Debug.Log ("moved to target location");
+            //Debug.Log ("moved to target location");
             animation.Stop("metarig|Caminar"); 
             moving = false;
         //Set walking animation
@@ -104,7 +104,7 @@ function Update ()
        
     	if(Physics.Raycast(ray, getObjectScene, 100)){
             if(getObjectScene.transform.gameObject.tag.Equals("Enemy")){
-            	Debug.Log("Enemigo seleccionado");
+            	//Debug.Log("Enemigo seleccionado");
             	//animation.Stop("metarig|Caminar");
             	moving = false;
             	//attack = true;

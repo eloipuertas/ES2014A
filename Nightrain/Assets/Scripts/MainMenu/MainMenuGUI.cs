@@ -404,14 +404,14 @@ public class MainMenuGUI {
 			
 			// ACTION BUTTON
 			if (window_box.Contains (Event.current.mousePosition)) {
-				Debug.Log("Estoi dentro de la window");
+				//Debug.Log("Estoi dentro de la window");
 				this.isInsideWindow = true;
 			} else{
 				if (Input.GetMouseButtonDown(0) && this.isInsideWindow) { 
 					this.isDifficultySelector = false;
 					this.isInsideWindow = false;
 				}
-				Debug.Log ("Estoi fuera la window");
+				//Debug.Log ("Estoi fuera la window");
 			}
 
 
