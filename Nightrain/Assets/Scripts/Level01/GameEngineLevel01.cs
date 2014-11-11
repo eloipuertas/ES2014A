@@ -25,8 +25,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 
 	// --- Camaras ---
 	private GameObject camera1;
-	private CameraMovement cm;
-
+	private GameObject camera2;
 
 	// Use this for initialization
 	void Start () {
@@ -38,7 +37,10 @@ public class GameEngineLevel01 : MonoBehaviour {
 		this.cs = this.character.GetComponent<CharacterScript> ();
 
 		this.camera1 = GameObject.FindGameObjectWithTag ("MainCamera");
-		this.cm = this.camera1.GetComponent<CameraMovement> ();
+		this.camera1.SetActive (true);
+
+		this.camera2 = GameObject.FindGameObjectWithTag ("CameraMovement");
+		this.camera2.SetActive (false);
 
 		// --- LOAD RESOURCES TO MENU ---
 		gui = new PauseMenuGUI ();
@@ -90,7 +92,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 				this.ms = this.npc.GetComponent<Movement> ();
 
 				if(ms.getHealth() <= 0.0f){
-					//Destroy(npc);
+					Destroy(npc);
 					npc = null;
 				}
 			}
@@ -101,7 +103,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 		}
 		if (this.npc == null) {
 			allIsDead = true;
-			this.cm.movimiento();
+			this.camera2.SetActive(true);
 		}
 	}
 	
