@@ -80,7 +80,7 @@ function Update ()
         //Set walking animation
         } else {
             animation.Play("metarig|Caminar");
-            Debug.Log ("on the way...");
+            //Debug.Log ("on the way...");
         }
     }
 

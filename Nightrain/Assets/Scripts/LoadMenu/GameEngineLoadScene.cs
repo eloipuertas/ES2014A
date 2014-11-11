@@ -4,7 +4,7 @@ using System.Threading;
 
 public class GameEngineLoadScene : MonoBehaviour {
 
-	private string level = "Level01";
+	private string level = "Level01_v2";
 
 	// ========== TEXTURES ============
 	private Texture2D backgroundTexture;

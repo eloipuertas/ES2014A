@@ -97,7 +97,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 				}
 			}
 			if(npc != null){
-				print ("No nulo");
+				//print ("No nulo");
 				break;
 			}
 		}
