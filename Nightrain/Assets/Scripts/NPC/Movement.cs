@@ -13,9 +13,6 @@ public class Movement : MonoBehaviour {
 	private float attackTime;
 
 	private float max_health = 100;
-
-	private Music_Engine_Script music;
-	private bool persiguiendo = false;
 	
 	// Los nombres de los tres puntos que estan distribuidos por el mapa
 	string[] points = {"Point1", "Point2", "Point3"};
@@ -33,7 +30,6 @@ public class Movement : MonoBehaviour {
 		anim = GetComponent<Animator>();
 
 		this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
-		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
 	
 	// Update is called once per frame
@@ -78,10 +74,6 @@ public class Movement : MonoBehaviour {
 	}
 	
 	void perseguir(){
-		if (persiguiendo == false) {
-			if(music != null) music.play_Golem_Agresive ();
-			persiguiendo = true;
-		}
 		anim.SetBool("w_attack", false);
 		anim.SetBool("a_walk", true);
 		anim.SetBool ("walk", true);
@@ -111,10 +103,6 @@ public class Movement : MonoBehaviour {
 		p.y -= 5f;
 		if (Time.time > attackTime) {
 			// atacar(verificar colision con el player y enviarle via metodo que ha sido atacado)
-			if(music != null) {
-				music.play_Golem_Agresive();
-				music.play_Golem_Attack();
-			}
 			player.GetComponent<CharacterScript>().setDamage(10);
 			attackTime = Time.time + 1.0f;
 		}
