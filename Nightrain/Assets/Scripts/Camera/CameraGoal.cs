@@ -40,7 +40,7 @@ public class CameraGoal : MonoBehaviour {
 		} 
 
 		if (timeLeft < 0) {
-			GameObject.FindGameObjectWithTag ("CameraMovement").SetActive(false);
+			GameObject.FindGameObjectWithTag ("CameraGoal").SetActive(false);
 		}
 	}
 }
