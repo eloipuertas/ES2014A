@@ -10,8 +10,6 @@ public class ItemDrop : MonoBehaviour {
 	public int slot_x;
 	public int slot_y;
 
-	public GameObject objInventory;
-
 	private int itemRep;
 	private Item item;
 
@@ -37,7 +35,9 @@ public class ItemDrop : MonoBehaviour {
 		armor.width = slot_x;
 		armor.height = slot_y;
 		ItemsInventory.addArmor (armor.id, armor);
-		inventory = objInventory.GetComponent<InventoryScript> ();
+		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryScript> ();
+		if (armor.id == 4)
+			inventory.setPotion (1);
 		inventory.addItem(ItemsInventory.getArmor (id));
 		Destroy (gameObject);
 	}

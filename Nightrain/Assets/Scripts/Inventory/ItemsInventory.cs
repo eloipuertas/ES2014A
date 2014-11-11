@@ -30,7 +30,7 @@ public class ItemsInventory : MonoBehaviour {
 			ItemsInventory.armor_list.Add (id, item);
 		}
 
-		Debug.Log (armor_list [id].ItemTexture.name);
+		//Debug.Log (armor_list [id].ItemTexture.name);
 	}
 
 	public static Armor getArmor(int id){

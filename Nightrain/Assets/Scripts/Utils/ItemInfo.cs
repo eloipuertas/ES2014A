@@ -6,7 +6,7 @@ public class ItemInfo : MonoBehaviour {
 	public string text_item;
 	private GUIStyle text_style;
 	private GUIStyle guiStyleBack;
-
+	
 	// Use this for initialization
 	void Start () {
 		this.text_item = "";

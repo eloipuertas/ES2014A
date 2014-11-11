@@ -144,7 +144,23 @@ public class InventoryScript : MonoBehaviour {
 			}
 		}			
 	}
-	
+
+	private int potion = 0;
+
+	public void setPotion(int potion){				
+
+		this.potion += potion;
+		if (potion < 0)
+			for (int i = 0; i < this.list_inventory.Count; i++)
+				if (this.list_inventory [i].ItemTexture.name == "icon_potion") {
+					this.removeItem (list_inventory [i]);
+				return;					
+			}
+	}
+
+	public int getPotion(){				
+		return potion;
+	}
 
 	public bool addItem(Item item){
 	
