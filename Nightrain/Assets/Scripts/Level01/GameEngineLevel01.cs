@@ -56,8 +56,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!allIsDead) {
-			key_K_pressed();
-			//isAllEnemysDead ();
+			isAllEnemysDead ();
 		} 
 		this.PauseScreen ();
 		this.StateMachine ();
@@ -75,13 +74,6 @@ public class GameEngineLevel01 : MonoBehaviour {
 		}
 		
 		this.isAlive ();
-	}
-	
-	void key_K_pressed(){
-		if (Input.GetKeyDown (KeyCode.K)){
-			allIsDead = true;
-			this.camera2.SetActive(true);
-		}
 	}
 	
 	//Comprueba si el personaje sigue vivo
