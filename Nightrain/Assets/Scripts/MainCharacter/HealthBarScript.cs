@@ -128,10 +128,10 @@ public class HealthBarScript : MonoBehaviour {
 	void OnGUI(){
 
 		// Comentar esta linia era solo para debug para ver como recuperaba vida, si la vida llega a 0 no recupera esta muerto
-		if (GUI.Button(new Rect(Screen.width - 125,50,100,50), "Heal")) {
+		/*if (GUI.Button(new Rect(Screen.width - 125,50,100,50), "Heal")) {
 			print ("Heal");
 			this.cs.setCure(10);
-		}
+		}*/
 
 		if (Event.current.type.Equals (EventType.Repaint)) {
 	

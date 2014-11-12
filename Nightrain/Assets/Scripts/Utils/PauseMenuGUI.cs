@@ -133,6 +133,7 @@ public class PauseMenuGUI {
 
 			// ACTION RESTART BUTTON
 			if (reset_box.Contains (Event.current.mousePosition)) {
+<<<<<<< HEAD
 				Graphics.DrawTexture (reset_box, this.hoverResetTexture);
 				if (hoveredButton != reset_box) {
 					music.Play_Button_Hover ();
@@ -147,6 +148,15 @@ public class PauseMenuGUI {
 				Graphics.DrawTexture (reset_box, this.resetTexture);
 				if(hoveredButton == reset_box) hoveredButton = new Rect();
 			}
+=======
+					Graphics.DrawTexture (reset_box, this.hoverResetTexture);
+					if (Input.GetMouseButtonDown (0)) {
+							Time.timeScale = 1;
+							Application.LoadLevel (3);	
+					}
+			} else
+					Graphics.DrawTexture (reset_box, this.resetTexture);
+>>>>>>> devel_d
 
 			// ACTION OPTION BUTTON
 			if (option_box.Contains (Event.current.mousePosition)) {
@@ -190,7 +200,6 @@ public class PauseMenuGUI {
 	// CONFIRM MENU
 	public void confirmMenu(bool pause){
 	
-		Debug.Log ("Pause: " + pause + " Confirm: " + confirm);
 		if (pause && this.confirm) {
 			// CONFIRM INTERFACE
 			Rect confirm_box = new Rect ((Screen.width / 2) - (this.resizeTextureWidth (this.confirmTexture)*1.25f / 2),

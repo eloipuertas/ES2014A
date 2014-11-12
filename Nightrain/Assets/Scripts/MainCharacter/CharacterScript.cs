@@ -41,7 +41,6 @@ public class CharacterScript : MonoBehaviour {
 	// ========================= COLISION CON NPC ==================================
 	
 	void OnTriggerEnter (Collider other){
-		print("Tocado."); 
 		if(other.gameObject == this.NPCs){
 			this.NPCs.GetComponent<Movement>().setDamage(20);
 			print("Tocado."); 
