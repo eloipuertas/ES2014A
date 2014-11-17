@@ -2,7 +2,21 @@ fileFormatVersion: 2
 guid: 9e28b00191ba24d378ffaefdf3a5baea
 ModelImporter:
   serializedVersion: 16
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    100000: Cube_007_MeshPart0
+    100002: Cube_007_MeshPart1
+    100004: //RootNode
+    400000: Cube_007_MeshPart0
+    400002: Cube_007_MeshPart1
+    400004: //RootNode
+    2300000: Cube_007_MeshPart0
+    2300002: Cube_007_MeshPart1
+    3300000: Cube_007_MeshPart0
+    3300002: Cube_007_MeshPart1
+    4300000: Cube_007_MeshPart0
+    4300002: Cube_007_MeshPart1
+    7400000: Default Take
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
