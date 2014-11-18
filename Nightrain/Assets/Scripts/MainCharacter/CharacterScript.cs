@@ -6,12 +6,19 @@ public class CharacterScript : MonoBehaviour {
 	// ATRIBUTES CHARACTER
 
 	// === HEALTH ===
-	public int bar_health;		// Value of initial HEALTH
+	private int bar_health;		// Value of initial HEALTH
 	public float max_health;	// Value of max HEALTH on the GAME. This value basically is to resize the health bar.
 
 	// === MAGIC ===
-	public int bar_magic;		// Value of initial MAGIC
+	private int bar_magic;		// Value of initial MAGIC
 	public float max_magic;		// Value of max MAGIC on the GAME. This value basically is to resize the magic bar.
+
+
+	// === ATTRIBUTES ===
+	private int strength;
+	private int defense;
+	private int speed;
+
 
 	// ADD MORE ATTRIBUTES OF CHARACTER
 	private bool critical = false;
@@ -22,14 +29,35 @@ public class CharacterScript : MonoBehaviour {
 	// MusicEngine GameObject that plays audio effects
 	private Music_Engine_Script music;
 
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+	private LoadData load;
+
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		
 		// ADD COMPONENT
 		// Buscamos al personaje principal
 		this.NPCs = GameObject.FindGameObjectWithTag("Enemy");
 
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
+
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData();
+		this.load = this.mc.loadData();
+
+		// LOAD ATTRIBUTES
+		this.bar_health = this.load.loadVIT ();
+		this.bar_magic = this.load.loadPM ();
+		this.strength = this.load.loadSTR ();
+		this.defense = this.load.loadDEF ();
+		this.speed = this.load.loadSPD ();
+
+		Debug.Log ("Attributes: VIT:" + this.bar_health + " PM:" + this.bar_magic + " STR:" + this.strength + " DEF:" + this.defense + " SPD:" + this.speed);
+
 	}
 	
 	// Update is called once per frame.
@@ -41,9 +69,10 @@ public class CharacterScript : MonoBehaviour {
 	// ========================= COLISION CON NPC ==================================
 	
 	void OnTriggerEnter (Collider other){
+		int damage = Random.Range (6, this.strength+1);
 		if(other.gameObject == this.NPCs){
-			this.NPCs.GetComponent<Movement>().setDamage(20);
-			print("Tocado."); 
+			this.NPCs.GetComponent<Movement>().setDamage(damage);
+			print("Daño: " + damage); 
 		}	
 	}
 	
