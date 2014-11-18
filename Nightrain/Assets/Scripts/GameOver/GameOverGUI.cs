@@ -7,7 +7,7 @@ public class GameOverGUI{
 	private const int reference_height = 598;
 
 	// ========== TEXTURES ============
-	private Texture2D bacgroundTexture;
+	private Texture2D backgroundTexture;
 	private Texture2D continueTexture;
 	private Texture2D hoverContinueTexture;
 	private Texture2D exitTexture;
@@ -19,7 +19,7 @@ public class GameOverGUI{
 
 	// LOAD TEXTURE RESOURCES
 	public void initResources () {
-		this.bacgroundTexture = Resources.Load<Texture2D>("GameOver/background_gameover");
+		this.backgroundTexture = Resources.Load<Texture2D>("GameOver/background_gameover");
 		
 		this.continueTexture = Resources.Load<Texture2D>("GameOver/continue");
 		this.hoverContinueTexture = Resources.Load<Texture2D>("GameOver/hover_continue");
@@ -32,7 +32,7 @@ public class GameOverGUI{
 	public void menuGameOver(){
 
 		Rect background_box = new Rect (0, 0, Screen.width, Screen.height);
-		Graphics.DrawTexture (background_box, this.bacgroundTexture);
+		Graphics.DrawTexture (background_box, this.backgroundTexture);
 		
 		// ===================== BOTONERA UNO ENCIMA DE OTRO =============================
 		
@@ -70,7 +70,7 @@ public class GameOverGUI{
 		if (continue_box.Contains (Event.current.mousePosition)) {
 			Graphics.DrawTexture (continue_box, this.hoverContinueTexture);
 			if(Input.GetMouseButtonDown(0)){
-				Application.LoadLevel(2);
+				Application.LoadLevel(3);
 			}
 		} else if(exit_box.Contains (Event.current.mousePosition)){
 			Graphics.DrawTexture (exit_box, this.hoverExitTexture);

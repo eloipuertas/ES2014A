@@ -58,6 +58,12 @@ public class MainMenuGUI {
 
 	public AudioSource clip;
 
+	// Hover button audio Source
+	private GameObject hoverSound;
+
+	// Variable to check current mouse hover button
+	private Rect hoveredButton = new Rect();
+
 	// SHOW MAIN MENU
 	private bool isMainMenu = true;
 	// SHOW CHARACTER SELECTOR
@@ -140,6 +146,8 @@ public class MainMenuGUI {
 		this.attributeTexture = this.warriorAttributesTexture;
 		this.difficultyTexture = this.normalTexture;
 
+		//Hover button music gameobject
+		this.hoverSound = GameObject.FindGameObjectWithTag("music_engine");
 	}
 
 
@@ -188,33 +196,50 @@ public class MainMenuGUI {
 			// ACTION PLAY GAME BUTTON
 			if (play_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (play_box, this.hoverNewGameTexture);
+				if (hoveredButton != play_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = play_box;
+				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
 					this.isMainMenu = false;
 					this.isCharacterSelector = true;
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (play_box, this.newGameTexture);
+				if(hoveredButton == play_box) hoveredButton = new Rect();
+			}
 
 			// ACTION LOAD GAME BUTTON
 			if (load_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (load_box, this.hoverLoadGameTexture);
+				if (hoveredButton != load_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = load_box;
+				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
 					Debug.Log ("Cargar Datos");
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (load_box, this.loadGameTexture);
-
+				if(hoveredButton == load_box) hoveredButton = new Rect();
+			}
 			// ACTION EXIT GAME BUTTON
 			if (exit_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (exit_box, this.hoverExitGameTexture);
+				if (hoveredButton != exit_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = exit_box;
+				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
 					Application.Quit();
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (exit_box, this.exitGameTexture);
+				if(hoveredButton == exit_box) hoveredButton = new Rect();
+			}
 		}
 
 	}
@@ -287,6 +312,10 @@ public class MainMenuGUI {
 			// ACTION WARRIOR BUTTON
 			if (warrior_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (warrior_box, this.hoverBtnWarriorTexture);
+				if (hoveredButton != warrior_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = warrior_box;
+				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
 					this.character = "hombre";
@@ -294,12 +323,18 @@ public class MainMenuGUI {
 					this.attributeTexture = this.warriorAttributesTexture;
 					Debug.Log ("Click en Warrior");
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (warrior_box, this.btnWarriorTexture);
-			
+				if(hoveredButton == warrior_box) hoveredButton = new Rect();
+			}
+
 			// ACTION SAGE BUTTON
 			if (sage_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (sage_box, this.hoverBtnSageTexture);
+				if (hoveredButton != sage_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = sage_box;
+				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
 					this.character = "mujer";
@@ -307,12 +342,18 @@ public class MainMenuGUI {
 					this.attributeTexture = this.sageAttributesTexture;
 					Debug.Log ("Click en Sage");
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (sage_box, this.btnSageTexture);
-			
+				if(hoveredButton == sage_box) hoveredButton = new Rect();
+			}
+
 			// ACTION THIEF BUTTON
 			if (thief_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (thief_box, this.hoverBtnThiefTexture);
+				if (hoveredButton != thief_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = thief_box;
+				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
 					this.character = "joven";
@@ -320,31 +361,44 @@ public class MainMenuGUI {
 					this.attributeTexture = this.thiefAttributesTexture;
 					Debug.Log ("Click en Thief");
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (thief_box, this.btnThiefTexture);
+				if(hoveredButton == thief_box) hoveredButton = new Rect();
+			}
 
 			// ACTION BACK BUTTON
 			if (back_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (back_box, this.hoverBtnExitTexture);
+				if (hoveredButton != back_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = back_box;
+				}
 				if (Input.GetMouseButtonDown (0)) {
 					this.isCharacterSelector = false;
 					this.isMainMenu = true;
 					this.clip.Play();
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (back_box, this.btnExitTexture);
+				if(hoveredButton == back_box) hoveredButton = new Rect();
+			}
 
 			// ACTION CONFIRM BUTTON
 			if (confirm_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (confirm_box, this.hoverBtnConfirmTexture);
+				if (hoveredButton != confirm_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = confirm_box;
+				}
 				if (Input.GetMouseButtonDown (0)) {
 					this.clip.Play();
 					this.isDifficultySelector = true;
 					//Application.LoadLevel(2);
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (confirm_box, this.btnConfirmTexture);
-
+				if(hoveredButton == confirm_box) hoveredButton = new Rect();
+			}
 		}			
 
 	}
@@ -404,14 +458,14 @@ public class MainMenuGUI {
 			
 			// ACTION BUTTON
 			if (window_box.Contains (Event.current.mousePosition)) {
-				Debug.Log("Estoi dentro de la window");
+				//Debug.Log("Estoi dentro de la window");
 				this.isInsideWindow = true;
 			} else{
 				if (Input.GetMouseButtonDown(0) && this.isInsideWindow) { 
 					this.isDifficultySelector = false;
 					this.isInsideWindow = false;
 				}
-				Debug.Log ("Estoi fuera la window");
+				//Debug.Log ("Estoi fuera la window");
 			}
 
 
@@ -419,50 +473,76 @@ public class MainMenuGUI {
 			if (squire_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (squire_box, this.hoverSquireDifficultyTexture);
 				this.difficultyTexture = this.easyTexture;
+				if (hoveredButton != squire_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = squire_box;
+				}
 				if (Input.GetMouseButtonDown (0)) {
 					PlayerPrefs.SetString("Difficulty", "Easy");
 					PlayerPrefs.SetString("Character", this.character);
+					this.clip.Play();
 					Application.LoadLevel(2);
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (squire_box, this.squireDifficultyTexture);
-
+				if(hoveredButton == squire_box) hoveredButton = new Rect();
+			}
 			// ACTION NORMAL BUTTON
 			if (warrior_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (warrior_box, this.hoverWarriorDifficultyTexture);
 				this.difficultyTexture = this.normalTexture;
+				if (hoveredButton != warrior_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = warrior_box;
+				}
 				if (Input.GetMouseButtonDown (0)) {
 					PlayerPrefs.SetString("Difficulty", "Normal");
 					PlayerPrefs.SetString("Character", this.character);
+					this.clip.Play();
 					Application.LoadLevel(2);
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (warrior_box, this.warriorDifficultyTexture);
+				if(hoveredButton == warrior_box) hoveredButton = new Rect();
+			}
 
 			// ACTION EASY BUTTON
 			if (knight_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (knight_box, this.hoverKnightDifficultyTexture);
 				this.difficultyTexture = this.hardTexture;
+				if (hoveredButton != knight_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = knight_box;
+				}
 				if (Input.GetMouseButtonDown (0)) {
 					PlayerPrefs.SetString("Difficulty", "Hard");
 					PlayerPrefs.SetString("Character", this.character);
+					this.clip.Play();
 					Application.LoadLevel(2);
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (knight_box, this.knightDifficultyTexture);
+				if (hoveredButton == knight_box) hoveredButton = new Rect();
+			}
 
 			// ACTION EXTREME BUTTON
 			if (paladin_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (paladin_box, this.hoverPaladinDifficultyTexture);
 				this.difficultyTexture = this.extremeTexture;
+				if (hoveredButton != paladin_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = paladin_box;
+				}
 				if (Input.GetMouseButtonDown (0)) {
 					PlayerPrefs.SetString("Difficulty", "Extreme");
 					PlayerPrefs.SetString("Character", this.character);
+					this.clip.Play();
 					Application.LoadLevel(2);
 				}
-			} else
+			} else {
 				Graphics.DrawTexture (paladin_box, this.paladinDifficultyTexture);
-
+				if (hoveredButton == paladin_box) hoveredButton = new Rect();
+			}
 		}
 	}
 
