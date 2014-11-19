@@ -25,7 +25,7 @@ public class Movement : MonoBehaviour {
 	private Transform player_transform;
 	private Animator anim;
 	
-	private GameObject NPCbar;
+	//private GameObject NPCbar;
 	private Music_Engine_Script music;
 	
 	// Use this for initialization
@@ -34,7 +34,7 @@ public class Movement : MonoBehaviour {
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
 
-		this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
+		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
 	
@@ -119,7 +119,7 @@ public class Movement : MonoBehaviour {
 	
 	public void setDamage(float damage){
 		health -= damage;
-		this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
+		//this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
 		if (health < 1) {
 			state = "Dead";
 			Debug.Log ("NPC muerto");
@@ -150,6 +150,10 @@ public class Movement : MonoBehaviour {
 	
 	public float getHealth(){
 		return this.health;
+	}
+
+	public float getMaxHealth(){
+		return this.max_health;
 	}
 	
 	public float getDefense(){

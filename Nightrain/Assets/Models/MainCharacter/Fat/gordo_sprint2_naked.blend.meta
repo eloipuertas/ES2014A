@@ -2,31 +2,7 @@ fileFormatVersion: 2
 guid: 563a452e8bd564e778cbcdc17720060c
 ModelImporter:
   serializedVersion: 16
-  fileIDToRecycleName:
-    100000: Cylinder_MeshPart0
-    100002: Cylinder_MeshPart1
-    100004: Cylinder_MeshPart2
-    100006: Cylinder_MeshPart3
-    100008: //RootNode
-    400000: Cylinder_MeshPart0
-    400002: Cylinder_MeshPart1
-    400004: Cylinder_MeshPart2
-    400006: Cylinder_MeshPart3
-    400008: //RootNode
-    2300000: Cylinder_MeshPart0
-    2300002: Cylinder_MeshPart1
-    2300004: Cylinder_MeshPart2
-    2300006: Cylinder_MeshPart3
-    3300000: Cylinder_MeshPart0
-    3300002: Cylinder_MeshPart1
-    3300004: Cylinder_MeshPart2
-    3300006: Cylinder_MeshPart3
-    4300000: Cylinder_MeshPart0
-    4300002: Cylinder_MeshPart1
-    4300004: Cylinder_MeshPart2
-    4300006: Cylinder_MeshPart3
-    7400000: Default Take
-    9500000: //RootNode
+  fileIDToRecycleName: {}
   materials:
     importMaterials: 1
     materialName: 0
