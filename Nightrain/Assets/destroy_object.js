@@ -3,7 +3,7 @@ var Destroy_o : GameObject;
 var explosion : GameObject;
 var explosion2 : GameObject;
 var apear : GameObject;
-var object_health : int = 4;
+var object_health : int = 2;
 
 function Start(){
 	apear.SetActive(false);
