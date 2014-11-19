@@ -79,7 +79,7 @@ public class CharacterScript : MonoBehaviour {
 	// ==============================================================================
 
 
-	// === METHODS HEALTH ===
+	// === METHODS GET/SET ATTRIBUTES ===
 
 	// Get the actual value of health.
 	public int getHealth(){
@@ -101,11 +101,66 @@ public class CharacterScript : MonoBehaviour {
 		this.max_health = this.bar_health;
 	}
 	
+	// Get the actual value of health.
+	public int getMagic(){
+		return this.bar_magic;
+	}
+	
+	// Set the magic value.
+	public void setMagic(int magic){
+		this.max_magic = magic;
+	}
+	
+	// Get the max value of health in the game.
+	public float getMaxMagic(){
+		return this.max_magic;
+	}
+	
+	// Set the max magic value.
+	public void setMaxMagic(){
+		this.max_magic = this.bar_magic;
+	}
+
+	// Get the actual value of strength.
+	public int getFRZ(){
+		return this.strength;
+	}
+	
+	// Set actual strength value.
+	public void setFRZ(int FRZ){
+		this.strength = FRZ;
+	}
+
+	// Get the actual value of defense.
+	public int getDEF(){
+		return this.defense;
+	}
+	
+	// Set actual defense value.
+	public void setDEF(int DEF){
+		this.defense = DEF;
+	}
+
+	// Get the actual value of speed.
+	public int getSPD(){
+		return this.speed;
+	}
+	
+	// Set actual speed value.
+	public void setSPD(int SPD){
+		this.speed = SPD;
+	}
+
+
+	// ==============================================================================
+
+	// === METHODS ===
+	
 	// Get is the 'Character' has few health.
 	public bool isCritical(){
 		return this.critical;
 	}
-
+	
 	// Set the critical state of 'Character'.
 	public void setCritical(bool critical){
 		this.critical = critical;
@@ -119,29 +174,12 @@ public class CharacterScript : MonoBehaviour {
 				this.bar_health = Mathf.FloorToInt(this.max_health);
 		}
 	}
-
+	
 	// Method to Damage the 'Character'
 	public void setDamage(int damage){
 		this.bar_health -= damage;
 		// Reproducimos un sonido de dolor del personaje al recibir el golpe
 		if (music != null) music.play_Player_Hurt ();
-	}
-
-	// === METHODS MAGIC ===
-
-	// Get the actual value of health.
-	public int getMagic(){
-		return this.bar_magic;
-	}
-	
-	// Get the max value of health in the game.
-	public float getMaxMagic(){
-		return this.max_magic;
-	}
-
-	// Set the max magic value.
-	public void setMaxMagic(){
-		this.max_magic = this.bar_magic;
 	}
 
 
