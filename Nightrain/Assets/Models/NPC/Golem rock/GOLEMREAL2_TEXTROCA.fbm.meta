@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: eff9c4e095be9b440af40d6843daced6
+=======
+guid: 68a7d034d780f0e4b8e4eed9d2ad4a76
+>>>>>>> origin/devel_d_logic_programmer-#125
 folderAsset: yes
 DefaultImporter:
   userData: 
