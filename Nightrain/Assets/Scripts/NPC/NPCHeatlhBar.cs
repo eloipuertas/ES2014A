@@ -69,20 +69,20 @@ public class NPCHeatlhBar : MonoBehaviour {
 		                                                        this.npc.transform.position.y,
 		                                                        this.npc.transform.position.z));
 
-		Debug.Log ("X: " + xy.x + " Y:" + xy.y);
+		//Debug.Log ("X: " + xy.x + " Y:" + xy.y);
 		if (Event.current.type.Equals (EventType.Repaint)) {
 			
 			// HEALTH BAR ZONE
-			Rect bar_box = new Rect (xy.x+x2,
-			                         Screen.height*y2 - xy.y, 
+			Rect bar_box = new Rect (xy.x+Screen.width*x,
+			                         Screen.height*y - xy.y, 
 			                         150,
 			                         25);
 
 			GUI.DrawTexture (bar_box, this.HealthBarTexture);
 			
 			// HEALTH ZONE	
-			Rect healthbar_box = new Rect (bar_box.x + x,
-			                               bar_box.y + y,  
+			Rect healthbar_box = new Rect (bar_box.x + x2,
+			                               bar_box.y + y2,  
 			                               116,
 			                               10);
 			Graphics.DrawTexture (healthbar_box, this.HealthTexture, this.HealthMaterial);
