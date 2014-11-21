@@ -27,35 +27,18 @@ public class ItemDrop : MonoBehaviour {
 	
 	}
 
-	void OnTriggerEnter(Collider other){
-		if(other.gameObject == GameObject.FindGameObjectWithTag ("Player")){
-			Armor armor = new Armor();
-			armor.id = id;
-			armor.ItemTexture = imageTexture;
-			armor.width = slot_x;
-			armor.height = slot_y;
-			ItemsInventory.addArmor (armor.id, armor);
-			inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryScript> ();
-			if (armor.id == 4)
-				inventory.setPotion (1);
-			inventory.addItem(ItemsInventory.getArmor (id));
-			Destroy (gameObject);
-		}
-	}
+	void OnTriggerEnter(){
 
-	void OnCollisionEnter(Collision other){
-		if(other.gameObject == GameObject.FindGameObjectWithTag ("Player")){
-			Armor armor = new Armor();
-			armor.id = id;
-			armor.ItemTexture = imageTexture;
-			armor.width = slot_x;
-			armor.height = slot_y;
-			ItemsInventory.addArmor (armor.id, armor);
-			inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryScript> ();
-			if (armor.id == 4)
-				inventory.setPotion (1);
-			inventory.addItem(ItemsInventory.getArmor (id));
-			Destroy (gameObject);
-		}
+		Armor armor = new Armor();
+		armor.id = id;
+		armor.ItemTexture = imageTexture;
+		armor.width = slot_x;
+		armor.height = slot_y;
+		ItemsInventory.addArmor (armor.id, armor);
+		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryScript> ();
+		if (armor.id == 4)
+			inventory.setPotion (1);
+		inventory.addItem(ItemsInventory.getArmor (id));
+		Destroy (gameObject);
 	}
 }
