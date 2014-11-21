@@ -8,12 +8,30 @@ public class InventoryScript : MonoBehaviour {
 
 	// ========== INVENTORY ============
 	public Rect inventory_box;
-	public Rect slotRegion_box;
 	private List<Item> list_inventory;
-
+	private Item[] equip;
+	private bool show_inventory = false;
 
 	// ========== SLOT INVENTORY ============
+
+	// WEAPON REGION
+	public Rect weaponRegion_box;
+	private const int weaponX = 20;
+	private const int weaponY = 45;
+	private const int weaponW = 56;
+	private const int weaponH = 112;
+
+	// SHIELD REGION
+	public Rect shieldRegion_box;
+	private const int shieldX = 250;
+	private const int shieldY = 45;
+	private const int shieldW = 56;
+	private const int shieldH = 112;
+
+	// ITEM REGION
+	public Rect slotRegion_box;
 	private Slot[,] slot;
+	private Rect[,] s;
 	private int slot_row = 10;
 	private int slot_column = 4;
 	private int slotX = 17;
@@ -23,6 +41,7 @@ public class InventoryScript : MonoBehaviour {
 	private Vector2 slot_selected;
 	private Vector2 last_slot;
 
+
 	// ========== ITEMS ============
 	private Item temp_item;
 
@@ -30,15 +49,17 @@ public class InventoryScript : MonoBehaviour {
 	// ========== TEXTURES ============
 	private Texture2D inventoryTexture;
 
-	private bool show_inventory = false;
+
+
 
 	// Use this for initialization
 	void Start () {
 	
 		this.list_inventory = new List<Item>();
+		this.equip = new Item[3];
 		this.inventoryTexture = Resources.Load<Texture2D>("Inventory/Misc/inventory");
 
-		// CREATE INVENTORY SLOT
+		// CREATE INVENTORY
 		this.createInventorySlot ();
 
 		//this.addItem (0, 0, ItemsInventory.getArmor(0));
@@ -55,96 +76,154 @@ public class InventoryScript : MonoBehaviour {
 			this.show_inventory = false;
 	}
 
-	void inventoryFocused(){
-		if (this.inventory_box.Contains (Input.mousePosition)) {
+	/*void inventoryFocused(){
+		//if (this.inventory_box.Contains (new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y))) {
 			this.slotFocused();
 			//Debug.Log ("Disable ClickToMove");
-			return;
-		}
+			//return;
+		//}
 		//Debug.Log ("Enable ClickToMove");
 
 		// Click to Move disable
-	}
+	}*/
 
-	void slotFocused(){
+	void inventoryFocused(){
 
-		for (int i = 0; i < this.slot_row; i++){
+		for (int i = 0; i < this.slot_row; i++) {
 			for (int j = 0; j < this.slot_column; j++) {
 
-				Rect s = new Rect(this.inventory_box.x + slot[i,j].position.x,
-				                     this.inventory_box.y + slot[i,j].position.y,
-				                     this.slot_w,
-				                     this.slot_h);
+				if (this.inventory_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y))) {
 
-				if(this.slotRegion_box.Contains(new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y))){
-					if(s.Contains(new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y))){
+					if (this.slotRegion_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y))) {
 
-						// This condition is to understand the drag and drop with the items
-						if(Event.current.isMouse && Input.GetMouseButtonDown(0)){
-							this.slot_selected.x = i;
-							this.slot_selected.y = j;
+						if (s [i, j].Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y))) {
 
-							// Loop all the items to the inventory
-							for(int index = 0; index < this.list_inventory.Count; index++)
-								// Loop the rows that item ocupped in the inventory
-								for(int x = this.list_inventory[index].x; x < this.list_inventory[index].x + this.list_inventory[index].width; x++)
-									// Loop the columns that item ocupped in the inventory
-									for(int y = this.list_inventory[index].y; y < this.list_inventory[index].y + this.list_inventory[index].height; y++)
-										// if the slot where I click save the item
-										if(x == i && y == j){
-											this.temp_item = this.list_inventory[index];
-											this.removeItem(this.temp_item);
-											return;
-										}
+							// This condition is to understand the drag and drop with the items
+							if (Event.current.isMouse && Input.GetMouseButtonDown (0)) {
+								this.slot_selected.x = i;
+								this.slot_selected.y = j;
 
-						}else if(Event.current.isMouse && Input.GetMouseButtonUp(0)){
+								// Loop all the items to the inventory
+								for (int index = 0; index < this.list_inventory.Count; index++)
+									// Loop the rows that item ocupped in the inventory
+									for (int x = this.list_inventory[index].x; x < this.list_inventory[index].x + this.list_inventory[index].width; x++)
+										// Loop the columns that item ocupped in the inventory
+										for (int y = this.list_inventory[index].y; y < this.list_inventory[index].y + this.list_inventory[index].height; y++)
+											// if the slot where I click save the item
+											if (x == i && y == j) {
+												this.temp_item = this.list_inventory [index];
+												this.removeItem (this.temp_item);
+												return;
+											}
 
-							this.last_slot.x = i;
-							this.last_slot.y = j;
+							} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
+								print ("Holaaa");
+								this.last_slot.x = i;
+								this.last_slot.y = j;
 
-							// If the slots are diferents drag the item to the new slot position
-							if(this.slot_selected.x != this.last_slot.x ||
-							   this.slot_selected.y != this.last_slot.y){
+								// If the slots are diferents drag the item to the new slot position
+								if (this.slot_selected.x != this.last_slot.x ||
+									this.slot_selected.y != this.last_slot.y) {
 
-								if(this.temp_item != null){
-									if(this.addItem((int)last_slot.x, (int)last_slot.y, this.temp_item)){
+									if (this.temp_item != null) {
+										if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
 
-									}else{
-										this.addItem(this.temp_item.x, this.temp_item.y, this.temp_item);
-									}	
-									this.temp_item = null;
+										} else {
+											this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item);
+										}	
+										this.temp_item = null;
+									}
+								} else {
+									if (this.temp_item != null) {
+										this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item);
+										this.temp_item = null;
+									}
 								}
+							} 
+							return;
+						}
+					}else if(this.weaponRegion_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y))){
+
+						if (Event.current.isMouse && Input.GetMouseButtonDown (0)) {
+							this.temp_item = this.equip[0];
+							this.removeWeapon ();
+							return;
+							
+						} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
+
+							print("Holaa1");
+							if (this.equip[0] == null) {
+								this.equip[0] = this.temp_item;
+								this.removeItem(this.equip[0]);
+								this.temp_item = null;
+								print ("Equip " + this.equip[0].ItemTexture.name.ToString());
 							}else{
-								if(this.temp_item != null){
-									this.addItem(this.temp_item.x, this.temp_item.y, this.temp_item);
+
+								this.last_slot.x = i;
+								this.last_slot.y = j;
+								
+								// If the slots are diferents drag the item to the new slot position
+								if (this.temp_item != null) {
+									if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
+										
+									} else {
+										this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item);
+									}	
+									//this.temp_weapon = this.weapon_available[]; 
+									this.temp_item = null;		
+								}
+
+							}
+						}
+
+					} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
+
+						print("Holaa2");
+						this.last_slot.x = i;
+						this.last_slot.y = j;
+
+						// If the slots are diferents drag the item to the new slot position
+						if (this.temp_item != null) {
+
+							if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
+							} else {
+								if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){}
+								else{
+									this.equip[0] = this.temp_item;
 									this.temp_item = null;
 								}
-							}
+							}	
+							//this.temp_weapon = this.weapon_available[]; 
+							this.temp_item = null;
 
-						} 
-						return;
-					}
-				}else if(Event.current.isMouse && Input.GetMouseButtonUp(0)){
-					
+						}		
+					} 
+
+
+						
+				} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
+
+					print("Holaa3");
 					this.last_slot.x = i;
 					this.last_slot.y = j;
 					
 					// If the slots are diferents drag the item to the new slot position
-
-						
-					if(this.temp_item != null){
-						if(this.addItem((int)last_slot.x, (int)last_slot.y, this.temp_item)){
-							
-						}else{
-							this.addItem(this.temp_item.x, this.temp_item.y, this.temp_item);
+					if (this.temp_item != null) {
+						if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
+						} else {
+							this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item);
 						}	
 						this.temp_item = null;
-					}		
-				} 
+					}
+				}
 			}
-		}			
+		}
+		
+		if (this.shieldRegion_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y))){
+				print ("Shield Region.");
+		}
 	}
-
+	
 	private int potion = 0;
 
 	public void setPotion(int potion){				
@@ -161,6 +240,7 @@ public class InventoryScript : MonoBehaviour {
 	public int getPotion(){				
 		return potion;
 	}
+
 
 	public bool addItem(Item item){
 	
@@ -179,7 +259,7 @@ public class InventoryScript : MonoBehaviour {
 		for (int i = 0; i < item.width; i++)
 			for (int j = 0; j < item.height; j++)
 				if (slot [x, y].available) {
-					//Debug.Log ("Ocupado en " + x + "," + y );
+					Debug.Log ("Ocupado en " + x + "," + y );
 					return false;
 				}
 
@@ -218,6 +298,11 @@ public class InventoryScript : MonoBehaviour {
 
 	}
 
+	void removeWeapon(){
+		print ("Unequip: " + this.equip[0].ItemTexture.name.ToString());
+		this.equip[0] = null;
+	}
+
 	void drawDragItem(){
 
 		if (this.temp_item != null)
@@ -240,16 +325,48 @@ public class InventoryScript : MonoBehaviour {
 
 	// Method that create a grid with the position of every slot
 	void createInventorySlot(){
-		
+
+		// COORDENATES INVENTORY REGION
+		this.inventory_box.x = Screen.width - this.inventory_box.width;
+		this.inventory_box.y = Screen.height - this.inventory_box.height - Screen.height*.2f;
+
+		// SLOTS REGIONS
+
+
+		//WEAPON REGION
+		this.weaponRegion_box = new Rect (this.inventory_box.x + weaponX,
+		                                  this.inventory_box.y + weaponY,
+		                                  weaponW,
+		                                  weaponH);
+
+		// SHIELD REGION
+		this.shieldRegion_box = new Rect (this.inventory_box.x + shieldX,
+		                                  this.inventory_box.y + shieldY,
+		                                  shieldW,
+		                                  shieldH);
+
+		// ITEMS REGION
 		this.slot = new Slot[this.slot_row, this.slot_column];
-		//Slot.test = test;
-		
+		this.s = new Rect[this.slot_row, this.slot_column];
+
 		for (int i = 0; i < this.slot_row; i++)
-			for (int j = 0; j < this.slot_column; j++)
-				this.slot [i, j] = new Slot (new Rect(slotX + (this.slot_w*i),
-				                                      slotY + (this.slot_h*j),
-				                                      slot_w,
-				                                      slot_h));
+			for (int j = 0; j < this.slot_column; j++){
+				this.slot [i, j] = new Slot (new Rect(this.slotX + (this.slot_w*i),
+				                                      this.slotY + (this.slot_h*j),
+				                                      this.slot_w,
+				                                      this.slot_h));
+
+				this.s[i,j] = new Rect(this.inventory_box.x + this.slot[i,j].position.x,
+			                       		this.inventory_box.y + this.slot[i,j].position.y,
+					                   	this.slot_w,
+					                   	this.slot_h);
+			}
+	}
+
+	void drawWeapon(){
+
+		if(this.equip[0] != null)
+			GUI.DrawTexture (this.weaponRegion_box, this.equip [0].ItemTexture);
 	}
 
 	void drawSlots(){
@@ -267,8 +384,8 @@ public class InventoryScript : MonoBehaviour {
 		                               resizeTextureWidth(this.inventoryTexture),
 		                               resizeTextureHeight(this.inventoryTexture));*/
 
-		this.inventory_box.x = Screen.width - this.inventory_box.width;
-		this.inventory_box.y = Screen.height - this.inventory_box.height - Screen.height*.2f;
+		//this.inventory_box.x = Screen.width - this.inventory_box.width;
+		//this.inventory_box.y = Screen.height - this.inventory_box.height - Screen.height*.2f;
 
 		this.slotRegion_box = new Rect (this.inventory_box.x + this.slotX,
 		                                this.inventory_box.y + this.slotY,
@@ -286,6 +403,7 @@ public class InventoryScript : MonoBehaviour {
 			this.drawInventory ();
 			this.drawSlots ();
 			this.drawItems ();
+			this.drawWeapon();
 			this.drawDragItem ();
 			this.inventoryFocused ();
 		}
