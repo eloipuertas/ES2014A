@@ -38,7 +38,7 @@ public class ActionBarScript : MonoBehaviour {
 		this.potionIconTexture = Resources.Load<Texture2D>("ActionBar/icon_potion");
 		this.inventoryIconTexture = Resources.Load<Texture2D>("ActionBar/icon_inventory");
 
-		Debug.Log (this.actionBarTexture.name);
+		//Debug.Log (this.actionBarTexture.name);
 
 		inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryScript> ();
 
