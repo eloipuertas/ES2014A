@@ -12,7 +12,9 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip button_click;
 	public AudioClip button_hover;
 	public AudioClip open_chest;
-
+	public AudioClip fireball_explosion;
+	public AudioClip fireball_shot;
+	
 	// Use this for initialization
 	void Start () {
 	}
@@ -55,18 +57,26 @@ public class Music_Engine_Script : MonoBehaviour {
 		//Debug.Log ("Reproduciendo sonido");
 		audio.PlayOneShot (barrel_open);
 	}
-
+	
 	public void Play_Button_Click() {
 		//Debug.Log ("Reproduciendo sonido");
 		audio.PlayOneShot (button_click);
 	}
-
+	
 	public void Play_Button_Hover() {
 		//Debug.Log ("Reproduciendo sonido");
 		audio.PlayOneShot (button_hover);
 	}
-
+	
 	public void play_Open_Chest() {
 		audio.PlayOneShot (open_chest);
+	}
+	
+	public void play_Fireball_Shot () {
+		audio.PlayOneShot (fireball_shot);
+	}
+	
+	public void play_Fireball_Explosion () {
+		audio.PlayOneShot (fireball_explosion);
 	}
 }

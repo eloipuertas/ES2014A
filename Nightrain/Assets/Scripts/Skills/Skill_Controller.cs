@@ -2,23 +2,35 @@
 using System.Collections;
 
 public class Skill_Controller : MonoBehaviour {
-
-	Transform fireball;
+	public float fireball_cooldown = 2.0f;
+	
+	private float actual_time;
+	
+	private float fireball_time = 0.0f;
+	
+	private Transform fireball;
 	
 	// Use this for initialization
 	void Start () {
 		this.fireball = Resources.Load<Transform>("Prefabs/Character_Skills/Fireball_Skill");
+		actual_time = Time.time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Alpha1)) {
-			animation.CrossFade("metarig|Atacar",0.2f);
-			fireball.rotation = transform.rotation;
-			Vector3 newPosition = transform.position;
-			newPosition.y += 2;
-			fireball.transform.position = newPosition;
-			Instantiate (fireball);
+		if (Time.timeScale == 1) {
+			if (Input.GetKeyDown (KeyCode.Alpha1)) {
+				actual_time = Time.time;
+				if (fireball_time == 0.0f || (actual_time - fireball_time) >= fireball_cooldown) {
+					animation.CrossFade ("metarig|Atacar", 0.2f);
+					fireball.rotation = transform.rotation;
+					Vector3 newPosition = transform.position;
+					newPosition.y += 2;
+					fireball.transform.position = newPosition;
+					Instantiate (fireball);
+					fireball_time = Time.time;
+				}
+			}
 		}
 	}
 	
