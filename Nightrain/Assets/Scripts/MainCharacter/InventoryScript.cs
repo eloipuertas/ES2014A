@@ -62,9 +62,6 @@ public class InventoryScript : MonoBehaviour {
 		// CREATE INVENTORY
 		this.createInventorySlot ();
 
-		//this.addItem (0, 0, ItemsInventory.getArmor(0));
-		//this.addItem (0, 2, ItemsInventory.getArmor(1));
-
 	}
 	
 
@@ -76,18 +73,48 @@ public class InventoryScript : MonoBehaviour {
 			this.show_inventory = false;
 	}
 
-	/*void inventoryFocused(){
-		//if (this.inventory_box.Contains (new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y))) {
-			this.slotFocused();
-			//Debug.Log ("Disable ClickToMove");
-			//return;
-		//}
-		//Debug.Log ("Enable ClickToMove");
 
-		// Click to Move disable
-	}*/
+	// Method that create a grid with the position of every slot
+	void createInventorySlot(){
+		
+		// COORDENATES INVENTORY REGION
+		this.inventory_box.x = Screen.width - this.inventory_box.width;
+		this.inventory_box.y = Screen.height - this.inventory_box.height - Screen.height*.2f;
+		
+		// SLOTS REGIONS
+		
+		
+		//WEAPON REGION
+		this.weaponRegion_box = new Rect (this.inventory_box.x + weaponX,
+		                                  this.inventory_box.y + weaponY,
+		                                  weaponW,
+		                                  weaponH);
+		
+		// SHIELD REGION
+		this.shieldRegion_box = new Rect (this.inventory_box.x + shieldX,
+		                                  this.inventory_box.y + shieldY,
+		                                  shieldW,
+		                                  shieldH);
+		
+		// ITEMS REGION
+		this.slot = new Slot[this.slot_row, this.slot_column];
+		this.s = new Rect[this.slot_row, this.slot_column];
+		
+		for (int i = 0; i < this.slot_row; i++)
+		for (int j = 0; j < this.slot_column; j++){
+			this.slot [i, j] = new Slot (new Rect(this.slotX + (this.slot_w*i),
+			                                      this.slotY + (this.slot_h*j),
+			                                      this.slot_w,
+			                                      this.slot_h));
+			
+			this.s[i,j] = new Rect(this.inventory_box.x + this.slot[i,j].position.x,
+			                       this.inventory_box.y + this.slot[i,j].position.y,
+			                       this.slot_w,
+			                       this.slot_h);
+		}
+	}
 
-	void inventoryFocused(){
+	void inventoryEngine(){
 
 		for (int i = 0; i < this.slot_row; i++) {
 			for (int j = 0; j < this.slot_column; j++) {
@@ -117,7 +144,7 @@ public class InventoryScript : MonoBehaviour {
 											}
 
 							} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
-								print ("Holaaa");
+					
 								this.last_slot.x = i;
 								this.last_slot.y = j;
 
@@ -129,9 +156,15 @@ public class InventoryScript : MonoBehaviour {
 										if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
 
 										} else {
-											this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item);
+											if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){}
+											else{
+												this.checkUnquipedItem(this.temp_item);
+												this.temp_item = null;
+											}
 										}	
+										//this.checkUnquipedItem(null);
 										this.temp_item = null;
+
 									}
 								} else {
 									if (this.temp_item != null) {
@@ -151,12 +184,11 @@ public class InventoryScript : MonoBehaviour {
 							
 						} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
 
-							print("Holaa1");
-							if (this.equip[0] == null) {
+							if (this.equip[0] == null && temp_item is Weapon) {
 								this.equip[0] = this.temp_item;
+								EquipWeapons.setWeapon((Weapon)this.equip[0]);
 								this.removeItem(this.equip[0]);
 								this.temp_item = null;
-								print ("Equip " + this.equip[0].ItemTexture.name.ToString());
 							}else{
 
 								this.last_slot.x = i;
@@ -167,18 +199,61 @@ public class InventoryScript : MonoBehaviour {
 									if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
 										
 									} else {
-										this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item);
+										if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){}
+										else{
+											this.equip[0] = this.temp_item;
+											EquipWeapons.removeWeapon();
+											print("Unequip Weapon");
+											this.temp_item = null;
+										}
 									}	
-									//this.temp_weapon = this.weapon_available[]; 
 									this.temp_item = null;		
 								}
 
 							}
 						}
 
+					}else if(this.shieldRegion_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y))){
+						
+						if (Event.current.isMouse && Input.GetMouseButtonDown (0)) {
+							this.temp_item = this.equip[1];
+							this.removeShield ();
+							return;
+							
+						} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
+
+							if (this.equip[1] == null && temp_item is Shield) {
+								this.equip[1] = this.temp_item;
+								EquipWeapons.setShield((Shield)this.equip[1]);
+								this.removeItem(this.equip[1]);
+								this.temp_item = null;
+
+							}else{
+								
+								this.last_slot.x = i;
+								this.last_slot.y = j;
+								
+								// If the slots are diferents drag the item to the new slot position
+								if (this.temp_item != null) {
+									if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
+										
+									} else {
+										if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){}
+										else{
+											this.equip[1] = this.temp_item;
+											EquipWeapons.removeShield();
+											this.temp_item = null;
+										}
+									}	
+									print("Unequip Shield");
+									this.temp_item = null;		
+								}
+								
+							}
+						}
+						
 					} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
 
-						print("Holaa2");
 						this.last_slot.x = i;
 						this.last_slot.y = j;
 
@@ -189,21 +264,18 @@ public class InventoryScript : MonoBehaviour {
 							} else {
 								if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){}
 								else{
-									this.equip[0] = this.temp_item;
+									this.checkUnquipedItem(this.temp_item);
 									this.temp_item = null;
 								}
 							}	
-							//this.temp_weapon = this.weapon_available[]; 
+							print("Unequip Shield2");
 							this.temp_item = null;
 
 						}		
 					} 
-
-
 						
 				} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
 
-					print("Holaa3");
 					this.last_slot.x = i;
 					this.last_slot.y = j;
 					
@@ -211,36 +283,56 @@ public class InventoryScript : MonoBehaviour {
 					if (this.temp_item != null) {
 						if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
 						} else {
-							this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item);
+							if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){}
+							else{
+								this.checkUnquipedItem(this.temp_item);
+								this.temp_item = null;
+							}
 						}	
+						print("Unequip Shield3");
 						this.temp_item = null;
 					}
 				}
 			}
-		}
-		
-		if (this.shieldRegion_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y))){
-				print ("Shield Region.");
-		}
+		}		
+
 	}
-	
+
+	void checkUnquipedItem(Item item){
+
+		if(item is Weapon){
+			this.equip[0] = item;
+			EquipWeapons.removeWeapon();
+		}else if(item is Shield){
+			this.equip[1] = item;
+			EquipWeapons.removeShield();
+		}
+
+	}
+
 	private int potion = 0;
 
 	public void setPotion(int potion){				
 
 		this.potion += potion;
+
 		if (potion < 0)
 			for (int i = 0; i < this.list_inventory.Count; i++)
-				if (this.list_inventory [i].ItemTexture.name == "icon_potion") {
+				if (this.list_inventory [i].id == 1) {
 					this.removeItem (list_inventory [i]);
 				return;					
-			}
+				}
+
 	}
 
 	public int getPotion(){				
 		return potion;
 	}
 
+
+	// ====================================
+	// ======== ADD/REMOVE ITEMS ==========
+	// ====================================
 
 	public bool addItem(Item item){
 	
@@ -259,7 +351,7 @@ public class InventoryScript : MonoBehaviour {
 		for (int i = 0; i < item.width; i++)
 			for (int j = 0; j < item.height; j++)
 				if (slot [x, y].available) {
-					Debug.Log ("Ocupado en " + x + "," + y );
+					//Debug.Log ("Ocupado en " + x + "," + y );
 					return false;
 				}
 
@@ -299,9 +391,20 @@ public class InventoryScript : MonoBehaviour {
 	}
 
 	void removeWeapon(){
-		print ("Unequip: " + this.equip[0].ItemTexture.name.ToString());
+		//print ("Unequip: " + this.equip[0].ItemTexture.name.ToString());
 		this.equip[0] = null;
 	}
+
+	void removeShield(){
+		//print ("Unequip: " + this.equip[1].ItemTexture.name.ToString());
+		this.equip[1] = null;
+	}
+
+
+
+	// ====================================
+	// ========== DRAW METHODS ============
+	// ====================================
 
 	void drawDragItem(){
 
@@ -322,51 +425,18 @@ public class InventoryScript : MonoBehaviour {
 			                          (slot_h * this.list_inventory[i].height) - 8),
 			                 this.list_inventory[i].ItemTexture);
 	}
-
-	// Method that create a grid with the position of every slot
-	void createInventorySlot(){
-
-		// COORDENATES INVENTORY REGION
-		this.inventory_box.x = Screen.width - this.inventory_box.width;
-		this.inventory_box.y = Screen.height - this.inventory_box.height - Screen.height*.2f;
-
-		// SLOTS REGIONS
-
-
-		//WEAPON REGION
-		this.weaponRegion_box = new Rect (this.inventory_box.x + weaponX,
-		                                  this.inventory_box.y + weaponY,
-		                                  weaponW,
-		                                  weaponH);
-
-		// SHIELD REGION
-		this.shieldRegion_box = new Rect (this.inventory_box.x + shieldX,
-		                                  this.inventory_box.y + shieldY,
-		                                  shieldW,
-		                                  shieldH);
-
-		// ITEMS REGION
-		this.slot = new Slot[this.slot_row, this.slot_column];
-		this.s = new Rect[this.slot_row, this.slot_column];
-
-		for (int i = 0; i < this.slot_row; i++)
-			for (int j = 0; j < this.slot_column; j++){
-				this.slot [i, j] = new Slot (new Rect(this.slotX + (this.slot_w*i),
-				                                      this.slotY + (this.slot_h*j),
-				                                      this.slot_w,
-				                                      this.slot_h));
-
-				this.s[i,j] = new Rect(this.inventory_box.x + this.slot[i,j].position.x,
-			                       		this.inventory_box.y + this.slot[i,j].position.y,
-					                   	this.slot_w,
-					                   	this.slot_h);
-			}
-	}
+	
 
 	void drawWeapon(){
 
 		if(this.equip[0] != null)
 			GUI.DrawTexture (this.weaponRegion_box, this.equip [0].ItemTexture);
+	}
+
+	void drawShield(){
+		
+		if(this.equip[1] != null)
+			GUI.DrawTexture (this.shieldRegion_box, this.equip [1].ItemTexture);
 	}
 
 	void drawSlots(){
@@ -379,13 +449,6 @@ public class InventoryScript : MonoBehaviour {
 	}
 
 	void drawInventory(){
-		/*this.inventory_box = new Rect (Screen.width - resizeTextureWidth(this.inventoryTexture),
-		                               Screen.height/2 - resizeTextureHeight(this.inventoryTexture)/2,
-		                               resizeTextureWidth(this.inventoryTexture),
-		                               resizeTextureHeight(this.inventoryTexture));*/
-
-		//this.inventory_box.x = Screen.width - this.inventory_box.width;
-		//this.inventory_box.y = Screen.height - this.inventory_box.height - Screen.height*.2f;
 
 		this.slotRegion_box = new Rect (this.inventory_box.x + this.slotX,
 		                                this.inventory_box.y + this.slotY,
@@ -404,15 +467,10 @@ public class InventoryScript : MonoBehaviour {
 			this.drawSlots ();
 			this.drawItems ();
 			this.drawWeapon();
+			this.drawShield();
 			this.drawDragItem ();
-			this.inventoryFocused ();
+			this.inventoryEngine ();
 		}
 	}
-	/*private float resizeTextureWidth(Texture2D texture){
-		return ((Screen.width * texture.width) / (reference_width * 1.0f));
-	}
 	
-	private float resizeTextureHeight(Texture2D texture){
-		return ((Screen.height * texture.height) / (reference_height * 1.0f));
-	}*/
 }

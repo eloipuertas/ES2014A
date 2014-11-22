@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ItemDrop : MonoBehaviour {
+public class GetItem : MonoBehaviour {
 
 	private CharacterScript cs;
 	private GameObject character;
-
+	
 	private RaycastHit getObjectScene;
-
+	
 	public static InventoryScript inventory;
-
-
-
+	
+	// ITEM ATTRIBUTES
+	
 	public int id;
 	public string name;
 	public string type;			// Type: Weapon, Shield, Armor, Healing
@@ -24,29 +24,29 @@ public class ItemDrop : MonoBehaviour {
 	public Texture2D imageTexture;
 	public int slot_x;
 	public int slot_y;
-
+	
 	public float distance = 10;
-		
-
-
+	
+	
+	
 	void Start(){
 		
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
 		inventory = GameObject.FindGameObjectWithTag ("Inventory").GetComponent<InventoryScript> ();
-
+		
 	}
-
-
+	
+	
 	void OnMouseDown() {
-
+		
 		Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
 		RaycastHit hit;
-
+		
 		if( Physics.Raycast( ray, out hit, 100 ) ){
-
+			
 			if (Vector3.Distance (this.character.transform.position, hit.transform.position) < this.distance) {
-
+				
 				if(this.type.Equals("Weapon"))
 					this.TypeWeapon();
 				else if(this.type.Equals("Shield"))
@@ -55,16 +55,15 @@ public class ItemDrop : MonoBehaviour {
 					this.TypeArmor();
 				else if(this.type.Equals("Healing"))
 					this.TypeHealing();
-
+				
 			}
 		}
 	}
-
+	
 	void TypeWeapon(){
 		
 		Weapon weapon = new Weapon ();
 		weapon.id = id;
-		weapon.name = name;
 		weapon.type = type;
 		weapon.VIT = VIT;
 		weapon.PM = PM;
@@ -80,12 +79,11 @@ public class ItemDrop : MonoBehaviour {
 		Destroy (gameObject);
 		
 	}
-
+	
 	void TypeShield(){
 		
 		Shield shield = new Shield ();
 		shield.id = id;
-		shield.name = name;
 		shield.type = type;
 		shield.VIT = VIT;
 		shield.PM = PM;
@@ -101,12 +99,11 @@ public class ItemDrop : MonoBehaviour {
 		Destroy (gameObject);
 		
 	}
-
+	
 	void TypeArmor(){
-
+		
 		Armor armor = new Armor ();
 		armor.id = id;
-		armor.name = name;
 		armor.type = type;
 		armor.VIT = VIT;
 		armor.PM = PM;
@@ -116,18 +113,17 @@ public class ItemDrop : MonoBehaviour {
 		armor.ItemTexture = imageTexture;
 		armor.width = slot_x;
 		armor.height = slot_y;
-
+		
 		ItemsInventory.addArmor (id, armor);
 		inventory.addItem (ItemsInventory.getArmor (id));
 		Destroy (gameObject);
-
+		
 	}
-
+	
 	void TypeHealing(){
 		
 		Healing healing = new Healing ();
 		healing.id = id;
-		healing.name = name;
 		healing.type = type;
 		healing.VIT = VIT;
 		healing.PM = PM;

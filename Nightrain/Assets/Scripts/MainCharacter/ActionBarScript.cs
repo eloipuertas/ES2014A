@@ -31,12 +31,12 @@ public class ActionBarScript : MonoBehaviour {
 		this.cs = this.character.GetComponent<CharacterScript> ();
 
 		// ADD TEXTURES
-		this.actionBarTexture = Resources.Load<Texture2D>("ActionBar/actionbar_v3");
+		this.actionBarTexture = Resources.Load<Texture2D>("ActionBar/actionbar_v4");
 
-		this.attackIconTexture = Resources.Load<Texture2D>("ActionBar/icon_attack");
+		this.attackIconTexture = Resources.Load<Texture2D>("ActionBar/icon_attack_v2");
 		this.runIconTexture = Resources.Load<Texture2D>("ActionBar/icon_run");
 		this.potionIconTexture = Resources.Load<Texture2D>("ActionBar/icon_potion");
-		this.inventoryIconTexture = Resources.Load<Texture2D>("ActionBar/icon_inventory");
+		this.inventoryIconTexture = Resources.Load<Texture2D>("ActionBar/icon_inventory_v2");
 
 		//Debug.Log (this.actionBarTexture.name);
 
@@ -83,26 +83,26 @@ public class ActionBarScript : MonoBehaviour {
 		                this.actionBarTexture);
 
 		// RUN ICON
-		GUI.DrawTexture( new Rect (Screen.width * 0.47f,
-		                           Screen.height * 0.925f,
-		                           Screen.width * 0.03f,
-		                           Screen.height * 0.05f), 
+		GUI.DrawTexture( new Rect (Screen.width * 0.4705f,
+		                           Screen.height * 0.90075f,
+		                           Screen.width * 0.034f,
+		                           Screen.height * 0.0685f), 
 		                this.runIconTexture);
 
 		// ATTACK ICON
-		GUI.DrawTexture( new Rect (Screen.width * 0.508f,
-		                           Screen.height * 0.927f,
-		                           Screen.width * 0.03f,
-		                           Screen.height * 0.05f), 
+		GUI.DrawTexture( new Rect (Screen.width * 0.5115f,
+		                           Screen.height * 0.90075f,
+		                           Screen.width * 0.034f,
+		                           Screen.height * 0.0685f), 
 		                this.attackIconTexture);
 
 		// IF IN THE INVENTORY HAS POTION SHOW IT
 		if (inventory.getPotion () != 0) {
 
 			GUI.DrawTexture( new Rect (Screen.width * 0.535f,
-			                            Screen.height * 0.9275f,
-			                            Screen.width * 0.05f,
-			                            Screen.height * 0.05f), 
+			                           Screen.height * 0.90075f,
+			                           Screen.width * 0.034f,
+			                           Screen.height * 0.0685f), 
 			                  this.potionIconTexture);
 
 			GUI.Label (new Rect(Screen.width * 0.29f,
@@ -117,10 +117,10 @@ public class ActionBarScript : MonoBehaviour {
 		}
 
 		// BAG ICON
-		GUI.DrawTexture( new Rect (Screen.width * 0.6f,
-		                           Screen.height * 0.9275f,
-		                           Screen.width * 0.05f,
-		                           Screen.height * 0.05f), 
+		GUI.DrawTexture( new Rect (Screen.width * 0.622f,
+		                           Screen.height * 0.90075f,
+		                           Screen.width * 0.034f,
+		                           Screen.height * 0.0685f), 
 		                this.inventoryIconTexture);
 
 

@@ -2,7 +2,7 @@
 using System.Collections;
 
 [System.Serializable]
-public class Armor : Item {
+public class Weapon : Item {
 
 	public override void actionPerform (){
 		throw new System.NotImplementedException ();
