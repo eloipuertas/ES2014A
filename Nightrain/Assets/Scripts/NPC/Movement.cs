@@ -5,18 +5,20 @@ public class Movement : MonoBehaviour {
 
 	//##############################
 	//Atributos personaje
-	private float moveSpeed = 2; 
-	private float health = 100;
-	private float max_health = 100;
-	private float defense = 10;
-	private float attackPower = 5;
+	private float moveSpeed = 5; 
+	private float health = 75;
+	private float max_health = 75;
+	private float defense = 5;
+	private float attackPower = 3;
 	//##############################
 	
 	private string state = "None";
+	private string difficulty;
+
 	string[] states = {"Walk", "Find", "Attack", "Dead"};
 	private float rotationSpeed = 1.0f;
 	private float attackTime = 3.0f;
-	
+
 	// Los nombres de los tres puntos que estan distribuidos por el mapa
 	string[] points = {"Point1", "Point2", "Point3"};
 	int j = 0;
@@ -34,8 +36,31 @@ public class Movement : MonoBehaviour {
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
 
+		difficulty = PlayerPrefs.GetString ("Difficulty");
+		setDificulty ();
+	
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
+	}
+
+	private void setDificulty(){
+		float percent = 0.0f;
+		if (difficulty.Equals ("Normal")) {
+			percent = 0.5f;
+		} 
+		else if (difficulty.Equals ("Hard")) {
+			percent = 1.75f;
+		}
+		else if (difficulty.Equals("Extreme")){
+			percent = 2.25f;
+			print ("faaaaaa");
+		}
+
+		//moveSpeed = moveSpeed + (moveSpeed * percent);
+		health = health + (health * percent);
+		max_health = max_health + (max_health * percent);
+		defense = defense + (defense * percent);
+		attackPower = attackPower + (attackPower * percent);
 	}
 	
 	// Update is called once per frame
