@@ -79,4 +79,8 @@ public class Music_Engine_Script : MonoBehaviour {
 	public void play_Fireball_Explosion () {
 		audio.PlayOneShot (fireball_explosion);
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> devel_c_music_sprint4

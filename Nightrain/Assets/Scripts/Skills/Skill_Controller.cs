@@ -3,11 +3,19 @@ using System.Collections;
 
 public class Skill_Controller : MonoBehaviour {
 	public float fireball_cooldown = 2.0f;
+<<<<<<< HEAD
 
 	private float actual_time;
 
 	private float fireball_time = 0.0f;
 
+=======
+	
+	private float actual_time;
+	
+	private float fireball_time = 0.0f;
+	
+>>>>>>> devel_c_music_sprint4
 	private Transform fireball;
 	
 	// Use this for initialization
