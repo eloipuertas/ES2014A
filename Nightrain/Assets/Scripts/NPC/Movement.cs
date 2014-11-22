@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour {
 	private void setDificulty(){
 		float percent = 0.0f;
 		if (difficulty.Equals ("Normal")) {
-			percent = 0.5f;
+			percent = 0.75f;
 		} 
 		else if (difficulty.Equals ("Hard")) {
 			percent = 1.75f;

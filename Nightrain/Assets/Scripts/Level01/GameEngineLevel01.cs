@@ -92,12 +92,11 @@ public class GameEngineLevel01 : MonoBehaviour {
 				this.ms = this.npc.GetComponent<Movement> ();
 				
 				if(ms.getHealth() <= 0.0f){
-					Destroy(npc);
+					//Destroy(npc);
 					npc = null;
 				}
 			}
 			if(npc != null){
-				//print ("No nulo");
 				break;
 			}
 		}
