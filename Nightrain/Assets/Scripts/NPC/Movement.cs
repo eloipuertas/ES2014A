@@ -177,4 +177,8 @@ public class Movement : MonoBehaviour {
 			System.Console.WriteLine("System:Tocado");	
 		}	
 	}*/
+
+	void OnParticleCollision(GameObject other) {
+		setDamage (20);
+	}
 }
