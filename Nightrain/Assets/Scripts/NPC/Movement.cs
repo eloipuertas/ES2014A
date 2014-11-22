@@ -2,16 +2,8 @@
 using System.Collections;
 
 public class Movement : MonoBehaviour {
-
-	//##############################
-	//Atributos personaje
-	private float moveSpeed = 5; 
-	private float health = 75;
-	private float max_health = 75;
-	private float defense = 5;
-	private float attackPower = 3;
-	//##############################
 	
+	private NPCAttributes npcAttributes = new NPCAttributes ();
 	private string state = "None";
 	private string difficulty;
 
@@ -37,30 +29,10 @@ public class Movement : MonoBehaviour {
 		anim = GetComponent<Animator>();
 
 		difficulty = PlayerPrefs.GetString ("Difficulty");
-		setDificulty ();
+		npcAttributes.setDificulty (difficulty);
 	
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
-	}
-
-	private void setDificulty(){
-		float percent = 0.0f;
-		if (difficulty.Equals ("Normal")) {
-			percent = 0.75f;
-		} 
-		else if (difficulty.Equals ("Hard")) {
-			percent = 1.75f;
-		}
-		else if (difficulty.Equals("Extreme")){
-			percent = 2.25f;
-			print ("faaaaaa");
-		}
-
-		//moveSpeed = moveSpeed + (moveSpeed * percent);
-		health = health + (health * percent);
-		max_health = max_health + (max_health * percent);
-		defense = defense + (defense * percent);
-		attackPower = attackPower + (attackPower * percent);
 	}
 	
 	// Update is called once per frame
@@ -98,7 +70,7 @@ public class Movement : MonoBehaviour {
 		// Rotamos hacia la direccion
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(punto.transform.position - transform.position), rotationSpeed * Time.deltaTime);
 		// Transladamos el NPC hacia el punto
-		transform.position += transform.forward * moveSpeed * Time.deltaTime;
+		transform.position += transform.forward * npcAttributes.getMoveSpeed() * Time.deltaTime;
 	}
 	
 	void perseguir(){
@@ -112,7 +84,7 @@ public class Movement : MonoBehaviour {
 		Vector3 p= player_transform.position ;
 		p.y = transform.position.y;
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
-		transform.position += transform.forward * moveSpeed * 2 * Time.deltaTime;
+		transform.position += transform.forward * npcAttributes.getMoveSpeed() * 2 * Time.deltaTime;
 	}
 	
 	// Metodo que rota el NPC unos determinados grados
@@ -132,7 +104,7 @@ public class Movement : MonoBehaviour {
 		anim.SetBool ("w_attack", true);
 		p.y -= 5f;
 		if (Time.time > attackTime) {
-			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
+			player.GetComponent<CharacterScript>().setDamage((int) npcAttributes.getAttackPower());
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.play_Golem_Agresive();
@@ -143,9 +115,9 @@ public class Movement : MonoBehaviour {
 	
 	
 	public void setDamage(float damage){
-		health -= damage;
+		npcAttributes.setDamage (damage);
 		//this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
-		if (health < 1) {
+		if (npcAttributes.getHealth() < 1) {
 			state = "Dead";
 			Debug.Log ("NPC muerto");
 			anim.SetBool("a_walk", false);
@@ -154,43 +126,9 @@ public class Movement : MonoBehaviour {
 			anim.SetBool("a_death", true);
 		}
 	}
-
-
-	public void setHealth(float health){
-		this.health = health;
-		this.max_health = health;
-	}
 	
-	public void setDefense(float defense){
-		this.defense = defense;
-	}
-	
-	public void setAttackPower(float attackPower){
-		this.attackPower = attackPower;
-	}
-	
-	public void setMoveSpeed(float moveSpeed){
-		this.moveSpeed = moveSpeed;
-	}
-	
-	public float getHealth(){
-		return this.health;
-	}
-
-	public float getMaxHealth(){
-		return this.max_health;
-	}
-	
-	public float getDefense(){
-		return this.defense;
-	}
-	
-	public float getMoveSpeed(){
-		return this.moveSpeed;
-	}
-	
-	public float getAttackPower(){
-		return this.attackPower;
+	public NPCAttributes getAttributes(){
+		return npcAttributes;
 	}
 	
 	/*void OnTriggerEnter (Collider other){
