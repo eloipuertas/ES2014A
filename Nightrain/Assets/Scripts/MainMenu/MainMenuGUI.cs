@@ -74,7 +74,11 @@ public class MainMenuGUI {
 
 	// SAVE CHARACTER SELECTED
 	private string character = "hombre";
-	
+
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+
 
 	// CONSTRUCTOR
 	public MainMenuGUI(){}
@@ -148,6 +152,12 @@ public class MainMenuGUI {
 
 		//Hover button music gameobject
 		this.hoverSound = GameObject.FindGameObjectWithTag("music_engine");
+
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData ();
+		this.save.WarriorAttributes ();
+
 	}
 
 
@@ -318,6 +328,7 @@ public class MainMenuGUI {
 				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
+					this.save.WarriorAttributes();
 					this.character = "hombre";
 					this.characterTexture = this.warriorTexture;
 					this.attributeTexture = this.warriorAttributesTexture;
@@ -337,6 +348,7 @@ public class MainMenuGUI {
 				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
+					this.save.SageAttributes();
 					this.character = "mujer";
 					this.characterTexture = this.sageTexture;
 					this.attributeTexture = this.sageAttributesTexture;
@@ -356,6 +368,7 @@ public class MainMenuGUI {
 				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
+					this.save.ThiefAttributes();
 					this.character = "joven";
 					this.characterTexture = this.thiefTexture;
 					this.attributeTexture = this.thiefAttributesTexture;

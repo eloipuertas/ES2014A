@@ -104,7 +104,7 @@ function Update ()
         }
        
     	if(Physics.Raycast(ray, getObjectScene, 100)){
-            if(getObjectScene.transform.gameObject.tag.Equals("Enemy")|| getObjectScene.transform.gameObject.tag.Equals("Object")){
+            if(getObjectScene.transform.gameObject.tag.Equals("Enemy")){
             	//Debug.Log("Enemigo seleccionado");
             	//animation.Stop("metarig|Caminar");
             	moving = false;
