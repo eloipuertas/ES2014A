@@ -29,6 +29,7 @@ public class getWeapon : MonoBehaviour {
 			music.play_Open_Chest();
 		}
 	}
+	/*
 	void OnTriggerExit (Collider other) {
 		currentValue = AngleX;
 		targetValue = 0.0f;
@@ -36,6 +37,7 @@ public class getWeapon : MonoBehaviour {
 			arma1.SetActive(false);
 		first=false;
 	}
+	*/
 	
 	void Update(){
 		currentValue = currentValue + (targetValue - currentValue) * easing;
