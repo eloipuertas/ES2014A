@@ -28,7 +28,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private GameObject camera2;
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		
 		// --- LOAD RESOURCES TO CHARACTER ---
 		this.prefab = Resources.Load<Transform>("Prefabs/MainCharacters/" + PlayerPrefs.GetString("Character"));
