@@ -34,6 +34,11 @@ public class CharacterScript : MonoBehaviour {
 	private SaveData save;
 	private LoadData load;
 
+	
+	
+	private GUIStyle text_style;
+	private GUIStyle guiStyleBack;
+
 
 	// Use this for initialization
 	void Awake () {
@@ -49,15 +54,24 @@ public class CharacterScript : MonoBehaviour {
 		this.save = this.mc.saveData();
 		this.load = this.mc.loadData();
 
+	}
+
+	void Start(){
+		
+		this.text_style = new GUIStyle ();
+		this.text_style.normal.textColor = Color.white;
+		this.text_style.fontSize = 15;
+		//this.text_style.alignment = TextAnchor.UpperCenter ; 
+		this.text_style.wordWrap = true;
+
 		// LOAD ATTRIBUTES
 		this.bar_health = this.load.loadVIT ();
 		this.bar_magic = this.load.loadPM ();
 		this.strength = this.load.loadSTR ();
 		this.defense = this.load.loadDEF ();
 		this.speed = this.load.loadSPD ();
-
-		Debug.Log ("Attributes: VIT:" + this.bar_health + " PM:" + this.bar_magic + " STR:" + this.strength + " DEF:" + this.defense + " SPD:" + this.speed);
-
+		
+		this.printAttributes ();
 	}
 	
 	// Update is called once per frame.
@@ -128,7 +142,8 @@ public class CharacterScript : MonoBehaviour {
 	
 	// Set actual strength value.
 	public void setFRZ(int FRZ){
-		this.strength = FRZ;
+		this.strength += FRZ;
+		this.printAttributes ();
 	}
 
 	// Get the actual value of defense.
@@ -138,7 +153,8 @@ public class CharacterScript : MonoBehaviour {
 	
 	// Set actual defense value.
 	public void setDEF(int DEF){
-		this.defense = DEF;
+		this.defense += DEF;
+		this.printAttributes ();
 	}
 
 	// Get the actual value of speed.
@@ -149,6 +165,14 @@ public class CharacterScript : MonoBehaviour {
 	// Set actual speed value.
 	public void setSPD(int SPD){
 		this.speed = SPD;
+	}
+
+	void printAttributes(){
+		Debug.Log ("VIT:" + this.bar_health 
+		           + " PM:" + this.bar_magic 
+		           + " STR:" + this.strength 
+		           + " DEF:" + this.defense 
+		           + " SPD:" + this.speed);
 	}
 
 
@@ -183,5 +207,15 @@ public class CharacterScript : MonoBehaviour {
 	}
 
 
+	void OnGUI(){
 
+		GUI.Label (new Rect (25 , Screen.height / 3, 150, 300),
+		           "Attribute Debug:\nVIT: " + this.getHealth() 
+		           + "\nPM: " + this.getMagic()
+		           + "\nFRZ: " + this.getFRZ()
+		           + "\nDEF: " + this.getDEF()
+		           + "\nSPD: " + this.getSPD(),
+		           this.text_style); 
+
+	}
 }

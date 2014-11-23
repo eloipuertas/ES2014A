@@ -523,12 +523,12 @@ ModelImporter:
       transformModified: 1
     - name: hand.L
       position: {x: 5.12809457e-08, y: .605708003, z: 1.11758709e-08}
-      rotation: {x: .751318276, y: .0695084035, z: -.651783884, w: .0765971765}
+      rotation: {x: .751318336, y: .069508411, z: -.651783943, w: .0765971839}
       scale: {x: 1.00000954, y: .99999994, z: 1.00000012}
       transformModified: 1
     - name: palm.01.L
       position: {x: .000395465613, y: .000706721563, z: .00014835503}
-      rotation: {x: -.0194119755, y: -.412983745, z: -.073002547, w: .907600224}
+      rotation: {x: -.0194119774, y: -.412983775, z: -.0730025545, w: .907600284}
       scale: {x: .99999994, y: .999999881, z: .99999994}
       transformModified: 1
     - name: f_index.01.L
@@ -588,12 +588,12 @@ ModelImporter:
       transformModified: 1
     - name: f_ring.01.L
       position: {x: -5.21540642e-08, y: .00125165971, z: -3.0733645e-07}
-      rotation: {x: -.281250328, y: .388053745, z: .0226778332, w: .877381444}
+      rotation: {x: -.281250358, y: .388053775, z: .0226778351, w: .877381504}
       scale: {x: .999995589, y: 1.00000131, z: 1.00000381}
       transformModified: 1
     - name: f_ring.02.L
       position: {x: -8.19563866e-08, y: .00080367201, z: 9.31322575e-10}
-      rotation: {x: -.0762246996, y: -.24722974, z: .0109509965, w: .965891957}
+      rotation: {x: -.0762247071, y: -.247229755, z: .0109509975, w: .965892017}
       scale: {x: .99999851, y: .999999881, z: 1.00000119}
       transformModified: 1
     - name: f_ring.03.L
@@ -628,12 +628,12 @@ ModelImporter:
       transformModified: 1
     - name: upper_arm.R
       position: {x: .0804636478, y: .697721362, z: -.115241684}
-      rotation: {x: -.0756035149, y: -.694198847, z: .120996155, w: -.705501199}
+      rotation: {x: -.0756035224, y: -.694198906, z: .120996162, w: -.705501258}
       scale: {x: .99999994, y: 1.00000012, z: .99999994}
       transformModified: 1
     - name: forearm.R
       position: {x: -4.0861778e-08, y: .763631165, z: 3.7252903e-09}
-      rotation: {x: -.0030378222, y: .00469762366, z: -.0679760054, w: -.997671247}
+      rotation: {x: -.00303782243, y: .00469762413, z: -.0679760128, w: -.997671306}
       scale: {x: .999999762, y: .999999881, z: .999999702}
       transformModified: 1
     - name: hand.R
@@ -673,7 +673,7 @@ ModelImporter:
       transformModified: 1
     - name: thumb.03.R
       position: {x: -6.93835318e-08, y: .00023595801, z: -2.23517418e-08}
-      rotation: {x: .0163696334, y: .00205662102, z: -.0410116464, w: .999022424}
+      rotation: {x: .0163696352, y: .00205662125, z: -.0410116501, w: .999022484}
       scale: {x: .999999702, y: .999999762, z: .99999994}
       transformModified: 1
     - name: palm.02.R
@@ -708,7 +708,7 @@ ModelImporter:
       transformModified: 1
     - name: f_ring.02.R
       position: {x: 3.7252903e-09, y: .000316171674, z: 3.18570528e-07}
-      rotation: {x: .0742019638, y: -.0208700523, z: -.0207375214, w: .996809125}
+      rotation: {x: .0742019713, y: -.0208700541, z: -.0207375232, w: .996809185}
       scale: {x: 1.00000024, y: .99999994, z: 1.00000012}
       transformModified: 1
     - name: f_ring.03.R
@@ -728,7 +728,7 @@ ModelImporter:
       transformModified: 1
     - name: f_pinky.02.R
       position: {x: -1.11758709e-08, y: .000196732915, z: 4.44706529e-08}
-      rotation: {x: .0434255563, y: -.0107489703, z: -.0163506288, w: .998865008}
+      rotation: {x: .04342556, y: -.0107489713, z: -.0163506307, w: .998865068}
       scale: {x: .99999994, y: 1, z: .999999762}
       transformModified: 1
     - name: f_pinky.03.R
@@ -778,7 +778,7 @@ ModelImporter:
       transformModified: 1
     - name: foot.R
       position: {x: -1.75183512e-08, y: .280924708, z: 1.65708229e-08}
-      rotation: {x: -.682892084, y: .0169045255, z: .0272356793, w: .729815602}
+      rotation: {x: -.682892144, y: .0169045273, z: .0272356812, w: .729815662}
       scale: {x: .999999881, y: 1.00000024, z: 1.00000012}
       transformModified: 1
     - name: toe.R
