@@ -12,6 +12,7 @@ public class getWeapon : MonoBehaviour {
 	private float currentValue = 0.0f;
 	private float easing = 0.05f;
 	private bool first = true;
+	private bool first_t = true;
 
 	private Music_Engine_Script music;
 
@@ -22,11 +23,14 @@ public class getWeapon : MonoBehaviour {
 		music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
 	void OnTriggerEnter (Collider other){
-		if(other.gameObject == GameObject.FindGameObjectWithTag ("Player")){
-			targetValue = AngleX;
-			currentValue = 0;
-			first=true;
-			music.play_Open_Chest();
+		if (first_t == true) {
+			if (other.gameObject == GameObject.FindGameObjectWithTag ("Player")) {
+				targetValue = AngleX;
+				currentValue = 0;
+				first = true;
+				music.play_Open_Chest ();
+				first_t = false;
+			}
 		}
 	}
 	/*
