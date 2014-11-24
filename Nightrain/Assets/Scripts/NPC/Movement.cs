@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Movement : MonoBehaviour {
-<<<<<<< HEAD
+
 	
 	//##############################
 	//Atributos personaje
@@ -13,8 +13,7 @@ public class Movement : MonoBehaviour {
 	private float attackPower = 5;
 	private int experience = 100;
 	//##############################
-=======
->>>>>>> 50cf72db9b3f7bd29eb04ae90e83644dbe027dd7
+
 	
 	private NPCAttributes npcAttributes = new NPCAttributes ();
 	private string state = "None";
@@ -40,14 +39,10 @@ public class Movement : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
-<<<<<<< HEAD
-		
-=======
 
 		difficulty = PlayerPrefs.GetString ("Difficulty");
 		npcAttributes.setDificulty (difficulty);
-	
->>>>>>> 50cf72db9b3f7bd29eb04ae90e83644dbe027dd7
+
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
@@ -144,7 +139,7 @@ public class Movement : MonoBehaviour {
 			anim.SetBool("a_death", true);
 		}
 	}
-<<<<<<< HEAD
+
 	
 	
 	public void setHealth(float health){
@@ -179,8 +174,7 @@ public class Movement : MonoBehaviour {
 	public float getMoveSpeed(){
 		return this.moveSpeed;
 	}
-=======
->>>>>>> 50cf72db9b3f7bd29eb04ae90e83644dbe027dd7
+
 	
 	public NPCAttributes getAttributes(){
 		return npcAttributes;

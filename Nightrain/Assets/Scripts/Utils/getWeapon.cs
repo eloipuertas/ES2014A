@@ -12,9 +12,9 @@ public class getWeapon : MonoBehaviour {
 	private float currentValue = 0.0f;
 	private float easing = 0.05f;
 	private bool first = true;
-
+	
 	private Music_Engine_Script music;
-
+	
 	// ========================= COLISION CON Player ==================================
 	void Start(){
 		arma1.SetActive(false);

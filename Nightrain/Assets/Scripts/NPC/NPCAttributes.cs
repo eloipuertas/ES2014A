@@ -2,11 +2,7 @@
 using System.Collections;
 
 public class NPCAttributes : MonoBehaviour {
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 50cf72db9b3f7bd29eb04ae90e83644dbe027dd7
 	//##############################
 	//Atributos personaje
 	private float moveSpeed = 5; 
@@ -15,15 +11,6 @@ public class NPCAttributes : MonoBehaviour {
 	private float defense = 5;
 	private float attackPower = 3;
 	//##############################
-<<<<<<< HEAD
-	
-	public void Start(){
-	}
-	
-	public NPCAttributes(){
-	}
-	
-=======
 
 	public void Start(){
 	}
@@ -31,7 +18,7 @@ public class NPCAttributes : MonoBehaviour {
 	public NPCAttributes(){
 	}
 
->>>>>>> 50cf72db9b3f7bd29eb04ae90e83644dbe027dd7
+
 	public void setDificulty(string difficulty){
 		float percent = 0.0f;
 		if (difficulty.Equals ("Normal")) {
@@ -50,19 +37,13 @@ public class NPCAttributes : MonoBehaviour {
 		defense = defense + (defense * percent);
 		attackPower = attackPower + (attackPower * percent);
 	}
-<<<<<<< HEAD
+
 	
 	public void Update(){
 		
 	}
+
 	
-=======
-
-	public void Update(){
-		
-	}
-
->>>>>>> 50cf72db9b3f7bd29eb04ae90e83644dbe027dd7
 	public void setHealth(float health){
 		this.health = health;
 		this.max_health = health;
@@ -99,11 +80,7 @@ public class NPCAttributes : MonoBehaviour {
 	public float getAttackPower(){
 		return this.attackPower;
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 50cf72db9b3f7bd29eb04ae90e83644dbe027dd7
 	public void setDamage(float damage){
 		health -= damage;
 	}	
