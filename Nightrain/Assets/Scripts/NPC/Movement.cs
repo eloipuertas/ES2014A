@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Movement : MonoBehaviour {
+<<<<<<< HEAD
 	
 	//##############################
 	//Atributos personaje
@@ -12,12 +13,17 @@ public class Movement : MonoBehaviour {
 	private float attackPower = 5;
 	private int experience = 100;
 	//##############################
+=======
+>>>>>>> 50cf72db9b3f7bd29eb04ae90e83644dbe027dd7
 	
+	private NPCAttributes npcAttributes = new NPCAttributes ();
 	private string state = "None";
+	private string difficulty;
+
 	string[] states = {"Walk", "Find", "Attack", "Dead"};
 	private float rotationSpeed = 1.0f;
 	private float attackTime = 3.0f;
-	
+
 	// Los nombres de los tres puntos que estan distribuidos por el mapa
 	string[] points = {"Point1", "Point2", "Point3"};
 	int j = 0;
@@ -34,7 +40,14 @@ public class Movement : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
+<<<<<<< HEAD
 		
+=======
+
+		difficulty = PlayerPrefs.GetString ("Difficulty");
+		npcAttributes.setDificulty (difficulty);
+	
+>>>>>>> 50cf72db9b3f7bd29eb04ae90e83644dbe027dd7
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
@@ -74,7 +87,7 @@ public class Movement : MonoBehaviour {
 		// Rotamos hacia la direccion
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(punto.transform.position - transform.position), rotationSpeed * Time.deltaTime);
 		// Transladamos el NPC hacia el punto
-		transform.position += transform.forward * moveSpeed * Time.deltaTime;
+		transform.position += transform.forward * npcAttributes.getMoveSpeed() * Time.deltaTime;
 	}
 	
 	void perseguir(){
@@ -88,7 +101,7 @@ public class Movement : MonoBehaviour {
 		Vector3 p= player_transform.position ;
 		p.y = transform.position.y;
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
-		transform.position += transform.forward * moveSpeed * 2 * Time.deltaTime;
+		transform.position += transform.forward * npcAttributes.getMoveSpeed() * 2 * Time.deltaTime;
 	}
 	
 	// Metodo que rota el NPC unos determinados grados
@@ -108,7 +121,7 @@ public class Movement : MonoBehaviour {
 		anim.SetBool ("w_attack", true);
 		p.y -= 5f;
 		if (Time.time > attackTime) {
-			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
+			player.GetComponent<CharacterScript>().setDamage((int) npcAttributes.getAttackPower());
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.play_Golem_Agresive();
@@ -119,9 +132,9 @@ public class Movement : MonoBehaviour {
 	
 	
 	public void setDamage(float damage){
-		health -= damage;
+		npcAttributes.setDamage (damage);
 		//this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
-		if (health < 1) {
+		if (npcAttributes.getHealth() < 1) {
 			state = "Dead";
 			player.GetComponent<CharacterScript>().setEXP(this.experience);
 			Debug.Log ("NPC muerto");
@@ -131,6 +144,7 @@ public class Movement : MonoBehaviour {
 			anim.SetBool("a_death", true);
 		}
 	}
+<<<<<<< HEAD
 	
 	
 	public void setHealth(float health){
@@ -165,9 +179,11 @@ public class Movement : MonoBehaviour {
 	public float getMoveSpeed(){
 		return this.moveSpeed;
 	}
+=======
+>>>>>>> 50cf72db9b3f7bd29eb04ae90e83644dbe027dd7
 	
-	public float getAttackPower(){
-		return this.attackPower;
+	public NPCAttributes getAttributes(){
+		return npcAttributes;
 	}
 	
 	/*void OnTriggerEnter (Collider other){
