@@ -12,7 +12,7 @@ public class ClickToMove : MonoBehaviour {
 	private Seeker seeker;
 	public float repathRate = 10.0f;
 	private float lastRepath = -9999;
-	private bool done = false;
+	private bool done;
 
 	private CharacterController controller;
 
@@ -45,7 +45,6 @@ public class ClickToMove : MonoBehaviour {
 		//Debug.Log ("Yey, we got a path back. Did it have an error? "+p.error);
 		if (!p.error) {
 			path = p;
-            done = false;
 			//Reset the waypoint counter
 			currentWaypoint = 1;		
 		}
@@ -55,6 +54,7 @@ public class ClickToMove : MonoBehaviour {
 	public void FixedUpdate () {
 	 
 		if (Input.GetMouseButton(0)) {
+			done = false;
 
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			float hitdist;
@@ -75,9 +75,19 @@ public class ClickToMove : MonoBehaviour {
 		//Direction to the next waypoint
 		Vector3 dir = (path.vectorPath[currentWaypoint]-transform.position).normalized;
 		dir *= speed * Time.fixedDeltaTime;
-		controller.Move (dir);
 
-		transform.LookAt(new Vector3(path.vectorPath[currentWaypoint].x, transform.position.y, path.vectorPath[currentWaypoint].z));
+		if (currentWaypoint == path.vectorPath.Count-1) {
+			done = true;
+			state = "None";
+			anim.SetBool ("walk", false);
+			anim.SetBool("w_stop", true);
+		}
+
+		if (!done) {
+			Debug.Log ("Entra -> DONE is False");
+			controller.Move (dir);
+			transform.LookAt (new Vector3 (path.vectorPath [currentWaypoint].x, transform.position.y, path.vectorPath [currentWaypoint].z));
+		}
 
 		float nextWaypointDistance = defaultNextWaypointDistance;
 		if(currentWaypoint == path.vectorPath.Count -1) nextWaypointDistance = 0f;
@@ -102,10 +112,10 @@ public class ClickToMove : MonoBehaviour {
 				seeker.StartPath (transform.position, targetPosition, OnPathComplete);
 
 				state = "Walk";
-				anim.SetBool("a_walk", true);
-				anim.SetBool ("walk", true);
-
-				done = true;
+				if(anim.GetBool("walk")==false){
+					anim.SetBool ("w_stop",false);
+					anim.SetBool ("walk", true);
+				}
 			}
 		}
 	
@@ -114,9 +124,13 @@ public class ClickToMove : MonoBehaviour {
 			return;
 		}
 	 
-		if (currentWaypoint == path.vectorPath.Count) {
+		if (currentWaypoint == path.vectorPath.Count-1) {
 			Debug.Log ("End Of Path Reached");
-			done = false;
+
+			done = true;
+			state = "None";
+			anim.SetBool ("walk", false);
+
 			return;
 		}
 	}
