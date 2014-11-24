@@ -45,6 +45,7 @@ public class ClickToMove : MonoBehaviour {
 		//Debug.Log ("Yey, we got a path back. Did it have an error? "+p.error);
 		if (!p.error) {
 			path = p;
+            done = false;
 			//Reset the waypoint counter
 			currentWaypoint = 1;		
 		}
@@ -85,9 +86,8 @@ public class ClickToMove : MonoBehaviour {
 		//Check if we are close enough to the next waypoint
 		//If we are, proceed to follow the next waypoint
 		if (Vector3.Distance (transform.position,path.vectorPath[currentWaypoint]) < nextWaypointDistance) {
-		 currentWaypoint++;
-		 
-		 return;
+            currentWaypoint++;
+            return;
 		}
 	}
 
@@ -105,7 +105,7 @@ public class ClickToMove : MonoBehaviour {
 				anim.SetBool("a_walk", true);
 				anim.SetBool ("walk", true);
 
-				done = false;
+				done = true;
 			}
 		}
 	
@@ -116,7 +116,7 @@ public class ClickToMove : MonoBehaviour {
 	 
 		if (currentWaypoint == path.vectorPath.Count) {
 			Debug.Log ("End Of Path Reached");
-			done = true;
+			done = false;
 			return;
 		}
 	}
