@@ -55,9 +55,11 @@ public class EquipWeapons : MonoBehaviour {
 
 		if(w != null){
 			item = w.GetComponent<ItemDrop> ();
-			cs.setFRZ(-item.FRZ);
-			if(item.id == i.id)
+
+			if(item.id == i.id){
+				cs.setFRZ(-item.FRZ);
 				Destroy (w);
+			}
 		}
 	}
 
@@ -86,9 +88,11 @@ public class EquipWeapons : MonoBehaviour {
 
 		if(s != null){
 			item = s.GetComponent<ItemDrop> ();
-			cs.setDEF(-item.DEF);
-			if(i.id == item.id)
+
+			if(i.id == item.id){
+				cs.setDEF(-item.DEF);
 				Destroy (s);
+			}
 		}
 	}
 

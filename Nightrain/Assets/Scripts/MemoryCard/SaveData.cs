@@ -62,7 +62,30 @@ public class SaveData : MonoBehaviour {
 	}
 
 	public void saveStatus(string attribute, int value){
-		PlayerPrefs.SetInt (attribute, value);
+
+		if(attribute == "LVL" && value < 100){
+			PlayerPrefs.SetInt (attribute, value);
+			return;
+		}
+
+		if(attribute == "EXP"){
+			PlayerPrefs.SetInt (attribute, value);
+			return;
+		}
+
+		if(value <= 510 && (attribute == "VIT" || attribute == "PM")){
+			PlayerPrefs.SetInt (attribute, value);
+			return;
+		}else if(value > 500 && (attribute == "VIT" || attribute == "PM")){
+			print ("Attribute: " + attribute);
+			PlayerPrefs.SetInt (attribute, 510);
+			return;
+		}
+
+		if(value <= 255  && (attribute != "VIT" || attribute != "PM"))
+			PlayerPrefs.SetInt (attribute, value);
+		else if(value > 255  && (attribute != "VIT" || attribute != "PM"))
+			PlayerPrefs.SetInt (attribute, 255);
 	}
 
 }

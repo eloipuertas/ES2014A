@@ -1,21 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class NPCAttributes : MonoBehaviour {
-
+public class NPCAttributes{
+	
 	//##############################
 	//Atributos personaje
-	private float moveSpeed = 5; 
-	public float health = 75;
-	private float max_health = 75;
-	private float defense = 5;
-	private float attackPower = 3;
+	private float moveSpeed; 
+	private float health;
+	private float max_health;
+	private float defense;
+	private float attackPower;
+	private int experience;
 	//##############################
+	
 
-	public void Start(){
-	}
+	public NPCAttributes(float VIT, float maxVIT, float STR, float DEF, float SPD, int EXP){
 
-	public NPCAttributes(){
+		this.health = VIT;
+		this.max_health = maxVIT;
+		this.attackPower = STR;
+		this.defense = DEF;
+		this.moveSpeed = SPD;
+		this.experience = EXP;
+
 	}
 
 
@@ -37,12 +44,6 @@ public class NPCAttributes : MonoBehaviour {
 		defense = defense + (defense * percent);
 		attackPower = attackPower + (attackPower * percent);
 	}
-
-	
-	public void Update(){
-		
-	}
-
 	
 	public void setHealth(float health){
 		this.health = health;
@@ -80,6 +81,11 @@ public class NPCAttributes : MonoBehaviour {
 	public float getAttackPower(){
 		return this.attackPower;
 	}
+
+	public int getExperience(){
+		return this.experience;
+	}
+
 
 	public void setDamage(float damage){
 		health -= damage;

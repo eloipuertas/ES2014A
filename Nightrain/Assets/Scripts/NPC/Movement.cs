@@ -3,19 +3,18 @@ using System.Collections;
 
 public class Movement : MonoBehaviour {
 
-	
 	//##############################
 	//Atributos personaje
-	private float moveSpeed = 2; 
-	private float health = 100;
-	private float max_health = 100;
-	private float defense = 10;
-	private float attackPower = 5;
-	private int experience = 100;
+	public float moveSpeed = 5; 
+	public float health = 75;
+	public float max_health = 75;
+	public float defense = 5;
+	public float attackPower = 3;
+	public int experience = 100;
 	//##############################
 
-	
-	private NPCAttributes npcAttributes = new NPCAttributes ();
+
+	private NPCAttributes npcAttributes;
 	private string state = "None";
 	private string difficulty;
 
@@ -33,9 +32,17 @@ public class Movement : MonoBehaviour {
 	
 	//private GameObject NPCbar;
 	private Music_Engine_Script music;
-	
+
+	void Awake(){
+
+		this.npcAttributes = new NPCAttributes (health, max_health, attackPower, defense, moveSpeed, experience);
+		//print ("Experiencia: " + this.npcAttributes.getExperience ());
+
+	}
+
 	// Use this for initialization
 	void Start () {
+
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
@@ -131,7 +138,8 @@ public class Movement : MonoBehaviour {
 		//this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
 		if (npcAttributes.getHealth() < 1) {
 			state = "Dead";
-			player.GetComponent<CharacterScript>().setEXP(this.experience);
+			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
+			this.collider.enabled = false;
 			Debug.Log ("NPC muerto");
 			anim.SetBool("a_walk", false);
 			anim.SetBool("walk", false);
@@ -142,38 +150,10 @@ public class Movement : MonoBehaviour {
 
 	
 	
-	public void setHealth(float health){
+	/*public void setHealth(float health){
 		this.health = health;
 		this.max_health = health;
-	}
-	
-	public void setDefense(float defense){
-		this.defense = defense;
-	}
-	
-	public void setAttackPower(float attackPower){
-		this.attackPower = attackPower;
-	}
-	
-	public void setMoveSpeed(float moveSpeed){
-		this.moveSpeed = moveSpeed;
-	}
-	
-	public float getHealth(){
-		return this.health;
-	}
-	
-	public float getMaxHealth(){
-		return this.max_health;
-	}
-	
-	public float getDefense(){
-		return this.defense;
-	}
-	
-	public float getMoveSpeed(){
-		return this.moveSpeed;
-	}
+	}*/
 
 	
 	public NPCAttributes getAttributes(){

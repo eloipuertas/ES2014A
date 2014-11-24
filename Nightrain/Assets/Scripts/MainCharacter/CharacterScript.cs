@@ -77,7 +77,9 @@ public class CharacterScript : MonoBehaviour {
 	
 	// Update is called once per frame.
 	void Update () {
-		levelUP ();
+
+		if(this.level < 100)
+			levelUP ();
 	}
 
 
@@ -162,7 +164,7 @@ public class CharacterScript : MonoBehaviour {
 		if(this.strength > 255)
 			this.strength = 255;
 		else if(this.strength <= 0)
-			this.strength = PlayerPrefs.GetInt("STR");
+			this.strength = this.load.loadSTR();
 
 		this.printAttributes ();
 	}
@@ -180,7 +182,7 @@ public class CharacterScript : MonoBehaviour {
 		if(this.defense > 255)
 			this.defense = 255;
 		else if(this.defense <= 0)
-			this.defense = PlayerPrefs.GetInt("DEF");
+			this.defense = this.load.loadDEF();
 
 		this.printAttributes ();
 	}
@@ -247,6 +249,13 @@ public class CharacterScript : MonoBehaviour {
 		if (music != null) music.play_Player_Hurt ();
 	}
 
+	// Method to Spell magic the 'Character'
+	public void setSpell(int spell){
+		this.bar_magic -= spell;
+		// Reproducimos un sonido de dolor del personaje al recibir el golpe
+		//if (music != null) music.play_Player_Hurt ();
+	}
+
 	void levelUP(){
 
 		int experience = getEXP ();
@@ -257,10 +266,10 @@ public class CharacterScript : MonoBehaviour {
 			this.setLevel(1);
 			this.calculateEXP();
 			this.updateCharacterAttributes();
-
 		}
 
 	}
+
 
 	void updateCharacterAttributes(){
 
@@ -277,11 +286,11 @@ public class CharacterScript : MonoBehaviour {
 			DEF = Random.Range (2, 5);
 			SPD = Random.Range (1, 3);
 
-			this.save.saveStatus("VIT", this.load.loadVIT() +  VIT);
-			this.save.saveStatus("PM", this.load.loadPM() + PM);
-			this.save.saveStatus("FRZ", this.load.loadSTR() + STR);
-			this.save.saveStatus("DEF", this.load.loadDEF() + DEF);
-			this.save.saveStatus("SPD", this.load.loadSPD() + SPD);
+			this.save.saveStatus("VIT", (this.load.loadVIT() +  VIT));
+			this.save.saveStatus("PM", (this.load.loadPM() + PM));
+			this.save.saveStatus("STR", (this.load.loadSTR() + STR));
+			this.save.saveStatus("DEF", (this.load.loadDEF() + DEF));
+			this.save.saveStatus("SPD", (this.load.loadSPD() + SPD));
 
 		}else if(this.load.loadPlayer() == "mujer"){
 
@@ -293,7 +302,7 @@ public class CharacterScript : MonoBehaviour {
 
 			this.save.saveStatus("VIT", this.load.loadVIT() +  VIT);
 			this.save.saveStatus("PM", this.load.loadPM() + PM);
-			this.save.saveStatus("FRZ", this.load.loadSTR() + STR);
+			this.save.saveStatus("STR", this.load.loadSTR() + STR);
 			this.save.saveStatus("DEF", this.load.loadDEF() + DEF);
 			this.save.saveStatus("SPD", this.load.loadSPD() + SPD);
 
@@ -307,7 +316,7 @@ public class CharacterScript : MonoBehaviour {
 
 			this.save.saveStatus("VIT", this.load.loadVIT() +  VIT);
 			this.save.saveStatus("PM", this.load.loadPM() + PM);
-			this.save.saveStatus("FRZ", this.load.loadSTR() + STR);
+			this.save.saveStatus("STR", this.load.loadSTR() + STR);
 			this.save.saveStatus("DEF", this.load.loadDEF() + DEF);
 			this.save.saveStatus("SPD", this.load.loadSPD() + SPD);
 		}
@@ -319,8 +328,8 @@ public class CharacterScript : MonoBehaviour {
 	void updateAttributes(int VIT, int PM, int STR, int DEF, int SPD){
 
 		this.level = this.load.loadLVL ();
-		this.max_health += VIT;
-		this.bar_magic += PM;
+		if(this.bar_health + VIT < 510) this.bar_health += VIT; else this.bar_health = 510;
+		if(this.bar_magic + PM < 510) this.bar_magic += PM; else this.bar_magic = 510;
 		if(this.strength + STR < 255) this.strength += STR; else this.strength = 255;
 		if(this.defense + DEF < 255) this.defense += DEF; else this.defense = 255;
 		if(this.speed + SPD < 255) this.speed += SPD; else this.speed = 255;
@@ -343,7 +352,7 @@ public class CharacterScript : MonoBehaviour {
 
 		int minLevel = 1;					// Level Min. 1
 		int currentLevel = getLVL();		// Current Level.
-		int maxLevel = 100;					// Level Max. 100.
+		int maxLevel = 99;					// Level Max. 100.
 
 		int xp_for_first_level = 50;		// Initial experiencie to level 1.
 		int xp_for_last_level = 65536;		// Final experiencie to level 100. 
@@ -363,6 +372,10 @@ public class CharacterScript : MonoBehaviour {
 
 		this.next = nextLevel;
 
+	}
+
+	public MemoryCard getMemoryCard(){
+		return this.mc;
 	}
 
 	void OnGUI(){

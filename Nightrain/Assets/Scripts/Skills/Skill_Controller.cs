@@ -35,30 +35,34 @@ public class Skill_Controller : MonoBehaviour {
 	void Update () {
 		if (Time.timeScale == 1) {
 			if (Input.GetKeyDown (KeyCode.Alpha1) && ActionBarScript.disabledSkill1 == false) {
+
 				actual_time = Time.time;
-				if (fireball_time == 0.0f || (actual_time - fireball_time) >= fireball_cooldown) {
-					
-					// Para lanzar la bola a donde apunta con el mouse
-					Plane playerPlane = new Plane(Vector3.up, character.transform.position);
-					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-					float hitdist = 0.0f;
-					
-					if (playerPlane.Raycast(ray, out hitdist)) {
-						Vector3 targetPoint = ray.GetPoint(hitdist);
-						Vector3 destinationPosition = ray.GetPoint(hitdist);
-						Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-						character.transform.rotation = targetRotation;
+
+				if(cs.getMagic() > 15){ //<-- 15PM
+					if (fireball_time == 0.0f || (actual_time - fireball_time) >= fireball_cooldown) {
+						this.cs.setSpell(15);		// to cast a spell cost 15PM.
+						// Para lanzar la bola a donde apunta con el mouse
+						Plane playerPlane = new Plane(Vector3.up, character.transform.position);
+						Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+						float hitdist = 0.0f;
+						
+						if (playerPlane.Raycast(ray, out hitdist)) {
+							Vector3 targetPoint = ray.GetPoint(hitdist);
+							Vector3 destinationPosition = ray.GetPoint(hitdist);
+							Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+							character.transform.rotation = targetRotation;
+						}
+						
+						// Dispara la bola en la direccion que apunta el personaje
+						this.character.animation.CrossFade ("metarig|Atacar", 0.2f);
+						fireball.rotation = transform.rotation;
+						Vector3 newPosition = transform.position;
+						newPosition.y += 2;
+						fireball.transform.position = newPosition;
+						Instantiate (fireball);
+						fireball_time = Time.time;
+						ActionBarScript.disabledSkill1 = true;
 					}
-					
-					// Dispara la bola en la direccion que apunta el personaje
-					this.character.animation.CrossFade ("metarig|Atacar", 0.2f);
-					fireball.rotation = transform.rotation;
-					Vector3 newPosition = transform.position;
-					newPosition.y += 2;
-					fireball.transform.position = newPosition;
-					Instantiate (fireball);
-					fireball_time = Time.time;
-					ActionBarScript.disabledSkill1 = true;
 				}
 			}
 			

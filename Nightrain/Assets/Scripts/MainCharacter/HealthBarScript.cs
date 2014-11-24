@@ -19,10 +19,12 @@ public class HealthBarScript : MonoBehaviour {
 	// ATRIBUTES HEALTH/MAGIC CHARACTER
 	/*public int bar_health;
 	public int bar_magic;
+	*/
 
 	public float max_health;
 	public float max_magic;
 
+	/*
 	private float health;
 	private float magic;
 
@@ -56,9 +58,12 @@ public class HealthBarScript : MonoBehaviour {
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
 
+		this.max_health = this.cs.getMaxHealth ();
+		this.max_magic = this.cs.getMaxMagic ();
+
 		// Resize the health and magic bar with the actual values
-		this.resize_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.cs.getMaxHealth(), -1);
-		this.resize_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.cs.getMaxMagic(), -1);
+		this.resize_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.cs.getMaxHealth (), -1);
+		this.resize_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.cs.getMaxMagic (), -1);
 
 		// Set the news actual max life and magic
 		this.cs.setMaxHealth ();
@@ -93,7 +98,11 @@ public class HealthBarScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+
+		this.resize_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.max_health, -1);
+		this.resize_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.max_magic, -1);
+
 		this.UpdateHealth ();
 		this.UpdateMagic ();
 	}
@@ -123,9 +132,13 @@ public class HealthBarScript : MonoBehaviour {
 
 	// Este metodo debera ser implementado mas adelante con el tema de magias etc
 	void UpdateMagic () {
+
 		this.magic = 1 - ((this.cs.getMagic() / this.cs.getMaxMagic()));
-		this.MagicBarMaterial.SetFloat("_Cutoff", magic);
+
+		if(this.magic < 1)	
+			this.MagicBarMaterial.SetFloat("_Cutoff", magic);
 	}
+
 
 	public float x;
 	public float y;
