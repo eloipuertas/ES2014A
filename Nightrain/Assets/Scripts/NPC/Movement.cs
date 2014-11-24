@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Movement : MonoBehaviour {
-
+	
 	//##############################
 	//Atributos personaje
 	private float moveSpeed = 2; 
@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour {
 	private float max_health = 100;
 	private float defense = 10;
 	private float attackPower = 5;
+	private int experience = 100;
 	//##############################
 	
 	private string state = "None";
@@ -33,7 +34,7 @@ public class Movement : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
-
+		
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
@@ -55,7 +56,7 @@ public class Movement : MonoBehaviour {
 	
 	// Metodo que hace que el personaje vaya uno a uno a los tres puntos del mapa
 	void seguirPuntos(){
-
+		
 		anim.SetBool("w_attack", false);
 		anim.SetBool("a_walk", true);
 		anim.SetBool ("walk", true);
@@ -122,6 +123,7 @@ public class Movement : MonoBehaviour {
 		//this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
 		if (health < 1) {
 			state = "Dead";
+			player.GetComponent<CharacterScript>().setEXP(this.experience);
 			Debug.Log ("NPC muerto");
 			anim.SetBool("a_walk", false);
 			anim.SetBool("walk", false);
@@ -129,8 +131,8 @@ public class Movement : MonoBehaviour {
 			anim.SetBool("a_death", true);
 		}
 	}
-
-
+	
+	
 	public void setHealth(float health){
 		this.health = health;
 		this.max_health = health;
@@ -151,7 +153,7 @@ public class Movement : MonoBehaviour {
 	public float getHealth(){
 		return this.health;
 	}
-
+	
 	public float getMaxHealth(){
 		return this.max_health;
 	}

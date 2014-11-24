@@ -24,15 +24,15 @@ public class LoadData : MonoBehaviour {
 	}
 
 	public string loadPlayer(){
-		return PlayerPrefs.GetString ("Player");
+		return PlayerPrefs.GetString ("Character");
 	}
 
 	public string loadDifficulty(){
 		return PlayerPrefs.GetString("Difficult");
 	}
 
-	public int loadNv(){
-		return PlayerPrefs.GetInt("Nv");
+	public int loadLVL(){
+		return PlayerPrefs.GetInt("LVL");
 	}
 
 	public int loadVIT(){
@@ -53,6 +53,10 @@ public class LoadData : MonoBehaviour {
 
 	public int loadSPD(){
 		return PlayerPrefs.GetInt("SPD");
+	}
+
+	public int loadEXP(){
+		return PlayerPrefs.GetInt("EXP");
 	}
 
 }
