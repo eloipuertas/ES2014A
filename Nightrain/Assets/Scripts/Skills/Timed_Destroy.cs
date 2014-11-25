@@ -15,9 +15,12 @@ public class Timed_Destroy : MonoBehaviour {
 	void Update () {
 		actualTime = Time.time;
 		if (actualTime - initTime > destroyTime) {
+<<<<<<< HEAD
 			ActionBarScript.disabledSkill1 = false;
 			ActionBarScript.disabledSkill2 = false;
 			ActionBarScript.disabledSkill3 = false;
+=======
+>>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 			Destroy (gameObject);
 		}
 	}

@@ -8,6 +8,12 @@ private var getObjectScene : RaycastHit;
 private var targetPosition : Vector3;
 private var targetPoint : Vector3;
 private var moving : boolean = false; //Whether the player is moving or has stopped
+
+//MODIFICACIO PER MANTENIRLO SOBRE EL TERRA
+private var gravity: float;
+
+private var controller: CharacterController;
+
 private var music : Component;
 // SCREEN VALUES
 /*private var width:int = Screen.width;
@@ -42,6 +48,8 @@ function Start()
     animation["metarig|Caminar"].speed = 2.75;
     animation["metarig|Atacar"].speed = 1.5;
     music = GameObject.Find("MusicEngine").GetComponent("Music_Engine_Script");
+    
+    controller = GetComponent(CharacterController);
     /*this.bar_health = 100;
 	this.bar_magic = 100;
 	
@@ -69,11 +77,12 @@ function Start()
 function Update ()
 {
 
+	if (Time.deltaTime != 0) {
 	//UpdateHealth();
     // Walking animation control
     if(moving){
         // Stop animation
-        if(transform.position == targetPoint){
+        if(transform.position.x == targetPoint.x & transform.position.z == targetPoint.z){
             //animation.CrossFade("Armature|Idle",0.2f);
             //Debug.Log ("moved to target location");
             animation.Stop("metarig|Caminar"); 
@@ -104,7 +113,7 @@ function Update ()
         }
        
     	if(Physics.Raycast(ray, getObjectScene, 100)){
-            if(getObjectScene.transform.gameObject.tag.Equals("Enemy")){
+            if(getObjectScene.transform.gameObject.tag.Equals("Enemy")|| getObjectScene.transform.gameObject.tag.Equals("Object")){
             	//Debug.Log("Enemigo seleccionado");
             	//animation.Stop("metarig|Caminar");
             	moving = false;
@@ -129,6 +138,12 @@ function Update ()
 
     // find the target position relative to the player:
     var dir: Vector3 = targetPosition - transform.position;
+    
+    //MODIFICACIO MANTENIRLO SOBRE EL TERRA
+    gravity -= 9.81 * Time.deltaTime;
+    if(GetComponent(CharacterController).isGrounded) gravity = 0; // treure el getComponent al Start() i aqui utilitzar simplement la instancia
+    dir.y = gravity;
+    
     // calculate movement at the desired speed:
     var movement: Vector3 = dir.normalized * speed * Time.deltaTime;
     // limit movement to never pass the target position:
@@ -136,9 +151,10 @@ function Update ()
 
    
 
+	//MODIFICACIO OPTIMITZACIO
     // move the character:
-    GetComponent(CharacterController).Move(movement);
-
+    controller.Move(movement);
+	}
 	
 
 }
