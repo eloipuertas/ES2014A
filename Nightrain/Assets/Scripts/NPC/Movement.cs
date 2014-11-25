@@ -140,7 +140,7 @@ public class Movement : MonoBehaviour {
 			state = "Dead";
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;
-			Debug.Log ("NPC muerto");
+			//Debug.Log ("NPC muerto");
 			anim.SetBool("a_walk", false);
 			anim.SetBool("walk", false);
 			anim.SetBool ("w_attack", false);

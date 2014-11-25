@@ -89,7 +89,7 @@ public class CharacterScript : MonoBehaviour {
 		int damage = Random.Range ((this.strength + 1) - (int)(4 + this.strength * 0.25f), this.strength+1);
 		if(other.gameObject == this.NPCs){
 			this.NPCs.GetComponent<Movement>().setDamage(damage);
-			print("Daño: " + damage); 
+			//print("Daño: " + damage); 
 		}	
 	}
 	
@@ -267,6 +267,7 @@ public class CharacterScript : MonoBehaviour {
 			this.calculateEXP();
 			this.updateCharacterAttributes();
 		}
+
 
 	}
 
