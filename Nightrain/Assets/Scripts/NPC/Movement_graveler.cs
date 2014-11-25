@@ -2,8 +2,8 @@
 using System.Collections;
 using Pathfinding;
 
-public class Movement : MonoBehaviour {
-
+public class Movement_graveler : MonoBehaviour {
+	
 	//##############################
 	//Atributos personaje
 	public float moveSpeed = 5; 
@@ -13,8 +13,8 @@ public class Movement : MonoBehaviour {
 	public float attackPower = 3;
 	public int experience = 100;
 	//##############################
-
-
+	
+	
 	//##############################
 	//Pathfinding
 	public Path path;
@@ -26,26 +26,26 @@ public class Movement : MonoBehaviour {
 	private bool hecho = false;
 	public float speed = 100;
 	//#############################
-
-
+	
+	
 	private string state = "None";
 	private string difficulty;
 	string[] states = {"Walk", "Find", "Attack", "Dead"};
 	private float rotationSpeed = 10.0f;
 	private float attackTime = 3.0f;
-
+	
 	// Los nombres de los tres puntos que estan distribuidos por el mapa
 	string[] points = {"Point1", "Point2", "Point3"};
 	int j = 0;
-
+	
 	private NPCAttributes npcAttributes;
 	private GameObject player;
 	private Transform player_transform;
 	private Animator anim;
 	//private GameObject NPCbar;
 	private Music_Engine_Script music;
-
-
+	
+	
 	// Metodo que se llama cuando una ruta ha sido calculada
 	public void OnPathComplete (Path p) {
 		p.Claim (this);
@@ -58,17 +58,21 @@ public class Movement : MonoBehaviour {
 			Debug.Log ("No se puede llegar a este punto de destino: "+p.errorLog);
 		}
 	}
-
+	
+	
+	
+	
 	
 	void Awake(){
+		
 		this.npcAttributes = new NPCAttributes (health, max_health, attackPower, defense, moveSpeed, experience);
 		//print ("Experiencia: " + this.npcAttributes.getExperience ());
-
+		
 	}
-
+	
 	// Use this for initialization
 	void Start () {
-
+		
 		seeker = GetComponent<Seeker>();
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
@@ -83,21 +87,26 @@ public class Movement : MonoBehaviour {
 	void Update () {
 		if (!state.Equals("Dead")) {
 			float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
-			if (distance_to_player < 7) {
+			if (distance_to_player < 6) {
 				atack ();
-			} else if (distance_to_player < 20) {
+			} else if (distance_to_player < 50) {
 				perseguir ();
+				Debug.Log("perseguir");
 			} else {
-				seguirPuntos ();
+				//seguirPuntos ();
+				anim.SetBool("a_walk", false);
+				anim.SetBool ("walk", false);
+				anim.SetBool ("w_idle", true);
+				state = "None";
 			}
 		}
 	}
-
-
+	
+	
 	// Metodo que hace que el personaje vaya uno a uno a los tres puntos del mapa
 	void seguirPuntos(){
 		
-		//state = "Walk";
+		state = "Walk";
 		anim.SetBool("w_attack", false);
 		anim.SetBool("a_walk", true);
 		anim.SetBool ("walk", true);
@@ -165,9 +174,9 @@ public class Movement : MonoBehaviour {
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
 		anim.SetBool("a_walk", false);
 		anim.SetBool("walk", false);
-		p.y += 5f;
-		anim.SetBool ("w_attack", true);
-		p.y -= 5f;
+		//p.y += 5f;
+		//anim.SetBool ("w_attack", true);
+		//p.y -= 5f;
 		if (Time.time > attackTime) {
 			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
 			attackTime = Time.time + 1.0f;
@@ -193,20 +202,20 @@ public class Movement : MonoBehaviour {
 			anim.SetBool("a_death", true);
 		}
 	}
-
+	
 	
 	
 	/*public void setHealth(float health){
 		this.health = health;
 		this.max_health = health;
 	}*/
-
+	
 	
 	public NPCAttributes getAttributes(){
 		return npcAttributes;
 	}
-
-
+	
+	
 	private void calcularPath(Vector3 punto){
 		if (Time.time - lastRepath > repathRate && seeker.IsDone ()) {
 			if (!hecho) {
@@ -228,9 +237,9 @@ public class Movement : MonoBehaviour {
 			return;
 		}
 	}
-
-
-
+	
+	
+	
 	
 	/*void OnTriggerEnter (Collider other){
 		print("Tocado."); 

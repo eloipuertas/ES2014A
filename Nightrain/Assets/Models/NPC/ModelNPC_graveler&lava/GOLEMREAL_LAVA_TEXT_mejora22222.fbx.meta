@@ -28,7 +28,7 @@ ModelImporter:
     bakeSimulation: 0
     optimizeGameObjects: 0
     motionNodeName: 
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
@@ -38,7 +38,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: .00999999978
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -60,7 +60,32 @@ ModelImporter:
   copyAvatar: 0
   humanDescription:
     human: []
-    skeleton: []
+    skeleton:
+    - name: GOLEMREAL_LAVA_TEXT_mejora22222(Clone)
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Camera
+      position: {x: -7.48113155, y: 10.380722, z: 6.50763988}
+      rotation: {x: .210611343, y: .905240178, z: -.0892816931, w: -.358066887}
+      scale: {x: 1, y: .999999881, z: .99999994}
+      transformModified: 1
+    - name: Cube
+      position: {x: 0, y: 5.03705692, z: 0}
+      rotation: {x: -.707106888, y: 0, z: -0, w: .707106769}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Icosphere
+      position: {x: 0, y: 5.03705692, z: 0}
+      rotation: {x: .707106888, y: 0, z: 0, w: .707106769}
+      scale: {x: -3.32146406, y: -1, z: -3.26335216}
+      transformModified: 1
+    - name: Lamp
+      position: {x: -4.07624531, y: 10.9409189, z: -9.39923859}
+      rotation: {x: .169075698, y: -.755880415, z: .272171348, w: .570947528}
+      scale: {x: .999999881, y: .999999762, z: .999999881}
+      transformModified: 1
     armTwist: .5
     foreArmTwist: .5
     upperLegTwist: .5
@@ -70,6 +95,6 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 3
   additionalBone: 0
   userData: 
