@@ -6,8 +6,11 @@ public class ActionBarScript : MonoBehaviour {
 	// ACTION BAR
 	// --- TEXTURES ---
 	private Texture2D fireballTexture;
-	private Texture2D useFireballTexture;
 	private Texture2D reloadFireballTexture;
+	private Texture2D PowerKnifeTexture;
+	private Texture2D reloadPowerKnifeTexture;
+	private Texture2D DarkAuraTexture;
+	private Texture2D reloadDarkAuraTexture;
 	private Texture2D actionBarTexture;
 	private Texture2D runIconTexture;
 	private Texture2D attackIconTexture;
@@ -27,8 +30,9 @@ public class ActionBarScript : MonoBehaviour {
 
 	private bool takePotion = false;
 
-	public static bool useSkill1 = false;
 	public static bool disabledSkill1 = false;
+	public static bool disabledSkill2 = false;
+	public static bool disabledSkill3 = false;
 
 	// Use this for initialization
 	void Start () {
@@ -40,8 +44,11 @@ public class ActionBarScript : MonoBehaviour {
 		this.actionBarTexture = Resources.Load<Texture2D>("ActionBar/actionbar_v4");
 
 		this.fireballTexture = Resources.Load<Texture2D>("ActionBar/skill_fireball");
-		this.useFireballTexture = Resources.Load<Texture2D>("ActionBar/use_fireball");
 		this.reloadFireballTexture = Resources.Load<Texture2D>("ActionBar/reload_fireball");
+		this.PowerKnifeTexture = Resources.Load<Texture2D>("ActionBar/skill_powerKnife");
+		this.reloadPowerKnifeTexture = Resources.Load<Texture2D>("ActionBar/reload_powerKnife");
+		this.DarkAuraTexture = Resources.Load<Texture2D>("ActionBar/skill_aura");
+		this.reloadDarkAuraTexture = Resources.Load<Texture2D>("ActionBar/reload_aura");
 
 		this.attackIconTexture = Resources.Load<Texture2D>("ActionBar/icon_attack_v2");
 		this.runIconTexture = Resources.Load<Texture2D>("ActionBar/icon_run");
@@ -96,15 +103,35 @@ public class ActionBarScript : MonoBehaviour {
 		                this.actionBarTexture);
 
 		//SKILLS
-		// FIREBALL ICON
 
-		if(useSkill1 == false && disabledSkill1 == false){
+		// FIREBALL ICON
+		if(disabledSkill1 == false){
 			GUI.DrawTexture( new Rect (Screen.width * 0.3041f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
 			                this.fireballTexture);
 		}else if(disabledSkill1 == true){
 			//this.cs.setMagic(-15);
 			GUI.DrawTexture( new Rect (Screen.width * 0.3041f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
 			                this.reloadFireballTexture);
+		}
+
+		// Knife ICON
+		if(disabledSkill2 == false){
+			GUI.DrawTexture( new Rect (Screen.width * 0.3445f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
+			                this.PowerKnifeTexture);
+		}else if(disabledSkill2 == true){
+			//this.cs.setMagic(-15);
+			GUI.DrawTexture( new Rect (Screen.width * 0.3445f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
+			                this.reloadPowerKnifeTexture);
+		}
+
+		// Aura ICON
+		if(disabledSkill3 == false){
+			GUI.DrawTexture( new Rect (Screen.width * 0.386f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
+			                this.DarkAuraTexture);
+		}else if(disabledSkill3 == true){
+			//this.cs.setMagic(-15);
+			GUI.DrawTexture( new Rect (Screen.width * 0.386f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
+			                this.reloadDarkAuraTexture);
 		}
 
 		// MOUSE SKILL
