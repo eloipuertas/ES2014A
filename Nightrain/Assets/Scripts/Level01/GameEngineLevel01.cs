@@ -26,9 +26,12 @@ public class GameEngineLevel01 : MonoBehaviour {
 	// --- Camaras ---
 	private GameObject camera1;
 	private GameObject camera2;
+
+	// --- Delays ---
+	public float delay = 2;
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		
 		// --- LOAD RESOURCES TO CHARACTER ---
 		this.prefab = Resources.Load<Transform>("Prefabs/MainCharacters/" + PlayerPrefs.GetString("Character"));
@@ -49,7 +52,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 		
 		this.c = this.ambientLight.light.color;
 		
-		print ("Personaje:" + PlayerPrefs.GetString ("Character") + " Difficulty: " + PlayerPrefs.GetString ("Difficulty"));
+		//print ("Personaje:" + PlayerPrefs.GetString ("Character") + " Difficulty: " + PlayerPrefs.GetString ("Difficulty"));
 		
 	}
 	
@@ -80,7 +83,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 	void isAlive(){
 		int num = this.character.GetComponent<CharacterScript> ().getHealth();
 		//If the character is dead we show "game over" scene
-		if(num <= 0) Application.LoadLevel(5);
+		if(num <= 0) Application.LoadLevel(6);
 	}
 	
 	//Comprueba si los enemigos de la lista estan muertos
@@ -91,19 +94,23 @@ public class GameEngineLevel01 : MonoBehaviour {
 			if(this.npc != null){
 				this.ms = this.npc.GetComponent<Movement> ();
 				
-				if(ms.getHealth() <= 0.0f){
-					Destroy(npc);
+				if(ms.getAttributes().getHealth() <= 0.0f){
+					//Destroy(npc);
 					npc = null;
 				}
 			}
 			if(npc != null){
-				//print ("No nulo");
 				break;
 			}
 		}
 		if (this.npc == null) {
-			allIsDead = true;
-			this.camera2.SetActive(true);
+
+			delay -= 1 * Time.deltaTime;
+
+			if(delay <= 0){
+				allIsDead = true;
+				this.camera2.SetActive(true);
+			}
 		}
 	}
 	
