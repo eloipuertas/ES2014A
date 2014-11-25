@@ -32,7 +32,6 @@ public class SaveData : MonoBehaviour {
 	}
 
 	public void WarriorAttributes(){
-<<<<<<< HEAD
 		PlayerPrefs.SetInt("LVL", 1);
 		PlayerPrefs.SetInt("VIT", 150);
 		PlayerPrefs.SetInt("PM", 40);
@@ -44,41 +43,21 @@ public class SaveData : MonoBehaviour {
 
 	public void SageAttributes(){
 		PlayerPrefs.SetInt("LVL", 1);
-=======
-		PlayerPrefs.SetInt("Nv", 1);
-		PlayerPrefs.SetInt("VIT", 150);
-		PlayerPrefs.SetInt("PM", 50);
-		PlayerPrefs.SetInt("STR", 10);
-		PlayerPrefs.SetInt("DEF", 8);
-		PlayerPrefs.SetInt("SPD", 5);
-	}
-
-	public void SageAttributes(){
-		PlayerPrefs.SetInt("Nv", 1);
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 		PlayerPrefs.SetInt("VIT", 75);
 		PlayerPrefs.SetInt("PM", 125);
 		PlayerPrefs.SetInt("STR", 6);
 		PlayerPrefs.SetInt("DEF", 5);
 		PlayerPrefs.SetInt("SPD", 7);
-<<<<<<< HEAD
 		PlayerPrefs.SetInt("EXP", 0);
 	}
 
 	public void ThiefAttributes(){
 		PlayerPrefs.SetInt("LVL", 1);
-=======
-	}
-
-	public void ThiefAttributes(){
-		PlayerPrefs.SetInt("Nv", 1);
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 		PlayerPrefs.SetInt("VIT", 100);
 		PlayerPrefs.SetInt("PM", 75);
 		PlayerPrefs.SetInt("STR", 7);
 		PlayerPrefs.SetInt("DEF", 6);
 		PlayerPrefs.SetInt("SPD", 9);
-<<<<<<< HEAD
 		PlayerPrefs.SetInt("EXP", 0);
 	}
 
@@ -107,12 +86,6 @@ public class SaveData : MonoBehaviour {
 			PlayerPrefs.SetInt (attribute, value);
 		else if(value > 255  && (attribute != "VIT" || attribute != "PM"))
 			PlayerPrefs.SetInt (attribute, 255);
-=======
-	}
-
-	public void saveStatus(string attribute, int value){
-		PlayerPrefs.SetInt (attribute, value);
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 	}
 
 }

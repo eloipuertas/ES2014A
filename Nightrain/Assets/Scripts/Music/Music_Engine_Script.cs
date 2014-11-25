@@ -14,11 +14,8 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip open_chest;
 	public AudioClip fireball_explosion;
 	public AudioClip fireball_shot;
-<<<<<<< HEAD
 	public AudioClip lethalknife_shot;
 	public AudioClip lethalknife_collision;
-=======
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 	
 	// Use this for initialization
 	void Start () {
@@ -84,7 +81,6 @@ public class Music_Engine_Script : MonoBehaviour {
 	public void play_Fireball_Explosion () {
 		audio.PlayOneShot (fireball_explosion);
 	}
-<<<<<<< HEAD
 	
 	public void play_Lethalknife_Shot () {
 		audio.PlayOneShot (lethalknife_shot);
@@ -93,6 +89,4 @@ public class Music_Engine_Script : MonoBehaviour {
 	public void play_Lethalknife_Collision () {
 		audio.PlayOneShot (lethalknife_collision);
 	}
-=======
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 }

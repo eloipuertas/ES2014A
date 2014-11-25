@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Nightrain/Assets/Models/BoxWeapon/escudo.fbm.meta
-guid: 257f95c6a22c49a4d98cb0bd47fb3e2f
-=======
-guid: e10904f7614177540a8f69cd3e80acfb
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649:Nightrain/Assets/AstarPathfindingProject/Core/AI.meta
+guid: e71ba8d4889ceb34c8d7498be9a49808
 folderAsset: yes
 DefaultImporter:
   userData: 

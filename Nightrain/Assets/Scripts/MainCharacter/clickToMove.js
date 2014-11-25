@@ -18,27 +18,20 @@ private var music : Component;
 // SCREEN VALUES
 /*private var width:int = Screen.width;
 private var height:int = Screen.height;
-
 // ATRIBUTES CHARACTER
 var bar_health:int;
 var bar_magic:int;
-
 private var health:float;
-
 // HEALTH BAR
 // --- TEXTURES ---
 private var AvatarTexture:Texture2D;
-
 private var HealthTexture:Texture2D;
 private var HealthBarTexture:Texture2D;
-
 private var MagicTexture:Texture2D;
 private var MagicBarTexture:Texture2D;
-
 // --- MATERIALS ---
 private var HealthBarMaterial:Material;
 private var MagicBarMaterial:Material;
-
 // LOW HEALTH
 private var c:Color;*/
 
@@ -113,7 +106,7 @@ function Update ()
         }
        
     	if(Physics.Raycast(ray, getObjectScene, 100)){
-            if(getObjectScene.transform.gameObject.tag.Equals("Enemy")|| getObjectScene.transform.gameObject.tag.Equals("Object")){
+            if(getObjectScene.transform.gameObject.tag.Equals("Enemy")){
             	//Debug.Log("Enemigo seleccionado");
             	//animation.Stop("metarig|Caminar");
             	moving = false;
@@ -165,8 +158,6 @@ function SelectTarget(){
 }
 
 /*function UpdateHealth () {
-
-
 	// Esto es para cuando le quede 1/4 de vida se ponga en rojo
 	if(this.health >= 0.9f){
 		this.c.r = 1.0f;
@@ -189,17 +180,13 @@ function SelectTarget(){
 	}
 	
 }
-
 function getHealth():int{
 	return this.bar_health;
 }
-
 function setHealth(health:int){
 	this.bar_health = health;
 }
-
 function OnGUI(){
-
 	if(Event.current.type.Equals(EventType.Repaint)){
 		
 		// AVATAR ZONE

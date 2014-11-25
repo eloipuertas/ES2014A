@@ -36,10 +36,6 @@ public class FadeOut : MonoBehaviour {
 	IEnumerator corutineFade() {
 		float time = Fading (1);
 		yield return new WaitForSeconds(time);
-<<<<<<< HEAD
 		Application.LoadLevel(5);
-=======
-		Application.LoadLevel(4);
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 	}
 }

@@ -22,13 +22,10 @@ public class CharacterScript : MonoBehaviour {
 	private int speed;
 
 
-<<<<<<< HEAD
 	// === EXPERIENCE ===
 	private int experience;
 	private int next;
 
-=======
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 	// ADD MORE ATTRIBUTES OF CHARACTER
 	private bool critical = false;
 
@@ -43,12 +40,9 @@ public class CharacterScript : MonoBehaviour {
 	private SaveData save;
 	private LoadData load;
 
-<<<<<<< HEAD
 	private GUIStyle text_style;
 	private GUIStyle guiStyleBack;
 
-=======
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 
 	// Use this for initialization
 	void Awake () {
@@ -64,7 +58,6 @@ public class CharacterScript : MonoBehaviour {
 		this.save = this.mc.saveData();
 		this.load = this.mc.loadData();
 
-<<<<<<< HEAD
 
 	}
 
@@ -80,17 +73,6 @@ public class CharacterScript : MonoBehaviour {
 		this.loadAttributes ();
 		this.printAttributes ();
 		this.calculateEXP ();
-=======
-		// LOAD ATTRIBUTES
-		this.bar_health = this.load.loadVIT ();
-		this.bar_magic = this.load.loadPM ();
-		this.strength = this.load.loadSTR ();
-		this.defense = this.load.loadDEF ();
-		this.speed = this.load.loadSPD ();
-
-		Debug.Log ("Attributes: VIT:" + this.bar_health + " PM:" + this.bar_magic + " STR:" + this.strength + " DEF:" + this.defense + " SPD:" + this.speed);
-
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 	}
 	
 	// Update is called once per frame.
@@ -104,17 +86,10 @@ public class CharacterScript : MonoBehaviour {
 	// ========================= COLISION CON NPC ==================================
 	
 	void OnTriggerEnter (Collider other){
-<<<<<<< HEAD
 		int damage = Random.Range ((this.strength + 1) - (int)(4 + this.strength * 0.25f), this.strength+1);
 		if(other.gameObject == this.NPCs){
 			this.NPCs.GetComponent<Movement>().setDamage(damage);
 			//print("Daño: " + damage); 
-=======
-		int damage = Random.Range (6, this.strength+1);
-		if(other.gameObject == this.NPCs){
-			this.NPCs.GetComponent<Movement>().setDamage(damage);
-			print("Daño: " + damage); 
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 		}	
 	}
 	
@@ -122,7 +97,6 @@ public class CharacterScript : MonoBehaviour {
 
 
 	// === METHODS GET/SET ATTRIBUTES ===
-<<<<<<< HEAD
 
 
 	// Get the actual value of level.
@@ -136,8 +110,6 @@ public class CharacterScript : MonoBehaviour {
 		this.save.saveStatus("LVL", this.level);
 		// CALL A PARAMETER UPDATE
 	}
-=======
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 
 	// Get the actual value of health.
 	public int getHealth(){
@@ -186,7 +158,6 @@ public class CharacterScript : MonoBehaviour {
 	
 	// Set actual strength value.
 	public void setFRZ(int FRZ){
-<<<<<<< HEAD
 
 		this.strength += FRZ;
 
@@ -196,9 +167,6 @@ public class CharacterScript : MonoBehaviour {
 			this.strength = this.load.loadSTR();
 
 		this.printAttributes ();
-=======
-		this.strength = FRZ;
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 	}
 
 	// Get the actual value of defense.
@@ -208,7 +176,6 @@ public class CharacterScript : MonoBehaviour {
 	
 	// Set actual defense value.
 	public void setDEF(int DEF){
-<<<<<<< HEAD
 
 		this.defense += DEF;
 
@@ -218,9 +185,6 @@ public class CharacterScript : MonoBehaviour {
 			this.defense = this.load.loadDEF();
 
 		this.printAttributes ();
-=======
-		this.defense = DEF;
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 	}
 
 	// Get the actual value of speed.
@@ -233,7 +197,6 @@ public class CharacterScript : MonoBehaviour {
 		this.speed = SPD;
 	}
 
-<<<<<<< HEAD
 	// Get the actual value of level.
 	public int getEXP(){
 		return this.experience;
@@ -255,8 +218,6 @@ public class CharacterScript : MonoBehaviour {
 		           + " SPD:" + this.speed);*/
 	}
 
-=======
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 
 	// ==============================================================================
 
@@ -288,7 +249,6 @@ public class CharacterScript : MonoBehaviour {
 		if (music != null) music.play_Player_Hurt ();
 	}
 
-<<<<<<< HEAD
 	// Method to Spell magic the 'Character'
 	public void setSpell(int spell){
 		this.bar_magic -= spell;
@@ -388,8 +348,6 @@ public class CharacterScript : MonoBehaviour {
 		this.speed = this.load.loadSPD ();
 		this.experience = this.load.loadEXP ();
 	}
-=======
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 
 	void calculateEXP(){
 

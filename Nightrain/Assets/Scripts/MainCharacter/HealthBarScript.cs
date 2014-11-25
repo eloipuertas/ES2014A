@@ -58,13 +58,9 @@ public class HealthBarScript : MonoBehaviour {
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
 
-<<<<<<< HEAD
 		this.max_health = this.cs.getMaxHealth ();
 		this.max_magic = this.cs.getMaxMagic ();
 
-=======
-		Debug.Log ("HEALTH:" + this.cs.getHealth ());
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 		// Resize the health and magic bar with the actual values
 		this.resize_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.cs.getMaxHealth (), -1);
 		this.resize_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.cs.getMaxMagic (), -1);

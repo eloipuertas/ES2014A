@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class Skill_Controller : MonoBehaviour {
-<<<<<<< HEAD
 	// Skills time to re-use them
 	public float fireball_cooldown = 2.0f;
 	public float dagger_skill_cooldown = 2.0f;
@@ -35,25 +34,11 @@ public class Skill_Controller : MonoBehaviour {
 		this.player = GameObject.FindGameObjectWithTag("Player");
 		this.cs = this.player.GetComponent<CharacterScript> ();
 		
-=======
-	public float fireball_cooldown = 2.0f;
-
-	private float actual_time;
-
-	private float fireball_time = 0.0f;
-	
-	private Transform fireball;
-	
-	// Use this for initialization
-	void Start () {
-		this.fireball = Resources.Load<Transform>("Prefabs/Character_Skills/Fireball_Skill");
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 		actual_time = Time.time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-<<<<<<< HEAD
 		
 		// Si el juego no esta en PAUSE
 		if (Time.timeScale == 1) {
@@ -119,25 +104,11 @@ public class Skill_Controller : MonoBehaviour {
 						ActionBarScript.disabledSkill3 = true;
 						print ("Skill3 true");
 					}
-=======
-		if (Time.timeScale == 1) {
-			if (Input.GetKeyDown (KeyCode.Alpha1)) {
-				actual_time = Time.time;
-				if (fireball_time == 0.0f || (actual_time - fireball_time) >= fireball_cooldown) {
-					animation.CrossFade ("metarig|Atacar", 0.2f);
-					fireball.rotation = transform.rotation;
-					Vector3 newPosition = transform.position;
-					newPosition.y += 2;
-					fireball.transform.position = newPosition;
-					Instantiate (fireball);
-					fireball_time = Time.time;
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 				}
 			}
 		}
 	}
 	
-<<<<<<< HEAD
 	bool skillOnCD (float skill_time, float cd_time) {
 		if (skill_time == 0.0f || (actual_time - skill_time) >= cd_time)
 			return false;
@@ -157,9 +128,5 @@ public class Skill_Controller : MonoBehaviour {
 			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
 			player.transform.rotation = targetRotation;
 		}
-=======
-	void OnParticleCollision(GameObject other) {
-		print ("hit by fire");
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class getWeapon : MonoBehaviour {
+
 	private GameObject character;
 	public GameObject tapa;
 	public GameObject arma1;

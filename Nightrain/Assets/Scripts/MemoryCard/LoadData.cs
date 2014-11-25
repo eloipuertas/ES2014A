@@ -31,13 +31,8 @@ public class LoadData : MonoBehaviour {
 		return PlayerPrefs.GetString("Difficult");
 	}
 
-<<<<<<< HEAD
 	public int loadLVL(){
 		return PlayerPrefs.GetInt("LVL");
-=======
-	public int loadNv(){
-		return PlayerPrefs.GetInt("Nv");
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 	}
 
 	public int loadVIT(){
@@ -60,11 +55,8 @@ public class LoadData : MonoBehaviour {
 		return PlayerPrefs.GetInt("SPD");
 	}
 
-<<<<<<< HEAD
 	public int loadEXP(){
 		return PlayerPrefs.GetInt("EXP");
 	}
 
-=======
->>>>>>> 3b3acbb0b4b2c81c9e17a4141d6481dfc8415649
 }
