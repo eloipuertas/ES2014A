@@ -64,7 +64,7 @@ public class CharacterScript : MonoBehaviour {
 	void Start(){
 		
 		this.text_style = new GUIStyle ();
-		this.text_style.normal.textColor = Color.white;
+		this.text_style.normal.textColor = Color.black;
 		this.text_style.fontSize = 15;
 		//this.text_style.alignment = TextAnchor.UpperCenter ; 
 		this.text_style.wordWrap = true;

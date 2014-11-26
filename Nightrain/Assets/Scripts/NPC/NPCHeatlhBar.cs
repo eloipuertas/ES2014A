@@ -4,7 +4,7 @@ using System.Collections;
 public class NPCHeatlhBar : MonoBehaviour {
 	
 	private Movement enemy;
-	private GameObject npc;
+	public GameObject npc;
 	
 	// Values to postion de HealthBar
 	public float x;
@@ -28,7 +28,7 @@ public class NPCHeatlhBar : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		this.npc = GameObject.FindGameObjectWithTag ("Enemy");
+		//this.npc = GameObject.FindGameObjectWithTag ("Enemy");
 		this.enemy = this.npc.GetComponent<Movement> ();
 
 		//Debug.Log ("HEALTH:" + this.enemy.getAttributes().getHealth ());

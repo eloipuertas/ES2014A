@@ -149,16 +149,18 @@ public class Movement_graveler : MonoBehaviour {
 		
 		// Calculamos la ruta hacia el personaje principal
 		calcularPath(p);
-		
-		// En caso de llegar al final del camino
-		if (currentWaypoint > path.vectorPath.Count)
-			return; 
-		
-		// Rotamos y trasladamos hacia el siguente punto de la ruta
-		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(path.vectorPath[currentWaypoint] - transform.position), rotationSpeed * Time.deltaTime);
-		transform.position += transform.forward * moveSpeed * Time.deltaTime;
-		// Incrementamos para poder ir al siguiente punto de la ruta calculada
-		currentWaypoint++;
+
+		if (path != null){
+			// En caso de llegar al final del camino
+			if (currentWaypoint > path.vectorPath.Count)
+				return; 
+			
+			// Rotamos y trasladamos hacia el siguente punto de la ruta
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(path.vectorPath[currentWaypoint] - transform.position), rotationSpeed * Time.deltaTime);
+			transform.position += transform.forward * moveSpeed * Time.deltaTime;
+			// Incrementamos para poder ir al siguiente punto de la ruta calculada
+			currentWaypoint++;
+		}
 	}
 	
 	// Metodo que rota el NPC unos determinados grados
