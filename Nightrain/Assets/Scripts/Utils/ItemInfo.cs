@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class ItemInfo : MonoBehaviour {
-
+	
+		
 	// ====== TEXT STYLES ======
 	public string text_item;
 	private string text;
@@ -62,6 +63,7 @@ public class ItemInfo : MonoBehaviour {
 			this.renderer.materials[i].SetColor ("_OutlineColor", new Color(1f, 0f ,0f));
 			this.renderer.materials[i].shader = shader1;
 		}
+
 	}
 
 	void OnMouseExit () { 

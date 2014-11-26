@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Music_Engine_Script : MonoBehaviour {
-
+	
 	public AudioClip npc_golem_attack;
 	public AudioClip npc_golem_agresive;
 	public AudioClip character_attack;
@@ -14,6 +14,8 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip open_chest;
 	public AudioClip fireball_explosion;
 	public AudioClip fireball_shot;
+	public AudioClip lethalknife_shot;
+	public AudioClip lethalknife_collision;
 	
 	// Use this for initialization
 	void Start () {
@@ -78,5 +80,13 @@ public class Music_Engine_Script : MonoBehaviour {
 	
 	public void play_Fireball_Explosion () {
 		audio.PlayOneShot (fireball_explosion);
+	}
+	
+	public void play_Lethalknife_Shot () {
+		audio.PlayOneShot (lethalknife_shot);
+	}
+	
+	public void play_Lethalknife_Collision () {
+		audio.PlayOneShot (lethalknife_collision);
 	}
 }

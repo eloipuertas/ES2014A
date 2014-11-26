@@ -8,31 +8,30 @@ private var getObjectScene : RaycastHit;
 private var targetPosition : Vector3;
 private var targetPoint : Vector3;
 private var moving : boolean = false; //Whether the player is moving or has stopped
+
+//MODIFICACIO PER MANTENIRLO SOBRE EL TERRA
+private var gravity: float;
+
+private var controller: CharacterController;
+
 private var music : Component;
 // SCREEN VALUES
 /*private var width:int = Screen.width;
 private var height:int = Screen.height;
-
 // ATRIBUTES CHARACTER
 var bar_health:int;
 var bar_magic:int;
-
 private var health:float;
-
 // HEALTH BAR
 // --- TEXTURES ---
 private var AvatarTexture:Texture2D;
-
 private var HealthTexture:Texture2D;
 private var HealthBarTexture:Texture2D;
-
 private var MagicTexture:Texture2D;
 private var MagicBarTexture:Texture2D;
-
 // --- MATERIALS ---
 private var HealthBarMaterial:Material;
 private var MagicBarMaterial:Material;
-
 // LOW HEALTH
 private var c:Color;*/
 
@@ -42,6 +41,8 @@ function Start()
     animation["metarig|Caminar"].speed = 2.75;
     animation["metarig|Atacar"].speed = 1.5;
     music = GameObject.Find("MusicEngine").GetComponent("Music_Engine_Script");
+    
+    controller = GetComponent(CharacterController);
     /*this.bar_health = 100;
 	this.bar_magic = 100;
 	
@@ -69,11 +70,12 @@ function Start()
 function Update ()
 {
 
+	if (Time.deltaTime != 0) {
 	//UpdateHealth();
     // Walking animation control
     if(moving){
         // Stop animation
-        if(transform.position == targetPoint){
+        if(transform.position.x == targetPoint.x & transform.position.z == targetPoint.z){
             //animation.CrossFade("Armature|Idle",0.2f);
             //Debug.Log ("moved to target location");
             animation.Stop("metarig|Caminar"); 
@@ -104,7 +106,7 @@ function Update ()
         }
        
     	if(Physics.Raycast(ray, getObjectScene, 100)){
-            if(getObjectScene.transform.gameObject.tag.Equals("Enemy")|| getObjectScene.transform.gameObject.tag.Equals("Object")){
+            if(getObjectScene.transform.gameObject.tag.Equals("Enemy")){
             	//Debug.Log("Enemigo seleccionado");
             	//animation.Stop("metarig|Caminar");
             	moving = false;
@@ -129,6 +131,12 @@ function Update ()
 
     // find the target position relative to the player:
     var dir: Vector3 = targetPosition - transform.position;
+    
+    //MODIFICACIO MANTENIRLO SOBRE EL TERRA
+    gravity -= 9.81 * Time.deltaTime;
+    if(GetComponent(CharacterController).isGrounded) gravity = 0; // treure el getComponent al Start() i aqui utilitzar simplement la instancia
+    dir.y = gravity;
+    
     // calculate movement at the desired speed:
     var movement: Vector3 = dir.normalized * speed * Time.deltaTime;
     // limit movement to never pass the target position:
@@ -136,9 +144,10 @@ function Update ()
 
    
 
+	//MODIFICACIO OPTIMITZACIO
     // move the character:
-    GetComponent(CharacterController).Move(movement);
-
+    controller.Move(movement);
+	}
 	
 
 }
@@ -149,8 +158,6 @@ function SelectTarget(){
 }
 
 /*function UpdateHealth () {
-
-
 	// Esto es para cuando le quede 1/4 de vida se ponga en rojo
 	if(this.health >= 0.9f){
 		this.c.r = 1.0f;
@@ -173,17 +180,13 @@ function SelectTarget(){
 	}
 	
 }
-
 function getHealth():int{
 	return this.bar_health;
 }
-
 function setHealth(health:int){
 	this.bar_health = health;
 }
-
 function OnGUI(){
-
 	if(Event.current.type.Equals(EventType.Repaint)){
 		
 		// AVATAR ZONE

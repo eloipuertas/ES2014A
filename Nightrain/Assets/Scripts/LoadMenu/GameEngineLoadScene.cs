@@ -9,11 +9,24 @@ public class GameEngineLoadScene : MonoBehaviour {
 	// ========== TEXTURES ============
 	private Texture2D backgroundTexture;
 
+	public float delay = 5;
+	private bool isLoading = false;
+
+
 	// Use this for initialization
 	void Start () {
 
 		this.backgroundTexture = Resources.Load<Texture2D>("LoadScene/background_load" + level);
-		Application.LoadLevel(3);
+	}
+
+	void Update(){
+
+		delay -= 1 * Time.deltaTime;
+
+		if(delay <= 0 && !isLoading){
+			this.isLoading = true;
+			Application.LoadLevel(3);
+		}
 	}
 
 	void OnGUI(){

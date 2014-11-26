@@ -123,7 +123,7 @@ public class MainMenuGUI {
 		this.sageTexture = Resources.Load<Texture2D>("MainMenu/sage");
 		this.sageAttributesTexture = Resources.Load<Texture2D>("MainMenu/attributes_sage");
 
-		this.thiefTexture = Resources.Load<Texture2D>("MainMenu/warrior");
+		this.thiefTexture = Resources.Load<Texture2D>("MainMenu/thief");
 		this.thiefAttributesTexture = Resources.Load<Texture2D>("MainMenu/attributes_thief");
 
 		// DIFFICULTY SELECTOR

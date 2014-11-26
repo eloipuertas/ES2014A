@@ -1,61 +1,103 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Pathfinding;
 
 public class Movement : MonoBehaviour {
 
 	//##############################
 	//Atributos personaje
-	private float moveSpeed = 2; 
-	private float health = 100;
-	private float max_health = 100;
-	private float defense = 10;
-	private float attackPower = 5;
+	public float moveSpeed = 5; 
+	public float health = 75;
+	public float max_health = 75;
+	public float defense = 5;
+	public float attackPower = 3;
+	public int experience = 100;
 	//##############################
-	
+
+
+	//##############################
+	//Pathfinding
+	public Path path;
+	private Seeker seeker;
+	public float repathRate = 10.0f;
+	private float lastRepath = -9999;
+	public float nextWaypointDistance = 3;
+	private int currentWaypoint = 1;
+	private bool hecho = false;
+	public float speed = 100;
+	//#############################
+
+
 	private string state = "None";
+	private string difficulty;
 	string[] states = {"Walk", "Find", "Attack", "Dead"};
-	private float rotationSpeed = 1.0f;
+	private float rotationSpeed = 10.0f;
 	private float attackTime = 3.0f;
-	
+
 	// Los nombres de los tres puntos que estan distribuidos por el mapa
 	string[] points = {"Point1", "Point2", "Point3"};
 	int j = 0;
-	
+
+	private NPCAttributes npcAttributes;
 	private GameObject player;
 	private Transform player_transform;
 	private Animator anim;
-	
 	//private GameObject NPCbar;
 	private Music_Engine_Script music;
+
+
+	// Metodo que se llama cuando una ruta ha sido calculada
+	public void OnPathComplete (Path p) {
+		p.Claim (this);
+		if (!p.error) {
+			if (path != null) path.Release (this);
+			path = p;
+			currentWaypoint = 1;
+		} else {
+			p.Release (this);
+			Debug.Log ("No se puede llegar a este punto de destino: "+p.errorLog);
+		}
+	}
+
 	
+	void Awake(){
+		this.npcAttributes = new NPCAttributes (health, max_health, attackPower, defense, moveSpeed, experience);
+		//print ("Experiencia: " + this.npcAttributes.getExperience ());
+
+	}
+
 	// Use this for initialization
 	void Start () {
+
+		seeker = GetComponent<Seeker>();
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
-
+		difficulty = PlayerPrefs.GetString ("Difficulty");
+		npcAttributes.setDificulty (difficulty);
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		// Cosas a determinar por el programador de IA
 		if (!state.Equals("Dead")) {
 			float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
-			if (distance_to_player < 10) {
+			if (distance_to_player < 7) {
 				atack ();
-			} else if (distance_to_player < 60) {
+			} else if (distance_to_player < 20) {
 				perseguir ();
 			} else {
 				seguirPuntos ();
 			}
 		}
 	}
-	
+
+
 	// Metodo que hace que el personaje vaya uno a uno a los tres puntos del mapa
 	void seguirPuntos(){
-
+		
+		//state = "Walk";
 		anim.SetBool("w_attack", false);
 		anim.SetBool("a_walk", true);
 		anim.SetBool ("walk", true);
@@ -70,10 +112,21 @@ public class Movement : MonoBehaviour {
 				j = 0;
 			}
 		}
-		// Rotamos hacia la direccion
-		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(punto.transform.position - transform.position), rotationSpeed * Time.deltaTime);
-		// Transladamos el NPC hacia el punto
-		transform.position += transform.forward * moveSpeed * Time.deltaTime;
+		
+		// Calculamos el camino hacia el punto
+		calcularPath(punto.transform.position);
+
+		if (path != null){
+			// En caso de llegar al final del camino
+			if (currentWaypoint > path.vectorPath.Count)
+				return; 
+			
+			// Rotamos y trasladamos hacia el siguente punto de la ruta
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(path.vectorPath[currentWaypoint] - transform.position), rotationSpeed * Time.deltaTime);
+			transform.position += transform.forward * moveSpeed * Time.deltaTime;
+			// Incrementamos para poder ir al siguiente punto de la ruta calculada
+			currentWaypoint++;
+		}
 	}
 	
 	void perseguir(){
@@ -86,8 +139,19 @@ public class Movement : MonoBehaviour {
 		anim.SetBool ("walk", true);
 		Vector3 p= player_transform.position ;
 		p.y = transform.position.y;
-		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
-		transform.position += transform.forward * moveSpeed * 2 * Time.deltaTime;
+		
+		// Calculamos la ruta hacia el personaje principal
+		calcularPath(p);
+		
+		// En caso de llegar al final del camino
+		if (currentWaypoint > path.vectorPath.Count)
+			return; 
+		
+		// Rotamos y trasladamos hacia el siguente punto de la ruta
+		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(path.vectorPath[currentWaypoint] - transform.position), rotationSpeed * Time.deltaTime);
+		transform.position += transform.forward * moveSpeed * Time.deltaTime;
+		// Incrementamos para poder ir al siguiente punto de la ruta calculada
+		currentWaypoint++;
 	}
 	
 	// Metodo que rota el NPC unos determinados grados
@@ -118,11 +182,13 @@ public class Movement : MonoBehaviour {
 	
 	
 	public void setDamage(float damage){
-		health -= damage;
+		npcAttributes.setDamage (damage);
 		//this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
-		if (health < 1) {
+		if (npcAttributes.getHealth() < 1) {
 			state = "Dead";
-			Debug.Log ("NPC muerto");
+			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
+			this.collider.enabled = false;
+			//Debug.Log ("NPC muerto");
 			anim.SetBool("a_walk", false);
 			anim.SetBool("walk", false);
 			anim.SetBool ("w_attack", false);
@@ -130,43 +196,43 @@ public class Movement : MonoBehaviour {
 		}
 	}
 
-
-	public void setHealth(float health){
+	
+	
+	/*public void setHealth(float health){
 		this.health = health;
 		this.max_health = health;
-	}
+	}*/
+
 	
-	public void setDefense(float defense){
-		this.defense = defense;
-	}
-	
-	public void setAttackPower(float attackPower){
-		this.attackPower = attackPower;
-	}
-	
-	public void setMoveSpeed(float moveSpeed){
-		this.moveSpeed = moveSpeed;
-	}
-	
-	public float getHealth(){
-		return this.health;
+	public NPCAttributes getAttributes(){
+		return npcAttributes;
 	}
 
-	public float getMaxHealth(){
-		return this.max_health;
+
+	private void calcularPath(Vector3 punto){
+		if (Time.time - lastRepath > repathRate && seeker.IsDone ()) {
+			if (!hecho) {
+				// Calculamos la ruta
+				seeker.StartPath (transform.position, punto, OnPathComplete);
+				hecho = true;
+			}
+		}
+		if (path == null) {
+			// No se ha podido calcular ninguna ruta
+			return;
+		}
+		if (currentWaypoint > path.vectorPath.Count)
+			return; 
+		if (currentWaypoint == path.vectorPath.Count) {
+			Debug.Log ("Se ha llegado al final de la ruta");
+			currentWaypoint++;
+			hecho = false;
+			return;
+		}
 	}
-	
-	public float getDefense(){
-		return this.defense;
-	}
-	
-	public float getMoveSpeed(){
-		return this.moveSpeed;
-	}
-	
-	public float getAttackPower(){
-		return this.attackPower;
-	}
+
+
+
 	
 	/*void OnTriggerEnter (Collider other){
 		print("Tocado."); 
@@ -177,8 +243,4 @@ public class Movement : MonoBehaviour {
 			System.Console.WriteLine("System:Tocado");	
 		}	
 	}*/
-
-	void OnParticleCollision(GameObject other) {
-		setDamage (20);
-	}
 }

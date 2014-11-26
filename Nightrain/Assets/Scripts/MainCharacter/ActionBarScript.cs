@@ -5,6 +5,12 @@ public class ActionBarScript : MonoBehaviour {
 
 	// ACTION BAR
 	// --- TEXTURES ---
+	private Texture2D fireballTexture;
+	private Texture2D reloadFireballTexture;
+	private Texture2D PowerKnifeTexture;
+	private Texture2D reloadPowerKnifeTexture;
+	private Texture2D DarkAuraTexture;
+	private Texture2D reloadDarkAuraTexture;
 	private Texture2D actionBarTexture;
 	private Texture2D runIconTexture;
 	private Texture2D attackIconTexture;
@@ -24,6 +30,10 @@ public class ActionBarScript : MonoBehaviour {
 
 	private bool takePotion = false;
 
+	public static bool disabledSkill1 = false;
+	public static bool disabledSkill2 = false;
+	public static bool disabledSkill3 = false;
+
 	// Use this for initialization
 	void Start () {
 
@@ -31,12 +41,19 @@ public class ActionBarScript : MonoBehaviour {
 		this.cs = this.character.GetComponent<CharacterScript> ();
 
 		// ADD TEXTURES
-		this.actionBarTexture = Resources.Load<Texture2D>("ActionBar/actionbar_v3");
+		this.actionBarTexture = Resources.Load<Texture2D>("ActionBar/actionbar_v4");
 
-		this.attackIconTexture = Resources.Load<Texture2D>("ActionBar/icon_attack");
+		this.fireballTexture = Resources.Load<Texture2D>("ActionBar/skill_fireball");
+		this.reloadFireballTexture = Resources.Load<Texture2D>("ActionBar/reload_fireball");
+		this.PowerKnifeTexture = Resources.Load<Texture2D>("ActionBar/skill_powerKnife");
+		this.reloadPowerKnifeTexture = Resources.Load<Texture2D>("ActionBar/reload_powerKnife");
+		this.DarkAuraTexture = Resources.Load<Texture2D>("ActionBar/skill_aura");
+		this.reloadDarkAuraTexture = Resources.Load<Texture2D>("ActionBar/reload_aura");
+
+		this.attackIconTexture = Resources.Load<Texture2D>("ActionBar/icon_attack_v2");
 		this.runIconTexture = Resources.Load<Texture2D>("ActionBar/icon_run");
-		this.potionIconTexture = Resources.Load<Texture2D>("ActionBar/icon_potion");
-		this.inventoryIconTexture = Resources.Load<Texture2D>("ActionBar/icon_inventory");
+		this.potionIconTexture = Resources.Load<Texture2D>("ActionBar/icon_potion_v2");
+		this.inventoryIconTexture = Resources.Load<Texture2D>("ActionBar/icon_inventory_v2");
 
 		//Debug.Log (this.actionBarTexture.name);
 
@@ -56,7 +73,6 @@ public class ActionBarScript : MonoBehaviour {
 
 	void Update() {
 
-
 		if (Input.GetMouseButtonDown (1)) {
 			//MOUSE BUTTON RIGHT ATTACK
 			this.character.animation.CrossFade ("metarig|Atacar", 0.2f);
@@ -73,6 +89,10 @@ public class ActionBarScript : MonoBehaviour {
 		this.drawActionBar ();
 	}
 
+	public float x;
+	public float x2;
+	public float x3;
+
 	void drawActionBar(){
 
 		// ACTION BAR
@@ -82,31 +102,68 @@ public class ActionBarScript : MonoBehaviour {
 		                          Screen.height * this.actionbar_box.height),
 		                this.actionBarTexture);
 
+		//SKILLS
+
+		// FIREBALL ICON
+		if(disabledSkill1 == false){
+			GUI.DrawTexture( new Rect (Screen.width * 0.3041f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
+			                this.fireballTexture);
+		}else if(disabledSkill1 == true){
+			//this.cs.setMagic(-15);
+			GUI.DrawTexture( new Rect (Screen.width * 0.3041f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
+			                this.reloadFireballTexture);
+		}
+
+		// Knife ICON
+		if(disabledSkill2 == false){
+			GUI.DrawTexture( new Rect (Screen.width * 0.3445f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
+			                this.PowerKnifeTexture);
+		}else if(disabledSkill2 == true){
+			//this.cs.setMagic(-15);
+			GUI.DrawTexture( new Rect (Screen.width * 0.3445f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
+			                this.reloadPowerKnifeTexture);
+		}
+
+		// Aura ICON
+		if(disabledSkill3 == false){
+			GUI.DrawTexture( new Rect (Screen.width * 0.386f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
+			                this.DarkAuraTexture);
+		}else if(disabledSkill3 == true){
+			//this.cs.setMagic(-15);
+			GUI.DrawTexture( new Rect (Screen.width * 0.386f, Screen.height * 0.90075f, Screen.width * 0.034f, Screen.height * 0.0685f), 
+			                this.reloadDarkAuraTexture);
+		}
+
+		// MOUSE SKILL
+
 		// RUN ICON
-		GUI.DrawTexture( new Rect (Screen.width * 0.47f,
-		                           Screen.height * 0.925f,
-		                           Screen.width * 0.03f,
-		                           Screen.height * 0.05f), 
+		GUI.DrawTexture( new Rect (Screen.width * 0.4705f,
+		                           Screen.height * 0.90075f,
+		                           Screen.width * 0.034f,
+		                           Screen.height * 0.0685f), 
 		                this.runIconTexture);
 
 		// ATTACK ICON
-		GUI.DrawTexture( new Rect (Screen.width * 0.508f,
-		                           Screen.height * 0.927f,
-		                           Screen.width * 0.03f,
-		                           Screen.height * 0.05f), 
+		GUI.DrawTexture( new Rect (Screen.width * 0.5115f,
+		                           Screen.height * 0.90075f,
+		                           Screen.width * 0.034f,
+		                           Screen.height * 0.0685f), 
 		                this.attackIconTexture);
+
+
+		// OPTION SKILL
 
 		// IF IN THE INVENTORY HAS POTION SHOW IT
 		if (inventory.getPotion () != 0) {
 
-			GUI.DrawTexture( new Rect (Screen.width * 0.535f,
-			                            Screen.height * 0.9275f,
-			                            Screen.width * 0.05f,
-			                            Screen.height * 0.05f), 
+			GUI.DrawTexture( new Rect (Screen.width * 0.5525f,
+			                           Screen.height * 0.90075f,
+			                           Screen.width * 0.034f,
+			                           Screen.height * 0.0685f), 
 			                  this.potionIconTexture);
 
-			GUI.Label (new Rect(Screen.width * 0.29f,
-			                    Screen.height * 0.95f,
+			GUI.Label (new Rect(Screen.width * 0.305f,
+			                    Screen.height * 0.94f,
 			                    Screen.width * 0.55f,
 			                    Screen.height * 0.25f),
 			           inventory.getPotion().ToString(),
@@ -117,10 +174,10 @@ public class ActionBarScript : MonoBehaviour {
 		}
 
 		// BAG ICON
-		GUI.DrawTexture( new Rect (Screen.width * 0.6f,
-		                           Screen.height * 0.9275f,
-		                           Screen.width * 0.05f,
-		                           Screen.height * 0.05f), 
+		GUI.DrawTexture( new Rect (Screen.width * 0.622f,
+		                           Screen.height * 0.90075f,
+		                           Screen.width * 0.034f,
+		                           Screen.height * 0.0685f), 
 		                this.inventoryIconTexture);
 
 
