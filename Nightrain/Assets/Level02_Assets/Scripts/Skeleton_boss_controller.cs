@@ -103,7 +103,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	void rotateToPlayer(Vector3 playerPos) {
 		Vector3 plaPos = playerPos;
 		// Boss skeleton simple
-		plaPos.y = 8.0f;
+		plaPos.y = playerPos.y + 8.0f;
 		// Boss lanza
 		//plaPos.y -= 2.0f;
 		transform.rotation = Quaternion.LookRotation (plaPos - transform.position);
@@ -112,7 +112,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	void rotateToPlayer(Vector3 playerPos, float lookAt) {
 		Vector3 plaPos = playerPos;
 		// Boss skeleton simple
-		plaPos.y = lookAt;
+		plaPos.y = plaPos.y - 2.0f;
 		// Boss lanza
 		//plaPos.y -= 2.0f;
 		transform.rotation = Quaternion.LookRotation (plaPos - transform.position);

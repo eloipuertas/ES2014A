@@ -88,7 +88,7 @@ function Update ()
     }
 
 
-    if(Input.GetKeyDown(KeyCode.Mouse0)) { 
+    if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetMouseButton(0)) { 
        //smooth=1;
         speed = 30; 
         

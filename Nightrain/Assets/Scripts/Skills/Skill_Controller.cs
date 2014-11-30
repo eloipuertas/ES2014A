@@ -45,7 +45,7 @@ public class Skill_Controller : MonoBehaviour {
 			actual_time = Time.time;
 			
 			// Al presionar el boton 1 del teclado disparamos la bola de fuego
-			if (Input.GetKeyDown (KeyCode.Alpha1) && ActionBarScript.disabledSkill1 == false) {
+			if (Input.GetKeyDown (KeyCode.Alpha1)) {
 
 				if(this.cs.getMagic() >= 15){ //<-- 15PM
 					if (!skillOnCD(fireball_time, fireball_cooldown)) {
@@ -59,7 +59,7 @@ public class Skill_Controller : MonoBehaviour {
 						//Guardamos el tiempo de disparo de la bola de fuega
 						fireball_time = Time.time;
 						ActionBarScript.disabledSkill1 = true;
-						print ("Skill1 true");
+						//print ("Skill1 true");
 					}
 				}
 			}
@@ -79,7 +79,7 @@ public class Skill_Controller : MonoBehaviour {
 						//Guardamos el tiempo de disparo de la bola de fuega
 						dagger_skill_time = Time.time;
 						ActionBarScript.disabledSkill2 = true;
-						print ("Skill2 true");
+						//print ("Skill2 true");
 					}
 				}
 			}
@@ -96,13 +96,13 @@ public class Skill_Controller : MonoBehaviour {
 						this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
 						this.cs.setSpell(30);		// to cast a spell cost 30PM.
 						Vector3 newPosition = player.transform.position;
-						newPosition.y = 0;
+						newPosition.y = transform.position.y - 2;
 						warrior_aura_actual = Instantiate (warrior_aura, newPosition, player.transform.rotation) as GameObject;
 						// asignamos al personaje como padre
 						warrior_aura_actual.transform.parent = player.transform;
 						warrior_aura_time = Time.time; // para el cooldown
 						ActionBarScript.disabledSkill3 = true;
-						print ("Skill3 true");
+						//print ("Skill3 true");
 					}
 				}
 			}

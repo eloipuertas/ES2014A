@@ -9,7 +9,7 @@ public class Volcan_VideoAnimator : MonoBehaviour {
 	public GameObject eff4;
 	public GameObject demon;
 	public GameObject cam;
-	private Skeleton_controller_2 demon_anim;
+	private FireDemon_Controller demon_anim;
 
 	private float time = 0.0f;
 	private float anim_time = 0.0f;
@@ -17,7 +17,7 @@ public class Volcan_VideoAnimator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		demon_anim = demon.GetComponent<Skeleton_controller_2> ();
+		demon_anim = demon.GetComponent<FireDemon_Controller> ();
 	}
 	
 	// Update is called once per frame
@@ -33,7 +33,9 @@ public class Volcan_VideoAnimator : MonoBehaviour {
 				eff4.SetActive (true);
 				demon.SetActive (true);
 			}
-			if (anim_time >= 4.5f) demon_anim.rageAnim ();
+			if (anim_time >= 4.5f && anim_time < 7.2f) {
+				demon_anim.rageAnim ();
+			}
 			if (anim_time >= 7.2f) {
 				first_anim = false;
 				Destroy (eff1);
@@ -41,6 +43,7 @@ public class Volcan_VideoAnimator : MonoBehaviour {
 				Destroy (eff2, 2.0f);
 				Destroy (eff4);
 				cam.SetActive(false);
+				demon_anim.set_notAnim();
 			}
 		}
 	}

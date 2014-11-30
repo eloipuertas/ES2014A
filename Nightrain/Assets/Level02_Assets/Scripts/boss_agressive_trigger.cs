@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class volcan_trigger : MonoBehaviour {
-	public GameObject cam;
+public class boss_agressive_trigger : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -15,8 +14,6 @@ public class volcan_trigger : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider other) {
-		if (other.tag == "Player") {
-			cam.SetActive(true);
-		}
+		GameObject.FindGameObjectWithTag ("Boss").GetComponent<Skeleton_boss_controller> ().setAgressive (true);
 	}
 }
