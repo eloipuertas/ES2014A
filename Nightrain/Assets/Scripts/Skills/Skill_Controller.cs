@@ -59,7 +59,6 @@ public class Skill_Controller : MonoBehaviour {
 						//Guardamos el tiempo de disparo de la bola de fuega
 						fireball_time = Time.time;
 						ActionBarScript.disabledSkill1 = true;
-						print ("Skill1 true");
 					}
 				}
 			}
@@ -79,7 +78,6 @@ public class Skill_Controller : MonoBehaviour {
 						//Guardamos el tiempo de disparo de la bola de fuega
 						dagger_skill_time = Time.time;
 						ActionBarScript.disabledSkill2 = true;
-						print ("Skill2 true");
 					}
 				}
 			}
@@ -102,7 +100,6 @@ public class Skill_Controller : MonoBehaviour {
 						warrior_aura_actual.transform.parent = player.transform;
 						warrior_aura_time = Time.time; // para el cooldown
 						ActionBarScript.disabledSkill3 = true;
-						print ("Skill3 true");
 					}
 				}
 			}

@@ -10,7 +10,6 @@ function Start(){
 }
 function OnCollisionEnter(collision : Collision){
 	if(collision.gameObject == GameObject.FindGameObjectWithTag ("Player")){
-		Debug.Log("Collision");
 		if (object_health==0){
 			apear.SetActive(true);
 			var expl = Instantiate(explosion, transform.position, Quaternion.identity);

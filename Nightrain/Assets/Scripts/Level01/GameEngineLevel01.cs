@@ -18,9 +18,13 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private Color c;
 	
 	// --- NPCs ---
-	private string[] nameNPC = {"Enemy"};
-	private GameObject npc;
-	private Movement ms;
+	private string[] nameNPC = {"Enemy","Boss"};
+	private GameObject[] npc_enemy;
+	private GameObject npc_boss;
+
+	private Movement boss;
+	private Movement_graveler enemy;
+
 	private bool allIsDead = false;
 	
 	// --- Camaras ---
@@ -38,7 +42,10 @@ public class GameEngineLevel01 : MonoBehaviour {
 		Instantiate (prefab);
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
-		
+
+		this.npc_boss = GameObject.FindGameObjectWithTag("Boss");
+		this.npc_enemy = GameObject.FindGameObjectsWithTag("Enemy");
+
 		this.camera1 = GameObject.FindGameObjectWithTag ("MainCamera");
 		this.camera1.SetActive (true);
 		
@@ -88,22 +95,36 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	//Comprueba si los enemigos de la lista estan muertos
 	void isAllEnemysDead(){
-		foreach (string item in nameNPC) {
-			this.npc = GameObject.FindGameObjectWithTag (item);
-			
-			if(this.npc != null){
-				this.ms = this.npc.GetComponent<Movement> ();
-				
-				if(ms.getAttributes().getHealth() <= 0.0f){
-					//Destroy(npc);
-					npc = null;
+		//foreach (GameObject item in npc) {
+		//this.npc = GameObject.FindGameObjectWithTag (item);
+		//print ("Name: " + this.npc.name);
+		if(this.npc_enemy != null && this.npc_boss != null){
+
+			if(this.npc_boss.tag == "Boss"){
+				this.boss = this.npc_boss.GetComponent<Movement> ();
+				if(boss.getAttributes().getHealth() <= 0.0f){
+					//Destroy(npc_boss);
+					npc_boss = null;
 				}
 			}
-			if(npc != null){
-				break;
+
+			for(int i = 0; i < npc_enemy.Length; i++){
+				if(this.npc_enemy[i] != null && this.npc_enemy[i].tag == "Enemy"){
+					this.enemy = this.npc_enemy[i].GetComponent<Movement_graveler> ();
+					if(enemy.getAttributes().getHealth() <= 0.0f){
+						//Destroy(npc_enemy[i]);
+						npc_enemy[i] = null;
+					}
+				}
 			}
+
+
 		}
-		if (this.npc == null) {
+		/*if(npc_boss != null){
+			break;
+		}*/
+		//}
+		if (this.npc_boss == null) {
 
 			delay -= 1 * Time.deltaTime;
 
@@ -113,6 +134,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 			}
 		}
 	}
+
 	
 	void PauseScreen(){
 		

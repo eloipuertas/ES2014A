@@ -4,6 +4,7 @@ using Pathfinding;
 
 public class Movement_graveler : MonoBehaviour {
 	
+
 	//##############################
 	//Atributos personaje
 	public float moveSpeed = 5; 
@@ -42,6 +43,11 @@ public class Movement_graveler : MonoBehaviour {
 	private GameObject player;
 	private Transform player_transform;
 	private Animator anim;
+
+	// Effect to die
+	private static GameObject explosion;
+	public float explosion_delay = 2f;
+
 	//private GameObject NPCbar;
 	private Music_Engine_Script music;
 	
@@ -91,7 +97,7 @@ public class Movement_graveler : MonoBehaviour {
 				atack ();
 			} else if (distance_to_player < 50) {
 				perseguir ();
-				Debug.Log("perseguir");
+				//Debug.Log("perseguir");
 			} else {
 				//seguirPuntos ();
 				anim.SetBool("a_walk", false);
@@ -99,6 +105,10 @@ public class Movement_graveler : MonoBehaviour {
 				anim.SetBool ("w_idle", true);
 				state = "None";
 			}
+		}else{
+			explosion_delay -= Time.deltaTime;
+			if(explosion_delay < 0)
+				Destroy(gameObject);
 		}
 	}
 	
@@ -197,11 +207,14 @@ public class Movement_graveler : MonoBehaviour {
 			state = "Dead";
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;
-			//Debug.Log ("NPC muerto");
 			anim.SetBool("a_walk", false);
 			anim.SetBool("walk", false);
 			anim.SetBool ("w_attack", false);
 			anim.SetBool("a_death", true);
+			
+			explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/explosion")) as GameObject;
+			explosion.transform.position = transform.position;
+			explosion.transform.parent = transform;
 		}
 	}
 	
@@ -233,7 +246,7 @@ public class Movement_graveler : MonoBehaviour {
 		if (currentWaypoint > path.vectorPath.Count)
 			return; 
 		if (currentWaypoint == path.vectorPath.Count) {
-			Debug.Log ("Se ha llegado al final de la ruta");
+			//Debug.Log ("Se ha llegado al final de la ruta");
 			currentWaypoint++;
 			hecho = false;
 			return;
