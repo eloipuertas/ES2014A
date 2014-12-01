@@ -17,6 +17,7 @@ public class TrapController : MonoBehaviour {
 	void FixedUpdate () {
 		activated_firetrap = Time.time - firetraps_time;
 		if (activated_firetrap >= 1.5f) {
+			firetraps = GameObject.FindGameObjectsWithTag ("FireTrap");
 			setFireTraps ();
 		}
 	}
@@ -30,7 +31,7 @@ public class TrapController : MonoBehaviour {
 				particle.emissionRate = 20.0f;
 				particle.startSpeed = 20.0f;
 			} else {
-				particle.emissionRate = 5.0f;
+				particle.emissionRate = 1.0f;
 				particle.startSpeed = 1.0f;
 			}
 		}

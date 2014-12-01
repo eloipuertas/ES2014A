@@ -40,6 +40,10 @@ public class StageController : MonoBehaviour {
 		case "Skeleton3":
 			skeletons[3] -= 1;
 			break;
+		
+		case "Skeleton4":
+			skeletons[4] -= 1;
+			break;
 		}
 	}
 }

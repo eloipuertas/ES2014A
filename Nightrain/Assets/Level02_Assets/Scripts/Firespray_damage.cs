@@ -26,7 +26,7 @@ public class Firespray_damage : MonoBehaviour {
 			other.gameObject.GetComponent<Movement>().setDamage(1);
 		}
 
-		if (name.Substring(0, name.Length-1) == "Skeleton") {
+		if (name.Substring(0, name.Length-1) == "Skeleton" || name == "Skeleton") {
 			other.gameObject.GetComponent<Skeleton_controller_2>().damage(2.0f);
 		}
 	}
