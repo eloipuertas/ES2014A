@@ -30,7 +30,8 @@ public class CharacterScript : MonoBehaviour {
 	private bool critical = false;
 
 	// =========================
-	private GameObject NPCs;
+	private GameObject[] NPCs;
+	private GameObject boss;
 
 	// MusicEngine GameObject that plays audio effects
 	private Music_Engine_Script music;
@@ -49,7 +50,8 @@ public class CharacterScript : MonoBehaviour {
 		
 		// ADD COMPONENT
 		// Buscamos al personaje principal
-		this.NPCs = GameObject.FindGameObjectWithTag("Enemy");
+		this.NPCs = GameObject.FindGameObjectsWithTag("Enemy");
+		this.boss = GameObject.FindGameObjectWithTag("Boss");
 
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
@@ -87,10 +89,16 @@ public class CharacterScript : MonoBehaviour {
 	
 	void OnTriggerEnter (Collider other){
 		int damage = Random.Range ((this.strength + 1) - (int)(4 + this.strength * 0.25f), this.strength+1);
-		if(other.gameObject == this.NPCs){
-			this.NPCs.GetComponent<Movement>().setDamage(damage);
-			//print("Daño: " + damage); 
-		}	
+
+		if(other.gameObject == this.boss)
+			this.boss.GetComponent<Movement>().setDamage(damage);
+			
+
+		for(int i = 0; i < NPCs.Length; i++)
+				if(other.gameObject == this.NPCs[i])
+					this.NPCs[i].GetComponent<Movement_graveler>().setDamage(damage);
+				
+			
 	}
 	
 	// ==============================================================================

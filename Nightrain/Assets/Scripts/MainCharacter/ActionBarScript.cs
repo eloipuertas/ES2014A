@@ -16,6 +16,7 @@ public class ActionBarScript : MonoBehaviour {
 	private Texture2D attackIconTexture;
 	private Texture2D potionIconTexture;
 	private Texture2D inventoryIconTexture;
+	private Texture2D mapIconTexture;
 
 	public Rect actionbar_box;
 	public Rect skill_box;
@@ -41,7 +42,7 @@ public class ActionBarScript : MonoBehaviour {
 		this.cs = this.character.GetComponent<CharacterScript> ();
 
 		// ADD TEXTURES
-		this.actionBarTexture = Resources.Load<Texture2D>("ActionBar/actionbar_v4");
+		this.actionBarTexture = Resources.Load<Texture2D>("ActionBar/actionbar");
 
 		this.fireballTexture = Resources.Load<Texture2D>("ActionBar/skill_fireball");
 		this.reloadFireballTexture = Resources.Load<Texture2D>("ActionBar/reload_fireball");
@@ -54,6 +55,7 @@ public class ActionBarScript : MonoBehaviour {
 		this.runIconTexture = Resources.Load<Texture2D>("ActionBar/icon_run");
 		this.potionIconTexture = Resources.Load<Texture2D>("ActionBar/icon_potion_v2");
 		this.inventoryIconTexture = Resources.Load<Texture2D>("ActionBar/icon_inventory_v2");
+		this.mapIconTexture = Resources.Load<Texture2D>("ActionBar/icon_map");
 
 		//Debug.Log (this.actionBarTexture.name);
 
@@ -179,6 +181,13 @@ public class ActionBarScript : MonoBehaviour {
 		                           Screen.width * 0.034f,
 		                           Screen.height * 0.0685f), 
 		                this.inventoryIconTexture);
+
+		// MAP ICON
+		GUI.DrawTexture( new Rect (Screen.width * 0.665f,
+		                           Screen.height * 0.90075f,
+		                           Screen.width * 0.034f,
+		                           Screen.height * 0.0685f), 
+		                this.mapIconTexture);
 
 
 	}

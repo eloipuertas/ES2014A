@@ -43,6 +43,13 @@ public class Movement : MonoBehaviour {
 	private Transform player_transform;
 	private Animator anim;
 	//private GameObject NPCbar;
+
+	// Effect to die
+	private static GameObject explosion;
+	private float explosion_delay = 3.5f;
+	private bool activateEffect = true; 
+
+
 	private Music_Engine_Script music;
 
 
@@ -89,6 +96,18 @@ public class Movement : MonoBehaviour {
 				perseguir ();
 			} else {
 				seguirPuntos ();
+			}
+		}else{
+
+			explosion_delay -= Time.deltaTime;
+
+			if(explosion_delay < 2.25f && activateEffect){
+				explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/explosion")) as GameObject;
+				explosion.transform.position = transform.position;
+				explosion.transform.parent = transform;
+				activateEffect = false;
+			}else if(explosion_delay < 0){
+				Destroy(gameObject);
 			}
 		}
 	}
@@ -142,16 +161,18 @@ public class Movement : MonoBehaviour {
 		
 		// Calculamos la ruta hacia el personaje principal
 		calcularPath(p);
-		
-		// En caso de llegar al final del camino
-		if (currentWaypoint > path.vectorPath.Count)
-			return; 
-		
-		// Rotamos y trasladamos hacia el siguente punto de la ruta
-		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(path.vectorPath[currentWaypoint] - transform.position), rotationSpeed * Time.deltaTime);
-		transform.position += transform.forward * moveSpeed * Time.deltaTime;
-		// Incrementamos para poder ir al siguiente punto de la ruta calculada
-		currentWaypoint++;
+
+		if (path != null){
+			// En caso de llegar al final del camino
+			if (currentWaypoint > path.vectorPath.Count)
+				return; 
+			
+			// Rotamos y trasladamos hacia el siguente punto de la ruta
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(path.vectorPath[currentWaypoint] - transform.position), rotationSpeed * Time.deltaTime);
+			transform.position += transform.forward * moveSpeed * Time.deltaTime;
+			// Incrementamos para poder ir al siguiente punto de la ruta calculada
+			currentWaypoint++;
+		}
 	}
 	
 	// Metodo que rota el NPC unos determinados grados
@@ -193,6 +214,7 @@ public class Movement : MonoBehaviour {
 			anim.SetBool("walk", false);
 			anim.SetBool ("w_attack", false);
 			anim.SetBool("a_death", true);
+
 		}
 	}
 
@@ -224,7 +246,7 @@ public class Movement : MonoBehaviour {
 		if (currentWaypoint > path.vectorPath.Count)
 			return; 
 		if (currentWaypoint == path.vectorPath.Count) {
-			Debug.Log ("Se ha llegado al final de la ruta");
+			//Debug.Log ("Se ha llegado al final de la ruta");
 			currentWaypoint++;
 			hecho = false;
 			return;

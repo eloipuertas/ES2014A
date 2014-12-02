@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 0d8436df64d517a4cbb3308a86d1852c
+=======
+guid: 5d0142a15b13ccf41b8e5b6e155a0079
+>>>>>>> devel_d
 folderAsset: yes
 DefaultImporter:
   userData: 
