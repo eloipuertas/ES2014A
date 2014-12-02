@@ -17,6 +17,7 @@ public class Bala : MonoBehaviour {
 	void Update () {
 		//tiramos la bala hacia el destino (player)
 		float stepSize = Time.deltaTime * speed;
+		if (destination != null){
 		transform.position = Vector3.MoveTowards(transform.position, destination.position, stepSize);
 		
 		//Debug.Log ("BALA");
@@ -26,6 +27,7 @@ public class Bala : MonoBehaviour {
 			player.GetComponent<CharacterScript>().setDamage(Damage);
 			// destroy bala
 			Destroy (gameObject);
+		}
 		}
 	}
 
