@@ -75,7 +75,7 @@ function Update ()
     // Walking animation control
     if(moving){
         // Stop animation
-        if(transform.position.x == targetPoint.x & transform.position.z == targetPoint.z){
+        if(transform.position.x == targetPoint.x && transform.position.z == targetPoint.z){
             //animation.CrossFade("Armature|Idle",0.2f);
             //Debug.Log ("moved to target location");
             animation.Stop("metarig|Caminar"); 

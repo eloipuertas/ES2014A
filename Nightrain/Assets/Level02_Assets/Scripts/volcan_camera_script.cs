@@ -10,8 +10,4 @@ public class volcan_camera_script : MonoBehaviour {
 	void Start() {
 		anim = engine.GetComponent<Volcan_VideoAnimator> ();
 	}
-
-	void cameraStop() {
-		anim.play_first_scene();
-	}
 }

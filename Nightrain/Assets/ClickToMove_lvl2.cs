@@ -100,4 +100,8 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 			controller.Move(movement);
 		}
 	}
+
+	public void teleport(Vector3 position) {
+		targetPosition = position;
+	}
 }
