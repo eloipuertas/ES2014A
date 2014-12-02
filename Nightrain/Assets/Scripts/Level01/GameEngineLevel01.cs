@@ -21,6 +21,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private string[] nameNPC = {"Enemy","Boss"};
 	private GameObject[] npc_enemy;
 	private GameObject npc_boss;
+	private bool allDead = false;
 
 	private Movement boss;
 	private Movement_graveler enemy;
@@ -108,16 +109,24 @@ public class GameEngineLevel01 : MonoBehaviour {
 				}
 			}
 
-			for(int i = 0; i < npc_enemy.Length; i++){
-				if(this.npc_enemy[i] != null && this.npc_enemy[i].tag == "Enemy"){
-					this.enemy = this.npc_enemy[i].GetComponent<Movement_graveler> ();
-					if(enemy.getAttributes().getHealth() <= 0.0f){
-						//Destroy(npc_enemy[i]);
-						npc_enemy[i] = null;
+			if(!allDead){
+				for(int i = 0; i < npc_enemy.Length; i++){
+					if(this.npc_enemy[i] != null && this.npc_enemy[i].tag == "Enemy"){
+						this.enemy = this.npc_enemy[i].GetComponent<Movement_graveler> ();
+						if(enemy.getAttributes().getHealth() <= 0.0f){
+							//Destroy(npc_enemy[i]);
+							npc_enemy[i] = null;
+							allDead = true;
+						} else {
+							allDead = false;
+						}
 					}
 				}
-			}
 
+				if(allDead){
+					Destroy(GameObject.FindGameObjectWithTag("FireWall_bridge"));
+				}
+			}
 
 		}
 		/*if(npc_boss != null){
