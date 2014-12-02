@@ -11,11 +11,12 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	public AnimationClip WaitingFor;
 	public Transform Anim;
 	public float health = 10.0f;
-
+	
 	private CharacterController ctrl;
 	private GameObject player;
 	private CharacterScript player_script;
 	private StageController stage;
+	private GameObject health_sphere;
 
 	private Vector3 respawn;
 	private bool returningRespawn = false;
@@ -43,6 +44,9 @@ public class Skeleton_controller_2 : MonoBehaviour {
 		this.ctrl = GetComponent<CharacterController> ();
 		this.stage = GameObject.FindGameObjectWithTag ("GameController").GetComponent<StageController> ();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
+
+		this.health_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Life_sphere_lvl2");
+
 		this.respawn = transform.position;
 
 		actual_health = health;
@@ -160,6 +164,12 @@ public class Skeleton_controller_2 : MonoBehaviour {
 			state = 4;
 			dieAnim ();
 			stage.dead_npc (this.gameObject.tag);
+
+			Vector3 newPosition_sphere = transform.position;
+			newPosition_sphere.y -= 3.0f;
+			int rand = Random.Range (0,3);
+			if (rand == 2) Instantiate (health_sphere, newPosition_sphere, health_sphere.transform.rotation);
+
 			Vector3 newPosition = transform.position;
 			newPosition.y += 1.5f;
 			transform.position = newPosition;

@@ -17,7 +17,7 @@ public class Volcan_VideoAnimator : MonoBehaviour {
 
 	private float time = 0.0f;
 	private float anim_time = 0.0f;
-	private bool first_anim = true;
+	private bool first_anim = false;
 
 	// Use this for initialization
 	void Start () {
@@ -62,5 +62,9 @@ public class Volcan_VideoAnimator : MonoBehaviour {
 				gameObject.SetActive(false);
 			}
 		}
+	}
+
+	public void camera_stop() {
+		first_anim = true;
 	}
 }
