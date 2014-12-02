@@ -71,7 +71,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 					attack_time = Time.time;
 					state = 2;
 				} else {
-					if (distance <= 25.0f && !player_seen) {
+					if (distance <= 35.0f && !player_seen) {
 						setAgressive();
 					}
 					// Si esta en su area y no volviendo al respawn
@@ -150,19 +150,19 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	public void playerSeen() {
 		player_seen = true;
 		seen_time = Time.time;
-		waitingAnim();
+		if(state != 4) waitingAnim();
 		rotateToPlayer (player.transform.position);
 	}
 
 	public void damage(float dmg) {
 		actual_health -= dmg;
 		if (actual_health <= 0.0f) {
+			state = 4;
 			dieAnim ();
 			stage.dead_npc (this.gameObject.tag);
 			Vector3 newPosition = transform.position;
 			newPosition.y += 1.5f;
 			transform.position = newPosition;
-			state = 4;
 			Destroy (this.GetComponent<CharacterController>());
 			Destroy (this.GetComponent<Rigidbody> ());
 		} 

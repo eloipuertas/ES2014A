@@ -34,9 +34,14 @@ public class Fireball_controller : MonoBehaviour {
 		else if (name.Substring(0,name.Length-1) == "Skeleton") {
 			other.gameObject.GetComponent<Skeleton_controller_2>().damage(skill_damage);
 		}
-		else if (name == "FireDemon") {
-			other.gameObject.GetComponent<FireDemon_Controller>().damage(skill_damage);
-
+		else if (name.Substring(0,name.Length-1) == "FireDemon") {
+				other.gameObject.GetComponent<FireDemon_Controller>().damage(skill_damage);
+		}
+		else if (name.Substring(0,name.Length-1) == "IceDemon") {
+				other.gameObject.GetComponent<FireDemon_Controller>().damage(skill_damage);
+		}
+		else if (name.Substring(0,name.Length-1) == "MiniIceDemon") {
+				other.gameObject.GetComponent<FireDemon_Controller>().damage(skill_damage);
 		}
 		else if (name == "Boss") {
 			other.gameObject.GetComponent<Skeleton_boss_controller>().damage(skill_damage);

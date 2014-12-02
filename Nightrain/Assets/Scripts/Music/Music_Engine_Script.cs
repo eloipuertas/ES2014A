@@ -16,6 +16,9 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip fireball_shot;
 	public AudioClip lethalknife_shot;
 	public AudioClip lethalknife_collision;
+
+	private float timer;
+	private float char_hurt = 0.0f;
 	
 	// Use this for initialization
 	void Start () {
@@ -42,7 +45,10 @@ public class Music_Engine_Script : MonoBehaviour {
 	
 	public void play_Player_Hurt() {
 		//Debug.Log ("Reproduciendo sonido");
-		audio.PlayOneShot (character_hurt);
+		if (Time.time - char_hurt > 0.5f) {
+			audio.PlayOneShot (character_hurt);
+			char_hurt = Time.time;
+		}
 	}
 	
 	public void play_Player_Steps() {

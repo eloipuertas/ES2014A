@@ -10,6 +10,8 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	
 	// --- CHARACTER ---
 	private GameObject prefab;
+	//private GameObject prefab2;
+	//private int pref = 1;
 	private GameObject character;
 	public GameObject respawn;
 	
@@ -31,7 +33,8 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	void Awake () {
 		
 		// --- LOAD RESOURCES TO CHARACTER ---
-		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2");
+		//this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2");
+		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2_cube");
 		this.character = Instantiate (prefab, respawn.transform.position, prefab.transform.rotation) as GameObject;
 		this.cs = this.character.GetComponent<CharacterScript> ();
 		
@@ -61,7 +64,20 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		} else if (Input.GetKeyDown (KeyCode.Escape) && this.pause) {
 			this.pause = false;
 			Time.timeScale = 1;
-		}
+		} 
+		/*else if (Input.GetKeyDown (KeyCode.C)) {
+			Vector3 pos = character.transform.position;
+			Quaternion rot = character.transform.rotation;
+			Destroy (this.character);
+			if(pref == 1) {
+				character = Instantiate (prefab2, pos, rot) as GameObject;
+				pref = 2;
+			} else {
+				character = Instantiate (prefab, pos, rot) as GameObject;
+				pref = 1;
+			}
+			cs = this.character.GetComponent<CharacterScript> ();
+		}*/
 		
 		this.isAlive ();
 	}

@@ -11,7 +11,8 @@ public class FireDemon_Controller : MonoBehaviour {
 	public AnimationClip WaitingFor;
 	public Transform Anim;
 	public float health = 10.0f;
-	
+	public bool preanimation = true;
+
 	private CharacterController ctrl;
 	private GameObject player;
 	private CharacterScript player_script;
@@ -45,7 +46,9 @@ public class FireDemon_Controller : MonoBehaviour {
 		this.stage = GameObject.FindGameObjectWithTag ("GameController").GetComponent<StageController> ();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		this.respawn = transform.position;
-		
+
+		notAnim = !preanimation;
+
 		actual_health = health;
 		state = 0;
 		idleAnim ();

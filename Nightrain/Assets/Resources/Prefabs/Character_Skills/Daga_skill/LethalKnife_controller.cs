@@ -47,7 +47,19 @@ public class LethalKnife_controller : MonoBehaviour {
 				skill_hit = true;
 			}
 		}
-		else if (name == "FireDemon") {
+		else if (name.Substring(0,name.Length-1) == "FireDemon") {
+			if(!skill_hit) {
+				other.gameObject.GetComponent<FireDemon_Controller>().damage(skill_damage);
+				skill_hit = true;
+			}
+		}
+		else if (name.Substring(0,name.Length-1) == "IceDemon") {
+			if(!skill_hit) {
+				other.gameObject.GetComponent<FireDemon_Controller>().damage(skill_damage);
+				skill_hit = true;
+			}
+		}
+		else if (name.Substring(0,name.Length-1) == "MiniIceDemon") {
 			if(!skill_hit) {
 				other.gameObject.GetComponent<FireDemon_Controller>().damage(skill_damage);
 				skill_hit = true;
