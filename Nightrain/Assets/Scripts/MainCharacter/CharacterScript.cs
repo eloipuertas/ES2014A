@@ -12,7 +12,7 @@ public class CharacterScript : MonoBehaviour {
 	public float max_health;	// Value of max HEALTH on the GAME. This value basically is to resize the health bar.
 
 	// === MAGIC ===
-	private int bar_magic;		// Value of initial MAGIC
+	private float bar_magic;		// Value of initial MAGIC
 	public float max_magic;		// Value of max MAGIC on the GAME. This value basically is to resize the magic bar.
 
 
@@ -82,6 +82,9 @@ public class CharacterScript : MonoBehaviour {
 
 		if(this.level < 100)
 			levelUP ();
+
+		// Regeneration per second
+		this.magicRegeneration (Time.deltaTime);
 	}
 
 
@@ -140,13 +143,21 @@ public class CharacterScript : MonoBehaviour {
 	}
 	
 	// Get the actual value of health.
-	public int getMagic(){
+	public float getMagic(){
 		return this.bar_magic;
 	}
 	
 	// Set the magic value.
 	public void setMagic(int magic){
 		this.max_magic = magic;
+	}
+
+	// Function magic regeneration
+	public void magicRegeneration(float magic){
+		if ((this.bar_magic + magic) < this.max_magic)
+			this.bar_magic += magic;
+		else
+			this.bar_magic = this.max_magic;
 	}
 	
 	// Get the max value of health in the game.
