@@ -37,7 +37,7 @@ public class tower_attack : MonoBehaviour {
 					}*/
 					// Para lanzar la bola a donde apunta con el mouse
 					Plane playerPlane = new Plane(Vector3.up, player.transform.position);
-					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					Ray ray = Camera.main.ScreenPointToRay(player.transform.position);
 					float hitdist = 0.0f;
 					
 					if (playerPlane.Raycast(ray, out hitdist)) {
