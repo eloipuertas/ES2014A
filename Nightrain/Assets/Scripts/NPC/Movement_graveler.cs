@@ -4,7 +4,7 @@ using Pathfinding;
 
 public class Movement_graveler : MonoBehaviour {
 	
-
+	
 	//##############################
 	//Atributos personaje
 	public float moveSpeed = 5; 
@@ -43,13 +43,16 @@ public class Movement_graveler : MonoBehaviour {
 	private GameObject player;
 	private Transform player_transform;
 	private Animator anim;
-
+	
 	// Effect to die
 	private static GameObject explosion;
 	public float explosion_delay = 2f;
-
+	
 	//private GameObject NPCbar;
 	private Music_Engine_Script music;
+	
+	private int subir = 0;
+	private bool subirB = true;
 	
 	
 	// Metodo que se llama cuando una ruta ha sido calculada
@@ -93,7 +96,7 @@ public class Movement_graveler : MonoBehaviour {
 	void Update () {
 		if (!state.Equals("Dead")) {
 			float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
-			if (distance_to_player < 6) {
+			if (distance_to_player < 7) {
 				atack ();
 			} else if (distance_to_player < 50) {
 				perseguir ();
@@ -154,12 +157,13 @@ public class Movement_graveler : MonoBehaviour {
 		anim.SetBool("w_attack", false);
 		anim.SetBool("a_walk", true);
 		anim.SetBool ("walk", true);
+		anim.SetBool ("w_idle", false);
 		Vector3 p= player_transform.position ;
 		p.y = transform.position.y;
 		
 		// Calculamos la ruta hacia el personaje principal
 		calcularPath(p);
-
+		
 		if (path != null){
 			// En caso de llegar al final del camino
 			if (currentWaypoint > path.vectorPath.Count)
@@ -180,17 +184,32 @@ public class Movement_graveler : MonoBehaviour {
 	}
 	
 	void atack(){
+		/*if (subirB) {
+			transform.localScale += new Vector3(0.04F, 0.04F, 0.04F);
+				subir++;
+				if (subir > 20) {
+						subirB = false;
+				}
+		} else {
+			transform.localScale -= new Vector3(0.04F, 0.04F, 0.04F);
+				subir--;
+				if (subir < 0) {
+						subirB = true;
+				}
+		}*/
 		state = "Attack";
 		Vector3 p= player_transform.position;
 		p.y = transform.position.y;
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
 		anim.SetBool("a_walk", false);
 		anim.SetBool("walk", false);
-		//p.y += 5f;
-		//anim.SetBool ("w_attack", true);
-		//p.y -= 5f;
+		anim.SetBool ("w_idle", false);
+		//p.y += 10f;
+		anim.SetBool ("w_attack", true);
+		anim.SetBool ("attack", true);
+		//p.y -= 10f;
 		if (Time.time > attackTime) {
-			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
+			player.GetComponent<CharacterScript>().setDamage((int) 0);
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.play_Golem_Agresive();
@@ -255,14 +274,13 @@ public class Movement_graveler : MonoBehaviour {
 	
 	
 	
-	
-	/*void OnTriggerEnter (Collider other){
+	void OnTriggerEnter (Collider other){
 		print("Tocado."); 
-		if(other.gameObject == this.player){
+		/*if(other.gameObject == this.player){
 			this.player.GetComponent<CharacterScript>().setDamage(10);
 			print("Tocado."); 
 			Debug.Log("Debug:Tocado.");
 			System.Console.WriteLine("System:Tocado");	
-		}	
-	}*/
+		}	*/
+	}
 }
