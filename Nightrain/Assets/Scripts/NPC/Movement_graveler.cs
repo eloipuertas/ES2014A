@@ -33,7 +33,7 @@ public class Movement_graveler : MonoBehaviour {
 	private string difficulty;
 	string[] states = {"Walk", "Find", "Attack", "Dead"};
 	private float rotationSpeed = 10.0f;
-	private float attackTime = 3.0f;
+	private float attackTime = 3.5f;
 	
 	// Los nombres de los tres puntos que estan distribuidos por el mapa
 	string[] points = {"Point1", "Point2", "Point3"};
@@ -209,7 +209,7 @@ public class Movement_graveler : MonoBehaviour {
 		anim.SetBool ("attack", true);
 		//p.y -= 10f;
 		if (Time.time > attackTime) {
-			player.GetComponent<CharacterScript>().setDamage((int) 0);
+			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.play_Golem_Agresive();
