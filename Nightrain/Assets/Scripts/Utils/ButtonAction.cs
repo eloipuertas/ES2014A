@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ButtonAction_lvl2 : MonoBehaviour {
+public class ButtonAction : MonoBehaviour {
 	
 	public Material[] material_buttons;
 

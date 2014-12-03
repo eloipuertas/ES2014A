@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ItemInfo_lvl2 : MonoBehaviour {
+public class ItemInfo : MonoBehaviour {
 	
 		
 	// ====== TEXT STYLES ======

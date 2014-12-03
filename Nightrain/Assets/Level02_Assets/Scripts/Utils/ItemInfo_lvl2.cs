@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ItemInfo : MonoBehaviour {
+public class ItemInfo_lvl2 : MonoBehaviour {
 	
 		
 	// ====== TEXT STYLES ======
@@ -56,7 +56,7 @@ public class ItemInfo : MonoBehaviour {
 
 	void OnMouseEnter () {	
 		this.text = this.text_item;
-		CursorScript.isHover = true;
+		CursorScript_lvl2.isHover = true;
 		this.isHover = true;
 
 		for (int i = 0; i < this.renderer.materials.Length; i++) {
@@ -68,7 +68,7 @@ public class ItemInfo : MonoBehaviour {
 
 	void OnMouseExit () { 
 		this.text = "";
-		CursorScript.isHover = false;
+		CursorScript_lvl2.isHover = false;
 		Cursor.SetCursor(cursorTexture[0], hotSpot, mode);
 		this.frames = 0;
 		this.isHover = false;
@@ -81,7 +81,7 @@ public class ItemInfo : MonoBehaviour {
 
 	void OnDestroy() {
 		this.isHover = false;
-		CursorScript.isHover = false;
+		CursorScript_lvl2.isHover = false;
 		//Cursor.SetCursor(cursorTexture[0], hotSpot, mode);
 	}
 

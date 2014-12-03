@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameEngineLevel02_new : MonoBehaviour {
 	
-	private PauseMenuGUI gui;
+	private PauseMenuGUI_lvl2 gui;
 	
 	private RaycastHit getObjectScene;
 	private bool pause = false;
@@ -44,7 +44,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		this.cs = this.character.GetComponent<CharacterScript_lvl2> ();
 		
 		// --- LOAD RESOURCES TO MENU ---
-		gui = new PauseMenuGUI ();
+		gui = new PauseMenuGUI_lvl2 ();
 		gui.initResources ();
 		
 		

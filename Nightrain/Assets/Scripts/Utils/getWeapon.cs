@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class getWeapon_lvl2 : MonoBehaviour {
+public class getWeapon : MonoBehaviour {
 
 	private GameObject character;
 	public GameObject tapa;
