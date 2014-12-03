@@ -16,7 +16,8 @@ public class ClickToMove : MonoBehaviour {
 	private RaycastHit hitCheck;
 	private Component music;
 	private float rotationSpeed = 10.0f;
-	private float attackTime = 3.0f;
+	private float attackTime = 0.90f;
+	private float MIN_ENEMY_DIST =  7f;
 	/* =================================== */
 
 	/* == PathFinding ==================== */
@@ -25,7 +26,7 @@ public class ClickToMove : MonoBehaviour {
 	private float lastRepath = -9999;
 	private bool done;
 	//The calculated path
-	public Path path;
+	public Path path = null;
 	/* =================================== */
 
 	//The animation speed per second
@@ -36,9 +37,7 @@ public class ClickToMove : MonoBehaviour {
 
 	//The waypoint we are currently moving towards
 	private int currentWaypoint = 0;
-
-	string[] states = {"Walk", "Chase", "Attack"};
-	private string state = "None";
+	private string state; // let state be {"Walk", "Chase", "Attack"}
 
 
 	public void Start () {
@@ -51,8 +50,10 @@ public class ClickToMove : MonoBehaviour {
 		playerPlane = new Plane(Vector3.up, transform.position);
 		controller = GetComponent<CharacterController>();
 		anim = GetComponent<Animator> ();
-	}
 
+		state = "None";
+		done = true; //initially consider pathfinding done.
+	}
 
 
 	public void OnPathComplete (Path p) {
@@ -68,23 +69,28 @@ public class ClickToMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (!state.Equals ("Dead")) {
-
-			if(state.Equals ("Walk")){
-				tracking();
-			} else if(state.Equals ("Attack")){
-				tracking ();
-			} else if(state.Equals ("None")){
-				if (anim.GetCurrentAnimatorStateInfo(0).IsName("attack")) Debug.Log ("@Update: attack is True... let's wait until is finished");
-				else{
-					Debug.Log ("@Update: attack is supposed to be finished");
-					anim.SetBool ("attack",false);
-					anim.SetBool ("attack_stop", true);
+		if (/*!state.Equals ("Dead") && */!state.Equals("None")) {
+			if(path != null) {
+				if(!anim.GetBool("walk")) {
+					Debug.Log ("@Update: STARTING WALK ANIMATION!");
+					anim.SetBool ("w_stop",false);
+					anim.SetBool ("walk", true);
 				}
-
+				tracking ();
 			}
-		}
-	
+		} else {
+			// We can get here from previous attack animation!
+
+			if(anim.GetBool("w_attack")){
+				Debug.Log ("@Udate: w_attack true -> stop WATTACK/WALK");
+				anim.SetBool("w_attack", false);
+				anim.SetBool ("w_stop",true);
+				anim.SetBool ("walk", false);
+			} else if(anim.GetBool("attack")){
+				Debug.Log ("@Udate: attack true -> stop ATTACK");
+				anim.SetBool("attack", false);
+			}
+		}	
 	}
 
 
@@ -92,7 +98,7 @@ public class ClickToMove : MonoBehaviour {
 	public void FixedUpdate () {
 
 		if (Input.GetMouseButton(0)) {
-			done = false;
+			done = false; //assume every click is a new target -> done flag restart
 
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			float hitdist;
@@ -101,25 +107,23 @@ public class ClickToMove : MonoBehaviour {
 			if (playerPlane.Raycast(ray, out hitdist)){
 				targetPoint = ray.GetPoint(hitdist);
 				targetPosition = ray.GetPoint(hitdist);
-				Debug.Log (">> New targetPosition @("+ targetPosition.x + "," + targetPosition.y +")");
+				Debug.Log (">> NEW target @("+ targetPosition.x + "," + targetPosition.y +")");
+				state = "Walk";
 			}
 
-			//Start a new path to the targetPosition, return the result to the OnPathComplete function
-			state = "Walk";
-			computePath(targetPosition);
 
-
-			//Enemy Detection
+			//Enemy Detection (was the pointed target an Enemy? -> Attack STATE)
 			if(Physics.Raycast(ray, out hitCheck, 100f)){
 				if(hitCheck.collider.gameObject.tag.Equals("Enemy")){
 					enemy = hitCheck.collider.gameObject;
 					Debug.Log(">> Enemy targeted -> state = Attack");
 					state = "Attack";
 					//Debug.DrawRay(transform.position, transform.forward, Color.green);
-					//attack();
-				} 
+				}
 			}
-			
+
+			//Once we've noticed if the target is an enemy or targetPosition, lets repath
+			computePath(targetPosition); //Start a new path to the targetPosition, return the result to the OnPathComplete function
 		}
 
 
@@ -130,33 +134,40 @@ public class ClickToMove : MonoBehaviour {
 		//Direction to the next waypoint
 		Vector3 dir = (path.vectorPath[currentWaypoint]-transform.position).normalized;
 		dir *= speed * Time.fixedDeltaTime;
+		bool enemy_closer = false;
 
 		//END OF PATH CONDITIONS:
 		if(state.Equals("Walk") && (currentWaypoint == path.vectorPath.Count-1)) {
 			done = true;
 
-			Debug.Log ("@tracking --> targetPosition reached!!");
+			Debug.Log ("@tracking -> targetPosition reached!!");
 			anim.SetBool ("walk", false);
 			anim.SetBool("w_stop", true);
 			state = "None";
 
 		} else if(state.Equals("Attack")){
-		
+			
 			float distance_to_enemy = Vector3.Distance(player.transform.position, enemy.transform.position);
 			Debug.Log("@tracking -> Distance To Enemy:" + distance_to_enemy);
 			
-			if (distance_to_enemy <= 10) {
-				attack();
-				state = "None";
-			} 
-
+			if (distance_to_enemy <= MIN_ENEMY_DIST ) {
+				enemy_closer = true;
+			}
 		}
 
-		
-		
 		if (!done) {
 			//Debug.Log ("Entra -> DONE is False");
-			controller.Move (dir);
+			if(state.Equals ("Attack") && enemy_closer){
+				Debug.Log ("ENEMY IN RANGE!!");
+
+				done = true;
+				attack();
+				state = "None";
+
+			} else {
+				controller.Move (dir);
+			}
+	
 			transform.LookAt (new Vector3 (path.vectorPath [currentWaypoint].x, transform.position.y, path.vectorPath [currentWaypoint].z));
 		}
 		
@@ -173,24 +184,29 @@ public class ClickToMove : MonoBehaviour {
 	}
 
 
-
 	void attack(){
 		Debug.Log ("@attack!!");
 		Vector3 p = player.transform.position;
 
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
-		anim.SetBool ("walk", false);
-		anim.SetBool("w_stop", true);
-		anim.SetBool ("attack", true);
-		
+
+
+		if (anim.GetBool ("walk")) {
+			Debug.Log("[w_attack] activated");
+			anim.SetBool ("w_attack", true);
+		} else {
+			Debug.Log("[attack] activated");
+			anim.SetBool ("attack", true);
+		}
+
+
 		if (Time.time > attackTime) {
 			//player.GetComponent<CharacterScript>().setDamage((int) attackPower);
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.SendMessage("play_Player_Sword_Attack");
 			}
-		}	
-
+		}
 	}
 
 
@@ -200,18 +216,6 @@ public class ClickToMove : MonoBehaviour {
 			if (!done) {
 				// Calculamos la ruta
 				seeker.StartPath (transform.position, targetPosition, OnPathComplete);
-
-				// walking animation transitions depending on attack boolean value.
-				if(anim.GetBool("walk")==false){
-					if(anim.GetBool ("attack")==true){
-						anim.SetBool ("attack", false);
-						anim.SetBool ("a_walk", true);
-					}else{
-						anim.SetBool ("walk", true);
-						anim.SetBool ("w_attack", false);
-						anim.SetBool ("w_stop",false);
-					}
-				}
 			}
 
 		}
@@ -225,11 +229,6 @@ public class ClickToMove : MonoBehaviour {
 			done = true;
 			return;
 		}
-	}
-
-
-	IEnumerator delayCoroutine(float secondsDelay){
-		yield return new WaitForSeconds(secondsDelay);
 	}
 	
 }
