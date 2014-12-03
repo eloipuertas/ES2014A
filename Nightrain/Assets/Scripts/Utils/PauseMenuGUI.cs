@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PauseMenuGUI {
+public class PauseMenuGUI_lvl2 {
 	
 	private const int reference_width = 1366; 
 	private const int reference_height = 598;
@@ -33,7 +33,7 @@ public class PauseMenuGUI {
 	private Music_Engine_Script music;
 	
 	// CONSTRUCTOR
-	public PauseMenuGUI(){}
+	public PauseMenuGUI_lvl2(){}
 	
 	// LOAD TEXTURE RESOURCES
 	public void initResources () {

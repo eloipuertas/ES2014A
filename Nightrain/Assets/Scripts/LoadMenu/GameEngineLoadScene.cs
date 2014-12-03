@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Threading;
 
-public class GameEngineLoadScene : MonoBehaviour {
+public class GameEngineLoadScene_lvl2 : MonoBehaviour {
 
 	private string level = "Level01_v2";
 

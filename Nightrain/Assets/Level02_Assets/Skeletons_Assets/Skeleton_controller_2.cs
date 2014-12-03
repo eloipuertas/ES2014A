@@ -14,9 +14,10 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	
 	private CharacterController ctrl;
 	private GameObject player;
-	private CharacterScript player_script;
+	private CharacterScript_lvl2 player_script;
 	private StageController stage;
 	private GameObject health_sphere;
+	private GameObject mana_sphere;
 
 	private Vector3 respawn;
 	private bool returningRespawn = false;
@@ -40,12 +41,13 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.player = GameObject.FindGameObjectWithTag("Player");
-		this.player_script = player.GetComponent<CharacterScript> ();
+		this.player_script = player.GetComponent<CharacterScript_lvl2> ();
 		this.ctrl = GetComponent<CharacterController> ();
 		this.stage = GameObject.FindGameObjectWithTag ("GameController").GetComponent<StageController> ();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
 		this.health_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Life_sphere_lvl2");
+		this.mana_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Mana_sphere_lvl2");
 
 		this.respawn = transform.position;
 
@@ -167,8 +169,13 @@ public class Skeleton_controller_2 : MonoBehaviour {
 
 			Vector3 newPosition_sphere = transform.position;
 			newPosition_sphere.y -= 3.0f;
-			int rand = Random.Range (0,3);
-			if (rand == 2) Instantiate (health_sphere, newPosition_sphere, health_sphere.transform.rotation);
+			newPosition_sphere.x -= 1.0f;
+			int rand1 = Random.Range (0,3);
+			if (rand1 == 2) Instantiate (health_sphere, newPosition_sphere, health_sphere.transform.rotation);
+			newPosition_sphere.x += 2.0f;
+			int rand2 = Random.Range (0,3);
+			if (rand2 == 2) Instantiate (mana_sphere, newPosition_sphere, health_sphere.transform.rotation);
+
 
 			Vector3 newPosition = transform.position;
 			newPosition.y += 1.5f;

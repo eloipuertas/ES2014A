@@ -94,7 +94,7 @@ public class Skill_Controller : MonoBehaviour {
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
 						this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
-						this.cs.setSpell(30);		// to cast a spell cost 30PM.
+						this.cs.setSpell(20);		// to cast a spell cost 30PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y = transform.position.y - 2;
 						warrior_aura_actual = Instantiate (warrior_aura, newPosition, player.transform.rotation) as GameObject;

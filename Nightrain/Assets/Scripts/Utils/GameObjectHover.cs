@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameObjectHover : MonoBehaviour {
+public class GameObjectHover_lvl2 : MonoBehaviour {
 
 	private Texture2D[] cursorTexture;
 	private CursorMode mode = CursorMode.Auto;
