@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CustomThread_lvl2 {
+public class CustomThread_lvl2s {
 
 	private bool m_IsDone = false;
 	private object m_Handle = new object();
