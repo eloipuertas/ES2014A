@@ -92,7 +92,7 @@ public class Movement : MonoBehaviour {
 			float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
 			if (distance_to_player < 7) {
 				atack ();
-			} else if (distance_to_player < 20) {
+			} else if (distance_to_player < 30) {
 				perseguir ();
 			} else {
 				seguirPuntos ();
@@ -188,9 +188,9 @@ public class Movement : MonoBehaviour {
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
 		anim.SetBool("a_walk", false);
 		anim.SetBool("walk", false);
-		p.y += 5f;
+		//p.y -= 5f;
 		anim.SetBool ("w_attack", true);
-		p.y -= 5f;
+		//p.y += 5f;
 		if (Time.time > attackTime) {
 			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
 			attackTime = Time.time + 1.0f;

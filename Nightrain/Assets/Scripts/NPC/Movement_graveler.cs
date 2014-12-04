@@ -221,6 +221,7 @@ public class Movement_graveler : MonoBehaviour {
 	
 	public void setDamage(float damage){
 		npcAttributes.setDamage (damage);
+		
 		//this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
 		if (npcAttributes.getHealth() < 1) {
 			state = "Dead";
