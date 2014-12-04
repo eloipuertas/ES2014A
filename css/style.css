@@ -1,0 +1,117 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/*Estructura HTML5*/
+* {
+	margin:0;
+	padding:0;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+	background:#FFF;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:1em;
+	margin: 0 0 100px;
+}
+
+header {
+	min-width: 100%;
+	background-color:#000;
+	position:fixed;
+	top:0;
+}
+
+section#container{
+	margin:0.5em auto;
+	max-width:100%;
+	padding:0;
+}
+
+article{
+	min-width: 100%;
+	min-height: 1000px;
+	background-color:#F00;
+	top: 0;
+}
+
+article#download{
+	background-color:#0F0;
+}
+article#trailer{
+	background-color:#06F;
+}
+article#personajes{
+	background-color:#CF6;
+}
+article#about{
+	background-color:#C0C;
+}
+
+footer{
+	min-width: 100%;
+	height: 100px;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+}
+
+/*Estrucuta divs*/
+
+.head{
+	max-width: 1200px;
+	top: 0;
+	padding:0.25em;
+	margin:0 auto;
+	
+}
+
+.logo {
+	display:inline-block;
+	text-align:left;
+	width:49%;
+}
+
+.menus {
+	vertical-align:top;
+	margin-top:2em;
+	display:inline-block;
+	text-align:right;
+	width:49%;
+}
+
+.menus li{
+	display:inline-block;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:25px;
+	padding-right:5px
+}
+
+.foot{
+	background-color:#000;
+	height:100%;
+}
+
+/*Responsive para todas las imagenes*/
+img {
+	max-width: 100%;
+	height: auto;
+	width: auto\9; /* ie8 */
+}
+
+
+/*MEDIA QUERIES*/
+
+@media screen and (max-width: 1280px) {	
+}
+
+@media screen and (max-width: 800px) {
+}
+
+@media screen and (max-width: 480px) {
+}
+
