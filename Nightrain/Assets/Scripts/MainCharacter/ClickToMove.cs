@@ -82,12 +82,14 @@ public class ClickToMove : MonoBehaviour {
 			// We can get here from previous attack animation!
 
 			if(anim.GetBool("w_attack")){
-				Debug.Log ("@Udate: w_attack true -> stop WATTACK/WALK");
+				//Debug.Log ("@Udate: w_attack true -> stop WATTACK/WALK");
 				anim.SetBool("w_attack", false);
 				anim.SetBool ("w_stop",true);
 				anim.SetBool ("walk", false);
-			} else if(anim.GetBool("attack")){
-				Debug.Log ("@Udate: attack true -> stop ATTACK");
+			} 
+
+			else if(anim.GetBool("attack")){
+				//Debug.Log ("@Udate: attack true -> stop ATTACK");
 				anim.SetBool("attack", false);
 			}
 		}	
@@ -154,7 +156,7 @@ public class ClickToMove : MonoBehaviour {
 				enemy_closer = true;
 			}
 		}
-
+		
 		if (!done) {
 			//Debug.Log ("Entra -> DONE is False");
 			if(state.Equals ("Attack") && enemy_closer){
@@ -167,7 +169,6 @@ public class ClickToMove : MonoBehaviour {
 			} else {
 				controller.Move (dir);
 			}
-	
 			transform.LookAt (new Vector3 (path.vectorPath [currentWaypoint].x, transform.position.y, path.vectorPath [currentWaypoint].z));
 		}
 		
@@ -190,14 +191,11 @@ public class ClickToMove : MonoBehaviour {
 
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
 
-
-		if (anim.GetBool ("walk")) {
-			Debug.Log("[w_attack] activated");
-			anim.SetBool ("w_attack", true);
-		} else {
-			Debug.Log("[attack] activated");
-			anim.SetBool ("attack", true);
-		}
+		anim.SetBool ("w_stop",true);
+		anim.SetBool ("walk", false);
+		anim.SetBool ("attack", true);
+		anim.SetBool ("w_attack", true);
+		//anim.SetBool ("run_attack", true);
 
 
 		if (Time.time > attackTime) {
