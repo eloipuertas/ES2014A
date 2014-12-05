@@ -110,7 +110,7 @@ public class Movement_graveler : MonoBehaviour {
 			}
 		}else{
 			anim.SetBool("a_walk", false);
-			anim.SetBool("atack", false);
+			anim.SetBool("attack", false);
 			anim.SetBool("walk", false);
 			anim.SetBool ("w_attack", false);
 			anim.SetBool ("w_idle", false);
@@ -242,7 +242,7 @@ public class Movement_graveler : MonoBehaviour {
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;
 			anim.SetBool("a_walk", false);
-			anim.SetBool("atack", false);
+			anim.SetBool("attack", false);
 			anim.SetBool("walk", false);
 			anim.SetBool ("w_attack", false);
 			anim.SetBool ("w_idle", false);
