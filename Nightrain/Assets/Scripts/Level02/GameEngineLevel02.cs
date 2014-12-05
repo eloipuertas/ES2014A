@@ -38,6 +38,7 @@ public class GameEngineLevel02 : MonoBehaviour {
 			this.pause = this.gui.pauseMenu (this.pause);
 		
 		this.gui.confirmMenu(this.pause);
+		this.gui.optionKeyword (this.pause);
 		
 	}
 	

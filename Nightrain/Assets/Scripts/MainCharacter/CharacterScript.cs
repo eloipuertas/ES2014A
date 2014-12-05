@@ -28,6 +28,7 @@ public class CharacterScript : MonoBehaviour {
 
 	// ADD MORE ATTRIBUTES OF CHARACTER
 	private bool critical = false;
+	private bool hasMagic = true;
 
 	// =========================
 	private GameObject[] NPCs;
@@ -45,15 +46,18 @@ public class CharacterScript : MonoBehaviour {
 	private Music_Engine_Script music;
 	private float danger_delay = 0f;
 
+	private float magic_delay = .5f;
+	private bool  sound_magic = false;
+
 	// Effect to level UP
 	private GameObject level_effect;
-	private float effect_delay = 5f;
+	private float effect_delay = 1f;
 	private bool levelUp_Effect = false; 
 
 	private Texture2D LevelUpTexture;
 
 	private GameObject heal_effect;
-	private float heal_delay = 2f;
+	private float heal_delay = 1f;
 	private bool heal_Effect = false; 
 
 
@@ -101,6 +105,14 @@ public class CharacterScript : MonoBehaviour {
 			}
 		}
 
+		if(music != null && this.sound_magic){ 
+			this.magic_delay -= Time.deltaTime;
+			if(this.magic_delay < 0){
+				this.sound_magic = false;
+				this.magic_delay = .5f;
+			}
+		}
+
 		if(this.heal_effect){
 			this.heal_delay -= Time.deltaTime;
 			if(this.heal_delay < 0){
@@ -109,18 +121,19 @@ public class CharacterScript : MonoBehaviour {
 				this.heal_delay = 2f;
 			}
 		}
+		
+
+		if(this.level < 100)
+			levelUP ();
 
 		if(this.levelUp_Effect){
 			this.effect_delay -= Time.deltaTime;
 			if(this.effect_delay < 0){
 				Destroy(level_effect);
 				this.levelUp_Effect = false;
-				this.effect_delay = 5f;
+				this.effect_delay = 2f;
 			}
 		}
-
-		if(this.level < 100)
-			levelUP ();
 
 		// Regeneration per second
 		this.magicRegeneration (Time.deltaTime);
@@ -290,6 +303,18 @@ public class CharacterScript : MonoBehaviour {
 	public void setCritical(bool critical){
 		this.critical = critical;
 	}
+
+	public bool HasEnoughtMagic(int cost_spell){
+
+		if (this.bar_magic < cost_spell && !this.sound_magic){
+			this.music.play_low_PM ();
+			this.sound_magic = true;
+			return false;
+		}else if(this.bar_magic > cost_spell)
+			return true;
+
+		return false;
+	}
 	
 	// Method to Cure the 'Character'.
 	public void setCure(int heal){
@@ -329,7 +354,7 @@ public class CharacterScript : MonoBehaviour {
 			if(!this.levelUp_Effect){
 				this.music.play_level_Up();
 				this.level_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/level_up")) as GameObject;
-				this.level_effect.transform.position = new Vector3(transform.position.x, (transform.position.y+5.0f), transform.position.z);
+				this.level_effect.transform.position = new Vector3(transform.position.x, (transform.position.y+10.0f), transform.position.z);
 				this.level_effect.transform.parent = transform;
 				this.levelUp_Effect = true;
 			}

@@ -13,6 +13,10 @@ public class MainMenuGUI {
 	private Texture2D hoverNewGameTexture;
 	private Texture2D loadGameTexture;
 	private Texture2D hoverLoadGameTexture;
+	private Texture2D creditTexture;
+	private Texture2D hoverCreditTexture;
+	private Texture2D trophiesTexture;
+	private Texture2D hoverTrophiesTexture;
 	private Texture2D exitGameTexture;
 	private Texture2D hoverExitGameTexture;
 	
@@ -95,6 +99,12 @@ public class MainMenuGUI {
 
 		this.loadGameTexture = Resources.Load<Texture2D>("MainMenu/load");
 		this.hoverLoadGameTexture = Resources.Load<Texture2D>("MainMenu/hover_load");
+
+		this.creditTexture = Resources.Load<Texture2D>("MainMenu/credits");
+		this.hoverCreditTexture = Resources.Load<Texture2D> ("MainMenu/hover_credits");
+
+		this.trophiesTexture = Resources.Load<Texture2D>("MainMenu/trophy");
+		this.hoverTrophiesTexture = Resources.Load<Texture2D> ("MainMenu/hover_trophy");
 		
 		this.exitGameTexture = Resources.Load<Texture2D>("MainMenu/exit");
 		this.hoverExitGameTexture = Resources.Load<Texture2D>("MainMenu/hover_exit");
@@ -181,21 +191,35 @@ public class MainMenuGUI {
 
 			// NEW GAME
 			Rect play_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.newGameTexture)/2,
-			                          Screen.height/1.9f,
+			                          Screen.height/1.95f,
 			                          this.resizeTextureWidth(this.newGameTexture),
 			                          this.resizeTextureHeight(this.newGameTexture));
 			Graphics.DrawTexture (play_box, this.newGameTexture);
 
 			// LOAD GAME
 			Rect load_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.loadGameTexture)/2,
-			                          Screen.height/1.6f,
+			                          Screen.height/1.65f,
 			                          this.resizeTextureWidth(this.loadGameTexture),
 			                          this.resizeTextureHeight(this.loadGameTexture));
 			Graphics.DrawTexture (load_box, this.loadGameTexture);
 
+			// TROPHIES GAME
+			Rect trophies_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.trophiesTexture)/2,
+			                          	  Screen.height/1.44f,
+			                              this.resizeTextureWidth(this.trophiesTexture),
+			                              this.resizeTextureHeight(this.trophiesTexture));
+			Graphics.DrawTexture (trophies_box, this.trophiesTexture);
+
+			// CREDITS GAME
+			Rect credit_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.creditTexture)/2,
+			                          	Screen.height/1.28f,
+			                            this.resizeTextureWidth(this.creditTexture),
+			                            this.resizeTextureHeight(this.creditTexture));
+			Graphics.DrawTexture (credit_box, this.creditTexture);
+
 			// EXIT GAME
 			Rect exit_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.exitGameTexture)/2,
-			                          Screen.height/1.38f,
+			                          Screen.height/1.15f,
 			                          this.resizeTextureWidth(this.exitGameTexture),
 			                          this.resizeTextureHeight(this.exitGameTexture));
 			Graphics.DrawTexture (exit_box, this.exitGameTexture);
@@ -235,6 +259,55 @@ public class MainMenuGUI {
 				Graphics.DrawTexture (load_box, this.loadGameTexture);
 				if(hoveredButton == load_box) hoveredButton = new Rect();
 			}
+
+			// ACTION LOAD GAME BUTTON
+			if (load_box.Contains (Event.current.mousePosition)) {
+				Graphics.DrawTexture (load_box, this.hoverLoadGameTexture);
+				if (hoveredButton != load_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = load_box;
+				}
+				if (Input.GetMouseButtonDown (0)) { 
+					this.clip.Play();
+					Debug.Log ("Cargar Datos");
+				}
+			} else {
+				Graphics.DrawTexture (load_box, this.loadGameTexture);
+				if(hoveredButton == load_box) hoveredButton = new Rect();
+			}
+
+			// ACTION TROPHY'S BUTTON
+			if (trophies_box.Contains (Event.current.mousePosition)) {
+				Graphics.DrawTexture (trophies_box, this.hoverTrophiesTexture);
+				if (hoveredButton != trophies_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = trophies_box;
+				}
+				if (Input.GetMouseButtonDown (0)) { 
+					this.clip.Play();
+					Debug.Log ("Trofeos");
+				}
+			} else {
+				Graphics.DrawTexture (trophies_box, this.trophiesTexture);
+				if(hoveredButton == trophies_box) hoveredButton = new Rect();
+			}
+
+			// ACTION CREDIT BUTTON
+			if (credit_box.Contains (Event.current.mousePosition)) {
+				Graphics.DrawTexture (credit_box, this.hoverCreditTexture);
+				if (hoveredButton != credit_box) {
+					hoverSound.audio.Play ();
+					hoveredButton = credit_box;
+				}
+				if (Input.GetMouseButtonDown (0)) { 
+					this.clip.Play();
+					Debug.Log ("Creditos");
+				}
+			} else {
+				Graphics.DrawTexture (credit_box, this.creditTexture);
+				if(hoveredButton == credit_box) hoveredButton = new Rect();
+			}
+
 			// ACTION EXIT GAME BUTTON
 			if (exit_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (exit_box, this.hoverExitGameTexture);

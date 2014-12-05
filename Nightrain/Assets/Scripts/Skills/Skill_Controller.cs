@@ -47,7 +47,7 @@ public class Skill_Controller : MonoBehaviour {
 			// Al presionar el boton 1 del teclado disparamos la bola de fuego
 			if (Input.GetKeyDown (KeyCode.Alpha1) && ActionBarScript.disabledSkill1 == false) {
 
-				if(this.cs.getMagic() >= 15){ //<-- 15PM
+				if(this.cs.HasEnoughtMagic(15)){ //<-- 15PM
 					if (!skillOnCD(fireball_time, fireball_cooldown)) {
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
@@ -66,7 +66,7 @@ public class Skill_Controller : MonoBehaviour {
 			if (Input.GetKeyDown (KeyCode.Alpha2)) {
 				actual_time = Time.time;
 
-				if(this.cs.getMagic() >= 10){ //<-- 10PM
+				if(this.cs.HasEnoughtMagic(10)){ //<-- 10PM
 					if (!skillOnCD(dagger_skill_time, dagger_skill_cooldown)) {
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
@@ -86,7 +86,7 @@ public class Skill_Controller : MonoBehaviour {
 			if (Input.GetKeyDown (KeyCode.Alpha3)) {
 				actual_time = Time.time;
 
-				if(this.cs.getMagic() >= 30){ //<-- 30PM
+				if(this.cs.HasEnoughtMagic(30)){ //<-- 30PM
 					// Si la skill no esta en cooldown
 					if (!skillOnCD(warrior_aura_time, warrior_aura_cooldown)) {
 						rotatePlayerToMouse();

@@ -33,6 +33,10 @@ public class LethalKnife_controller : MonoBehaviour {
 		}
 		
 		if (name == "Enemy") {
+			other.gameObject.GetComponent<Movement_graveler>().setDamage(skill_damage);
+		}
+
+		if (name == "Boss") {
 			other.gameObject.GetComponent<Movement>().setDamage(skill_damage);
 		}
 	}

@@ -87,6 +87,7 @@ public class NPCHeatlhBar : MonoBehaviour {
 		                               bar_box.y + y2,  
 		                               116 - this.health * 110,
 		                               10);
+
 		//Graphics.DrawTexture (healthbar_box, this.HealthTexture, this.HealthMaterial);
 		GUI.DrawTexture (healthbar_box, this.HealthTexture);
 

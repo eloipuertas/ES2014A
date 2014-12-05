@@ -64,7 +64,7 @@ public class ClickToMove : MonoBehaviour {
 			if (playerPlane.Raycast(ray, out hitdist)){
 				targetPoint = ray.GetPoint(hitdist);
 				targetPosition = ray.GetPoint(hitdist);
-				Debug.Log ("targetPosition refreshed");
+				//Debug.Log ("targetPosition refreshed");
 			}
 
 			//Start a new path to the targetPosition, return the result to the OnPathComplete function
@@ -87,7 +87,7 @@ public class ClickToMove : MonoBehaviour {
 			}
 
 			if (!done) {
-				Debug.Log ("Entra -> DONE is False");
+				//Debug.Log ("Entra -> DONE is False");
 				controller.Move (dir);
 				transform.LookAt (new Vector3 (path.vectorPath [currentWaypoint].x, transform.position.y, path.vectorPath [currentWaypoint].z));
 			}
@@ -129,7 +129,7 @@ public class ClickToMove : MonoBehaviour {
 		}
 	 
 		if (currentWaypoint == path.vectorPath.Count-1) {
-			Debug.Log ("End Of Path Reached");
+			//Debug.Log ("End Of Path Reached");
 
 			done = true;
 			state = "None";
