@@ -40,13 +40,29 @@ article{
 }
 
 article#download{
-	background-color:#0F0;
+	padding-top: 8%;
+	background-color:#FFF;
+	text-align: center;
+	font-size: 16px;
 }
 article#trailer{
-	background-color:#06F;
+	padding-top: 8%;
+	background-color:#FFF;
+	text-align: center;
+	font-size: 16px;
 }
+
+article h1{
+	font-size: 36px;
+	padding-bottom: 5%;
+}
+
+
 article#personajes{
-	background-color:#CF6;
+	padding-top: 8%;
+	background-color:#FFF;
+	text-align: center;
+	font-size: 16px;
 }
 article#about{
 	background-color:#C0C;
@@ -73,7 +89,7 @@ footer{
 .logo {
 	display:inline-block;
 	text-align:left;
-	width:49%;
+	width:16%;
 }
 
 .menus {
@@ -82,13 +98,23 @@ footer{
 	display:inline-block;
 	text-align:right;
 	width:49%;
+	padding-left: 4%;
 }
 
 .menus li{
 	display:inline-block;
 	font-family:Arial, Helvetica, sans-serif;
-	font-size:25px;
-	padding-right:5px
+	font-size:22px;
+	padding-right:15px
+}
+
+.menus a {
+	text-decoration:none;
+	color: white;
+}
+
+.menus a:hover {
+	color: #38A2C9;
 }
 
 .foot{
