@@ -14,7 +14,7 @@ html {
 
 body {
 	background:#FFF;
-	font-family:Arial, Helvetica, sans-serif;
+	font-family:Helvetica, Arial, sans-serif;
 	font-size:1em;
 	margin: 0 0 100px;
 }
@@ -34,38 +34,31 @@ section#container{
 
 article{
 	min-width: 100%;
-	min-height: 1000px;
+	max-height: 1000px;
 	background-color:#FFF;
 	top: 0;
+	background-color:#FFF;
 }
 
-article#download{
-	padding-top: 8%;
-	background-color:#FFF;
+article#contenido{
+	max-width: 1200px;
 	text-align: center;
 	font-size: 16px;
+	padding-top: 8%;
+}
+
+article#download{	
 }
 article#trailer{
-	padding-top: 8%;
-	background-color:#FFF;
-	text-align: center;
-	font-size: 16px;
+}
+article#personajes{
+}
+article#about{
 }
 
 article h1{
 	font-size: 36px;
 	padding-bottom: 5%;
-}
-
-
-article#personajes{
-	padding-top: 8%;
-	background-color:#FFF;
-	text-align: center;
-	font-size: 16px;
-}
-article#about{
-	background-color:#C0C;
 }
 
 footer{
@@ -83,13 +76,12 @@ footer{
 	top: 0;
 	padding:0.25em;
 	margin:0 auto;
-	
 }
 
 .logo {
 	display:inline-block;
 	text-align:left;
-	width:16%;
+	width:49%;
 }
 
 .menus {
@@ -98,13 +90,14 @@ footer{
 	display:inline-block;
 	text-align:right;
 	width:49%;
-	padding-left: 4%;
+	
 }
 
 .menus li{
 	display:inline-block;
-	font-family:Arial, Helvetica, sans-serif;
-	font-size:22px;
+	font-family:Helvetica, Arial, sans-serif;
+	font-weight:lighter;
+	font-size:20px;
 	padding-right:15px
 }
 
@@ -114,13 +107,15 @@ footer{
 }
 
 .menus a:hover {
-	color: #38A2C9;
+	/*color: #38A2C9;*/
+	color:#B8B00E;
 }
 
 .foot{
 	background-color:#000;
 	height:100%;
 }
+
 
 /*Responsive para todas las imagenes*/
 img {

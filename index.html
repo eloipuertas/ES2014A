@@ -19,6 +19,19 @@
 			});
 		});
 	</script>
+    <!--
+    <script type="text/javascript">
+		function sizeFrame() {
+			var F = document.getElementById("video");
+			if(F.contentDocument) {
+				F.height = F.contentDocument.documentElement.scrollHeight+30; //FF 3.0.11, Opera 9.63, and Chrome
+			} else {
+				F.height = F.contentWindow.document.body.scrollHeight+30; //IE6, IE7 and Chrome
+			}
+		}
+		window.onload=sizeFrame(); 
+	</script>
+	-->
 	<title>War of Gods</title>   
 </head>
 
@@ -27,7 +40,7 @@
 	<header>
     	<div class="head">
             <div class="logo">
-           		<a href="index.html"><img src="images/logo.png"/></a>
+           		<a href="index.html"><img src="images/logo3.png" width="200" height="90" w/></a>
             </div>
                 
             <div class="menus">
@@ -43,23 +56,34 @@
     </header>
     
 	<section id="container">
-    	<article id="home">
+    	<article id="home" class="full-page">
+            <article id="contenido">
+            </article>
         </article>
         
-        <article id="download">
-			<h1>Download</h1>
+        <article id="download" class="full-page">
+        	<article id="contenido">
+				<h1>Download</h1>
+            </article>
         </article>
         
-        <article id="trailer">
-			<h1>Trailer War of Gods</h1>
-			<iframe class="youtube-player" type="text/html" width="640" height="385" src="http://www.youtube.com/embed/Hiieqlgbn2c" frameborder="0"></iframe>        
+        <article id="trailer" class="full-page">
+        	<article id="contenido">
+                <h1>Trailer War of Gods</h1>
+                <iframe id="video" class="youtube-player" type="text/html" width="1000" height="600" src="http://www.youtube.com/embed/Hiieqlgbn2c" frameborder="0"></iframe>   
+            </article>     
 		</article>
 		
-        <article id="personajes">
-			<h1>Personajes</h1>
+        <article id="personajes" class="full-page">
+        	<article id="contenido">
+				<h1>Personajes</h1>
+            </article>
         </article>
         
-        <article id="about">
+        <article id="about" class="full-page">
+        	<article id="contenido">
+            	<h1>About Us</h1>
+            </article>
         </article>
     
     </section>
@@ -68,5 +92,10 @@
         <div class="foot"></div>
     </footer>
      
+    <script type="text/javascript"> 
+	   	vpw = $(window).width();
+    	vph = $(window).height();
+    	$('.full-page').height(vph);
+	</script>
 </body>
 </html>
