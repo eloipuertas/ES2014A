@@ -98,6 +98,12 @@ public class Movement : MonoBehaviour {
 				seguirPuntos ();
 			}
 		}else{
+			anim.SetBool("a_walk", false);
+			anim.SetBool("walk", false);
+			anim.SetBool ("w_attack", false);
+			anim.SetBool("a_death", true);
+			anim.SetBool("w_death", true);
+			anim.SetBool("death", true);
 
 			explosion_delay -= Time.deltaTime;
 
