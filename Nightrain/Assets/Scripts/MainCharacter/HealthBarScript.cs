@@ -52,12 +52,13 @@ public class HealthBarScript : MonoBehaviour {
 
 	private bool critical = false;
 
+
 	// Use this for initialization
 	void Start () {
 
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
-
+		
 		this.max_health = this.cs.getMaxHealth ();
 		this.max_magic = this.cs.getMaxMagic ();
 

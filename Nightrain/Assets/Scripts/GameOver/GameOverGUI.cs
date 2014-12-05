@@ -36,16 +36,16 @@ public class GameOverGUI{
 		
 		// ===================== BOTONERA UNO ENCIMA DE OTRO =============================
 		
-		Rect continue_box = new Rect ((Screen.width/2) - (this.resizeTextureWidth(this.continueTexture)/2), 
+		Rect continue_box = new Rect ((Screen.width/2) - (this.resizeTextureWidth(this.continueTexture)/2.875f), 
 		                              Screen.height - (Screen.height/2.75f), 
-		                              this.resizeTextureWidth(this.continueTexture), 
-		                              this.resizeTextureHeight(this.continueTexture));
+		                              this.resizeTextureWidth(this.continueTexture)*0.7f, 
+		                              this.resizeTextureHeight(this.continueTexture)*0.8f);
 		Graphics.DrawTexture (continue_box, this.continueTexture);
 		
-		Rect exit_box = new Rect ((Screen.width/2) - (this.resizeTextureWidth(this.exitTexture)/2), 
+		Rect exit_box = new Rect ((Screen.width/2) - (this.resizeTextureWidth(this.exitTexture)/2.875f), 
 		                          Screen.height - ((Screen.height/2.75f) - this.resizeTextureHeight(this.continueTexture)*1.25f), 
-		                          this.resizeTextureWidth(this.exitTexture), 
-		                          this.resizeTextureHeight(this.exitTexture));
+		                          this.resizeTextureWidth(this.exitTexture) * 0.7f, 
+		                          this.resizeTextureHeight(this.exitTexture) * 0.8f);
 		Graphics.DrawTexture (exit_box, this.exitTexture);
 		
 		// ===============================================================================
