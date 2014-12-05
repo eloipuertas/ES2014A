@@ -17,9 +17,8 @@ public class HealthBarScript : MonoBehaviour {
 	private float resize_magic;		// <-- This value is to do more large or short the magic bar
 
 	// ATRIBUTES HEALTH/MAGIC CHARACTER
-	/*public int bar_health;
+	public int bar_health;
 	public int bar_magic;
-	*/
 
 	public float max_health;
 	public float max_magic;
@@ -66,10 +65,10 @@ public class HealthBarScript : MonoBehaviour {
 		this.resize_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.cs.getMaxMagic (), -1);
 
 		// Set the news actual max life and magic
-		this.cs.setMaxHealth ();
-		this.cs.setMaxMagic ();
-		//this.max_health = this.bar_health;
-		//this.max_magic = this.bar_magic;
+		//this.cs.setMaxHealth ();
+		//this.cs.setMaxMagic ();
+		this.max_health = this.bar_health;
+		this.max_magic = this.bar_magic;
 
 		// ADD TEXTURES
 		this.AvatarTexture = Resources.Load<Texture2D>("HealthBar/avatar_" + PlayerPrefs.GetString("Character"));
