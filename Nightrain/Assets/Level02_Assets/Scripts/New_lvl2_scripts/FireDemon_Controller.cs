@@ -105,7 +105,9 @@ public class FireDemon_Controller : MonoBehaviour {
 	}
 	
 	void rotateToPlayer(Vector3 playerPos) {
-		transform.rotation = Quaternion.LookRotation (playerPos - transform.position);
+		Vector3 destination = playerPos;
+		destination.y = transform.position.y;
+		transform.rotation = Quaternion.LookRotation (destination - transform.position);
 	}
 	
 	

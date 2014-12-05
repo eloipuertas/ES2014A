@@ -65,7 +65,7 @@ public class StageController : MonoBehaviour {
 	}
 
 	public void deactive_Stage (int n) {
-		if (n > 1) {
+		if (n >= 1) {
 			walls[n].SetActive (true);
 			walls [n].GetComponent<firewall_Controller> ().setBackBlockingWall ();
 		}

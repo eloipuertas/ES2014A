@@ -6,7 +6,7 @@ public class fall_down_recovery : MonoBehaviour {
 
 	private GameObject player;
 	private ClickToMove_lvl2 move_script;
-	private Skill_Controller skill_script;
+	private Skill_Controller_lvl2 skill_script;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +20,7 @@ public class fall_down_recovery : MonoBehaviour {
 		if(other.tag == "Player") {
 			player = GameObject.FindGameObjectWithTag ("Player");
 			move_script = player.GetComponent <ClickToMove_lvl2> ();
-			skill_script = player.GetComponent <Skill_Controller> ();
+			skill_script = player.GetComponent <Skill_Controller_lvl2> ();
 		
 			move_script.teleport (teleport_point.transform.position);
 
@@ -38,7 +38,7 @@ public class fall_down_recovery : MonoBehaviour {
 		if(other.tag == "Player") {
 			player = GameObject.FindGameObjectWithTag ("Player");
 			move_script = player.GetComponent <ClickToMove_lvl2> ();
-			skill_script = player.GetComponent <Skill_Controller> ();
+			skill_script = player.GetComponent <Skill_Controller_lvl2> ();
 			
 			move_script.teleport (teleport_point.transform.position);
 			
