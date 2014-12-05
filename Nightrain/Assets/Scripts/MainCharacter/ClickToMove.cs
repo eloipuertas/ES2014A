@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using System.Collections;
 using Pathfinding;
@@ -73,31 +74,34 @@ public class ClickToMove : MonoBehaviour {
 		}
 
 		//Direction to the next waypoint
-		Vector3 dir = (path.vectorPath[currentWaypoint]-transform.position).normalized;
-		dir *= speed * Time.fixedDeltaTime;
 
-		if (currentWaypoint == path.vectorPath.Count-1) {
-			done = true;
-			state = "None";
-			anim.SetBool ("walk", false);
-			anim.SetBool("w_stop", true);
-		}
+		if(path != null){
+			Vector3 dir = (path.vectorPath[currentWaypoint]-transform.position).normalized;
+			dir *= speed * Time.fixedDeltaTime;
 
-		if (!done) {
-			Debug.Log ("Entra -> DONE is False");
-			controller.Move (dir);
-			transform.LookAt (new Vector3 (path.vectorPath [currentWaypoint].x, transform.position.y, path.vectorPath [currentWaypoint].z));
-		}
+			if (currentWaypoint == path.vectorPath.Count-1) {
+				done = true;
+				state = "None";
+				anim.SetBool ("walk", false);
+				anim.SetBool("w_stop", true);
+			}
 
-		float nextWaypointDistance = defaultNextWaypointDistance;
-		if(currentWaypoint == path.vectorPath.Count -1) nextWaypointDistance = 0f;
+			if (!done) {
+				Debug.Log ("Entra -> DONE is False");
+				controller.Move (dir);
+				transform.LookAt (new Vector3 (path.vectorPath [currentWaypoint].x, transform.position.y, path.vectorPath [currentWaypoint].z));
+			}
+
+			float nextWaypointDistance = defaultNextWaypointDistance;
+			if(currentWaypoint == path.vectorPath.Count -1) nextWaypointDistance = 0f;
 
 
-		//Check if we are close enough to the next waypoint
-		//If we are, proceed to follow the next waypoint
-		if (Vector3.Distance (transform.position,path.vectorPath[currentWaypoint]) < nextWaypointDistance) {
-            currentWaypoint++;
-            return;
+			//Check if we are close enough to the next waypoint
+			//If we are, proceed to follow the next waypoint
+			if (Vector3.Distance (transform.position,path.vectorPath[currentWaypoint]) < nextWaypointDistance) {
+	            currentWaypoint++;
+	            return;
+			}
 		}
 	}
 

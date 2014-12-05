@@ -45,8 +45,9 @@ public class Movement_graveler : MonoBehaviour {
 	private Animator anim;
 	
 	// Effect to die
-	private static GameObject explosion;
-	public float explosion_delay = 2f;
+	private static GameObject earth_blast;
+	public float earth_delay = 3.5f;
+	private bool activateEffect = true; 
 	
 	//private GameObject NPCbar;
 	private Music_Engine_Script music;
@@ -109,8 +110,13 @@ public class Movement_graveler : MonoBehaviour {
 				state = "None";
 			}
 		}else{
-			explosion_delay -= Time.deltaTime;
-			if(explosion_delay < 0)
+			earth_delay -= Time.deltaTime;
+			if(earth_delay < 3f  && activateEffect){
+				earth_blast = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/earth_blast")) as GameObject;
+				earth_blast.transform.position = transform.position;
+				earth_blast.transform.parent = transform;
+				activateEffect = false;
+			}else if(earth_delay < 0)
 				Destroy(gameObject);
 		}
 	}
@@ -231,10 +237,7 @@ public class Movement_graveler : MonoBehaviour {
 			anim.SetBool("walk", false);
 			anim.SetBool ("w_attack", false);
 			anim.SetBool("a_death", true);
-			
-			explosion = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/explosion")) as GameObject;
-			explosion.transform.position = transform.position;
-			explosion.transform.parent = transform;
+
 		}
 	}
 	
