@@ -54,6 +54,8 @@ public class Movement_graveler : MonoBehaviour {
 	
 	private int subir = 0;
 	private bool subirB = true;
+
+	private CharacterController controller;
 	
 	
 	// Metodo que se llama cuando una ruta ha sido calculada
@@ -91,10 +93,12 @@ public class Movement_graveler : MonoBehaviour {
 		npcAttributes.setDificulty (difficulty);
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
+
+		controller = GetComponent<CharacterController>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		if (!state.Equals("Dead")) {
 			float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
 			if (distance_to_player < 7) {
@@ -182,10 +186,18 @@ public class Movement_graveler : MonoBehaviour {
 			// En caso de llegar al final del camino
 			if (currentWaypoint > path.vectorPath.Count)
 				return; 
+
+			Vector3 dir = (path.vectorPath[currentWaypoint]-transform.position).normalized;
+			dir *= 0.1F * Time.fixedDeltaTime;
+
+
+			controller.Move (dir);
+			transform.LookAt (new Vector3 (path.vectorPath [currentWaypoint].x, transform.position.y, path.vectorPath [currentWaypoint].z));
+
 			
 			// Rotamos y trasladamos hacia el siguente punto de la ruta
-			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(path.vectorPath[currentWaypoint] - transform.position), rotationSpeed * Time.deltaTime);
-			transform.position += transform.forward * moveSpeed * Time.deltaTime;
+			//transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(path.vectorPath[currentWaypoint] - transform.position), rotationSpeed * Time.deltaTime);
+			//transform.position += transform.forward * moveSpeed * Time.deltaTime;
 			// Incrementamos para poder ir al siguiente punto de la ruta calculada
 			currentWaypoint++;
 		}
