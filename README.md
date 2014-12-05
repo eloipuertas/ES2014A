@@ -12,7 +12,10 @@ This is the mainCharacter pathFinding final branch
 -------------------
 	/Assets/Models/MainCharacter/Main Controller.controller
 	/Assets/Models/MainCharacter/Main Controller.controller.meta
-
+	
+	/Assets/Models/MainCharacter/Kid/Materials/*.*
+	/Assets/Models/MainCharacter/Kid/*.*
+	
 	/Assets/Models/MainCharacter/Fat/Materials/*.*
 	/Assets/Models/MainCharacter/Fat/*.*		->[ including new version of "escudo.blend" & "hacha.blend" ]
 
@@ -27,6 +30,8 @@ This is the mainCharacter pathFinding final branch
 	/Assets/Resources/Prefabs/MainCharacters/woman.prefab
 	/Assets/Resources/Prefabs/MainCharacters/woman.prefab.meta
 
+	/Assets/Resources/Prefabs/MainCharacters/kid.prefab
+	/Assets/Resources/Prefabs/MainCharacters/kid.prefab.meta
 >[PATHFINDING MOV. SCRIPT]:
 --------------------------
 	/Assets/Scripts/MainCharacter/ClickToMove.cs
