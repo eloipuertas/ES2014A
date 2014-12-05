@@ -101,7 +101,6 @@ public class Movement_graveler : MonoBehaviour {
 				atack ();
 			} else if (distance_to_player < 50) {
 				perseguir ();
-				//Debug.Log("perseguir");
 			} else {
 				//seguirPuntos ();
 				anim.SetBool("a_walk", false);
@@ -110,6 +109,15 @@ public class Movement_graveler : MonoBehaviour {
 				state = "None";
 			}
 		}else{
+			anim.SetBool("a_walk", false);
+			anim.SetBool("atack", false);
+			anim.SetBool("walk", false);
+			anim.SetBool ("w_attack", false);
+			anim.SetBool ("w_idle", false);
+			anim.SetBool("a_death", true);
+			anim.SetBool("death", true);
+			anim.SetBool("w_death", true);
+
 			earth_delay -= Time.deltaTime;
 			if(earth_delay < 3f  && activateEffect){
 				earth_blast = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/earth_blast")) as GameObject;
@@ -234,10 +242,13 @@ public class Movement_graveler : MonoBehaviour {
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;
 			anim.SetBool("a_walk", false);
+			anim.SetBool("atack", false);
 			anim.SetBool("walk", false);
 			anim.SetBool ("w_attack", false);
+			anim.SetBool ("w_idle", false);
 			anim.SetBool("a_death", true);
-
+			anim.SetBool("death", true);
+			anim.SetBool("w_death", true);
 		}
 	}
 	
@@ -279,7 +290,7 @@ public class Movement_graveler : MonoBehaviour {
 	
 	
 	void OnTriggerEnter (Collider other){
-		print("Tocado."); 
+		//print("Tocado."); 
 		/*if(other.gameObject == this.player){
 			this.player.GetComponent<CharacterScript>().setDamage(10);
 			print("Tocado."); 
