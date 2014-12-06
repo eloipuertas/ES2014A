@@ -32,8 +32,14 @@ public class Bala : MonoBehaviour {
 	}
 
 
-public void setDestination(Transform v) {
+	void OnCollisionEnter (Collision col){
+		
+		Destroy(gameObject);
+		
+	}
+	
+	
+	public void setDestination(Transform v) {	
 		destination = v;
-		Debug.Log (destination);
-}
+	}
 }
