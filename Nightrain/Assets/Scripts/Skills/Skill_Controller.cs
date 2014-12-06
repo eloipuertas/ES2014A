@@ -23,6 +23,7 @@ public class Skill_Controller : MonoBehaviour {
 	// Main character
 	private GameObject player;
 	private CharacterScript cs;
+	private ClickToMove cm;
 	
 	// Use this for initialization
 	void Start () {
@@ -33,6 +34,7 @@ public class Skill_Controller : MonoBehaviour {
 		
 		this.player = GameObject.FindGameObjectWithTag("Player");
 		this.cs = this.player.GetComponent<CharacterScript> ();
+		this.cm = this.player.GetComponent<ClickToMove> ();
 		
 		actual_time = Time.time;
 	}
@@ -51,7 +53,8 @@ public class Skill_Controller : MonoBehaviour {
 					if (!skillOnCD(fireball_time, fireball_cooldown)) {
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
-						this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
+						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
+						this.cm.attack();
 						this.cs.setSpell(15);		// to cast a spell cost 15PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y += 2;
@@ -70,7 +73,8 @@ public class Skill_Controller : MonoBehaviour {
 					if (!skillOnCD(dagger_skill_time, dagger_skill_cooldown)) {
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
-						this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
+						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
+						this.cm.attack();
 						this.cs.setSpell(10);		// to cast a spell cost 10PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y += 2;
@@ -91,7 +95,8 @@ public class Skill_Controller : MonoBehaviour {
 					if (!skillOnCD(warrior_aura_time, warrior_aura_cooldown)) {
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
-						this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
+						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
+						this.cm.attack();
 						this.cs.setSpell(30);		// to cast a spell cost 30PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y = 0;

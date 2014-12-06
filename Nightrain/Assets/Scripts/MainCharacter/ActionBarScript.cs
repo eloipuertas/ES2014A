@@ -27,6 +27,7 @@ public class ActionBarScript : MonoBehaviour {
 	public static InventoryScript inventory;
 
 	private CharacterScript cs;
+	private ClickToMove cm;
 	private GameObject character;
 
 	private bool takePotion = false;
@@ -40,6 +41,7 @@ public class ActionBarScript : MonoBehaviour {
 
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
+		this.cm = this.character.GetComponent<ClickToMove> ();
 
 		// ADD TEXTURES
 		this.actionBarTexture = Resources.Load<Texture2D>("ActionBar/actionbar");
@@ -77,7 +79,7 @@ public class ActionBarScript : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown (1)) {
 			//MOUSE BUTTON RIGHT ATTACK
-			this.character.animation.CrossFade ("metarig|Atacar", 0.2f);
+			this.cm.attack();
 		} else if (Input.GetKeyDown(KeyCode.Q) && inventory.getPotion() != 0) {
 			// ACTION TAKE POTION
 				this.cs.setCure(10);
