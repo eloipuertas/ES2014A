@@ -21,7 +21,7 @@ public class ClickToMove : MonoBehaviour {
 	/* =================================== */
 
 	/* == PathFinding ==================== */
-	private Seeker seeker;
+	private static Seeker seeker;
 	public float repathRate = 10.0f;
 	private float lastRepath = -9999;
 	private bool done;
@@ -39,6 +39,10 @@ public class ClickToMove : MonoBehaviour {
 	private int currentWaypoint = 0;
 	private string state; // let state be {"Walk", "Chase", "Attack"}
 
+	// ====================================================
+	//FIX TO INVENTORY
+	private bool walk = true;
+	// ====================================================
 
 	public void Start () {
 		player = GameObject.FindWithTag("Player");
@@ -72,7 +76,7 @@ public class ClickToMove : MonoBehaviour {
 		if (/*!state.Equals ("Dead") && */!state.Equals("None")) {
 			if(path != null) {
 				if(!anim.GetBool("walk")) {
-					Debug.Log ("@Update: STARTING WALK ANIMATION!");
+					//Debug.Log ("@Update: STARTING WALK ANIMATION!");
 					anim.SetBool ("w_stop",false);
 					anim.SetBool ("walk", true);
 				}
@@ -109,7 +113,7 @@ public class ClickToMove : MonoBehaviour {
 			if (playerPlane.Raycast(ray, out hitdist)){
 				targetPoint = ray.GetPoint(hitdist);
 				targetPosition = ray.GetPoint(hitdist);
-				Debug.Log (">> NEW target @("+ targetPosition.x + "," + targetPosition.y +")");
+				//Debug.Log (">> NEW target @("+ targetPosition.x + "," + targetPosition.y +")");
 				state = "Walk";
 			}
 
@@ -118,7 +122,7 @@ public class ClickToMove : MonoBehaviour {
 			if(Physics.Raycast(ray, out hitCheck, 100f)){
 				if(hitCheck.collider.gameObject.tag.Equals("Enemy")){
 					enemy = hitCheck.collider.gameObject;
-					Debug.Log(">> Enemy targeted -> state = Attack");
+					//Debug.Log(">> Enemy targeted -> state = Attack");
 					state = "Attack";
 					//Debug.DrawRay(transform.position, transform.forward, Color.green);
 				}
@@ -128,14 +132,16 @@ public class ClickToMove : MonoBehaviour {
 			if(Physics.Raycast(ray, out hitCheck, 100f)){
 				if(hitCheck.collider.gameObject.tag.Equals("Boss")){
 					enemy = hitCheck.collider.gameObject;
-					Debug.Log(">> Boss targeted -> state = Attack");
+					//Debug.Log(">> Boss targeted -> state = Attack");
 					state = "Attack";
 					//Debug.DrawRay(transform.position, transform.forward, Color.green);
 				}
 			}
 
-			//Once we've noticed if the target is an enemy or targetPosition, lets repath
-			computePath(targetPosition); //Start a new path to the targetPosition, return the result to the OnPathComplete function
+			// If is outside the inventory region the character recalculate path
+			if(walk)
+				//Once we've noticed if the target is an enemy or targetPosition, lets repath
+				computePath(targetPosition); //Start a new path to the targetPosition, return the result to the OnPathComplete function
 		}
 
 
@@ -152,7 +158,7 @@ public class ClickToMove : MonoBehaviour {
 		if(state.Equals("Walk") && (currentWaypoint == path.vectorPath.Count-1)) {
 			done = true;
 
-			Debug.Log ("@tracking -> targetPosition reached!!");
+			//Debug.Log ("@tracking -> targetPosition reached!!");
 			anim.SetBool ("walk", false);
 			anim.SetBool("w_stop", true);
 			state = "None";
@@ -160,7 +166,7 @@ public class ClickToMove : MonoBehaviour {
 		} else if(state.Equals("Attack")){
 			
 			float distance_to_enemy = Vector3.Distance(player.transform.position, enemy.transform.position);
-			Debug.Log("@tracking -> Distance To Enemy:" + distance_to_enemy);
+			//Debug.Log("@tracking -> Distance To Enemy:" + distance_to_enemy);
 			
 			if (distance_to_enemy <= MIN_ENEMY_DIST ) {
 				enemy_closer = true;
@@ -170,7 +176,7 @@ public class ClickToMove : MonoBehaviour {
 		if (!done) {
 			//Debug.Log ("Entra -> DONE is False");
 			if(state.Equals ("Attack") && enemy_closer){
-				Debug.Log ("ENEMY IN RANGE!!");
+				//Debug.Log ("ENEMY IN RANGE!!");
 
 				done = true;
 				attack();
@@ -196,7 +202,7 @@ public class ClickToMove : MonoBehaviour {
 
 
 	public void attack(){
-		Debug.Log ("@attack!!");
+		//Debug.Log ("@attack!!");
 		Vector3 p = player.transform.position;
 
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
@@ -216,6 +222,27 @@ public class ClickToMove : MonoBehaviour {
 			}
 		}
 	}
+
+	// ====================================================
+	// UPDATE TO INVENTORY FIX
+
+	public void dontWalk(){
+
+		//Debug.Log ("@don't walk!!");
+
+		anim.SetBool ("w_stop",true);
+		anim.SetBool ("walk", false);
+		anim.SetBool ("attack", false);
+		anim.SetBool ("w_attack", false);
+
+		walk = false;
+	}
+
+	public void Walk(){
+		walk = true;
+	}
+
+	// ====================================================
 
 
 	private void computePath(Vector3 targetPosition){
