@@ -16,19 +16,14 @@ public class HealthBarScript : MonoBehaviour {
 	private float resize_health;	// <-- This value is to do more large or short the health bar
 	private float resize_magic;		// <-- This value is to do more large or short the magic bar
 
-	// ATRIBUTES HEALTH/MAGIC CHARACTER
-	/*public int bar_health;
-	public int bar_magic;
-	*/
-
 	public float max_health;
 	public float max_magic;
 
-	/*
-	private float health;
-	private float magic;
+	private float fadeSpeed = 2f;
+	private float alpha = 1.0f;
+	private int direction = -1;		// Direction -1 = Fade in
+									// Direction  1 = Fade out
 
-	*/
 
 	// HEALTH BAR
 	// --- TEXTURES ---
@@ -41,6 +36,7 @@ public class HealthBarScript : MonoBehaviour {
 	
 	private Texture2D MagicTexture;
 	private Texture2D MagicBarTexture;
+	private Texture2D LowMagicTexture;
 
 	private Texture2D DecotrationTextureUp;
 	private Texture2D DecotrationTextureDown;
@@ -51,13 +47,15 @@ public class HealthBarScript : MonoBehaviour {
 	private Material MagicBarMaterial;
 
 	private bool critical = false;
+	private bool low_magic = false;
+
 
 	// Use this for initialization
 	void Start () {
 
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
-
+		
 		this.max_health = this.cs.getMaxHealth ();
 		this.max_magic = this.cs.getMaxMagic ();
 
@@ -78,6 +76,7 @@ public class HealthBarScript : MonoBehaviour {
 		this.DamageBarTexture = Resources.Load<Texture2D>("HealthBar/damage_health");
 		this.MagicTexture = Resources.Load<Texture2D>("HealthBar/magic");
 		this.MagicBarTexture = Resources.Load<Texture2D>("HealthBar/bar_magic");
+		this.LowMagicTexture = Resources.Load<Texture2D>("HealthBar/caution");
 		this.DecotrationTextureUp = Resources.Load<Texture2D>("HealthBar/decoracion_up");
 		this.DecotrationTextureDown = Resources.Load<Texture2D>("HealthBar/decoracion_down");
 
@@ -135,7 +134,12 @@ public class HealthBarScript : MonoBehaviour {
 
 		this.magic = 1 - ((this.cs.getMagic() / this.cs.getMaxMagic()));
 
-		if(this.magic < 1)	
+		if(this.magic >= 0.9f)
+			this.low_magic = true;
+		else
+			this.low_magic = false;
+
+		if(this.magic <= 1)	
 			this.MagicBarMaterial.SetFloat("_Cutoff", magic);
 	}
 
@@ -178,13 +182,28 @@ public class HealthBarScript : MonoBehaviour {
 
 			// MAGIC BAR ZONE
 
+			Rect lowmagic_box = new Rect ((this.AvatarTexture.width / this.scale) - 3,
+			                              66, 
+			                              this.LowMagicTexture.width / this.resize_magic, 
+			                              (this.LowMagicTexture.height*1.2f / this.scale) - 8);
+			
+			
+			
+			if(low_magic){
+				this.alpha += direction * fadeSpeed * Time.deltaTime;		// We decrease or increase alpha depends direction.
+				alpha = Mathf.Clamp01 (this.alpha);							// Values between 0 and 1.
+				GUI.color = new Color (GUI.color.r, GUI.color.g, GUI.color.b, this.alpha);
+				GUI.DrawTexture (lowmagic_box, this.LowMagicTexture);
+				if(alpha == 0) this.direction = 1; else if(alpha >= 0.5f) this.direction = -1;
+			}
+
 			Rect magicbar_box = new Rect ((this.AvatarTexture.width / this.scale) - 3,
 	                             		   66, 
 	                             		   this.MagicBarTexture.width / this.resize_magic, 
 			                               (this.MagicBarTexture.height*1.2f / this.scale) - 8);
 
-
 			Graphics.DrawTexture (magicbar_box, this.MagicBarTexture, this.MagicBarMaterial);
+
 
 			Rect magic_box = new Rect ((this.AvatarTexture.width / this.scale) - 3,
 		                                66, 
@@ -192,6 +211,8 @@ public class HealthBarScript : MonoBehaviour {
 			                            this.MagicTexture.height*1.2f / this.scale);
 
 			Graphics.DrawTexture (magic_box, this.MagicTexture);
+
+
 
 			Rect decorationDown_box = new Rect (((this.AvatarTexture.width / this.scale) + (this.MagicTexture.width / this.resize_magic)) - 3,
 		                                  	  	66, 

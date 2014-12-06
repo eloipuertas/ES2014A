@@ -18,9 +18,14 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private Color c;
 	
 	// --- NPCs ---
-	private string[] nameNPC = {"Enemy"};
-	private GameObject npc;
-	private Movement ms;
+	private string[] nameNPC = {"Enemy","Boss"};
+	private GameObject[] npc_enemy;
+	private GameObject npc_boss;
+	private bool allDead = false;
+
+	private Movement boss;
+	private Movement_graveler enemy;
+
 	private bool allIsDead = false;
 	
 	// --- Camaras ---
@@ -38,7 +43,10 @@ public class GameEngineLevel01 : MonoBehaviour {
 		Instantiate (prefab);
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
-		
+
+		this.npc_boss = GameObject.FindGameObjectWithTag("Boss");
+		this.npc_enemy = GameObject.FindGameObjectsWithTag("Enemy");
+
 		this.camera1 = GameObject.FindGameObjectWithTag ("MainCamera");
 		this.camera1.SetActive (true);
 		
@@ -88,31 +96,48 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	//Comprueba si los enemigos de la lista estan muertos
 	void isAllEnemysDead(){
-		foreach (string item in nameNPC) {
-			this.npc = GameObject.FindGameObjectWithTag (item);
-			
-			if(this.npc != null){
-				this.ms = this.npc.GetComponent<Movement> ();
-				
-				if(ms.getAttributes().getHealth() <= 0.0f){
-					//Destroy(npc);
-					npc = null;
+		
+		//Contador para saber el numero de enemigos muertos.
+		int cont = 0;
+		if(this.npc_enemy != null && this.npc_boss != null && this.allDead == false){
+			if(this.npc_boss.tag == "Boss"){
+				this.boss = this.npc_boss.GetComponent<Movement> ();
+				if(boss.getAttributes().getHealth() <= 0.0f){
+					//Destroy(npc_boss);
+					npc_boss = null;
 				}
 			}
-			if(npc != null){
-				break;
+			
+			///Miramos los NPC
+			for(int i = 0; i < npc_enemy.Length; i++){
+				if(this.npc_enemy[i] != null && this.npc_enemy[i].tag == "Enemy"){
+					this.enemy = this.npc_enemy[i].GetComponent<Movement_graveler> ();
+					if(this.enemy != null && enemy.getAttributes().getHealth() <= 0.0f){
+						//Destroy(npc_enemy[i]);
+						npc_enemy[i] = null;
+						cont += 1;
+					}
+				} else {
+					cont += 1;
+				}
+			}
+			
+			if(cont == npc_enemy.Length){
+				Destroy(GameObject.FindGameObjectWithTag("FireWall_bridge"));
 			}
 		}
-		if (this.npc == null) {
-
+		
+		if (this.npc_boss == null) {
+			
 			delay -= 1 * Time.deltaTime;
-
+			
 			if(delay <= 0){
 				allIsDead = true;
 				this.camera2.SetActive(true);
 			}
 		}
 	}
+
 	
 	void PauseScreen(){
 		
@@ -153,5 +178,6 @@ public class GameEngineLevel01 : MonoBehaviour {
 			this.pause = this.gui.pauseMenu (this.pause);
 		
 		this.gui.confirmMenu(this.pause);
+		this.gui.optionKeyword (this.pause);
 	}
 }

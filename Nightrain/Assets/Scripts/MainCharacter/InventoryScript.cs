@@ -49,6 +49,8 @@ public class InventoryScript : MonoBehaviour {
 	// ========== TEXTURES ============
 	private Texture2D inventoryTexture;
 
+	private ClickToMove cm;
+
 
 	// Use this for initialization
 	void Start () {
@@ -56,6 +58,8 @@ public class InventoryScript : MonoBehaviour {
 		this.list_inventory = new List<Item>();
 		this.equip = new Item[3];
 		this.inventoryTexture = Resources.Load<Texture2D>("Inventory/Misc/inventory");
+
+		this.cm = GameObject.FindGameObjectWithTag ("Player").GetComponent<ClickToMove> ();
 
 		// CREATE INVENTORY
 		this.createInventorySlot ();
@@ -69,6 +73,12 @@ public class InventoryScript : MonoBehaviour {
 			this.show_inventory = true;
 		else if(Input.GetKeyDown (KeyCode.I) && this.show_inventory)
 			this.show_inventory = false;
+
+		// If cursor is inside inventory action "Don't walk" is outside walk
+		if (this.inventory_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y)) && show_inventory) {
+			this.cm.dontWalk();
+		}else
+			this.cm.Walk();
 	}
 
 

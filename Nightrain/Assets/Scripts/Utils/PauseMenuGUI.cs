@@ -23,10 +23,15 @@ public class PauseMenuGUI {
 	private Texture2D hoverYesTexture;
 	private Texture2D noTexture;
 	private Texture2D hoverNoTexture;
-	
+
+	// ====== TEXTURES KEYWORD OPTION ======
+	private Texture2D keywordTexture;
 	
 	// SHOW MENU CONFIRM
 	private bool confirm = false;
+
+	// SHOW MENU KEYWORD
+	private bool keyword = false;
 	
 	// Buttons sound effects
 	private Rect hoveredButton = new Rect();
@@ -52,7 +57,10 @@ public class PauseMenuGUI {
 		
 		this.exitTexture = Resources.Load<Texture2D>("PauseMenu/exit");
 		this.hoverExitTexture = Resources.Load<Texture2D>("PauseMenu/hover_exit");
-		
+
+		// MENU KEYWORD
+		this.keywordTexture = Resources.Load<Texture2D>("PauseMenu/keyword");
+
 		// MENU CONFIRM
 		this.confirmTexture = Resources.Load<Texture2D>("PauseMenu/background_confirm");
 		
@@ -69,7 +77,7 @@ public class PauseMenuGUI {
 	// PAUSE MENU
 	public bool pauseMenu(bool pause){
 		
-		if (!this.confirm) {
+		if (!this.confirm && !this.keyword) {
 			
 			// PAUSE INTERFACE
 			Rect menu_box = new Rect ((Screen.width / 2) - (this.resizeTextureWidth(this.backgroundTexture) / 2),
@@ -156,6 +164,7 @@ public class PauseMenuGUI {
 					hoveredButton = option_box;
 				}
 				if (Input.GetMouseButtonDown (0)) {
+					this.keyword = true;
 					music.Play_Button_Click();
 				}
 			}
@@ -202,14 +211,14 @@ public class PauseMenuGUI {
 			// ============== CONFIRM MENU BUTTONS ===================
 			
 			// BUTTON YES
-			Rect yes_box = new Rect (confirm_box.center.x - (confirm_box.width/6),
+			Rect yes_box = new Rect (confirm_box.center.x - (confirm_box.width/3),
 			                         confirm_box.center.y,
 			                         this.resizeTextureWidth(this.yesTexture),
 			                         this.resizeTextureHeight(this.yesTexture));
 			Graphics.DrawTexture (yes_box, this.yesTexture);
 			
 			// BUTTON NO
-			Rect no_box = new Rect (confirm_box.center.x + (confirm_box.width/10),
+			Rect no_box = new Rect (confirm_box.center.x + (confirm_box.width/4),
 			                        confirm_box.center.y,
 			                        this.resizeTextureWidth(this.noTexture),
 			                        this.resizeTextureHeight(this.noTexture));
@@ -250,8 +259,30 @@ public class PauseMenuGUI {
 				Graphics.DrawTexture (no_box, this.noTexture);
 				if(hoveredButton == no_box) hoveredButton = new Rect();
 			}
-		} else
-			this.confirm = false;
+		}/* else
+			this.confirm = false;*/
+	}
+
+	// CONFIRM MENU
+	public void optionKeyword(bool pause){
+					
+		if (pause && this.keyword) {
+			// KEYWORD INTERFACE
+			Rect keyword_box = new Rect ((Screen.width / 2) - this.resizeTextureWidth (this.keywordTexture)*.375f,
+			                             (Screen.height / 2.25f) - this.resizeTextureHeight (this.keywordTexture)*.375f,
+			                             this.resizeTextureWidth (this.keywordTexture)*.75f,
+			                             this.resizeTextureHeight (this.keywordTexture)*.75f);
+
+
+			Graphics.DrawTexture (keyword_box, this.keywordTexture);
+
+			// ACTION EXIT
+			if (Input.GetMouseButtonDown (0)) { 
+				if (!keyword_box.Contains (Event.current.mousePosition)) {
+					this.keyword = false;
+				}
+			}
+		}
 	}
 	
 	

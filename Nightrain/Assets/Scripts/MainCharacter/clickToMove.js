@@ -75,7 +75,7 @@ function Update ()
     // Walking animation control
     if(moving){
         // Stop animation
-        if(transform.position.x == targetPoint.x && transform.position.z == targetPoint.z){
+        if(transform.position.x == targetPoint.x & transform.position.z == targetPoint.z){
             //animation.CrossFade("Armature|Idle",0.2f);
             //Debug.Log ("moved to target location");
             animation.Stop("metarig|Caminar"); 
@@ -88,7 +88,7 @@ function Update ()
     }
 
 
-    if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetMouseButton(0)) { 
+    if(Input.GetKeyDown(KeyCode.Mouse0)) { 
        //smooth=1;
         speed = 30; 
         
@@ -106,7 +106,9 @@ function Update ()
         }
        
     	if(Physics.Raycast(ray, getObjectScene, 100)){
-            if(getObjectScene.transform.gameObject.tag.Equals("Enemy")){
+            if(getObjectScene.transform.gameObject.tag.Equals("Enemy") ||
+            	getObjectScene.transform.gameObject.tag.Equals("Boss")||
+            	getObjectScene.transform.gameObject.tag.Equals("Object")){
             	//Debug.Log("Enemigo seleccionado");
             	//animation.Stop("metarig|Caminar");
             	moving = false;
