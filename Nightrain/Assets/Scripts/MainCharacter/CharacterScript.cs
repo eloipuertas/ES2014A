@@ -12,7 +12,7 @@ public class CharacterScript : MonoBehaviour {
 	public float max_health;	// Value of max HEALTH on the GAME. This value basically is to resize the health bar.
 
 	// === MAGIC ===
-	private int bar_magic;		// Value of initial MAGIC
+	private float bar_magic;		// Value of initial MAGIC
 	public float max_magic;		// Value of max MAGIC on the GAME. This value basically is to resize the magic bar.
 
 
@@ -28,12 +28,11 @@ public class CharacterScript : MonoBehaviour {
 
 	// ADD MORE ATTRIBUTES OF CHARACTER
 	private bool critical = false;
+	private bool hasMagic = true;
 
 	// =========================
-	private GameObject NPCs;
-
-	// MusicEngine GameObject that plays audio effects
-	private Music_Engine_Script music;
+	private GameObject[] NPCs;
+	private GameObject boss;
 
 	// MEMORY CARD 
 	private MemoryCard mc;
@@ -43,13 +42,32 @@ public class CharacterScript : MonoBehaviour {
 	private GUIStyle text_style;
 	private GUIStyle guiStyleBack;
 
+	// MUSIC AND EFFECTS
+	private Music_Engine_Script music;
+	private float danger_delay = 0f;
+
+	private float magic_delay = .5f;
+	private bool  sound_magic = false;
+
+	// Effect to level UP
+	private GameObject level_effect;
+	private float effect_delay = 1f;
+	private bool levelUp_Effect = false; 
+
+	private Texture2D LevelUpTexture;
+
+	private GameObject heal_effect;
+	private float heal_delay = 1f;
+	private bool heal_Effect = false; 
+
 
 	// Use this for initialization
 	void Awake () {
 		
 		// ADD COMPONENT
 		// Buscamos al personaje principal
-		this.NPCs = GameObject.FindGameObjectWithTag("Enemy");
+		this.NPCs = GameObject.FindGameObjectsWithTag("Enemy");
+		this.boss = GameObject.FindGameObjectWithTag("Boss");
 
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
@@ -58,7 +76,8 @@ public class CharacterScript : MonoBehaviour {
 		this.save = this.mc.saveData();
 		this.load = this.mc.loadData();
 
-
+		// ADD TEXTURES
+		this.LevelUpTexture = Resources.Load<Texture2D>("Misc/levelup");
 	}
 
 	void Start(){
@@ -78,8 +97,46 @@ public class CharacterScript : MonoBehaviour {
 	// Update is called once per frame.
 	void Update () {
 
+		if(music != null && this.isCritical()){ 
+			this.danger_delay -= Time.deltaTime;
+			if(this.danger_delay < 0){
+				this.music.play_Danger_Life();
+				this.danger_delay = 1f;
+			}
+		}
+
+		if(music != null && this.sound_magic){ 
+			this.magic_delay -= Time.deltaTime;
+			if(this.magic_delay < 0){
+				this.sound_magic = false;
+				this.magic_delay = .5f;
+			}
+		}
+
+		if(this.heal_effect){
+			this.heal_delay -= Time.deltaTime;
+			if(this.heal_delay < 0){
+				Destroy(heal_effect);
+				this.heal_Effect = false;
+				this.heal_delay = 2f;
+			}
+		}
+		
+
 		if(this.level < 100)
 			levelUP ();
+
+		if(this.levelUp_Effect){
+			this.effect_delay -= Time.deltaTime;
+			if(this.effect_delay < 0){
+				Destroy(level_effect);
+				this.levelUp_Effect = false;
+				this.effect_delay = 2f;
+			}
+		}
+
+		// Regeneration per second
+		this.magicRegeneration (Time.deltaTime);
 	}
 
 
@@ -87,10 +144,16 @@ public class CharacterScript : MonoBehaviour {
 	
 	void OnTriggerEnter (Collider other){
 		int damage = Random.Range ((this.strength + 1) - (int)(4 + this.strength * 0.25f), this.strength+1);
-		if(other.gameObject == this.NPCs){
-			this.NPCs.GetComponent<Movement>().setDamage(damage);
-			//print("Daño: " + damage); 
-		}	
+
+		if(other.gameObject == this.boss)
+			this.boss.GetComponent<Movement>().setDamage(damage);
+			
+
+		for(int i = 0; i < NPCs.Length; i++)
+				if(other.gameObject == this.NPCs[i])
+					this.NPCs[i].GetComponent<Movement_graveler>().setDamage(damage);
+				
+			
 	}
 	
 	// ==============================================================================
@@ -132,13 +195,21 @@ public class CharacterScript : MonoBehaviour {
 	}
 	
 	// Get the actual value of health.
-	public int getMagic(){
+	public float getMagic(){
 		return this.bar_magic;
 	}
 	
 	// Set the magic value.
 	public void setMagic(int magic){
 		this.max_magic = magic;
+	}
+
+	// Function magic regeneration
+	public void magicRegeneration(float magic){
+		if ((this.bar_magic + magic) < this.max_magic)
+			this.bar_magic += magic;
+		else
+			this.bar_magic = this.max_magic;
 	}
 	
 	// Get the max value of health in the game.
@@ -232,11 +303,28 @@ public class CharacterScript : MonoBehaviour {
 	public void setCritical(bool critical){
 		this.critical = critical;
 	}
+
+	public bool HasEnoughtMagic(int cost_spell){
+
+		if (this.bar_magic < cost_spell && !this.sound_magic){
+			this.music.play_low_PM ();
+			this.sound_magic = true;
+			return false;
+		}else if(this.bar_magic > cost_spell)
+			return true;
+
+		return false;
+	}
 	
 	// Method to Cure the 'Character'.
 	public void setCure(int heal){
 		if (this.bar_health < this.max_health) {
 			this.bar_health += heal;
+			this.heal_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/heal")) as GameObject;
+			this.heal_effect.transform.position = transform.position;
+			this.heal_effect.transform.parent = transform;
+			this.heal_Effect = true;
+			this.music.play_Recover_Life();
 			if(this.bar_health > this.max_health)
 				this.bar_health = Mathf.FloorToInt(this.max_health);
 		}
@@ -261,11 +349,21 @@ public class CharacterScript : MonoBehaviour {
 		int experience = getEXP ();
 		int nextLevel = this.next;
 
-		if (experience > nextLevel) {
+		if (experience >= nextLevel) {
+			
+			if(!this.levelUp_Effect){
+				this.music.play_level_Up();
+				this.level_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/level_up")) as GameObject;
+				this.level_effect.transform.position = new Vector3(transform.position.x, (transform.position.y+10.0f), transform.position.z);
+				this.level_effect.transform.parent = transform;
+				this.levelUp_Effect = true;
+			}
+
 			//UPDATE STATS
 			this.setLevel(1);
 			this.calculateEXP();
 			this.updateCharacterAttributes();
+
 		}
 
 
@@ -391,6 +489,21 @@ public class CharacterScript : MonoBehaviour {
 		           + "\nEXP: " + this.getEXP()
 		           + "\nnextLVL: " + this.next + " EXP.",
 		           this.text_style); 
+
+		if(this.levelUp_Effect){
+
+			Vector2 xy = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x,
+			                                                        this.transform.position.y,
+			                                                        this.transform.position.z));
+
+			Rect level_box = new Rect (xy.x/1.1f,
+			                           xy.y/1.75f, 
+			                           this.LevelUpTexture.width/2f, 
+			                           this.LevelUpTexture.height/1.5f);
+			
+			GUI.DrawTexture (level_box, this.LevelUpTexture);
+		}
+
 
 	}
 }

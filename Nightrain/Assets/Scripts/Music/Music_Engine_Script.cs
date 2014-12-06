@@ -16,6 +16,10 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip fireball_shot;
 	public AudioClip lethalknife_shot;
 	public AudioClip lethalknife_collision;
+	public AudioClip danger_life;
+	public AudioClip recover_life;
+	public AudioClip low_PM;
+	public AudioClip levelUp;
 	
 	// Use this for initialization
 	void Start () {
@@ -88,5 +92,24 @@ public class Music_Engine_Script : MonoBehaviour {
 	
 	public void play_Lethalknife_Collision () {
 		audio.PlayOneShot (lethalknife_collision);
+	}
+
+	public void play_Danger_Life () {
+		//audio.volume = 1f;
+		audio.PlayOneShot (danger_life);
+	}
+
+	public void play_Recover_Life () {
+		//audio.volume = 1f;
+		audio.PlayOneShot (recover_life);
+	}
+
+	public void play_low_PM () {
+		audio.PlayOneShot (low_PM);
+	}
+
+	public void play_level_Up () {
+		audio.volume = 1f;
+		audio.PlayOneShot (levelUp);
 	}
 }

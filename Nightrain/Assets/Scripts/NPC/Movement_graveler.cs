@@ -4,6 +4,7 @@ using Pathfinding;
 
 public class Movement_graveler : MonoBehaviour {
 	
+	
 	//##############################
 	//Atributos personaje
 	public float moveSpeed = 5; 
@@ -32,7 +33,7 @@ public class Movement_graveler : MonoBehaviour {
 	private string difficulty;
 	string[] states = {"Walk", "Find", "Attack", "Dead"};
 	private float rotationSpeed = 10.0f;
-	private float attackTime = 3.0f;
+	private float attackTime = 3.5f;
 	
 	// Los nombres de los tres puntos que estan distribuidos por el mapa
 	string[] points = {"Point1", "Point2", "Point3"};
@@ -42,8 +43,19 @@ public class Movement_graveler : MonoBehaviour {
 	private GameObject player;
 	private Transform player_transform;
 	private Animator anim;
+	
+	// Effect to die
+	private static GameObject earth_blast;
+	public float earth_delay = 3.5f;
+	private bool activateEffect = true; 
+	
 	//private GameObject NPCbar;
 	private Music_Engine_Script music;
+	
+	private int subir = 0;
+	private bool subirB = true;
+
+	private CharacterController controller;
 	
 	
 	// Metodo que se llama cuando una ruta ha sido calculada
@@ -81,17 +93,18 @@ public class Movement_graveler : MonoBehaviour {
 		npcAttributes.setDificulty (difficulty);
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
+
+		controller = GetComponent<CharacterController>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		if (!state.Equals("Dead")) {
 			float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
-			if (distance_to_player < 6) {
+			if (distance_to_player < 7) {
 				atack ();
 			} else if (distance_to_player < 50) {
 				perseguir ();
-				Debug.Log("perseguir");
 			} else {
 				//seguirPuntos ();
 				anim.SetBool("a_walk", false);
@@ -99,6 +112,24 @@ public class Movement_graveler : MonoBehaviour {
 				anim.SetBool ("w_idle", true);
 				state = "None";
 			}
+		}else{
+			anim.SetBool("a_walk", false);
+			anim.SetBool("attack", false);
+			anim.SetBool("walk", false);
+			anim.SetBool ("w_attack", false);
+			anim.SetBool ("w_idle", false);
+			anim.SetBool("a_death", true);
+			anim.SetBool("death", true);
+			anim.SetBool("w_death", true);
+
+			earth_delay -= Time.deltaTime;
+			if(earth_delay < 3f  && activateEffect){
+				earth_blast = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/earth_blast")) as GameObject;
+				earth_blast.transform.position = transform.position;
+				earth_blast.transform.parent = transform;
+				activateEffect = false;
+			}else if(earth_delay < 0)
+				Destroy(gameObject);
 		}
 	}
 	
@@ -144,20 +175,29 @@ public class Movement_graveler : MonoBehaviour {
 		anim.SetBool("w_attack", false);
 		anim.SetBool("a_walk", true);
 		anim.SetBool ("walk", true);
+		anim.SetBool ("w_idle", false);
 		Vector3 p= player_transform.position ;
 		p.y = transform.position.y;
 		
 		// Calculamos la ruta hacia el personaje principal
 		calcularPath(p);
-
+		
 		if (path != null){
 			// En caso de llegar al final del camino
 			if (currentWaypoint > path.vectorPath.Count)
 				return; 
+
+			Vector3 dir = (path.vectorPath[currentWaypoint]-transform.position).normalized;
+			dir *= 0.1F * Time.fixedDeltaTime;
+
+
+			controller.Move (dir);
+			transform.LookAt (new Vector3 (path.vectorPath [currentWaypoint].x, transform.position.y, path.vectorPath [currentWaypoint].z));
+
 			
 			// Rotamos y trasladamos hacia el siguente punto de la ruta
-			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(path.vectorPath[currentWaypoint] - transform.position), rotationSpeed * Time.deltaTime);
-			transform.position += transform.forward * moveSpeed * Time.deltaTime;
+			//transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(path.vectorPath[currentWaypoint] - transform.position), rotationSpeed * Time.deltaTime);
+			//transform.position += transform.forward * moveSpeed * Time.deltaTime;
 			// Incrementamos para poder ir al siguiente punto de la ruta calculada
 			currentWaypoint++;
 		}
@@ -170,15 +210,30 @@ public class Movement_graveler : MonoBehaviour {
 	}
 	
 	void atack(){
+		/*if (subirB) {
+			transform.localScale += new Vector3(0.04F, 0.04F, 0.04F);
+				subir++;
+				if (subir > 20) {
+						subirB = false;
+				}
+		} else {
+			transform.localScale -= new Vector3(0.04F, 0.04F, 0.04F);
+				subir--;
+				if (subir < 0) {
+						subirB = true;
+				}
+		}*/
 		state = "Attack";
 		Vector3 p= player_transform.position;
 		p.y = transform.position.y;
 		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
 		anim.SetBool("a_walk", false);
 		anim.SetBool("walk", false);
-		//p.y += 5f;
-		//anim.SetBool ("w_attack", true);
-		//p.y -= 5f;
+		anim.SetBool ("w_idle", false);
+		//p.y += 10f;
+		anim.SetBool ("w_attack", true);
+		anim.SetBool ("attack", true);
+		//p.y -= 10f;
 		if (Time.time > attackTime) {
 			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
 			attackTime = Time.time + 1.0f;
@@ -192,16 +247,20 @@ public class Movement_graveler : MonoBehaviour {
 	
 	public void setDamage(float damage){
 		npcAttributes.setDamage (damage);
+		
 		//this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
 		if (npcAttributes.getHealth() < 1) {
 			state = "Dead";
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;
-			//Debug.Log ("NPC muerto");
 			anim.SetBool("a_walk", false);
+			anim.SetBool("attack", false);
 			anim.SetBool("walk", false);
 			anim.SetBool ("w_attack", false);
+			anim.SetBool ("w_idle", false);
 			anim.SetBool("a_death", true);
+			anim.SetBool("death", true);
+			anim.SetBool("w_death", true);
 		}
 	}
 	
@@ -233,7 +292,7 @@ public class Movement_graveler : MonoBehaviour {
 		if (currentWaypoint > path.vectorPath.Count)
 			return; 
 		if (currentWaypoint == path.vectorPath.Count) {
-			Debug.Log ("Se ha llegado al final de la ruta");
+			//Debug.Log ("Se ha llegado al final de la ruta");
 			currentWaypoint++;
 			hecho = false;
 			return;
@@ -242,14 +301,13 @@ public class Movement_graveler : MonoBehaviour {
 	
 	
 	
-	
-	/*void OnTriggerEnter (Collider other){
-		print("Tocado."); 
-		if(other.gameObject == this.player){
+	void OnTriggerEnter (Collider other){
+		//print("Tocado."); 
+		/*if(other.gameObject == this.player){
 			this.player.GetComponent<CharacterScript>().setDamage(10);
 			print("Tocado."); 
 			Debug.Log("Debug:Tocado.");
 			System.Console.WriteLine("System:Tocado");	
-		}	
-	}*/
+		}	*/
+	}
 }
