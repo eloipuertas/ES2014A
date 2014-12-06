@@ -49,10 +49,13 @@ article#contenido{
 
 article#download{	
 }
+
 article#trailer{
 }
+
 article#personajes{
 }
+
 article#about{
 }
 
@@ -70,7 +73,6 @@ footer{
 }
 
 /*Estrucuta divs*/
-
 .head{
 	max-width: 1200px;
 	top: 0;
@@ -126,7 +128,6 @@ img {
 
 
 /*MEDIA QUERIES*/
-
 @media screen and (max-width: 1280px) {	
 }
 
@@ -135,4 +136,3 @@ img {
 
 @media screen and (max-width: 480px) {
 }
-
