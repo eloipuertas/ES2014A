@@ -9,6 +9,7 @@ public class GameEngineGameOver : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.gui = new GameOverGUI ();
+		this.gui.setAudioClick (this.audio);
 		this.gui.initResources ();
 	}
 
@@ -16,7 +17,5 @@ public class GameEngineGameOver : MonoBehaviour {
 	void OnGUI(){
 		this.gui.menuGameOver ();
 	}
-
-
 
 }
