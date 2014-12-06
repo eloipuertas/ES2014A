@@ -10,6 +10,10 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	public AnimationClip GotHit;
 	public AnimationClip WaitingFor;
 	public Transform Anim;
+	public float destroy_time = 10.0f;
+	public float total_health = 500.0f;
+	public float base_dmg = 15.0f;
+	public GameObject camera_death;
 
 	private GameObject game_engine;
 	private GameEngineLevel02_new game_script;
@@ -22,24 +26,24 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	private Vector3 respawn;
 	private bool returningRespawn = false;
 
+	private float atk_range = 10.0f;
 	private float skill_cd = 0.0f;
 	private float actual_time;
 	private float attack_time = -2.0f;
-	public float destroy_time = 10.0f;
-
-	public float total_health = 500.0f;
 	private float health;
-	
+
 	//0 idle, 1 running, 2 attacking, 3 hited, 4 death, 5 waiting, 6 dancing
-	int state = 0;
-	bool attackDone = false;
-	bool attackAudio = false;
-	float gravity = 0.0f;
+	private int state = 0;
+	private bool attackDone = false;
+	private bool attackAudio = false;
+	private float gravity = 0.0f;
 	private bool agressive = false;
 	private int nshots = 0;
 	private int maxshots = 5;
 	private float last_skill_time = 0.0f;
-	
+	private float death_video_delay = 0.0f;
+	private bool killed = false;
+
 	//private GameObject NPCbar;
 	private Music_Engine_Script music;
 	
@@ -54,9 +58,10 @@ public class Skeleton_boss_controller : MonoBehaviour {
 		this.skill = Resources.Load<GameObject> ("Prefabs/Boss_Skills/Boss_skill_2");
 
 		this.respawn = transform.position;
-		print (respawn);
 
-		health = total_health;
+
+		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficulty"));
+
 		state = 0;
 		Anim.animation.CrossFade (IdleAnimation.name, 0.12f);
 	}
@@ -99,15 +104,20 @@ public class Skeleton_boss_controller : MonoBehaviour {
 				rotateToPlayer (p);
 			}
 		} else {
-			if (state == 4) Destroy (this.gameObject, destroy_time);
+			if (state == 4) {
+				if (!killed) prepareAnim ();
+				if(Time.time - death_video_delay > 1.0f && !killed) {
+					camera_death.SetActive (true);
+				}
+			}//Destroy (this.gameObject, destroy_time);
 			else idleAnim ();
 		}
 	}
 	
-	void rotateToPlayer(Vector3 playerPos) {
+	public void rotateToPlayer(Vector3 playerPos) {
 		Vector3 plaPos = playerPos;
 		// Boss skeleton simple
-		plaPos.y = playerPos.y + 8.0f;
+		plaPos.y = transform.position.y;
 		// Boss lanza
 		//plaPos.y -= 2.0f;
 		transform.rotation = Quaternion.LookRotation (plaPos - transform.position);
@@ -116,7 +126,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	void rotateToPlayer(Vector3 playerPos, float lookAt) {
 		Vector3 plaPos = playerPos;
 		// Boss skeleton simple
-		plaPos.y = plaPos.y - 2.0f;
+		plaPos.y = transform.position.y;
 		// Boss lanza
 		//plaPos.y -= 2.0f;
 		transform.rotation = Quaternion.LookRotation (plaPos - transform.position);
@@ -148,13 +158,14 @@ public class Skeleton_boss_controller : MonoBehaviour {
 				attackDone = true;
 				if (distance <= 14.0f) {
 					music.play_Player_Hurt ();
-					player_script.setDamage (20);
+					player_script.setDamage ((int) base_dmg);
 				}
 			}
 		}
 	}
 	
-	void dieAnim() {
+	public void dieAnim() {
+		if (!killed) killed = true;
 		Anim.animation.CrossFade (DeathAnimation.name, 0.12f);	
 	}
 	
@@ -164,7 +175,12 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	
 	public void damage(float dmg) {
 		health -= dmg;
-		if (health <= 0) {
+		if (health <= 0.0f) {
+			state = 4;
+			agressive = false;
+			if(death_video_delay == 0.0f) death_video_delay = Time.time;
+		}
+		/*if (health <= 0) {
 			dieAnim ();
 			Vector3 newPosition = transform.position;
 			newPosition.y += 1.5f;
@@ -172,7 +188,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 			state = 4;
 			Destroy (this.GetComponent<CapsuleCollider>());
 			Destroy (this.GetComponent<Rigidbody> ());
-		}
+		}*/
 	}
 
 	void castSkills (float percent) {
@@ -212,6 +228,32 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	}
 
 	public void prepareAnim() {
-		Anim.animation.CrossFade (WaitingFor.name, 0.12f);	
+		Anim.animation.Play (WaitingFor.name);	
+	}
+
+	private void setAtrributesDifficulty (string difficulty) {
+		if(difficulty.Equals("Easy")) {
+			base_dmg = base_dmg * 1;
+			atk_range = atk_range / 2.0f;
+			total_health = total_health / 4f;
+		}
+		else if(difficulty.Equals("Normal")) {
+			base_dmg = base_dmg * 1.5f;
+			atk_range = atk_range / 1.5f;
+			total_health = total_health / 1.5f;
+		}
+		else if(difficulty.Equals("Hard")) {
+			base_dmg = base_dmg * 2;
+			atk_range = atk_range / 1.25f;
+		}
+		else if(difficulty.Equals("Extreme")) {
+			base_dmg = base_dmg * 3;
+			total_health = total_health * 1.5f;
+		}
+		health = total_health;
+	}
+
+	public void teleportToRespawn() {
+		transform.position = respawn;
 	}
 }

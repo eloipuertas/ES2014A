@@ -15,6 +15,7 @@ public class Stage3_VideoAnimator : MonoBehaviour {
 
 	private float timer;
 	private float time;
+	private bool active_dialog = false;
 
 	// Use this for initialization
 	void Start () {
@@ -34,6 +35,13 @@ public class Stage3_VideoAnimator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		time = Time.time - timer;
+
+		if (Input.GetKeyDown (KeyCode.KeypadEnter) || Input.GetKeyDown  (KeyCode.Return)) {
+			if(active_dialog) timer = Time.time - 5.5f;
+		}
+
+		if (time > 5.5f) active_dialog = false;
+
 		if (time > 6.50f && time < 9.0f) {
 			firetrap.gameObject.SetActive (true);
 		}
@@ -48,7 +56,10 @@ public class Stage3_VideoAnimator : MonoBehaviour {
 	}
 
 	void OnGUI () {
-		if(time > 1.0f && time < 5.5f) drawDialog ();
+		if(time > 1.0f && time < 5.5f) {
+			drawDialog ();
+			if (!active_dialog) active_dialog = true;
+		}
 	}
 
 	void drawDialog () {

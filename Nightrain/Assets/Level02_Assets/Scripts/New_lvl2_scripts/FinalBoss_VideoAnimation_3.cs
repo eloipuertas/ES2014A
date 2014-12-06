@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FinalBoss_VideoAnimation_1 : MonoBehaviour {
-	public GameObject camera2;
-	public GameObject position;
+public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
+	public GameObject boss;
+	public GameObject playerPos;
+	public GameObject end_camera;
 
-	private StageController stage;
-
-	private GameObject boss;
+	private Skeleton_boss_controller boss_ctrl;
 	private GameObject player;
 	private ClickToMove_lvl2 move_script;
 	private Skill_Controller_lvl2 skill_script;
 	private ActionBarScript_lvl2 action_bar;
+
+	private GameObject player_hand;
+	private GameObject firepunch;
+	private GameObject finalFireball;
+
+	private GameObject firepunch_actual = null;
+	private GameObject finalFireball_actual = null;
 	
 	private Texture2D [] dialogs = new Texture2D[2];
 	private int current_dialog = 0;
@@ -20,48 +26,71 @@ public class FinalBoss_VideoAnimation_1 : MonoBehaviour {
 	private float timer;
 	private float camera_timer;
 
+	private bool killed = false;
+	
 	// Use this for initialization
 	void Start () {
-		stage = GameObject.FindGameObjectWithTag ("GameController").GetComponent<StageController> ();
-		stage.deactive_Stage (8);
-
-		boss = GameObject.FindGameObjectWithTag ("Boss");
 		player = GameObject.FindGameObjectWithTag ("Player");
 		move_script = player.GetComponent <ClickToMove_lvl2> ();
 		skill_script = player.GetComponent <Skill_Controller_lvl2> ();
 		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript_lvl2> ();
+		boss_ctrl = boss.GetComponent <Skeleton_boss_controller> ();
 
-		move_script.teleport (position.transform.position);
-		player.transform.position = position.transform.position;
+		boss_ctrl.teleportToRespawn ();
+		boss_ctrl.rotateToPlayer (playerPos.transform.position);
+
+		move_script.teleport (playerPos.transform.position);
+		player.transform.position = playerPos.transform.position;
 		move_script.rotateToPos (boss.transform.position);
-
 
 		move_script.enabled = false;
 		skill_script.enabled = false;
 		action_bar.enabled = false;
-		
-		dialogs[0] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_1");
-		dialogs[1] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_2");
-		timer = Time.time + 3.5f;
-		camera_timer = Time.time;
 
+		player_hand = GameObject.FindGameObjectWithTag ("PlayerHand");
+		firepunch = Resources.Load <GameObject> ("Lvl2/prefabs/Fire_punch");
+		finalFireball = Resources.Load <GameObject> ("Lvl2/prefabs/Final_Fireball");
+		
+		dialogs[0] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_6");
+		dialogs[1] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_7");
+		
+		timer = Time.time + 1.5f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.time - timer > 1.0f && current_dialog >= 2) {
-			camera2.SetActive (true);
-			this.gameObject.SetActive (false);
+		if (Time.time - timer > 2.0f && killed) {
+			end_camera.SetActive (true);
+			gameObject.SetActive (false);
 		}
 
-		if ((Time.time - timer > 10.0f || Input.GetKeyDown (KeyCode.KeypadEnter) || Input.GetKeyDown  (KeyCode.Return)) && Time.time - camera_timer > 3.5f) {
+		if (current_dialog == 1) {
+			if (firepunch_actual == null) {
+				firepunch_actual = Instantiate (firepunch, player_hand.transform.position, firepunch.transform.rotation) as GameObject;
+			}
+		} else if (current_dialog == 2) {
+			Vector3 firePos = player.transform.position;
+			firePos.x += 2;
+			if (finalFireball_actual == null) {
+				move_script.attackAnim ();
+				finalFireball_actual = Instantiate (finalFireball, firePos, finalFireball.transform.rotation) as GameObject;
+				killed = true;
+			}
+		}
+
+		if (Time.time - timer > 10.0f) {
+			current_dialog += 1;
+			timer = Time.time;
+		}
+
+		if ((Input.GetKeyDown (KeyCode.KeypadEnter) || Input.GetKeyDown  (KeyCode.Return)) && Time.time - timer > 4.0f) {
 			current_dialog += 1;
 			timer = Time.time;
 		}
 	}
-
+	
 	void OnGUI () {
-		if(Time.time - camera_timer > 3.5f && current_dialog < 2) {
+		if(current_dialog < 2) {
 			drawDialog (current_dialog);
 		}
 	}

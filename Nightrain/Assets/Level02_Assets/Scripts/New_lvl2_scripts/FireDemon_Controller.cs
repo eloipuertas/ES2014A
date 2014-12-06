@@ -10,13 +10,16 @@ public class FireDemon_Controller : MonoBehaviour {
 	public AnimationClip GotHit;
 	public AnimationClip WaitingFor;
 	public Transform Anim;
-	public float health = 10.0f;
+	public float health = 40.0f;
+	public int base_dmg = 15;
 	public bool preanimation = true;
 
 	private CharacterController ctrl;
 	private GameObject player;
 	private CharacterScript_lvl2 player_script;
 	private StageController stage;
+	private GameObject health_sphere;
+	private GameObject mana_sphere;
 	
 	private Vector3 respawn;
 	private bool returningRespawn = false;
@@ -47,9 +50,13 @@ public class FireDemon_Controller : MonoBehaviour {
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		this.respawn = transform.position;
 
+		this.health_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Life_sphere_lvl2");
+		this.mana_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Mana_sphere_lvl2");
+
 		notAnim = !preanimation;
 
-		actual_health = health;
+		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficulty"));
+
 		state = 0;
 		idleAnim ();
 	}
@@ -75,7 +82,7 @@ public class FireDemon_Controller : MonoBehaviour {
 					attack_time = Time.time;
 					state = 2;
 				} else {
-					if (distance <= 25.0f && !player_seen) {
+					if (distance <= 40.0f && !player_seen) {
 						playerSeen ();
 					}
 					// Si esta en su area y no volviendo al respawn
@@ -138,7 +145,7 @@ public class FireDemon_Controller : MonoBehaviour {
 				attackDone = true;
 				if (distance <= 9.0f) {
 					music.play_Player_Hurt ();
-					player_script.setDamage (20);
+					player_script.setDamage (base_dmg);
 				}
 			}
 		}
@@ -170,6 +177,16 @@ public class FireDemon_Controller : MonoBehaviour {
 		if (actual_health <= 0.0f) {
 			dieAnim ();
 			stage.dead_npc (this.gameObject.tag);
+
+			Vector3 newPosition_sphere = transform.position;
+			newPosition_sphere.y += 1.5f;
+			newPosition_sphere.x -= 1.0f;
+			int rand1 = Random.Range (0,3);
+			if (rand1 == 2) Instantiate (health_sphere, newPosition_sphere, health_sphere.transform.rotation);
+			newPosition_sphere.x += 2.0f;
+			int rand2 = Random.Range (0,3);
+			if (rand2 == 2) Instantiate (mana_sphere, newPosition_sphere, health_sphere.transform.rotation);
+
 			Vector3 newPosition = transform.position;
 			newPosition.y += 1.5f;
 			transform.position = newPosition;
@@ -206,5 +223,23 @@ public class FireDemon_Controller : MonoBehaviour {
 
 	public void set_notAnim () {
 		notAnim = true;
+	}
+
+	private void setAtrributesDifficulty (string difficulty) {
+		if(difficulty.Equals("Easy")) {
+			base_dmg = base_dmg / 2;
+			health = health / 2;
+		}
+		else if(difficulty.Equals("Normal")) {
+			health = health / 2;
+		}
+		else if(difficulty.Equals("Hard")) {
+			base_dmg = base_dmg * 2;
+		}
+		else if(difficulty.Equals("Extreme")) {
+			base_dmg = base_dmg * 3;
+			health = health * 2;
+		}
+		actual_health = health;
 	}
 }

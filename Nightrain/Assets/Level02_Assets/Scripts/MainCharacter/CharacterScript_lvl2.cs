@@ -258,7 +258,7 @@ public class CharacterScript_lvl2 : MonoBehaviour {
 	
 	// Method to Spell magic the 'Character'
 	public void setSpell(int spell){
-		//this.bar_magic -= spell;
+		this.bar_magic -= spell;
 		// Reproducimos un sonido de dolor del personaje al recibir el golpe
 		//if (music != null) music.play_Player_Hurt ();
 	}

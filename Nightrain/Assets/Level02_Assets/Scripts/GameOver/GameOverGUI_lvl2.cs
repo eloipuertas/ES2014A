@@ -70,7 +70,7 @@ public class GameOverGUI_lvl2{
 		if (continue_box.Contains (Event.current.mousePosition)) {
 			Graphics.DrawTexture (continue_box, this.hoverContinueTexture);
 			if(Input.GetMouseButtonDown(0)){
-				Application.LoadLevel(3);
+				Application.LoadLevel(4);
 			}
 		} else if(exit_box.Contains (Event.current.mousePosition)){
 			Graphics.DrawTexture (exit_box, this.hoverExitTexture);

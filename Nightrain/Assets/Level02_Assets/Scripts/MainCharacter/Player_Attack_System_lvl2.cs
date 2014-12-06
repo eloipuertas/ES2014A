@@ -29,7 +29,6 @@ public class Player_Attack_System_lvl2 : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		string tag = other.gameObject.tag;
-		if(tag != "Player") print (tag);
 		if (attacking && isEnemy(tag) && !enemyHit) {
 			attack (other.gameObject);
 			atk_time = Time.time;
@@ -38,7 +37,6 @@ public class Player_Attack_System_lvl2 : MonoBehaviour {
 
 	void OnTriggerStay(Collider other) {
 		string tag = other.gameObject.tag;
-		if(tag != "Player")print (tag);
 		if (attacking && isEnemy(tag) && !enemyHit) {
 			attack (other.gameObject);
 			atk_time = Time.time;
@@ -54,7 +52,7 @@ public class Player_Attack_System_lvl2 : MonoBehaviour {
 	}
 
 
-	bool isEnemy(string name) {
+	public bool isEnemy(string name) {
 		if (name.Substring(0,name.Length-1) == "Skeleton") {
 			return true;
 		}

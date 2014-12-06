@@ -11,6 +11,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	public AnimationClip WaitingFor;
 	public Transform Anim;
 	public float health = 10.0f;
+	public int base_dmg = 10;
 	
 	private CharacterController ctrl;
 	private GameObject player;
@@ -51,7 +52,8 @@ public class Skeleton_controller_2 : MonoBehaviour {
 
 		this.respawn = transform.position;
 
-		actual_health = health;
+		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficulty"));
+
 		state = 0;
 		idleAnim ();
 	}
@@ -137,7 +139,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 				attackDone = true;
 				if (distance <= 9.0f) {
 					music.play_Player_Hurt ();
-					player_script.setDamage (20);
+					player_script.setDamage (base_dmg);
 				}
 			}
 		}
@@ -208,5 +210,23 @@ public class Skeleton_controller_2 : MonoBehaviour {
 
 	public void waitingAnim() {
 		Anim.animation.CrossFade (WaitingFor.name, 0.12f);
+	}
+
+	private void setAtrributesDifficulty (string difficulty) {
+		if(difficulty.Equals("Easy")) {
+			base_dmg = base_dmg / 2;
+			health = health / 2;
+		}
+		else if(difficulty.Equals("Normal")) {
+		}
+		else if(difficulty.Equals("Hard")) {
+			base_dmg = base_dmg * 2;
+			health = health * 2;
+		}
+		else if(difficulty.Equals("Extreme")) {
+			base_dmg = base_dmg * 3;
+			health = health * 3;
+		}
+		actual_health = health;
 	}
 }

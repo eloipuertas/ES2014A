@@ -39,7 +39,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		
 		// --- LOAD RESOURCES TO CHARACTER ---
 		//this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2");
-		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2_cube");
+		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2");
 		this.character = Instantiate (prefab, respawn.transform.position, prefab.transform.rotation) as GameObject;
 		this.cs = this.character.GetComponent<CharacterScript_lvl2> ();
 		

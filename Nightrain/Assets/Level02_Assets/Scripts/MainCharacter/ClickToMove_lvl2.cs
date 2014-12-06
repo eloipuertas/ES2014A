@@ -19,12 +19,14 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	private float disToDestination = 0.0f;
 	private Plane playerPlane;
 	private Ray ray;
+	private Ray rayAttack;
 	private float hitdist = 0.0f;
 	
 	//MODIFICACIO PER MANTENIRLO SOBRE EL TERRA
 	private float gravity;
 	private float atk_time = -1.0f;
 	private bool attacking = false;
+	private bool attack_target = false;
 	private float atk_cd = 1.0f;
 
 	// Use this for initialization
@@ -40,6 +42,7 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Time.deltaTime != 0) {
+			//if (attack_target) destinationPosition = getObjectScene.transform.position;
 			disToDestination = Mathf.Abs (transform.position.x - destinationPosition.x) + Mathf.Abs(destinationPosition.z - transform.position.z);
 
 			//Si llegamos a la position del click +-0.5f de distancia para evitar que se quede corriendo
@@ -51,14 +54,18 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 				else animation.Play ("metarig|Atacar");
 				speed = 0.0f;
 			} else {
-				moveToPosition (destinationPosition);
-				if (!isAttacking()) animation.Play ("metarig|Caminar");
+				//if ()
+				if (!isAttacking()) {
+					animation.Play ("metarig|Caminar");
+					moveToPosition (destinationPosition);
+				}
 				else animation.Play ("metarig|Atacar");
 				speed = 30.0f;
 			}
 
 			// Si hacemos click o dejamos presionado el botón izquierdo del mouse, nos movemos al punto del mouse
-			if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetMouseButton(0)) { 			
+			if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0)) { 			
+				attack_target = false;
 				playerPlane = new Plane(Vector3.up, transform.position);
 				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				hitdist = 0.0f;
@@ -72,25 +79,43 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 
 			//Bloque para atacar
 			if (!isAttacking()) { // Si no esta haciendo un ataque
-				if (Input.GetKeyDown (KeyCode.Space)) { // Al puslar espacio
+				if (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.Mouse1)) { // Al puslar espacio
 					// Si ha pasado mas de 1 segundo del inicio del ultimo ataque
 					if (canAttack()) {
+						rotateToMouse ();
 						atk_script.makeAttack();
 						atk_time = Time.time;
 						music.play_Player_Sword_Attack ();
 					}
 				}
 
-				if (Input.GetKeyDown (KeyCode.Mouse1)) {
-				
-				}
+				/*if (Input.GetKeyDown (KeyCode.Mouse1)) {
+					if (canAttack ()) {
+						rayAttack = Camera.main.ScreenPointToRay(Input.mousePosition);
+						if(Physics.Raycast(rayAttack, out getObjectScene, 100.0f)){
+							string npc_tag = getObjectScene.transform.gameObject.tag;
+							if(atk_script.isEnemy(npc_tag)) {
+								attack_target = true;
+								rotateToPos (getObjectScene.transform.position);
+							}
+						}
+					}
+				}*/
 			}
 		}
 	}
 	
 
 	public void rotateToMouse () {
+		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		targetPoint = ray.GetPoint(hitdist);
+		targetPoint.y = transform.position.y;
 		Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+		transform.rotation = targetRotation;
+	}
+
+	public void rotateToPos(Vector3 position) {
+		Quaternion targetRotation = Quaternion.LookRotation(position - transform.position);
 		transform.rotation = targetRotation;
 	}
 
@@ -117,5 +142,9 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	private bool canAttack() {
 		if (Time.time - atk_time > atk_cd) return true;
 		else return false;
+	}
+
+	public void attackAnim() {
+		animation.Play ("metarig|Atacar");	
 	}
 }
