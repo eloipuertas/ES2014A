@@ -30,7 +30,7 @@ public class tower_attack : MonoBehaviour {
 					//creamos una bala
 					GameObject g = (GameObject)Instantiate(ArrowPrefab.gameObject, transform.position, Quaternion.identity);
 					Bala b = g.GetComponent<Bala>();
-					
+
 					//le assignamos como destino, la posicion del player     
 					b.setDestination(this.player.transform);
 					
