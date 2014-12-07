@@ -3,6 +3,12 @@ using System.Collections;
 
 public class GameOverGUI{
 
+	// Hover button audio Source
+	private GameObject hoverSound;
+	
+	// Variable to check current mouse hover button
+	private Rect hoveredButton = new Rect();
+
 	private const int reference_width = 1366; 
 	private const int reference_height = 598;
 
@@ -12,6 +18,8 @@ public class GameOverGUI{
 	private Texture2D hoverContinueTexture;
 	private Texture2D exitTexture;
 	private Texture2D hoverExitTexture;
+
+	public AudioSource clip;
 
 
 	// CONSTRUCTOR
@@ -26,6 +34,9 @@ public class GameOverGUI{
 		
 		this.exitTexture = Resources.Load<Texture2D>("GameOver/exit");
 		this.hoverExitTexture = Resources.Load<Texture2D>("GameOver/hover_exit");
+
+		//Hover button music gameobject
+		this.hoverSound = GameObject.FindGameObjectWithTag("music_engine");
 	}
 
 	// MENU GAMEOVER
@@ -69,18 +80,40 @@ public class GameOverGUI{
 		
 		if (continue_box.Contains (Event.current.mousePosition)) {
 			Graphics.DrawTexture (continue_box, this.hoverContinueTexture);
-			if(Input.GetMouseButtonDown(0)){
-				Application.LoadLevel(3);
+			if (hoveredButton != continue_box) {
+				hoverSound.audio.Play ();
+				hoveredButton = continue_box;
 			}
-		} else if(exit_box.Contains (Event.current.mousePosition)){
+			if (Input.GetMouseButtonDown (0)) {
+				this.clip.Play ();
+				Application.LoadLevel (3);
+			}
+		} else {
+			Graphics.DrawTexture (continue_box, this.continueTexture);
+			if(hoveredButton == continue_box) hoveredButton = new Rect();
+		}
+		
+		
+		if(exit_box.Contains (Event.current.mousePosition)){
 			Graphics.DrawTexture (exit_box, this.hoverExitTexture);
-			if(Input.GetMouseButtonDown(0)){
-				Application.LoadLevel(1);
+			if (hoveredButton != exit_box) {
+				hoverSound.audio.Play ();
+				hoveredButton = exit_box;
 			}
+			if(Input.GetMouseButtonDown(0)){
+				this.clip.Play();
+				Application.LoadLevel (1);
+			}
+		}else {
+			Graphics.DrawTexture (exit_box, this.exitTexture);
+			if(hoveredButton == exit_box) hoveredButton = new Rect();
 		}
 
 	}
 
+	public void setAudioClick(AudioSource clip){
+		this.clip = clip;
+	}
 
 	private float resizeTextureWidth(Texture2D texture){
 		return ((Screen.width * texture.width) / (reference_width * 1.0f));

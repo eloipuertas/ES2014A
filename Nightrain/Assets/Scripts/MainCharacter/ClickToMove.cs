@@ -164,7 +164,11 @@ public class ClickToMove : MonoBehaviour {
 			anim.SetBool("w_stop", true);
 			state = "None";
 
+<<<<<<< HEAD
 		} else if(state.Equals("Attack") && enemy != null){
+=======
+		} else if(state.Equals("Attack") && enemy!=null){
+>>>>>>> origin/Devel
 			
 			float distance_to_enemy = Vector3.Distance(player.transform.position, enemy.transform.position);
 			//Debug.Log("@tracking -> Distance To Enemy:" + distance_to_enemy);
