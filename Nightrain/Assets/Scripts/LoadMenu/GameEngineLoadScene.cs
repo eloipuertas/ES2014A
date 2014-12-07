@@ -12,11 +12,21 @@ public class GameEngineLoadScene : MonoBehaviour {
 	public float delay = 5;
 	private bool isLoading = false;
 
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private LoadData load;
+
 
 	// Use this for initialization
 	void Start () {
 
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.load = this.mc.loadData (); 
+
 		this.backgroundTexture = Resources.Load<Texture2D>("LoadScene/background_load" + level);
+
+
 	}
 
 	void Update(){
@@ -25,7 +35,7 @@ public class GameEngineLoadScene : MonoBehaviour {
 
 		if(delay <= 0 && !isLoading){
 			this.isLoading = true;
-			Application.LoadLevel(3);
+			Application.LoadLevel(this.load.loadLevel());
 		}
 	}
 

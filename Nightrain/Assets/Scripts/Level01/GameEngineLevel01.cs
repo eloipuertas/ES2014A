@@ -32,17 +32,31 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private GameObject camera1;
 	private GameObject camera2;
 
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+	private LoadData load;
+
 	// --- Delays ---
 	public float delay = 2;
+
+	// Time Played
+	private static float time_play = 0;
 	
 	// Use this for initialization
 	void Awake () {
 		
 		// --- LOAD RESOURCES TO CHARACTER ---
-		this.prefab = Resources.Load<Transform>("Prefabs/MainCharacters/" + PlayerPrefs.GetString("Character"));
+		this.prefab = Resources.Load<Transform>("Prefabs/MainCharacters/" + PlayerPrefs.GetString("Player"));
 		Instantiate (prefab);
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
+
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData();
+		this.load = this.mc.loadData();
+		time_play = this.load.loadTimePlayed (); 
 
 		this.npc_boss = GameObject.FindGameObjectWithTag("Boss");
 		this.npc_enemy = GameObject.FindGameObjectsWithTag("Enemy");
@@ -71,6 +85,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 		} 
 		this.PauseScreen ();
 		this.StateMachine ();
+		time_play += Time.deltaTime;
 	}
 	
 	
@@ -179,5 +194,9 @@ public class GameEngineLevel01 : MonoBehaviour {
 		
 		this.gui.confirmMenu(this.pause);
 		this.gui.optionKeyword (this.pause);
+	}
+
+	public static float getTimePlay(){
+		return time_play;
 	}
 }

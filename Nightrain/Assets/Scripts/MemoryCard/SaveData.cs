@@ -3,6 +3,39 @@ using System.Collections;
 
 public class SaveData : MonoBehaviour {
 
+	public void saveTimePlayed(float time){
+	
+
+		int hour, min, second;
+		string str = "";
+
+		hour = ((int)time / 3600);
+		min = ((int)time % 3600) / 60;
+		second = ((int)time % 3600) % 60;
+
+		if(hour < 10)
+			str += "0" + hour;
+		else 
+			str += hour;
+
+		if(min < 10)
+			str += ":0" + min;
+		else 
+			str += ":" + min;
+
+		if(second < 10)
+			str += ":0" + second;
+		else
+			str += ":" + second;
+			
+		PlayerPrefs.SetString("TimeFormat", str);
+		PlayerPrefs.SetFloat("Time", time);
+	}
+
+	public void saveTimeFormat(string time){
+		PlayerPrefs.SetString ("TimeFormat", time);
+	}
+
 	public void saveCutScene(int cutscene){
 		PlayerPrefs.SetInt("Cutscene", cutscene);
 	}
@@ -16,6 +49,12 @@ public class SaveData : MonoBehaviour {
 	}
 	
 	public void saveLevel(int level){
+
+		if (level == 3) 
+			PlayerPrefs.SetString ("LevelName", "La aldea maldita");
+		if (level == 4)
+			PlayerPrefs.SetString ("LevelName", "El monte del destino");
+
 		PlayerPrefs.SetInt("Level", level);
 	}
 	

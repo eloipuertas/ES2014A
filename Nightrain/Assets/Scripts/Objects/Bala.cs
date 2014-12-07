@@ -34,6 +34,5 @@ public class Bala : MonoBehaviour {
 
 public void setDestination(Transform v) {
 		destination = v;
-		Debug.Log (destination);
 }
 }

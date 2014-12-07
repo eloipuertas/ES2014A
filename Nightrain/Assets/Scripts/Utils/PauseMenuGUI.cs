@@ -36,13 +36,21 @@ public class PauseMenuGUI {
 	// Buttons sound effects
 	private Rect hoveredButton = new Rect();
 	private Music_Engine_Script music;
+
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
 	
 	// CONSTRUCTOR
 	public PauseMenuGUI(){}
 	
 	// LOAD TEXTURE RESOURCES
 	public void initResources () {
-		
+
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData ();
+
 		// MENU PAUSE
 		this.backgroundTexture = Resources.Load<Texture2D>("PauseMenu/background_pause");
 		
@@ -149,6 +157,8 @@ public class PauseMenuGUI {
 				if (Input.GetMouseButtonDown (0)) {
 					Time.timeScale = 1;
 					music.Play_Button_Click();
+					Debug.Log ("Time Playerd: " + GameEngineLevel01.getTimePlay ());
+					this.save.saveTimePlayed(GameEngineLevel01.getTimePlay());
 					Application.LoadLevel (2);	
 				}
 			} else {
@@ -237,6 +247,7 @@ public class PauseMenuGUI {
 				if (Input.GetMouseButtonDown (0)) { 
 					Time.timeScale = 1;
 					music.Play_Button_Click();
+					this.save.saveTimePlayed(GameEngineLevel01.getTimePlay());
 					Application.LoadLevel (1);	
 				}
 			} else {

@@ -9,8 +9,6 @@ public class FadeOut : MonoBehaviour {
 	private int depth = -1;			// Value that says the order that GUI executes 
 	private float alpha = 1.0f;
 	private int direction = -1;		// Direction -1 = Fade in
-									// Direction  1 = Fade out
-
 
 	// When the scenes begin we'll see a effect to fade in because direction -1.
 	void OnGUI(){
@@ -36,6 +34,7 @@ public class FadeOut : MonoBehaviour {
 	IEnumerator corutineFade() {
 		float time = Fading (1);
 		yield return new WaitForSeconds(time);
+		print ("Time Playerd: " + GameEngineLevel01.getTimePlay ());
 		Application.LoadLevel(5);
 	}
 }

@@ -109,6 +109,7 @@ public class ClickToMove : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			float hitdist;
 
+
 			//deteccion movimiento
 			if (playerPlane.Raycast(ray, out hitdist)){
 				targetPoint = ray.GetPoint(hitdist);
@@ -163,7 +164,7 @@ public class ClickToMove : MonoBehaviour {
 			anim.SetBool("w_stop", true);
 			state = "None";
 
-		} else if(state.Equals("Attack")){
+		} else if(state.Equals("Attack") && enemy != null){
 			
 			float distance_to_enemy = Vector3.Distance(player.transform.position, enemy.transform.position);
 			//Debug.Log("@tracking -> Distance To Enemy:" + distance_to_enemy);

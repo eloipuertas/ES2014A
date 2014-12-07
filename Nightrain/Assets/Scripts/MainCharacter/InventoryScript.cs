@@ -75,10 +75,11 @@ public class InventoryScript : MonoBehaviour {
 			this.show_inventory = false;
 
 		// If cursor is inside inventory action "Don't walk" is outside walk
-		if (this.inventory_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y)) && show_inventory) {
-			this.cm.dontWalk();
-		}else
-			this.cm.Walk();
+		if(this.cm != null)
+			if (this.inventory_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y)) && show_inventory)
+				this.cm.dontWalk();
+			else
+				this.cm.Walk();
 	}
 
 

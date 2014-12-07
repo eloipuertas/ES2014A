@@ -70,7 +70,7 @@ public class HealthBarScript : MonoBehaviour {
 		//this.max_magic = this.bar_magic;
 
 		// ADD TEXTURES
-		this.AvatarTexture = Resources.Load<Texture2D>("HealthBar/avatar_" + PlayerPrefs.GetString("Character"));
+		this.AvatarTexture = Resources.Load<Texture2D>("HealthBar/avatar_" + PlayerPrefs.GetString("Player"));
 		this.HealthTexture = Resources.Load<Texture2D>("HealthBar/health");
 		this.HealthBarTexture = Resources.Load<Texture2D>("HealthBar/bar_health");
 		this.DamageBarTexture = Resources.Load<Texture2D>("HealthBar/damage_health");

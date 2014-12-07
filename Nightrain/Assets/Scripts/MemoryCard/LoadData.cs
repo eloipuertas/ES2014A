@@ -3,6 +3,14 @@ using System.Collections;
 
 public class LoadData : MonoBehaviour {
 
+	public float loadTimePlayed(){
+		return PlayerPrefs.GetFloat("Time");
+	}
+
+	public string loadTimeFormat(){
+		return PlayerPrefs.GetString("TimeFormat");
+	}
+
 	public int loadCutScene(){
 		return PlayerPrefs.GetInt("Cutscene");
 	}
@@ -19,12 +27,16 @@ public class LoadData : MonoBehaviour {
 		return PlayerPrefs.GetInt("Level");
 	}
 
+	public string loadLevelName(){
+		return PlayerPrefs.GetString("LevelName");
+	}
+
 	public string loadLoading(){
 		return PlayerPrefs.GetString("Loading");
 	}
 
 	public string loadPlayer(){
-		return PlayerPrefs.GetString ("Character");
+		return PlayerPrefs.GetString ("Player");
 	}
 
 	public string loadDifficulty(){
