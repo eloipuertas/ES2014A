@@ -17,10 +17,26 @@ public class miniMapLv2 : MonoBehaviour {
 	private Texture2D openChestIcon;
 
 	// ====== GAMEOBJECTS SCENE ======
+
+	// MAINCHARACTER
 	private GameObject character;
-	private GameObject[] enemies;
-	private GameObject[] chest;
+
+	// ENEMIES
+	private GameObject skeleton;
+	private GameObject[] skeleton1;
+	private GameObject[] skeleton2;
+	private GameObject[] skeleton3; 	
+	private GameObject[] skeleton5; 
+	private GameObject[] miniicedemon7;
+	private GameObject[] miniicedemon8;
+
+	// BOSS
+	private GameObject firedemon4;
+	private GameObject icedemon6;
 	private GameObject boss;
+
+	// CHEST
+	private GameObject[] chest;
 	
 	//The width and height of your map as it'll appear on screen,
 	public float mapWidth = 200;
@@ -32,7 +48,8 @@ public class miniMapLv2 : MonoBehaviour {
 	public float iconSize = 10;
 	private float iconHalfSize;
 	//This values is because the terrain has 150 of offset to the second terrain.
-	private int offset = 150;
+	private int offset_w = 0;
+	private int offset_h = 100;
 
 	private bool mapVisible = false;
 
@@ -41,8 +58,18 @@ public class miniMapLv2 : MonoBehaviour {
 
 		// REFERENCE GAMEOBJECTS
 		this.character = GameObject.FindGameObjectWithTag("Player");
-		this.enemies = GameObject.FindGameObjectsWithTag("Enemy");
+		this.skeleton = GameObject.FindGameObjectWithTag("Skeleton");
+		this.skeleton1 = GameObject.FindGameObjectsWithTag("Skeleton1");
+		this.skeleton2 = GameObject.FindGameObjectsWithTag("Skeleton2");
+		this.skeleton3 = GameObject.FindGameObjectsWithTag("Skeleton3");
+		this.skeleton5 = GameObject.FindGameObjectsWithTag("Skeleton5");
+		this.miniicedemon7 = GameObject.FindGameObjectsWithTag("MiniIceDemon7");
+		this.miniicedemon8 = GameObject.FindGameObjectsWithTag("MiniIceDemon8");
+
+		this.firedemon4 = GameObject.FindGameObjectWithTag("FireDemon4");
+		this.icedemon6 = GameObject.FindGameObjectWithTag("IceDemon6");
 		this.boss = GameObject.FindGameObjectWithTag("Boss");
+
 		this.chest = GameObject.FindGameObjectsWithTag("Chest");
 
 		// LOAD TEXTURES
@@ -74,9 +101,36 @@ public class miniMapLv2 : MonoBehaviour {
 			                            resizeHeight (mapHeight));
 			GUI.DrawTexture(minimap_box, miniMapTexture);
 
+
+			if(firedemon4 != null){
+				float bossX = GetMapPos(-offset_w+firedemon4.transform.position.x, mapWidth, sceneWidth);
+				float bossZ = GetMapPos(offset_h+firedemon4.transform.position.z, mapHeight, sceneHeight);
+				float bossMapX = bossX - iconHalfSize;
+				float bossMapZ = ((bossZ * -1) - iconHalfSize) + mapHeight;
+				
+				GUI.DrawTexture(new Rect(minimap_box.x + resizeWidth(bossMapX), 
+				                         resizeHeight(bossMapZ), 
+				                         resizeWidth(iconSize), 
+				                         resizeHeight(iconSize)), 
+				                bossIcon);
+			}
+
+			if(icedemon6 != null){
+				float bossX = GetMapPos(-offset_w+icedemon6.transform.position.x, mapWidth, sceneWidth);
+				float bossZ = GetMapPos(offset_h+icedemon6.transform.position.z, mapHeight, sceneHeight);
+				float bossMapX = bossX - iconHalfSize;
+				float bossMapZ = ((bossZ * -1) - iconHalfSize) + mapHeight;
+				
+				GUI.DrawTexture(new Rect(minimap_box.x + resizeWidth(bossMapX), 
+				                         resizeHeight(bossMapZ), 
+				                         resizeWidth(iconSize), 
+				                         resizeHeight(iconSize)), 
+				                bossIcon);
+			}
+
 			if(boss != null){
-				float bossX = GetMapPos(boss.transform.position.x, mapWidth, sceneWidth);
-				float bossZ = GetMapPos(offset+boss.transform.position.z, mapHeight, sceneHeight);
+				float bossX = GetMapPos(-offset_w+boss.transform.position.x, mapWidth, sceneWidth);
+				float bossZ = GetMapPos(offset_h+boss.transform.position.z, mapHeight, sceneHeight);
 				float bossMapX = bossX - iconHalfSize;
 				float bossMapZ = ((bossZ * -1) - iconHalfSize) + mapHeight;
 
@@ -87,10 +141,10 @@ public class miniMapLv2 : MonoBehaviour {
 				                bossIcon);
 			}
 
-			for(int i = 0; i < enemies.Length; i++){
-				if(enemies[i] != null){
-					float enemyX = GetMapPos(enemies[i].transform.position.x, mapWidth, sceneWidth);
-					float enemyZ = GetMapPos(offset+enemies[i].transform.position.z, mapHeight, sceneHeight);
+			for(int i = 0; i < skeleton1.Length; i++){
+				if(skeleton1[i] != null){
+					float enemyX = GetMapPos(-offset_w+skeleton1[i].transform.position.x, mapWidth, sceneWidth);
+					float enemyZ = GetMapPos(offset_h+skeleton1[i].transform.position.z, mapHeight, sceneHeight);
 					float enemyMapX = enemyX - iconHalfSize;
 					float enemyMapZ = ((enemyZ * -1) - iconHalfSize) + mapHeight;
 
@@ -102,9 +156,84 @@ public class miniMapLv2 : MonoBehaviour {
 				}
 			}
 
+			for(int i = 0; i < skeleton2.Length; i++){
+				if(skeleton2[i] != null){
+					float enemyX = GetMapPos(-offset_w+skeleton2[i].transform.position.x, mapWidth, sceneWidth);
+					float enemyZ = GetMapPos(offset_h+skeleton2[i].transform.position.z, mapHeight, sceneHeight);
+					float enemyMapX = enemyX - iconHalfSize;
+					float enemyMapZ = ((enemyZ * -1) - iconHalfSize) + mapHeight;
+					
+					GUI.DrawTexture(new Rect(minimap_box.x + resizeWidth(enemyMapX), 
+					                         resizeHeight(enemyMapZ), 
+					                         resizeWidth(iconSize), 
+					                         resizeHeight(iconSize)), 
+					                enemyIcon);
+				}
+			}
+
+			for(int i = 0; i < skeleton3.Length; i++){
+				if(skeleton3[i] != null){
+					float enemyX = GetMapPos(-offset_w+skeleton3[i].transform.position.x, mapWidth, sceneWidth);
+					float enemyZ = GetMapPos(offset_h+skeleton3[i].transform.position.z, mapHeight, sceneHeight);
+					float enemyMapX = enemyX - iconHalfSize;
+					float enemyMapZ = ((enemyZ * -1) - iconHalfSize) + mapHeight;
+					
+					GUI.DrawTexture(new Rect(minimap_box.x + resizeWidth(enemyMapX), 
+					                         resizeHeight(enemyMapZ), 
+					                         resizeWidth(iconSize), 
+					                         resizeHeight(iconSize)), 
+					                enemyIcon);
+				}
+			}
+
+			for(int i = 0; i < skeleton5.Length; i++){
+				if(skeleton5[i] != null){
+					float enemyX = GetMapPos(-offset_w+skeleton5[i].transform.position.x, mapWidth, sceneWidth);
+					float enemyZ = GetMapPos(offset_h+skeleton5[i].transform.position.z, mapHeight, sceneHeight);
+					float enemyMapX = enemyX - iconHalfSize;
+					float enemyMapZ = ((enemyZ * -1) - iconHalfSize) + mapHeight;
+					
+					GUI.DrawTexture(new Rect(minimap_box.x + resizeWidth(enemyMapX), 
+					                         resizeHeight(enemyMapZ), 
+					                         resizeWidth(iconSize), 
+					                         resizeHeight(iconSize)), 
+					                enemyIcon);
+				}
+			}
+
+			for(int i = 0; i < miniicedemon7.Length; i++){
+				if(miniicedemon7[i] != null){
+					float enemyX = GetMapPos(-offset_w+miniicedemon7[i].transform.position.x, mapWidth, sceneWidth);
+					float enemyZ = GetMapPos(offset_h+miniicedemon7[i].transform.position.z, mapHeight, sceneHeight);
+					float enemyMapX = enemyX - iconHalfSize;
+					float enemyMapZ = ((enemyZ * -1) - iconHalfSize) + mapHeight;
+					
+					GUI.DrawTexture(new Rect(minimap_box.x + resizeWidth(enemyMapX), 
+					                         resizeHeight(enemyMapZ), 
+					                         resizeWidth(iconSize), 
+					                         resizeHeight(iconSize)), 
+					                enemyIcon);
+				}
+			}
+
+			for(int i = 0; i < miniicedemon8.Length; i++){
+				if(miniicedemon8[i] != null){
+					float enemyX = GetMapPos(-offset_w+miniicedemon8[i].transform.position.x, mapWidth, sceneWidth);
+					float enemyZ = GetMapPos(offset_h+miniicedemon8[i].transform.position.z, mapHeight, sceneHeight);
+					float enemyMapX = enemyX - iconHalfSize;
+					float enemyMapZ = ((enemyZ * -1) - iconHalfSize) + mapHeight;
+					
+					GUI.DrawTexture(new Rect(minimap_box.x + resizeWidth(enemyMapX), 
+					                         resizeHeight(enemyMapZ), 
+					                         resizeWidth(iconSize), 
+					                         resizeHeight(iconSize)), 
+					                enemyIcon);
+				}
+			}
+
 			for(int i = 0; i < chest.Length; i++){
-				float cX = GetMapPos(chest[i].transform.position.x, mapWidth, sceneWidth);
-				float cZ = GetMapPos(offset+chest[i].transform.position.z, mapHeight, sceneHeight);
+				float cX = GetMapPos(-offset_w+chest[i].transform.position.x, mapWidth, sceneWidth);
+				float cZ = GetMapPos(offset_h+chest[i].transform.position.z, mapHeight, sceneHeight);
 				float chestMapX = cX - iconHalfSize;
 				float chestMapZ = ((cZ * -1) - iconHalfSize) + mapHeight;
 
@@ -114,8 +243,8 @@ public class miniMapLv2 : MonoBehaviour {
 					GUI.DrawTexture(new Rect(minimap_box.x + resizeWidth(chestMapX), resizeHeight(chestMapZ), resizeWidth(iconSize), resizeHeight(iconSize)), openChestIcon);
 			}
 
-			float pX = GetMapPos(character.transform.position.x, mapWidth, sceneWidth);
-			float pZ = GetMapPos(offset+character.transform.position.z, mapHeight, sceneHeight);
+			float pX = GetMapPos(-offset_w+character.transform.position.x, mapWidth, sceneWidth);
+			float pZ = GetMapPos(offset_h+character.transform.position.z, mapHeight, sceneHeight);
 			float playerMapX = pX - iconHalfSize;
 			float playerMapZ = ((pZ * -1) - iconHalfSize) + mapHeight;
 
