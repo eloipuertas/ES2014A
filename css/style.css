@@ -37,39 +37,44 @@ article{
 	max-height: 1000px;
 	background-color:#FFF;
 	top: 0;
-	background-color:#FFF;
-}
-
-article#contenido{
-	max-width: 1200px;
-	text-align: center;
-	font-size: 16px;
-	padding-top: 8%;
-}
-
-article#download{	
+	text-align:center;
 }
 
 article #contenido p {
-	margin-bottom: 5%;
+	font-size:18px;
 }
 
-article .col {
-  width: 250px;
-  height: 300px;
-  display: inline-block;
+article .des li{
+	display: inline-block;
+	text-align:right;
+	margin-right: 10%;
+	margin-left: 10%;
+}
+article .des img{
+	margin-top:70%;
 }
 
-article .col img {
-	padding-bottom: 15%;
-	padding-top: 15%;
+article#home{
+	background-image:url(../images/fondo.png);
+	background-repeat:no-repeat;
+	background-position:center;
 }
 
+article#download{
+	background-color:#FFF;
+}
 article#trailer{
+	background-image:url(../images/fondotrans.png);
+	background-repeat:no-repeat;
+	background-position:center;
 }
 article#personajes{
+	background-image:url(../images/fondotrans.png);
+	background-repeat:no-repeat;
+	background-position:center;
 }
 article#about{
+	background-color:#FFF;
 }
 
 article h1{
@@ -85,8 +90,8 @@ footer{
 	bottom: 0px;
 }
 
-/*Estrucuta divs*/
 
+/*Estrucuta divs*/
 .head{
 	max-width: 1200px;
 	top: 0;
@@ -125,6 +130,15 @@ footer{
 .menus a:hover {
 	/*color: #38A2C9;*/
 	color:#B8B00E;
+}
+
+
+#contenido{
+	max-width: 1200px;
+	text-align: center;
+	font-size: 16px;
+	padding-top: 10%;
+	display: inline-block;
 }
 
 .foot{
