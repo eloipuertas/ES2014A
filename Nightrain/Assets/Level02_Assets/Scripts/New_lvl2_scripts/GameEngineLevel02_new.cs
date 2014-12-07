@@ -49,9 +49,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		
 		
 		this.c = this.ambientLight.light.color;
-		
-		print ("Personaje:" + PlayerPrefs.GetString ("Character") + " Difficulty: " + PlayerPrefs.GetString ("Difficulty"));
-		
+
 	}
 	
 	// Update is called once per frame

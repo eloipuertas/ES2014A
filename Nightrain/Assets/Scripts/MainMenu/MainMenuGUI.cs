@@ -786,7 +786,6 @@ public class MainMenuGUI {
 	public void saveSettingsGame(int level, string difficulty, string character){
 	
 		this.save.saveTimePlayed (0f);
-		Debug.Log ("Time Playerd before saved: " + this.load.loadTimePlayed ());
 		this.save.saveTimeFormat ("");
 		this.save.saveLevel (level);
 		this.save.saveDifficult (difficulty);

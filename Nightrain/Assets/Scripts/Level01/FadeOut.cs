@@ -34,7 +34,6 @@ public class FadeOut : MonoBehaviour {
 	IEnumerator corutineFade() {
 		float time = Fading (1);
 		yield return new WaitForSeconds(time);
-		print ("Time Playerd: " + GameEngineLevel01.getTimePlay ());
 		Application.LoadLevel(5);
 	}
 }

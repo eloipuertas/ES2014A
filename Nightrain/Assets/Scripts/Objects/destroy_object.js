@@ -20,7 +20,6 @@ function OnCollisionEnter(collision : Collision){
 		}
 		else{
 			object_health --;
-			Debug.Log(object_health);
 		}
 	}
 }
