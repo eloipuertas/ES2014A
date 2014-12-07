@@ -11,6 +11,7 @@ function Start(){
 function OnCollisionEnter(collision : Collision){
 	if(collision.gameObject == GameObject.FindGameObjectWithTag ("Player")){
 		if (object_health==0){
+			this.audio.Play();
 			apear.SetActive(true);
 			var expl = Instantiate(explosion, transform.position, Quaternion.identity);
 			var exp2 = Instantiate(explosion2, transform.position, Quaternion.identity);
