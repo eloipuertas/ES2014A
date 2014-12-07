@@ -71,6 +71,8 @@ ModelImporter:
     100130: toe_R
     100132: upper_arm_L
     100134: upper_arm_R
+    100136: Cube_001
+    100138: Cube_005
     400000: Camera
     400002: chest
     400004: f_index_01_L
@@ -139,10 +141,16 @@ ModelImporter:
     400130: toe_R
     400132: upper_arm_L
     400134: upper_arm_R
+    400136: Cube_001
+    400138: Cube_005
     4300000: Icosphere_002
+    4300002: Cube_005
+    4300004: Cube_001
     7400000: Default Take
     9500000: //RootNode
     13700000: Icosphere_002
+    13700002: Cube_001
+    13700004: Cube_005
   materials:
     importMaterials: 1
     materialName: 0
