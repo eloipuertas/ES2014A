@@ -108,7 +108,9 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	}
 
 	void rotateToPlayer(Vector3 playerPos) {
-		transform.rotation = Quaternion.LookRotation (playerPos - transform.position);
+		Vector3 newPlayerPos = playerPos;
+		newPlayerPos.y += 3f;
+		transform.rotation = Quaternion.LookRotation (newPlayerPos - transform.position);
 	}
 
 
