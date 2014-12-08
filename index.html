@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="utf-8"/> 
+	<meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
     <link rel="shortcut icon" href="images/fav.ico">
    	<link rel="stylesheet" href="css/style.css"/>
     <script src="js/functions.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript">
-		$(document).ready(function() {    
+		$(document).ready(function() {
 			$('.ancla').click(function(){
 				var link = $(this);
 				var anchor  = link.attr('href');
@@ -29,52 +29,58 @@
 				F.height = F.contentWindow.document.body.scrollHeight+30; //IE6, IE7 and Chrome
 			}
 		}
-		window.onload=sizeFrame(); 
+		window.onload=sizeFrame();
 	</script>
 	-->
-	<title>War of Gods</title>   
+	<title>War of Gods</title>
 </head>
 
 <body>
-	
+
 	<header>
     	<div class="head">
             <div class="logo">
            		<a href="index.html"><img src="images/logo3.png" width="200" height="90" /></a>
             </div>
-                
+
             <div class="menus">
                 <lu>
                     <li><a href="#home" class="ancla">Home</a></li>
                     <li><a href="#trailer" class="ancla">Trailer</a></li>
                     <li><a href="#personajes" class="ancla">Personajes</a></li>
                     <li><a href="#download" class="ancla">Download</a></li>
-                    <li><a href="#about" class="ancla">About Us</a></li>                   
+                    <li><a href="#about" class="ancla">About Us</a></li>
                  </lu>
              </div>
          </div>
     </header>
-    
+
 	<section id="container">
     	<article id="home" class="full-page">
             <div id="contenido">
             </div>
-        </article>
-        
+      </article>
+
         <article id="trailer" class="full-page">
         	<div id="contenido">
                 <h1>Trailer War of Gods</h1>
-                <iframe id="video" class="youtube-player" type="text/html" width="1000" height="600" src="http://www.youtube.com/embed/Hiieqlgbn2c" frameborder="0"></iframe>   
-            </div>     
+                <iframe id="video" class="youtube-player" type="text/html" width="1000" height="600" src="http://www.youtube.com/embed/Hiieqlgbn2c" frameborder="0"></iframe>
+								<script type="text/javascript">
+									$(document).ready(function () {
+										$("#video").width($(".head").width() / 1.1);
+										$("#video").height(($(".head").width()) /1.1 * 0.56);
+									});
+								</script>
+            </div>
 		</article>
-		
+
         <article id="personajes" class="full-page">
         	<div id="contenido">
 				<h1>Personajes</h1>
             </div>
         </article>
-        
-                
+
+
         <article id="download" class="full-page">
         	<div id="contenido">
 					<h1>Download</h1>
@@ -90,20 +96,20 @@
 
             </div>
         </article>
-        
+
         <article id="about" class="full-page">
         	<div id="contenido">
             	<h1>About Us</h1>
             </div>
         </article>
-    
+
     </section>
 
     <footer>
         <div class="foot"></div>
     </footer>
-     
-    <script type="text/javascript"> 
+
+    <script type="text/javascript">
 	   	vpw = $(window).width();
     	vph = $(window).height();
     	$('.full-page').height(vph);
