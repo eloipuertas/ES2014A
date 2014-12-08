@@ -89,7 +89,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	void isAlive(){
 		int num = this.character.GetComponent<CharacterScript_lvl2> ().getHealth();
 		//If the character is dead we show "game over" scene
-		if(num <= 0) Application.LoadLevel(6);
+		if(num <= 0) Application.LoadLevel(7);
 	}
 
 	void PauseScreen(){	
