@@ -235,21 +235,20 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	private void setAtrributesDifficulty (string difficulty) {
 		if(difficulty.Equals("Easy")) {
 			base_dmg = base_dmg * 1;
-			atk_range = atk_range / 2.0f;
+			atk_range = atk_range - 2.0f;
 			total_health = total_health / 4f;
 		}
 		else if(difficulty.Equals("Normal")) {
-			base_dmg = base_dmg * 1.5f;
+			base_dmg = base_dmg - 1f;
 			atk_range = atk_range / 1.5f;
 			total_health = total_health / 1.5f;
 		}
 		else if(difficulty.Equals("Hard")) {
 			base_dmg = base_dmg * 2;
-			atk_range = atk_range / 1.25f;
 		}
 		else if(difficulty.Equals("Extreme")) {
 			base_dmg = base_dmg * 3;
-			total_health = total_health * 1.5f;
+			total_health = total_health + 1f;
 		}
 		health = total_health;
 	}
