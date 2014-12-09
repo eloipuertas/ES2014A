@@ -9,6 +9,7 @@ public class ClickToMove : MonoBehaviour {
 	private Vector3 targetPoint;
 	private Plane playerPlane;
 	private CharacterController controller;
+	private CharacterScript character;
 
 	/* == Enemy detection ================ */
 	private GameObject enemy;
@@ -47,6 +48,7 @@ public class ClickToMove : MonoBehaviour {
 	public void Start () {
 		player = GameObject.FindWithTag("Player");
 		music = GameObject.Find("MusicEngine").GetComponent("Music_Engine_Script");
+		character = GetComponent<CharacterScript> ();
 
 		//Get a reference to the Seeker component we added earlier
 		seeker = GetComponent<Seeker>();
@@ -116,6 +118,7 @@ public class ClickToMove : MonoBehaviour {
 				targetPosition = ray.GetPoint(hitdist);
 				//Debug.Log (">> NEW target @("+ targetPosition.x + "," + targetPosition.y +")");
 				state = "Walk";
+				Walk ();
 			}
 
 
@@ -216,7 +219,11 @@ public class ClickToMove : MonoBehaviour {
 
 
 		if (Time.time > attackTime) {
-			//player.GetComponent<CharacterScript>().setDamage((int) attackPower);
+
+			//ENEMY DAMAGE
+			if(enemy.tag == "Boss") enemy.GetComponent<Movement>().setDamage( character.computeDamage() );
+			else if(enemy.tag == "Enemy") enemy.GetComponent<Movement_graveler>().setDamage( character.computeDamage() );
+
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.SendMessage("play_Player_Sword_Attack");
@@ -266,5 +273,15 @@ public class ClickToMove : MonoBehaviour {
 			return;
 		}
 	}
+
+
+	void OnControllerColliderHit(ControllerColliderHit hit){
+		if (hit.gameObject.tag == "Chest" && state == "Walk") {
+			//Debug.Log ("@onControllerColliderHit " + hit.gameObject.tag + " -> STOP");
+			dontWalk ();
+			state = "None";
+		}
+	}
+
 	
 }
