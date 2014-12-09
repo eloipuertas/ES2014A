@@ -55,7 +55,7 @@ public class ActionBarScript : MonoBehaviour {
 
 		this.attackIconTexture = Resources.Load<Texture2D>("ActionBar/icon_attack_v2");
 		this.runIconTexture = Resources.Load<Texture2D>("ActionBar/icon_run");
-		this.potionIconTexture = Resources.Load<Texture2D>("ActionBar/icon_potion_v2");
+		this.potionIconTexture = Resources.Load<Texture2D>("ActionBar/icon_elixir_v2");
 		this.inventoryIconTexture = Resources.Load<Texture2D>("ActionBar/icon_inventory_v2");
 		this.mapIconTexture = Resources.Load<Texture2D>("ActionBar/icon_map");
 
@@ -82,8 +82,9 @@ public class ActionBarScript : MonoBehaviour {
 			this.cm.attack();
 		} else if (Input.GetKeyDown(KeyCode.Q) && inventory.getPotion() != 0) {
 			// ACTION TAKE POTION
-				this.cs.setCure(10);
-				inventory.setPotion(-1);
+			this.cs.setCure(999);
+			this.cs.setRecoverMagic(999);	
+			inventory.setPotion(-1);
 		}
 
 		

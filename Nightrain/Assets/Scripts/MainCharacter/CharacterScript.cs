@@ -57,6 +57,10 @@ public class CharacterScript : MonoBehaviour {
 	private float heal_delay = 1f;
 	private bool heal_Effect = false; 
 
+	private GameObject mana_effect;
+	private float mana_delay = 1f;
+	private bool mana_Effect = false; 
+
 
 	// Use this for initialization
 	void Awake () {
@@ -116,6 +120,15 @@ public class CharacterScript : MonoBehaviour {
 				Destroy(heal_effect);
 				this.heal_Effect = false;
 				this.heal_delay = 2f;
+			}
+		}
+
+		if(this.mana_effect){
+			this.mana_delay -= Time.deltaTime;
+			if(this.mana_delay < 0){
+				Destroy(mana_effect);
+				this.mana_Effect = false;
+				this.mana_delay = 2f;
 			}
 		}
 		
@@ -345,11 +358,10 @@ public class CharacterScript : MonoBehaviour {
 		if (this.bar_health < this.max_health){
 
 			this.music.play_Recover_Life();
-
+			this.bar_health += heal;
 			if(this.bar_health > this.max_health)
 				this.bar_health = Mathf.FloorToInt(this.max_health);
 
-			this.bar_health += heal;
 			if(!this.heal_Effect){ 
 				this.heal_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/heal")) as GameObject;
 				this.heal_effect.transform.position = transform.position;
@@ -378,6 +390,34 @@ public class CharacterScript : MonoBehaviour {
 		this.bar_magic -= spell;
 		// Reproducimos un sonido de dolor del personaje al recibir el golpe
 		//if (music != null) music.play_Player_Hurt ();
+	}
+
+	// Method to Cure the 'Character'.
+	public void setRecoverMagic(int magic){
+		//if (this.bar_magic < this.max_magic){	
+			//if(this.bar_magic > this.max_magic)
+				//this.bar_magic = Mathf.FloorToInt(this.max_magic);		
+		/*this.bar_magic += magic;
+		if (this.bar_magic > this.max_magic)
+			this.bar_magic = this.max_magic;*/
+		//}
+
+		if (this.bar_magic < this.max_magic){
+			
+			this.music.play_Recover_Life();
+			this.bar_magic += magic;
+			if(this.bar_magic > this.max_magic)
+				this.bar_magic = Mathf.FloorToInt(this.max_magic);
+			
+			if(!this.mana_Effect){ 
+				this.mana_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/mana_recover")) as GameObject;
+				this.mana_effect.transform.position = transform.position;
+				this.mana_effect.transform.parent = transform;
+				this.mana_Effect = true;
+				
+				
+			}
+		}
 	}
 
 	void levelUP(){

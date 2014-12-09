@@ -798,7 +798,7 @@ public class InventoryScript : MonoBehaviour {
 		                     this.inventory_box.y + resizeSlotY (170), 
 		                     resizeSlotX (75), 
 		                     resizeSlotY (25)),
-		           this.cs.getMagic ().ToString(),
+		           Mathf.FloorToInt(this.cs.getMagic ()).ToString(),
 		           this.attributes_style);
 
 		// LABEL FRZ VALUES

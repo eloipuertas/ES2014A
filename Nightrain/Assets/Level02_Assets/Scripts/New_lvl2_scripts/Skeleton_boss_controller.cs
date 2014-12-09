@@ -156,7 +156,6 @@ public class Skeleton_boss_controller : MonoBehaviour {
 		if (t <= 0.5f && t >= 0.4f) {
 			if (!attackDone) {
 				attackDone = true;
-				transform.position += new Vector3(0.5f,0,0);
 				if (distance <= atk_range) {
 					music.play_Player_Hurt ();
 					player_script.setDamage ((int) base_dmg);
@@ -235,7 +234,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	private void setAtrributesDifficulty (string difficulty) {
 		if(difficulty.Equals("Easy")) {
 			base_dmg = base_dmg * 1;
-			atk_range = atk_range - 2.0f;
+			//atk_range = atk_range - 2.0f;
 			total_health = total_health / 4f;
 		}
 		else if(difficulty.Equals("Normal")) {
