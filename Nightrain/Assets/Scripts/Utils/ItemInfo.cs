@@ -69,7 +69,7 @@ public class ItemInfo : MonoBehaviour {
 	void OnMouseExit () { 
 		this.text = "";
 		CursorScript.isHover = false;
-		Cursor.SetCursor(cursorTexture[0], hotSpot, mode);
+		//Cursor.SetCursor(cursorTexture[0], hotSpot, mode);
 		this.frames = 0;
 		this.isHover = false;
 

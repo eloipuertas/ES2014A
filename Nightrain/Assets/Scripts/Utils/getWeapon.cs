@@ -7,6 +7,7 @@ public class getWeapon : MonoBehaviour {
 	public GameObject tapa;
 	public GameObject arma1;
 	public GameObject arma2;
+	public GameObject arma3;
 	public int pos_y;
 	private float AngleX = -90.0f;
 	private float targetValue = 0.0f;
@@ -22,6 +23,7 @@ public class getWeapon : MonoBehaviour {
 	void Start(){
 		arma1.SetActive(false);
 		arma2.SetActive(false);
+		arma3.SetActive(false);
 		music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
 
@@ -52,7 +54,12 @@ public class getWeapon : MonoBehaviour {
 		tapa.transform.Rotate(currentValue, pos_y, 0); // apply full Rotation
 		if (currentValue<AngleX+20 && first==true && arma1 != null){
 			first=false;
-			arma1.SetActive(true);
+			if(PlayerPrefs.GetString("Player") == "hombre")
+				arma1.SetActive(true);
+			else if(PlayerPrefs.GetString("Player") == "mujer")
+				arma2.SetActive(true);
+			else if(PlayerPrefs.GetString("Player") == "joven")
+				arma3.SetActive(true);
 		}
 	}
 	

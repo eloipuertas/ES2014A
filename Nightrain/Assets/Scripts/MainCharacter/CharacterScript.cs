@@ -39,9 +39,6 @@ public class CharacterScript : MonoBehaviour {
 	private SaveData save;
 	private LoadData load;
 
-	private GUIStyle text_style;
-	private GUIStyle guiStyleBack;
-
 	// MUSIC AND EFFECTS
 	private Music_Engine_Script music;
 	private float danger_delay = 0f;
@@ -82,15 +79,14 @@ public class CharacterScript : MonoBehaviour {
 
 	void Start(){
 		
-		this.text_style = new GUIStyle ();
+		/*this.text_style = new GUIStyle ();
 		this.text_style.normal.textColor = Color.black;
 		this.text_style.fontSize = 15;
 		//this.text_style.alignment = TextAnchor.UpperCenter ; 
-		this.text_style.wordWrap = true;
+		this.text_style.wordWrap = true;*/
 
 		// LOAD ATTRIBUTES
 		this.loadAttributes ();
-		this.printAttributes ();
 		this.calculateEXP ();
 	}
 	
@@ -183,6 +179,20 @@ public class CharacterScript : MonoBehaviour {
 	public void setHealth(int health){
 		this.max_health = health;
 	}
+
+	// Set actual strength value.
+	public void setVIT(int VIT){
+		
+		this.bar_health += VIT;
+		
+		if(this.bar_health > 510)
+			this.bar_health = 510;
+		else if(this.bar_health <= 0)
+			this.bar_health = this.load.loadVIT();
+
+		this.max_health = this.bar_health;
+		
+	}
 	
 	// Get the max value of health in the game.
 	public float getMaxHealth(){
@@ -202,6 +212,20 @@ public class CharacterScript : MonoBehaviour {
 	// Set the magic value.
 	public void setMagic(int magic){
 		this.max_magic = magic;
+	}
+
+	// Set actual strength value.
+	public void setPM(int PM){
+		
+		this.bar_magic += PM;
+		
+		if(this.bar_magic > 510)
+			this.bar_magic = 510;
+		else if(this.bar_magic <= 0)
+			this.bar_magic = this.load.loadPM();
+		
+		this.max_magic = this.bar_magic;
+		
 	}
 
 	// Function magic regeneration
@@ -236,8 +260,7 @@ public class CharacterScript : MonoBehaviour {
 			this.strength = 255;
 		else if(this.strength <= 0)
 			this.strength = this.load.loadSTR();
-
-		this.printAttributes ();
+		
 	}
 
 	// Get the actual value of defense.
@@ -255,7 +278,6 @@ public class CharacterScript : MonoBehaviour {
 		else if(this.defense <= 0)
 			this.defense = this.load.loadDEF();
 
-		this.printAttributes ();
 	}
 
 	// Get the actual value of speed.
@@ -265,7 +287,12 @@ public class CharacterScript : MonoBehaviour {
 	
 	// Set actual speed value.
 	public void setSPD(int SPD){
-		this.speed = SPD;
+		this.speed += SPD;
+
+		if(this.speed > 255)
+			this.speed = 255;
+		else if(this.speed <= 0)
+			this.speed = this.load.loadSPD();
 	}
 
 	// Get the actual value of level.
@@ -281,12 +308,8 @@ public class CharacterScript : MonoBehaviour {
 
 	}
 
-	void printAttributes(){
-		/*Debug.Log ("VIT:" + this.bar_health 
-		           + " PM:" + this.bar_magic 
-		           + " STR:" + this.strength 
-		           + " DEF:" + this.defense 
-		           + " SPD:" + this.speed);*/
+	public int getNextExpLevel(){
+		return this.next;
 	}
 
 
@@ -482,18 +505,7 @@ public class CharacterScript : MonoBehaviour {
 	}
 
 	void OnGUI(){
-
-		GUI.Label (new Rect (25 , Screen.height / 3, 150, 300),
-		           "Attribute Debug:\nLVL: " + this.getLVL() 
-		           + "\nVIT: " + this.getHealth() 
-		           + "\nPM: " + this.getMagic()
-		           + "\nFRZ: " + this.getFRZ()
-		           + "\nDEF: " + this.getDEF()
-		           + "\nSPD: " + this.getSPD()
-		           + "\nEXP: " + this.getEXP()
-		           + "\nnextLVL: " + this.next + " EXP.",
-		           this.text_style); 
-
+		
 		if(this.levelUp_Effect){
 
 			Vector2 xy = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x,

@@ -100,8 +100,10 @@ public class HealthBarScript : MonoBehaviour {
 	void Update () {
 
 		this.resize_health = this.scale * Mathf.Pow(this.cs.getMemoryCard().load.loadVIT() / this.max_health, -1);
+		//this.resize_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.max_health, -1);
 		this.resize_magic = this.scale * Mathf.Pow(this.cs.getMemoryCard().load.loadPM() / this.max_magic, -1);
-	
+		//this.resize_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.max_magic, -1);
+
 		this.UpdateHealth ();
 		this.UpdateMagic ();
 	}

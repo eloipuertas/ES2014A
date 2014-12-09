@@ -5,7 +5,9 @@ public class ItemsInventory : MonoBehaviour {
 
 	private static Dictionary<int, Item> weapon_list = new Dictionary<int, Item>();
 	private static Dictionary<int, Item> shield_list = new Dictionary<int, Item>();
+	private static Dictionary<int, Item> helmet_list = new Dictionary<int, Item>();
 	private static Dictionary<int, Item> armor_list = new Dictionary<int, Item>();
+	private static Dictionary<int, Item> boots_list = new Dictionary<int, Item>();
 	private static Dictionary<int, Item> healing_list = new Dictionary<int, Item>();
 
 
@@ -64,6 +66,33 @@ public class ItemsInventory : MonoBehaviour {
 		return shield;
 	}
 
+	// === HELMET ===
+	
+	public static void addHelmet(int id, Item item){
+		
+		if (!ItemsInventory.helmet_list.ContainsKey (id)) {
+			ItemsInventory.helmet_list.Add (id, item);
+		}
+	}
+	
+	public static Helmet getHelmet(int id){
+		
+		Helmet helmet = new Helmet ();
+		helmet.id = ItemsInventory.helmet_list [id].id;
+		helmet.name = ItemsInventory.helmet_list [id].name;
+		helmet.type = ItemsInventory.helmet_list [id].type;
+		helmet.VIT = ItemsInventory.helmet_list [id].VIT;
+		helmet.PM = ItemsInventory.helmet_list [id].PM;
+		helmet.FRZ = ItemsInventory.helmet_list [id].FRZ;
+		helmet.DEF = ItemsInventory.helmet_list [id].DEF;
+		helmet.SPD = ItemsInventory.helmet_list [id].SPD;
+		helmet.ItemTexture = ItemsInventory.helmet_list [id].ItemTexture;
+		helmet.width = ItemsInventory.helmet_list [id].width;
+		helmet.height = ItemsInventory.helmet_list [id].height;
+		
+		return helmet;
+	}
+
 
 	// === ARMOR ===
 	
@@ -90,6 +119,34 @@ public class ItemsInventory : MonoBehaviour {
 		armor.height = ItemsInventory.armor_list [id].height;
 		
 		return armor;
+	}
+
+
+	// === BOOTS ===
+	
+	public static void addBoots(int id, Item item){
+		
+		if (!ItemsInventory.boots_list.ContainsKey (id)) {
+			ItemsInventory.boots_list.Add (id, item);
+		}
+	}
+	
+	public static Boots getBoots(int id){
+		
+		Boots boots = new Boots ();
+		boots.id = ItemsInventory.boots_list [id].id;
+		boots.name = ItemsInventory.boots_list [id].name;
+		boots.type = ItemsInventory.boots_list [id].type;
+		boots.VIT = ItemsInventory.boots_list [id].VIT;
+		boots.PM = ItemsInventory.boots_list [id].PM;
+		boots.FRZ = ItemsInventory.boots_list [id].FRZ;
+		boots.DEF = ItemsInventory.boots_list [id].DEF;
+		boots.SPD = ItemsInventory.boots_list [id].SPD;
+		boots.ItemTexture = ItemsInventory.boots_list [id].ItemTexture;
+		boots.width = ItemsInventory.boots_list [id].width;
+		boots.height = ItemsInventory.boots_list [id].height;
+		
+		return boots;
 	}
 
 

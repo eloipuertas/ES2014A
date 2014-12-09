@@ -10,8 +10,6 @@ public class ItemDrop : MonoBehaviour {
 
 	public static InventoryScript inventory;
 
-
-
 	public int id;
 	public string name;
 	public string type;			// Type: Weapon, Shield, Armor, Healing
@@ -51,8 +49,13 @@ public class ItemDrop : MonoBehaviour {
 					this.TypeWeapon();
 				else if(this.type.Equals("Shield"))
 					this.TypeShield();
-				else if(this.type.Equals("Armor"))
+				else if(this.type.Equals("Helmet")){
+					print ("Cojo un helmet");
+					this.TypeHelmet();
+				}else if(this.type.Equals("Armor"))
 					this.TypeArmor();
+				else if(this.type.Equals("Boots"))
+					this.TypeBoots();
 				else if(this.type.Equals("Healing"))
 					this.TypeHealing();
 
@@ -102,6 +105,27 @@ public class ItemDrop : MonoBehaviour {
 		
 	}
 
+	void TypeHelmet(){
+		
+		Helmet helmet = new Helmet ();
+		helmet.id = id;
+		helmet.name = name;
+		helmet.type = type;
+		helmet.VIT = VIT;
+		helmet.PM = PM;
+		helmet.FRZ = FRZ;
+		helmet.DEF = DEF;
+		helmet.SPD = SPD;
+		helmet.ItemTexture = imageTexture;
+		helmet.width = slot_x;
+		helmet.height = slot_y;
+
+		ItemsInventory.addHelmet (id, helmet);
+		inventory.addItem (ItemsInventory.getHelmet (id));
+		Destroy (gameObject);
+		
+	}
+
 	void TypeArmor(){
 
 		Armor armor = new Armor ();
@@ -121,6 +145,27 @@ public class ItemDrop : MonoBehaviour {
 		inventory.addItem (ItemsInventory.getArmor (id));
 		Destroy (gameObject);
 
+	}
+
+	void TypeBoots(){
+		
+		Boots boots = new Boots ();
+		boots.id = id;
+		boots.name = name;
+		boots.type = type;
+		boots.VIT = VIT;
+		boots.PM = PM;
+		boots.FRZ = FRZ;
+		boots.DEF = DEF;
+		boots.SPD = SPD;
+		boots.ItemTexture = imageTexture;
+		boots.width = slot_x;
+		boots.height = slot_y;
+		
+		ItemsInventory.addBoots (id, boots);
+		inventory.addItem (ItemsInventory.getBoots (id));
+		Destroy (gameObject);
+		
 	}
 
 	void TypeHealing(){

@@ -157,7 +157,6 @@ public class PauseMenuGUI {
 				if (Input.GetMouseButtonDown (0)) {
 					Time.timeScale = 1;
 					music.Play_Button_Click();
-					Debug.Log ("Time Playerd: " + GameEngineLevel01.getTimePlay ());
 					this.save.saveTimePlayed(GameEngineLevel01.getTimePlay());
 					Application.LoadLevel (2);	
 				}
