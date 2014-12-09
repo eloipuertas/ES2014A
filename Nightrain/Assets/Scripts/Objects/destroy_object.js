@@ -12,7 +12,7 @@ function Start(){
 	apear.SetActive(false);
 }
 function OnCollisionEnter(collision : Collision){
-	if(collision.gameObject == GameObject.FindGameObjectWithTag ("Player")){
+	if(collision.gameObject == GameObject.FindGameObjectWithTag ("Player") && apear != null){
 		if (object_health==0){
 			this.audio1.Play();
 			apear.SetActive(true);

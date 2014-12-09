@@ -35,9 +35,9 @@ public class CharacterScript_lvl2 : MonoBehaviour {
 	private Music_Engine_Script music;
 	
 	// MEMORY CARD 
-	private MemoryCard_lvl2 mc;
-	private SaveData_lvl2 save;
-	private LoadData_lvl2 load;
+	private MemoryCard mc;
+	private SaveData save;
+	private LoadData load;
 	
 	private GUIStyle text_style;
 	private GUIStyle guiStyleBack;
@@ -53,7 +53,7 @@ public class CharacterScript_lvl2 : MonoBehaviour {
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		
 		// Memory Card Save/Load data
-		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard_lvl2> ();
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
 		this.save = this.mc.saveData();
 		this.load = this.mc.loadData();
 		
@@ -382,7 +382,7 @@ public class CharacterScript_lvl2 : MonoBehaviour {
 		
 	}
 	
-	public MemoryCard_lvl2 getMemoryCard(){
+	public MemoryCard getMemoryCard(){
 		return this.mc;
 	}
 	

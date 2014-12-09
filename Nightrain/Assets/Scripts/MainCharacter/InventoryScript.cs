@@ -127,6 +127,7 @@ public class InventoryScript : MonoBehaviour {
 		else if(Input.GetKeyDown (KeyCode.I) && this.show_inventory)
 			this.show_inventory = false;
 
+		print ("ClicktoMove: " + this.cm.name);
 		// If cursor is inside inventory action "Don't walk" is outside walk
 		if(this.cm != null)
 			if (this.inventory_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y)) && show_inventory)

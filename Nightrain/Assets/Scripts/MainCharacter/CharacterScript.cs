@@ -343,16 +343,20 @@ public class CharacterScript : MonoBehaviour {
 	// Method to Cure the 'Character'.
 	public void setCure(int heal){
 		if (this.bar_health < this.max_health){
+
 			this.music.play_Recover_Life();
+
+			if(this.bar_health > this.max_health)
+				this.bar_health = Mathf.FloorToInt(this.max_health);
+
+			this.bar_health += heal;
 			if(!this.heal_Effect){ 
-				this.bar_health += heal;
 				this.heal_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/heal")) as GameObject;
 				this.heal_effect.transform.position = transform.position;
 				this.heal_effect.transform.parent = transform;
 				this.heal_Effect = true;
 
-				if(this.bar_health > this.max_health)
-					this.bar_health = Mathf.FloorToInt(this.max_health);
+
 			}
 		}
 	}

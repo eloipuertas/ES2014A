@@ -117,8 +117,10 @@ public class ClickToMove : MonoBehaviour {
 				targetPoint = ray.GetPoint(hitdist);
 				targetPosition = ray.GetPoint(hitdist);
 				//Debug.Log (">> NEW target @("+ targetPosition.x + "," + targetPosition.y +")");
-				state = "Walk";
-				Walk ();
+				if(walk){
+					state = "Walk";
+					Walk ();
+				}
 			}
 
 
@@ -218,7 +220,7 @@ public class ClickToMove : MonoBehaviour {
 		//anim.SetBool ("run_attack", true);
 
 
-		if (Time.time > attackTime) {
+		if (Time.time > attackTime && enemy != null) {
 
 			//ENEMY DAMAGE
 			if(enemy.tag == "Boss") enemy.GetComponent<Movement>().setDamage( character.computeDamage() );

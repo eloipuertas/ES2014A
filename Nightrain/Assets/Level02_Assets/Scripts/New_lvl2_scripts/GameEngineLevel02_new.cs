@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameEngineLevel02_new : MonoBehaviour {
 	
-	private PauseMenuGUI_lvl2 gui;
+	private PauseMenuGUI gui;
 	
 	private RaycastHit getObjectScene;
 	private bool pause = false;
@@ -33,6 +33,14 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	private bool end_game = false;
 	private float end_time = 0.0f;
 
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+	private LoadData load;
+
+	// Time Played
+	private static float time_play = 0;
+
 	
 	// Use this for initialization
 	void Awake () {
@@ -42,9 +50,15 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/"+PlayerPrefs.GetString("Player")+"_lvl2");
 		this.character = Instantiate (prefab, respawn.transform.position, prefab.transform.rotation) as GameObject;
 		this.cs = this.character.GetComponent<CharacterScript_lvl2> ();
-		
+
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData();
+		this.load = this.mc.loadData();
+		time_play = this.load.loadTimePlayed (); 
+
 		// --- LOAD RESOURCES TO MENU ---
-		gui = new PauseMenuGUI_lvl2 ();
+		gui = new PauseMenuGUI();
 		gui.initResources ();
 		
 		
@@ -56,6 +70,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	void Update () {
 		this.PauseScreen ();
 		this.StateMachine ();
+		time_play += Time.deltaTime;
 	}
 	
 	
@@ -89,7 +104,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	void isAlive(){
 		int num = this.character.GetComponent<CharacterScript_lvl2> ().getHealth();
 		//If the character is dead we show "game over" scene
-		if(num <= 0) Application.LoadLevel(7);
+		if(num <= 0) Application.LoadLevel(6);
 	}
 
 	void PauseScreen(){	
@@ -133,6 +148,11 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		if (!end_game) {
 			end_game = true;
 			end_time = Time.time;
+			this.save.saveTimePlayed(time_play);
 		}
+	}
+
+	public static float getTimePlay(){
+		return time_play;
 	}
 }

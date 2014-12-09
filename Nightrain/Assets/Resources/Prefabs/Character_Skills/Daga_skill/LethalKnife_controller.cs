@@ -39,7 +39,7 @@ public class LethalKnife_controller : MonoBehaviour {
 		}
 		
 		if (name == "Enemy") {
-			other.gameObject.GetComponent<Movement>().setDamage(skill_damage);
+			other.gameObject.GetComponent<Movement_graveler>().setDamage(skill_damage);
 		} 
 		else if (name.Substring(0,name.Length-1) == "Skeleton") {
 			if(!skill_hit) {
@@ -66,7 +66,17 @@ public class LethalKnife_controller : MonoBehaviour {
 			}
 		}
 		else if (name == "Boss") {
-			if(!skill_hit) {
+			if(!skill_hit && other != null) {
+				if(other.gameObject.name == "Golem_lava_surface"){
+					print("Atacando a golem");
+					other.gameObject.GetComponent<Movement>().setDamage(skill_damage);
+					skill_hit = true;
+				}
+			}
+		}
+		else if (name == "Boss") {
+			if(!skill_hit && other != null) {
+
 				other.gameObject.GetComponent<Skeleton_boss_controller>().damage(skill_damage);
 				skill_hit = true;
 			}

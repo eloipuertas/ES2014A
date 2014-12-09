@@ -86,7 +86,7 @@ public class GameOverGUI{
 			}
 			if (Input.GetMouseButtonDown (0)) {
 				this.clip.Play ();
-				Application.LoadLevel (3);
+				Application.LoadLevel (PlayerPrefs.GetInt ("Level"));
 			}
 		} else {
 			Graphics.DrawTexture (continue_box, this.continueTexture);
