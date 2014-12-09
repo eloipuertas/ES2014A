@@ -5,7 +5,7 @@ public class Skill_Controller : MonoBehaviour {
 	// Skills time to re-use them
 	public float fireball_cooldown = 2.0f;
 	public float dagger_skill_cooldown = 2.0f;
-	public float warrior_aura_cooldown = 25.0f;
+	public float warrior_aura_cooldown = 15.0f;
 	
 	// Actual time in each frame
 	private float actual_time;
@@ -24,6 +24,8 @@ public class Skill_Controller : MonoBehaviour {
 	private GameObject player;
 	private CharacterScript cs;
 	private ClickToMove cm;
+
+	private static bool effect = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -47,10 +49,11 @@ public class Skill_Controller : MonoBehaviour {
 			actual_time = Time.time;
 			
 			// Al presionar el boton 1 del teclado disparamos la bola de fuego
-			if (Input.GetKeyDown (KeyCode.Alpha1) && ActionBarScript.disabledSkill1 == false) {
+			if (Input.GetKeyDown (KeyCode.Alpha1) && !effect) {
 
 				if(this.cs.HasEnoughtMagic(15)){ //<-- 15PM
 					if (!skillOnCD(fireball_time, fireball_cooldown)) {
+						effect = true;
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
 						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
@@ -66,11 +69,12 @@ public class Skill_Controller : MonoBehaviour {
 				}
 			}
 			
-			if (Input.GetKeyDown (KeyCode.Alpha2)) {
+			if (Input.GetKeyDown (KeyCode.Alpha2) && !effect) {
 				actual_time = Time.time;
 
 				if(this.cs.HasEnoughtMagic(10)){ //<-- 10PM
 					if (!skillOnCD(dagger_skill_time, dagger_skill_cooldown)) {
+						effect = true;
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
 						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
@@ -87,12 +91,13 @@ public class Skill_Controller : MonoBehaviour {
 			}
 			
 			// Al presionar el boton 2 del teclado lanzamos la daga
-			if (Input.GetKeyDown (KeyCode.Alpha3)) {
+			if (Input.GetKeyDown (KeyCode.Alpha3) && !effect) {
 				actual_time = Time.time;
 
 				if(this.cs.HasEnoughtMagic(30)){ //<-- 30PM
 					// Si la skill no esta en cooldown
 					if (!skillOnCD(warrior_aura_time, warrior_aura_cooldown)) {
+						effect = true;
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
 						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
@@ -130,5 +135,9 @@ public class Skill_Controller : MonoBehaviour {
 			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
 			player.transform.rotation = targetRotation;
 		}
+	}
+
+	public static void setEffect(bool effect_off){
+		effect = effect_off;
 	}
 }

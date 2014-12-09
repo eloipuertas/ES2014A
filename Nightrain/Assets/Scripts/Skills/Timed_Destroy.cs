@@ -7,14 +7,19 @@ public class Timed_Destroy : MonoBehaviour {
 	private float actualTime; 
 
 	// Use this for initialization
-	void Start () {
+	/*void Start () {
 		initTime = Time.time;
-	}
+	}*/
 	
 	// Update is called once per frame
 	void Update () {
-		actualTime = Time.time;
-		if (actualTime - initTime > destroyTime) {
+		destroyTime -= Time.deltaTime;
+		print ("Destroy time: " + destroyTime);
+		/*actualTime = Time.time;
+		if (actualTime - initTime > destroyTime) {*/
+		if (Mathf.Round(destroyTime) <= 0) {
+			print("Destruyo objeto:");
+			Skill_Controller.setEffect(false);
 			ActionBarScript.disabledSkill1 = false;
 			ActionBarScript.disabledSkill2 = false;
 			ActionBarScript.disabledSkill3 = false;

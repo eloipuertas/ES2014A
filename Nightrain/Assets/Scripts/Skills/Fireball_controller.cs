@@ -25,10 +25,17 @@ public class Fireball_controller : MonoBehaviour {
 				music_done = true;
 			}
 
+			Skill_Controller.setEffect(false);
+			ActionBarScript.disabledSkill1 = false;
+			ActionBarScript.disabledSkill2 = false;
+			ActionBarScript.disabledSkill3 = false;
 			Destroy (gameObject, 0.1f);
 		}
 		
 		if (name == "Enemy") {
+			other.gameObject.GetComponent<Movement_graveler>().setDamage(skill_damage);
+		}
+		else if (other.name == "Golem_lava_surface") {
 			other.gameObject.GetComponent<Movement>().setDamage(skill_damage);
 		} 
 		else if (name.Substring(0,name.Length-1) == "Skeleton") {
