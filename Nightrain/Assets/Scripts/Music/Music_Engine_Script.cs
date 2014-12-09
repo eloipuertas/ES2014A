@@ -6,7 +6,7 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip npc_golem_attack;
 	public AudioClip npc_golem_agresive;
 	public AudioClip character_attack;
-	public AudioClip character_hurt;
+	public AudioClip[] character_hurt;
 	public AudioClip character_steps;
 	public AudioClip barrel_open;
 	public AudioClip button_click;
@@ -20,9 +20,12 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip recover_life;
 	public AudioClip low_PM;
 	public AudioClip levelUp;
+
+	private string character;
 	
 	// Use this for initialization
 	void Start () {
+		this.character = PlayerPrefs.GetString("Player");
 	}
 	
 	// Update is called once per frame
@@ -46,7 +49,12 @@ public class Music_Engine_Script : MonoBehaviour {
 	
 	public void play_Player_Hurt() {
 		//Debug.Log ("Reproduciendo sonido");
-		audio.PlayOneShot (character_hurt);
+		if(this.character == "hombre")
+			audio.PlayOneShot (character_hurt[0]);
+		else if(this.character == "mujer")
+			audio.PlayOneShot (character_hurt[1]);
+		else if(this.character == "joven")
+			audio.PlayOneShot (character_hurt[2]);
 	}
 	
 	public void play_Player_Steps() {
@@ -95,12 +103,10 @@ public class Music_Engine_Script : MonoBehaviour {
 	}
 
 	public void play_Danger_Life () {
-		//audio.volume = 1f;
 		audio.PlayOneShot (danger_life);
 	}
 
 	public void play_Recover_Life () {
-		//audio.volume = 1f;
 		audio.PlayOneShot (recover_life);
 	}
 
@@ -109,7 +115,6 @@ public class Music_Engine_Script : MonoBehaviour {
 	}
 
 	public void play_level_Up () {
-		audio.volume = 1f;
 		audio.PlayOneShot (levelUp);
 	}
 }
