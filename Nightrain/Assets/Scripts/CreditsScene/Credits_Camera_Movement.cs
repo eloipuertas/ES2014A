@@ -29,7 +29,7 @@ public class Credits_Camera_Movement : MonoBehaviour {
 		}
 		print (this.transform.position);
 		if (timer > 62.5f)
-			this.gameObject.GetComponent <FadeOut> ().fade_out ();
+			this.gameObject.GetComponent <Credits_FadeOut> ().fade_out ();
 		if (timer > 66.5f) Application.LoadLevel(1);
 	}
 }
