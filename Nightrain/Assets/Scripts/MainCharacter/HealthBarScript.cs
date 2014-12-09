@@ -14,7 +14,9 @@ public class HealthBarScript : MonoBehaviour {
 	private float damage;
 
 	private float resize_health;	// <-- This value is to do more large or short the health bar
+	private float resize_bar_health;
 	private float resize_magic;		// <-- This value is to do more large or short the magic bar
+	private float resize_bar_magic;
 
 	public float max_health;
 	public float max_magic;
@@ -99,10 +101,13 @@ public class HealthBarScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		this.resize_health = this.scale * Mathf.Pow(this.cs.getMemoryCard().load.loadVIT() / this.max_health, -1);
-		//this.resize_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.max_health, -1);
+		float VIT = this.cs.getMemoryCard ().load.loadVIT ();
+		int PM = this.cs.getMemoryCard ().load.loadPM ();
+		print ("VIT:" + VIT + " GetHealth:" + this.cs.getHealth () + " MaxHealth:" + this.max_health);
+		this.resize_health = this.scale * Mathf.Pow(((VIT - this.cs.getHealth()) + VIT) / this.max_health, -1);
+		this.resize_bar_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.max_health, -1);
 		this.resize_magic = this.scale * Mathf.Pow(this.cs.getMemoryCard().load.loadPM() / this.max_magic, -1);
-		//this.resize_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.max_magic, -1);
+		//this.resize_bar_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.max_magic, -1);
 
 		this.UpdateHealth ();
 		this.UpdateMagic ();
@@ -160,7 +165,7 @@ public class HealthBarScript : MonoBehaviour {
 			// HEALTH BAR ZONE	
 			Rect healthbar_box = new Rect ((this.AvatarTexture.width / this.scale) - 2,
 			                                35, 
-			                                this.HealthBarTexture.width / this.resize_health, 
+			                                this.HealthBarTexture.width / this.resize_bar_health, 
 			                                this.HealthBarTexture.height*1.2f / this.scale);
 
 			if(!critical)

@@ -139,12 +139,10 @@ public class Movement_graveler : MonoBehaviour {
 				newPosition_sphere.y += 1.0f;
 				newPosition_sphere.x -= 1.0f;
 				int rand1 = Random.Range (0,3);
-				print("Healt Sphere:" + rand1);
 				if (rand1 == 0) Instantiate (health_sphere, newPosition_sphere, health_sphere.transform.rotation);
 				newPosition_sphere.x += 2.0f;
 				newPosition_sphere.y += 1.0f;
 				int rand2 = Random.Range (3,6);
-				print("Mana Sphere:" + rand1);
 				if (rand2 == 4) Instantiate (mana_sphere, newPosition_sphere, health_sphere.transform.rotation);
 
 				Destroy(gameObject);

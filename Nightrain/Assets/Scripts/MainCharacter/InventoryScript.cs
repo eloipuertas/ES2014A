@@ -866,8 +866,7 @@ public class InventoryScript : MonoBehaviour {
 
 		this.inventory_box.width = resizeWidth (this.inventory_box.width);
 		this.inventory_box.height = Screen.height;
-
-		print ("Inventory height: " + this.inventory_box.height);
+		
 		slotX = resizeSlotX(slotX);
 		slotY = resizeSlotY(slotY); 
 		slot_w = resizeSlotX(slot_w); 
