@@ -34,6 +34,10 @@ public class LethalKnife_controller : MonoBehaviour {
 				music.play_Lethalknife_Collision ();
 				music_done = true;
 			}
+			Skill_Controller.setEffect(false);
+			ActionBarScript.disabledSkill1 = false;
+			ActionBarScript.disabledSkill2 = false;
+			ActionBarScript.disabledSkill3 = false;
 			collisionEffect.SetActive(true);
 			Destroy (gameObject, 0.1f);
 		}
