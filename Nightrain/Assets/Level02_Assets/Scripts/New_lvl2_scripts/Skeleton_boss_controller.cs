@@ -60,7 +60,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 		this.respawn = transform.position;
 
 
-		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficulty"));
+		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficult"));
 
 		state = 0;
 		Anim.animation.CrossFade (IdleAnimation.name, 0.12f);
@@ -195,7 +195,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 		last_skill_time -= Time.deltaTime;
 		if (nshots < maxshots && last_skill_time <= 0.0f) {
 			Vector3 skill_pos = player.transform.position;
-			skill_pos.y -= 2.0f;
+			//skill_pos.y -= 0.0f;
 			Instantiate (skill, skill_pos, skill.transform.rotation);
 			nshots += 1;
 			last_skill_time = 1.0f;

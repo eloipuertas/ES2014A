@@ -36,10 +36,10 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	
 	// Use this for initialization
 	void Awake () {
-		
+		print (PlayerPrefs.GetString("Difficult"));
 		// --- LOAD RESOURCES TO CHARACTER ---
 		//this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2");
-		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2");
+		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/"+PlayerPrefs.GetString("Player")+"_lvl2");
 		this.character = Instantiate (prefab, respawn.transform.position, prefab.transform.rotation) as GameObject;
 		this.cs = this.character.GetComponent<CharacterScript_lvl2> ();
 		
@@ -89,7 +89,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	void isAlive(){
 		int num = this.character.GetComponent<CharacterScript_lvl2> ().getHealth();
 		//If the character is dead we show "game over" scene
-		if(num <= 0) Application.LoadLevel(6);
+		if(num <= 0) Application.LoadLevel(7);
 	}
 
 	void PauseScreen(){	

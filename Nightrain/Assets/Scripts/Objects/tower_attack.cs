@@ -31,7 +31,8 @@ public class tower_attack : MonoBehaviour {
 					GameObject g = (GameObject)Instantiate(ArrowPrefab.gameObject, transform.position, Quaternion.identity);
 					Bala b = g.GetComponent<Bala>();
 
-					//le assignamos como destino, la posicion del player     
+					//le assignamos como destino, la posicion del player 
+					this.audio.Play();
 					b.setDestination(this.player.transform);
 					
 					timeLeft = interval;

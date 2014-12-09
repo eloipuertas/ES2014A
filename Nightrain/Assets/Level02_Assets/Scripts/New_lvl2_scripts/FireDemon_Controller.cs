@@ -55,7 +55,7 @@ public class FireDemon_Controller : MonoBehaviour {
 
 		notAnim = !preanimation;
 
-		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficulty"));
+		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficult"));
 
 		state = 0;
 		idleAnim ();

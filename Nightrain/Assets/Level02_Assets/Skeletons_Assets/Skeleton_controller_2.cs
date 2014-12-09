@@ -52,7 +52,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 
 		this.respawn = transform.position;
 
-		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficulty"));
+		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficult"));
 
 		state = 0;
 		idleAnim ();
@@ -108,7 +108,9 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	}
 
 	void rotateToPlayer(Vector3 playerPos) {
-		transform.rotation = Quaternion.LookRotation (playerPos - transform.position);
+		Vector3 newPlayerPos = playerPos;
+		newPlayerPos.y += 3f;
+		transform.rotation = Quaternion.LookRotation (newPlayerPos - transform.position);
 	}
 
 

@@ -30,11 +30,14 @@ function Update(){
 
 function OnTriggerEnter (other : Collider) {
 
-	this.audio.Play();
-	
-	targetValue = AngleY;
+	if (other.tag.Equals("Player") || other.tag.Equals("Enemy")){
+		this.audio.Play();
+		
+		targetValue = AngleY;
 
-	currentValue = 0;
+		currentValue = 0;
+	
+	}
 
 }
 
@@ -42,10 +45,10 @@ function OnTriggerEnter (other : Collider) {
 
 function OnTriggerExit (other : Collider) {
 
+	if (other.tag.Equals("Player") || other.tag.Equals("Enemy")){
+		currentValue = AngleY;
 
-	currentValue = AngleY;
-
-	targetValue = 0.0;
-
+		targetValue = 0.0;
+	}
 
 }
