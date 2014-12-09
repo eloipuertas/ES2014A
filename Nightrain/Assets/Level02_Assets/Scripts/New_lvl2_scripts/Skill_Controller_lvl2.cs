@@ -54,7 +54,7 @@ public class Skill_Controller_lvl2 : MonoBehaviour {
 						this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
 						this.cs.setSpell(15);		// to cast a spell cost 15PM.
 						Vector3 newPosition = player.transform.position;
-						newPosition.y += 2;
+						newPosition.y += 6;
 						Instantiate (fireball, newPosition, player.transform.rotation);
 						//Guardamos el tiempo de disparo de la bola de fuega
 						fireball_time = Time.time;
@@ -74,7 +74,7 @@ public class Skill_Controller_lvl2 : MonoBehaviour {
 						this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
 						this.cs.setSpell(10);		// to cast a spell cost 10PM.
 						Vector3 newPosition = player.transform.position;
-						newPosition.y += 2;
+						newPosition.y += 6;
 						Instantiate (dagger_shot, newPosition, player.transform.rotation);
 						//Guardamos el tiempo de disparo de la bola de fuega
 						dagger_skill_time = Time.time;

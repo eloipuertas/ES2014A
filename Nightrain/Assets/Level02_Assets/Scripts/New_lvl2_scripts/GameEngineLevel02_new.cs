@@ -36,7 +36,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	
 	// Use this for initialization
 	void Awake () {
-		
+		print (PlayerPrefs.GetString("Difficult"));
 		// --- LOAD RESOURCES TO CHARACTER ---
 		//this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2");
 		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/"+PlayerPrefs.GetString("Player")+"_lvl2");

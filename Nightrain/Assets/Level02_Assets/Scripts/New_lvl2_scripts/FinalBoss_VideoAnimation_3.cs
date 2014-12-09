@@ -70,7 +70,7 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 			}
 		} else if (current_dialog == 2) {
 			Vector3 firePos = player.transform.position;
-			firePos.x += 2;
+			firePos.x += 6;
 			if (finalFireball_actual == null) {
 				move_script.attackAnim ();
 				finalFireball_actual = Instantiate (finalFireball, firePos, finalFireball.transform.rotation) as GameObject;

@@ -52,7 +52,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 
 		this.respawn = transform.position;
 
-		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficulty"));
+		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficult"));
 
 		state = 0;
 		idleAnim ();
