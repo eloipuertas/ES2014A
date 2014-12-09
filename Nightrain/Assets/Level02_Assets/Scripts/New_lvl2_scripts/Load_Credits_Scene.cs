@@ -10,6 +10,9 @@ public class Load_Credits_Scene : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.time - timer > 1.0f) Application.LoadLevel(1);
+		if (Time.time - timer > 0.2f) {
+			PlayerPrefs.SetInt ("Final_Credits", 1);
+			Application.LoadLevel (8);
+		}
 	}
 }

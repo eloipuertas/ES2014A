@@ -338,6 +338,7 @@ public class MainMenuGUI {
 					}
 					if (Input.GetMouseButtonDown (0)) { 
 						this.clip.Play();
+						Application.LoadLevel (8);
 						Debug.Log ("Creditos");
 					}
 				} else {
