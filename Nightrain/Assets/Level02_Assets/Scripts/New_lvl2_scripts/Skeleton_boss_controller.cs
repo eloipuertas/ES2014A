@@ -84,7 +84,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 			// Si ha acabado de atacar
 			if (t >= 1.5f) {
 				//Si esta cerca del player
-				if (distance <= 10.0f) {
+				if (distance <= atk_range) {
 					attackAnim ();
 					attackDone = false;
 					attackAudio = false;
@@ -156,7 +156,8 @@ public class Skeleton_boss_controller : MonoBehaviour {
 		if (t <= 0.5f && t >= 0.4f) {
 			if (!attackDone) {
 				attackDone = true;
-				if (distance <= 14.0f) {
+				transform.position += new Vector3(0.5f,0,0);
+				if (distance <= atk_range) {
 					music.play_Player_Hurt ();
 					player_script.setDamage ((int) base_dmg);
 				}

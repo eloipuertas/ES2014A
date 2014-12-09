@@ -139,6 +139,8 @@ public class Skeleton_controller_2 : MonoBehaviour {
 		if (t <= 0.5f && t >= 0.4f) {
 			if (!attackDone) {
 				attackDone = true;
+				//Para no buggear el trigger lo movemos ligeramemnte
+				transform.position += new Vector3(0.5f,0,0);
 				if (distance <= 9.0f) {
 					music.play_Player_Hurt ();
 					player_script.setDamage (base_dmg);
