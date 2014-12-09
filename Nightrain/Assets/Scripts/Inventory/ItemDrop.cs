@@ -19,6 +19,7 @@ public class ItemDrop : MonoBehaviour {
 	public int DEF;
 	public int SPD;
 	public int heal;
+	public int magic;
 	public Texture2D imageTexture;
 	public int slot_x;
 	public int slot_y;
@@ -49,10 +50,9 @@ public class ItemDrop : MonoBehaviour {
 					this.TypeWeapon();
 				else if(this.type.Equals("Shield"))
 					this.TypeShield();
-				else if(this.type.Equals("Helmet")){
-					print ("Cojo un helmet");
+				else if(this.type.Equals("Helmet"))
 					this.TypeHelmet();
-				}else if(this.type.Equals("Armor"))
+				else if(this.type.Equals("Armor"))
 					this.TypeArmor();
 				else if(this.type.Equals("Boots"))
 					this.TypeBoots();
@@ -180,6 +180,7 @@ public class ItemDrop : MonoBehaviour {
 		healing.DEF = DEF;
 		healing.SPD = SPD;
 		healing.heal = heal;
+		healing.magic = magic;
 		healing.ItemTexture = imageTexture;
 		healing.width = slot_x;
 		healing.height = slot_y;
