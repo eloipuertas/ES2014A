@@ -233,6 +233,16 @@ public class ClickToMove : MonoBehaviour {
 		}
 	}
 
+
+	public void death(){
+	
+		anim.SetBool ("w_stop",true);
+		anim.SetBool ("walk", false);
+		anim.SetBool ("attack", false);
+		anim.SetBool ("w_attack", false);
+		anim.SetBool ("death", true);
+		walk = false;
+	}
 	// ====================================================
 	// UPDATE TO INVENTORY FIX
 

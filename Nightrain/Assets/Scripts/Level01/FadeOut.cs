@@ -10,6 +10,38 @@ public class FadeOut : MonoBehaviour {
 	private float alpha = 1.0f;
 	private int direction = -1;		// Direction -1 = Fade in
 
+	public float delay = 1.75f;
+	private bool activate = false;
+	private bool death = false;
+
+	private CharacterScript cs;
+
+	void Start(){
+		this.cs = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterScript> ();
+	}
+
+	void Update(){
+	
+		if (this.activate) {
+			delay -= Time.deltaTime;
+			if(delay < 0)
+				Application.LoadLevel(5);
+		}
+
+		isAlive ();
+
+	}
+
+	//Comprueba si el personaje sigue vivo
+	void isAlive(){
+		int num = this.cs.getHealth();
+		//If the character is dead we show "game over" scene
+		if (num <= 0 && !death) {
+			this.death = true;
+			Fading (1);
+		}
+	}
+
 	// When the scenes begin we'll see a effect to fade in because direction -1.
 	void OnGUI(){
 		this.alpha += direction * fadeSpeed * Time.deltaTime;		// We decrease or increase alpha depends direction.
@@ -28,12 +60,16 @@ public class FadeOut : MonoBehaviour {
 
 	// When I collider with the invisible wall I call a corutine and load next level.
 	void OnTriggerEnter (Collider other){
-		StartCoroutine(corutineFade());
+		if (other.tag == "Player"){
+			this.activate = true;
+			Fading (1);
+		}
+			//StartCoroutine(corutineFade());
 	}
 
-	IEnumerator corutineFade() {
+	/*IEnumerator corutineFade() {
 		float time = Fading (1);
 		yield return new WaitForSeconds(time);
 		Application.LoadLevel(5);
-	}
+	}*/
 }

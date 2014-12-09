@@ -15,6 +15,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 	// --- LIGHT
 	public GameObject ambientLight;
 	private CharacterScript cs;
+	private ClickToMove cm;
 	private Color c;
 	
 	// --- NPCs ---
@@ -39,6 +40,8 @@ public class GameEngineLevel01 : MonoBehaviour {
 
 	// --- Delays ---
 	public float delay = 2;
+	public float delay_death = 3f;
+	private bool anim_death = false;
 
 	// Time Played
 	private static float time_play = 0;
@@ -50,6 +53,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 		this.prefab = Resources.Load<Transform>("Prefabs/MainCharacters/" + PlayerPrefs.GetString("Player"));
 		Instantiate (prefab);
 		this.character = GameObject.FindGameObjectWithTag ("Player");
+		this.cm = this.character.GetComponent<ClickToMove> ();
 		this.cs = this.character.GetComponent<CharacterScript> ();
 
 		// Memory Card Save/Load data
@@ -106,7 +110,15 @@ public class GameEngineLevel01 : MonoBehaviour {
 	void isAlive(){
 		int num = this.character.GetComponent<CharacterScript> ().getHealth();
 		//If the character is dead we show "game over" scene
-		if(num <= 0) Application.LoadLevel(6);
+		if (num <= 0) {
+			delay_death -= Time.deltaTime;
+			if(!anim_death){
+				this.cm.death();
+				anim_death = true;
+			}
+			if(delay_death < 0)
+				Application.LoadLevel (6);
+		}
 	}
 	
 	//Comprueba si los enemigos de la lista estan muertos
