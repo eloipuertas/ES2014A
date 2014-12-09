@@ -31,8 +31,8 @@ public class CharacterScript : MonoBehaviour {
 	private bool hasMagic = true;
 
 	// =========================
-	private GameObject[] NPCs;
-	private GameObject boss;
+	//private GameObject[] NPCs;
+	//private GameObject boss;
 
 	// MEMORY CARD 
 	private MemoryCard mc;
@@ -62,10 +62,11 @@ public class CharacterScript : MonoBehaviour {
 	void Awake () {
 		
 		// ADD COMPONENT
+/*
 		// Buscamos al personaje principal
 		this.NPCs = GameObject.FindGameObjectsWithTag("Enemy");
 		this.boss = GameObject.FindGameObjectWithTag("Boss");
-
+*/
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
 		// Memory Card Save/Load data
@@ -135,7 +136,7 @@ public class CharacterScript : MonoBehaviour {
 		this.magicRegeneration (Time.deltaTime);
 	}
 
-
+/*
 	// ========================= COLISION CON NPC ==================================
 	
 	void OnTriggerEnter (Collider other){
@@ -153,7 +154,7 @@ public class CharacterScript : MonoBehaviour {
 	}
 	
 	// ==============================================================================
-
+*/
 
 	// === METHODS GET/SET ATTRIBUTES ===
 
@@ -355,7 +356,12 @@ public class CharacterScript : MonoBehaviour {
 			}
 		}
 	}
-	
+
+    // Method to compute Damage
+    public int computeDamage(){
+        return Random.Range((this.strength + 1) - (int)(4 + this.strength * 0.25f), this.strength + 1);
+    }
+
 	// Method to Damage the 'Character'
 	public void setDamage(int damage){
 		this.bar_health -= damage;
