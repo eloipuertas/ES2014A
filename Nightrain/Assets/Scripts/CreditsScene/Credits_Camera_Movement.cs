@@ -27,7 +27,7 @@ public class Credits_Camera_Movement : MonoBehaviour {
 		else if (timer > 2.0f && this.transform.position.z > -15.01f && normal_credits) {
 			this.transform.position += new Vector3(0.0f,0.0f,-0.012f);
 		}
-		print (this.transform.position);
+		//print (this.transform.position);
 		if (timer > 62.5f)
 			this.gameObject.GetComponent <Credits_FadeOut> ().fade_out ();
 		if (timer > 66.5f) Application.LoadLevel(1);
