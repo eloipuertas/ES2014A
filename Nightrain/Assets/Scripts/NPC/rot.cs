@@ -1,28 +1,42 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
-
-
 public class rot : MonoBehaviour {
 
-	GameObject go;
-	
-	Transform target;
+	public GameObject[] spheres;
+
+	public float orbitDistance = 10.0f;
+	public float orbitDegreesPerSec = 180.0f;
 
 	// Use this for initialization
 	void Start () {
-		go = GameObject.FindGameObjectWithTag("tag");
-		target = go.transform;
-	
+		
+
 	}
-	
-	// Update is called once per frame
+
+	void Orbit(){
+
+		GameObject graveler = this.transform.parent.gameObject;
+		Vector3 graveler_position = graveler.transform.position;
+
+		foreach (Transform trans in this.transform) {
+
+			trans.position = graveler_position + (trans.position - graveler_position).normalized * orbitDistance;
+
+			trans.RotateAround(graveler_position, Vector3.up, orbitDegreesPerSec * Time.deltaTime);
+			
+		}
+
+	}
+
 	void Update () {
 
-		transform.Rotate (0.0F, 1000.0F*Time.deltaTime, 0.0F);
-		transform.RotateAround(transform.parent.position, new Vector3(0, 1, 0), 100.0F * Time.deltaTime);
-	
-
 	}
+
+	void LateUpdate () {
+		
+		Orbit();
+		
+	}
+
 }
