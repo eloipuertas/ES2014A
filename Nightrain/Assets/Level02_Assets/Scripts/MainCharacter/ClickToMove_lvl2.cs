@@ -29,6 +29,7 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	private bool attacking = false;
 	private bool attack_target = false;
 	private float atk_cd = 1.0f;
+	private bool dead = false;
 
 	// Use this for initialization
 	void Start () {
@@ -42,7 +43,7 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.deltaTime != 0) {
+		if (Time.deltaTime != 0 && !dead) {
 			//if (attack_target) destinationPosition = getObjectScene.transform.position;
 			disToDestination = Mathf.Abs (transform.position.x - destinationPosition.x) + Mathf.Abs(destinationPosition.z - transform.position.z);
 
@@ -149,6 +150,12 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	}
 
 	public void attackAnim() {
-		animation.Play ("metarig|Atacar");	
+		anim.SetBool ("attack", true);
+		atk_time = Time.time;
+	}
+
+	public void dieAnim () {
+		anim.SetBool ("dead", true);
+		dead = true;
 	}
 }

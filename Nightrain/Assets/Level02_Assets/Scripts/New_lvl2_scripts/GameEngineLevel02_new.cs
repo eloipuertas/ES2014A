@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameEngineLevel02_new : MonoBehaviour {
 	
-	private PauseMenuGUI gui;
+	private PauseMenuGUI_lvl2 gui;
 	
 	private RaycastHit getObjectScene;
 	private bool pause = false;
@@ -18,6 +18,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	// --- LIGHT
 	public GameObject ambientLight;
 	private CharacterScript_lvl2 cs;
+	private ClickToMove_lvl2 cm;
 	private Color c;
 	
 	// --- NPCs ---
@@ -40,6 +41,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 
 	// Time Played
 	private static float time_play = 0;
+	private float time_dead = 0.0f;
 
 	
 	// Use this for initialization
@@ -50,6 +52,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/"+PlayerPrefs.GetString("Player")+"_lvl2");
 		this.character = Instantiate (prefab, respawn.transform.position, prefab.transform.rotation) as GameObject;
 		this.cs = this.character.GetComponent<CharacterScript_lvl2> ();
+		this.cm = this.character.GetComponent<ClickToMove_lvl2> ();
 
 		// Memory Card Save/Load data
 		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
@@ -58,7 +61,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		time_play = this.load.loadTimePlayed (); 
 
 		// --- LOAD RESOURCES TO MENU ---
-		gui = new PauseMenuGUI();
+		gui = new PauseMenuGUI_lvl2();
 		gui.initResources ();
 		
 		
@@ -104,7 +107,14 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	void isAlive(){
 		int num = this.character.GetComponent<CharacterScript_lvl2> ().getHealth();
 		//If the character is dead we show "game over" scene
-		if(num <= 0) Application.LoadLevel(6);
+		if(num <= 0) {
+			if(time_dead == 0.0f) time_dead = Time.time;
+			if(Time.time-time_dead > 3.0f) {
+				Application.LoadLevel(7);
+			} else {
+				cm.dieAnim ();
+			}
+		}
 	}
 
 	void PauseScreen(){	

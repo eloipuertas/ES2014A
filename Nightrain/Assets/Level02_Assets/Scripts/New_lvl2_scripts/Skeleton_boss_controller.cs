@@ -158,7 +158,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 			if (!attackDone) {
 				attackDone = true;
 				if (distance <= atk_range) {
-					music.play_Player_Hurt ();
+					//music.play_Player_Hurt ();
 					player_script.setDamage ((int) base_dmg);
 				}
 			}

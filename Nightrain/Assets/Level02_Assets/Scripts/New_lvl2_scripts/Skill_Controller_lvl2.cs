@@ -22,6 +22,7 @@ public class Skill_Controller_lvl2 : MonoBehaviour {
 	
 	// Main character
 	private GameObject player;
+	private ClickToMove_lvl2 cm;
 	private CharacterScript_lvl2 cs;
 	
 	// Use this for initialization
@@ -33,6 +34,7 @@ public class Skill_Controller_lvl2 : MonoBehaviour {
 		
 		this.player = GameObject.FindGameObjectWithTag("Player");
 		this.cs = this.player.GetComponent<CharacterScript_lvl2> ();
+		this.cm = this.player.GetComponent<ClickToMove_lvl2> ();
 		
 		actual_time = Time.time;
 	}
@@ -51,7 +53,7 @@ public class Skill_Controller_lvl2 : MonoBehaviour {
 					if (!skillOnCD(fireball_time, fireball_cooldown)) {
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
-						this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
+						this.cm.attackAnim ();
 						this.cs.setSpell(15);		// to cast a spell cost 15PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y += 6;
@@ -70,6 +72,7 @@ public class Skill_Controller_lvl2 : MonoBehaviour {
 				if(this.cs.getMagic() >= 10){ //<-- 10PM
 					if (!skillOnCD(dagger_skill_time, dagger_skill_cooldown)) {
 						rotatePlayerToMouse();
+						this.cm.attackAnim ();
 						// Dispara la bola en la direccion que apunta el personaje
 						this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
 						this.cs.setSpell(10);		// to cast a spell cost 10PM.

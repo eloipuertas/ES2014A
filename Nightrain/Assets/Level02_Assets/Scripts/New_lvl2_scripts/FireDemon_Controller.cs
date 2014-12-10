@@ -146,7 +146,7 @@ public class FireDemon_Controller : MonoBehaviour {
 				attackDone = true;
 				transform.position += new Vector3(0.5f,0,0);
 				if (distance <= 9.0f) {
-					music.play_Player_Hurt ();
+					//music.play_Player_Hurt ();
 					player_script.setDamage (base_dmg);
 				}
 			}
