@@ -138,6 +138,7 @@ public class FireDemon_Controller : MonoBehaviour {
 	void attackEffect(float t, float distance) {
 		if (t>=0.3f && !attackAudio) {
 			music.play_Lethalknife_Shot ();
+			music.play_demon_attack ();
 			attackAudio = true;
 		}
 		if (t <= 0.5f && t >= 0.4f) {
@@ -167,6 +168,7 @@ public class FireDemon_Controller : MonoBehaviour {
 	}*/
 	
 	public void playerSeen() {
+		if (!player_seen) music.play_demon_shout ();
 		player_seen = true;
 		seen_time = Time.time;
 		waitingAnim();
@@ -176,6 +178,7 @@ public class FireDemon_Controller : MonoBehaviour {
 	public void damage(float dmg) {
 		actual_health -= dmg;
 		if (actual_health <= 0.0f) {
+			if (state != 4) music.play_demon_die ();
 			dieAnim ();
 			stage.dead_npc (this.gameObject.tag);
 
@@ -194,7 +197,9 @@ public class FireDemon_Controller : MonoBehaviour {
 			state = 4;
 			Destroy (this.GetComponent<CharacterController>());
 			Destroy (this.GetComponent<Rigidbody> ());
-		} 
+		} else {
+			music.play_demon_got_hit ();
+		}
 	}
 	
 	// ANIMATIONS

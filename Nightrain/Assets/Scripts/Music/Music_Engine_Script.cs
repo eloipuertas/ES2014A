@@ -21,11 +21,27 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip low_PM;
 	public AudioClip levelUp;
 
+	public AudioClip fireground;
+	public AudioClip fire_explosion;
+	public AudioClip demon_shout;
+	public AudioClip demon_attack;
+	public AudioClip demon_die;
+	public AudioClip demon_gothit;
+
+	public AudioClip bckg_song1;
+	public AudioClip bckg_song2;
+	public GameObject bckg_audio_object;
+	
+	private AudioSource bckg_audio;
 	private string character;
+	private bool normal_audio = true;
 	
 	// Use this for initialization
 	void Start () {
 		this.character = PlayerPrefs.GetString("Player");
+		if (bckg_audio_object != null) {
+			bckg_audio = bckg_audio_object.GetComponent<AudioSource> ();
+		}
 	}
 	
 	// Update is called once per frame
@@ -101,20 +117,60 @@ public class Music_Engine_Script : MonoBehaviour {
 	public void play_Lethalknife_Collision () {
 		audio.PlayOneShot (lethalknife_collision);
 	}
-
+	
 	public void play_Danger_Life () {
 		audio.PlayOneShot (danger_life);
 	}
-
+	
 	public void play_Recover_Life () {
 		audio.PlayOneShot (recover_life);
 	}
-
+	
 	public void play_low_PM () {
 		audio.PlayOneShot (low_PM);
 	}
-
+	
 	public void play_level_Up () {
 		audio.PlayOneShot (levelUp);
+	}
+
+	public void play_fireground () {
+		audio.PlayOneShot (fireground);
+	}
+
+	public void play_fire_explosion () {
+		audio.PlayOneShot (fire_explosion);
+	}
+
+	public void play_demon_shout () {
+		audio.PlayOneShot (demon_shout);
+	}
+
+	public void play_demon_attack () {
+		audio.PlayOneShot (demon_attack);
+	}
+
+	public void play_demon_die () {
+		audio.PlayOneShot (demon_die);
+	}
+
+	public void play_demon_got_hit () {
+		audio.PlayOneShot (demon_gothit);
+	}
+
+	public void setBattleAudio() {
+		bckg_audio.volume = 0.2f;
+		bckg_audio.clip = bckg_song2;
+		bckg_audio.Play ();
+		normal_audio = false;
+	}
+	
+	public void setNormalAudio() {
+		if (!normal_audio) {
+			bckg_audio.volume = 0.4f;
+			bckg_audio.clip = bckg_song1;
+			bckg_audio.Play ();
+			normal_audio = true;
+		}
 	}
 }
