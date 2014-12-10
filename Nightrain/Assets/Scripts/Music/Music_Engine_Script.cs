@@ -34,6 +34,12 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip skel_die;
 	public AudioClip skel_shout;
 
+	public AudioClip boss_attack;
+	public AudioClip boss_die;
+	public AudioClip boss_gothit;
+	public AudioClip boss_fall;
+	public AudioClip boss_speak2;
+
 	public AudioClip bckg_song1;
 	public AudioClip bckg_song2;
 	public GameObject bckg_audio_object;
@@ -185,6 +191,26 @@ public class Music_Engine_Script : MonoBehaviour {
 	
 	public void play_skel_die () {
 		audio.PlayOneShot (skel_die);
+	}
+
+	public void play_boss_speak2 () {
+		audio.PlayOneShot (boss_speak2);
+	}
+	
+	public void play_boss_attack () {
+		audio.PlayOneShot (boss_attack);
+	}
+	
+	public void play_boss_die () {
+		audio.PlayOneShot (boss_die);
+	}
+	
+	public void play_boss_got_hit () {
+		audio.PlayOneShot (boss_gothit);
+	}
+
+	public void play_boss_fall () {
+		audio.PlayOneShot (boss_fall);
 	}
 
 	public void setBattleAudio() {

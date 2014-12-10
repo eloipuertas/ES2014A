@@ -151,6 +151,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	void attackEffect(float t, float distance) {
 		if (t>=0.3f && !attackAudio) {
 			music.play_Lethalknife_Shot ();
+			music.play_boss_attack ();
 			attackAudio = true;
 		}
 		if (t <= 0.5f && t >= 0.4f) {
@@ -165,7 +166,10 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	}
 	
 	public void dieAnim() {
-		if (!killed) killed = true;
+		if (!killed) {
+			killed = true;
+			music.play_boss_die ();
+		}
 		Anim.animation.CrossFade (DeathAnimation.name, 0.12f);	
 	}
 	
@@ -176,9 +180,12 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	public void damage(float dmg) {
 		health -= dmg;
 		if (health <= 0.0f) {
+			if (state != 4) music.play_boss_fall ();
 			state = 4;
 			agressive = false;
 			if(death_video_delay == 0.0f) death_video_delay = Time.time;
+		} else {
+			music.play_boss_got_hit ();
 		}
 		/*if (health <= 0) {
 			dieAnim ();

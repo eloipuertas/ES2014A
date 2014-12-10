@@ -59,7 +59,7 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.time - timer > 2.0f && killed) {
+		if (Time.time - timer > 5.0f && killed) {
 			end_camera.SetActive (true);
 			gameObject.SetActive (false);
 		}
@@ -67,6 +67,7 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 		if (current_dialog == 1) {
 			if (firepunch_actual == null) {
 				firepunch_actual = Instantiate (firepunch, player_hand.transform.position, firepunch.transform.rotation) as GameObject;
+				firepunch_actual.transform.parent = player_hand.transform;
 			}
 		} else if (current_dialog == 2) {
 			Vector3 firePos = player.transform.position;
