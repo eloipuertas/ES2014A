@@ -10,16 +10,19 @@ public class firewall_Controller : MonoBehaviour {
 
 	private StageController stg_ctrl;
 	private ParticleSystem particle;
+	private Music_Engine_Script music;
 
 	// Use this for initialization
 	void Start () {
 		stg_ctrl = GameObject.FindGameObjectWithTag ("GameController").GetComponent<StageController> ();
 		particle = gameObject.GetComponent<ParticleSystem> ();
+		music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 		if (complete && activated && !reactivated) {
+			music.play_firewall ();
 			this.gameObject.SetActive (false);
 			activated = false;
 		} else if (!complete && !activated && !reactivated) {

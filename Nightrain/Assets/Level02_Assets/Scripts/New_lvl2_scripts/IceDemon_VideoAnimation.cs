@@ -14,11 +14,15 @@ public class IceDemon_VideoAnimation : MonoBehaviour {
 	private float time = 0.0f;
 	private float anim_time = 0.0f;
 	private bool first_anim = false;
+
+	private Music_Engine_Script music;
+	private bool shout = false;
 	
 	// Use this for initialization
 	void Start () {
 		stage = GameObject.FindGameObjectWithTag ("GameController").GetComponent<StageController> ();
 		stage.deactive_Stage (5);
+		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
 		player = GameObject.FindGameObjectWithTag ("Player");
 		move_script = player.GetComponent <ClickToMove_lvl2> ();
@@ -37,8 +41,13 @@ public class IceDemon_VideoAnimation : MonoBehaviour {
 		if (!first_anim) {
 			anim_time = Time.time - time;
 
-			if (anim_time > 3.7f && anim_time < 6.4f) demon_anim.rageAnim ();
-				
+			if (anim_time > 3.7f && anim_time < 6.4f) {
+				if (!shout) {
+					shout = true;
+					music.play_demon_shout ();
+				}
+				demon_anim.rageAnim ();
+			}
 			if (anim_time >= 7.2f) {
 				move_script.enabled = true;
 				skill_script.enabled = true;

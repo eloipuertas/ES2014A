@@ -21,12 +21,18 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip low_PM;
 	public AudioClip levelUp;
 
+	public AudioClip firewall;
+
 	public AudioClip fireground;
 	public AudioClip fire_explosion;
 	public AudioClip demon_shout;
 	public AudioClip demon_attack;
 	public AudioClip demon_die;
 	public AudioClip demon_gothit;
+
+	public AudioClip skel_attack;
+	public AudioClip skel_die;
+	public AudioClip skel_shout;
 
 	public AudioClip bckg_song1;
 	public AudioClip bckg_song2;
@@ -35,6 +41,7 @@ public class Music_Engine_Script : MonoBehaviour {
 	private AudioSource bckg_audio;
 	private string character;
 	private bool normal_audio = true;
+	private float player_hurt = -0.5f;
 	
 	// Use this for initialization
 	void Start () {
@@ -65,12 +72,18 @@ public class Music_Engine_Script : MonoBehaviour {
 	
 	public void play_Player_Hurt() {
 		//Debug.Log ("Reproduciendo sonido");
-		if(this.character == "hombre")
+		if(this.character == "hombre" && Time.time-player_hurt>0.5f) {
 			audio.PlayOneShot (character_hurt[0]);
-		else if(this.character == "mujer")
+			player_hurt = Time.time;
+		}
+		else if(this.character == "mujer" && Time.time-player_hurt>0.5f) {
 			audio.PlayOneShot (character_hurt[1]);
-		else if(this.character == "joven")
+			player_hurt = Time.time;
+		}
+		else if(this.character == "joven" && Time.time-player_hurt>0.5f) {
 			audio.PlayOneShot (character_hurt[2]);
+			player_hurt = Time.time;
+		}
 	}
 	
 	public void play_Player_Steps() {
@@ -134,6 +147,10 @@ public class Music_Engine_Script : MonoBehaviour {
 		audio.PlayOneShot (levelUp);
 	}
 
+	public void play_firewall () {
+		audio.PlayOneShot (firewall);
+	}
+
 	public void play_fireground () {
 		audio.PlayOneShot (fireground);
 	}
@@ -158,6 +175,18 @@ public class Music_Engine_Script : MonoBehaviour {
 		audio.PlayOneShot (demon_gothit);
 	}
 
+	public void play_skel_shout () {
+		audio.PlayOneShot (skel_shout);
+	}
+	
+	public void play_skel_attack () {
+		audio.PlayOneShot (skel_attack);
+	}
+	
+	public void play_skel_die () {
+		audio.PlayOneShot (skel_die);
+	}
+
 	public void setBattleAudio() {
 		bckg_audio.volume = 0.2f;
 		bckg_audio.clip = bckg_song2;
@@ -167,7 +196,7 @@ public class Music_Engine_Script : MonoBehaviour {
 	
 	public void setNormalAudio() {
 		if (!normal_audio) {
-			bckg_audio.volume = 0.4f;
+			bckg_audio.volume = 0.35f;
 			bckg_audio.clip = bckg_song1;
 			bckg_audio.Play ();
 			normal_audio = true;
