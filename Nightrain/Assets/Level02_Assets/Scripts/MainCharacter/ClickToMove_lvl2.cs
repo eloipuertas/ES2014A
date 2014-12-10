@@ -158,4 +158,8 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 		anim.SetBool ("dead", true);
 		dead = true;
 	}
+
+	public void stopAttackAnim() {
+		anim.SetBool ("attack", false);
+	}
 }
