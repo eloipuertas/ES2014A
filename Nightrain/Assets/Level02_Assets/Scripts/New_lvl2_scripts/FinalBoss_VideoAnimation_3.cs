@@ -74,7 +74,7 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 			firePos.x += 2;
 			firePos.y += 6;
 			if (finalFireball_actual == null) {
-				move_script.attackAnim ();
+				if(!killed) move_script.attackAnim ();
 				finalFireball_actual = Instantiate (finalFireball, firePos, finalFireball.transform.rotation) as GameObject;
 				killed = true;
 			}
