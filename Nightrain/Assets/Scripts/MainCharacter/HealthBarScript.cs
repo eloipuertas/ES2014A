@@ -27,6 +27,7 @@ public class HealthBarScript : MonoBehaviour {
 									// Direction  1 = Fade out
 
 	private float VIT;
+	private float PM;
 	// HEALTH BAR
 	// --- TEXTURES ---
 	private Texture2D AvatarTexture;
@@ -61,6 +62,7 @@ public class HealthBarScript : MonoBehaviour {
 		this.max_health = this.cs.getMaxHealth ();
 		this.VIT = this.max_health;
 		this.max_magic = this.cs.getMaxMagic ();
+		this.PM = this.max_magic;
 
 		// Resize the health and magic bar with the actual values
 		this.resize_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.cs.getMaxHealth (), -1);
@@ -103,13 +105,12 @@ public class HealthBarScript : MonoBehaviour {
 	void Update () {
 
 		VIT = this.cs.getMemoryCard ().load.loadVIT ();
-		int PM = this.cs.getMemoryCard ().load.loadPM ();
-		print ("VIT:" + VIT + " GetHealth:" + this.cs.getHealth () + " MaxHealth:" + this.max_health 
-		       + " GetMaxHealth:" + this.cs.getMaxHealth());
-		this.resize_health = this.scale * Mathf.Pow((2*VIT - this.cs.getMaxHealth())/ this.max_health, -1);
+		PM = this.cs.getMemoryCard ().load.loadPM ();
+
+		this.resize_health = this.scale * Mathf.Pow((VIT + this.cs.getVIT())/ this.max_health, -1);
 		this.resize_bar_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.max_health, -1);
-		this.resize_magic = this.scale * Mathf.Pow(this.cs.getMemoryCard().load.loadPM() / this.max_magic, -1);
-		//this.resize_bar_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.max_magic, -1);
+		this.resize_magic = this.scale * Mathf.Pow((PM + this.cs.getPM()) / this.max_magic, -1);
+		this.resize_bar_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.max_magic, -1);
 
 		this.UpdateHealth ();
 		this.UpdateMagic ();
@@ -130,7 +131,7 @@ public class HealthBarScript : MonoBehaviour {
 		if(this.health == 1.0f){
 			this.cs.setHealth(0);
 		}else{
-			this.health = 1 - ((this.cs.getHealth() / VIT/*this.cs.getMaxHealth()*/));
+			this.health = 1 - (((this.cs.getHealth()+this.cs.getVIT()) / this.cs.getMaxHealth()));
 			this.HealthBarMaterial.SetFloat("_Cutoff", health);
 			this.DamageBarMaterial.SetFloat("_Cutoff", health);
 		}
@@ -141,7 +142,7 @@ public class HealthBarScript : MonoBehaviour {
 	// Este metodo debera ser implementado mas adelante con el tema de magias etc
 	void UpdateMagic () {
 
-		this.magic = 1 - ((this.cs.getMagic() / this.cs.getMaxMagic()));
+		this.magic = 1 - (((this.cs.getMagic()+this.cs.getPM()) / this.cs.getMaxMagic()));
 
 		if(this.magic >= 0.9f)
 			this.low_magic = true;
@@ -208,7 +209,7 @@ public class HealthBarScript : MonoBehaviour {
 
 			Rect magicbar_box = new Rect ((this.AvatarTexture.width / this.scale) - 3,
 	                             		   66, 
-	                             		   this.MagicBarTexture.width / this.resize_magic, 
+			                              this.MagicBarTexture.width / this.resize_bar_magic, 
 			                               (this.MagicBarTexture.height*1.2f / this.scale) - 8);
 
 			Graphics.DrawTexture (magicbar_box, this.MagicBarTexture, this.MagicBarMaterial);

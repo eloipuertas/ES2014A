@@ -17,6 +17,8 @@ public class CharacterScript : MonoBehaviour {
 
 
 	// === ATTRIBUTES ===
+	private int vit = 0;
+	private int pm = 0;
 	private int strength;
 	private int defense;
 	private int speed;
@@ -196,16 +198,20 @@ public class CharacterScript : MonoBehaviour {
 
 	// Set actual strength value.
 	public void setVIT(int VIT){
-		
+		this.vit += VIT;
 		this.bar_health += VIT;
 		
 		if(this.bar_health > 510)
 			this.bar_health = 510;
 		else if(this.bar_health <= 0)
-			this.bar_health = this.load.loadVIT();
+			this.bar_health = 0/*this.load.loadVIT()*/;
 
 		this.max_health = this.bar_health;
 		
+	}
+
+	public int getVIT(){
+		return this.vit;
 	}
 	
 	// Get the max value of health in the game.
@@ -230,7 +236,7 @@ public class CharacterScript : MonoBehaviour {
 
 	// Set actual strength value.
 	public void setPM(int PM){
-		
+		this.pm += PM;
 		this.bar_magic += PM;
 		
 		if(this.bar_magic > 510)
@@ -240,6 +246,10 @@ public class CharacterScript : MonoBehaviour {
 		
 		this.max_magic = this.bar_magic;
 		
+	}
+
+	public int getPM(){
+		return this.pm;
 	}
 
 	// Function magic regeneration
@@ -355,21 +365,20 @@ public class CharacterScript : MonoBehaviour {
 	
 	// Method to Cure the 'Character'.
 	public void setCure(int heal){
-		if (this.bar_health < this.max_health){
 
-			this.music.play_Recover_Life();
+		this.music.play_Recover_Life();
+
+		if(!this.heal_Effect){ 
+			this.heal_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/heal")) as GameObject;
+			this.heal_effect.transform.position = transform.position;
+			this.heal_effect.transform.parent = transform;
+			this.heal_Effect = true;
+		}
+
+		if (this.bar_health < this.max_health){
 			this.bar_health += heal;
 			if(this.bar_health > this.max_health)
 				this.bar_health = Mathf.FloorToInt(this.max_health);
-
-			if(!this.heal_Effect){ 
-				this.heal_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/heal")) as GameObject;
-				this.heal_effect.transform.position = transform.position;
-				this.heal_effect.transform.parent = transform;
-				this.heal_Effect = true;
-
-
-			}
 		}
 	}
 
@@ -401,22 +410,22 @@ public class CharacterScript : MonoBehaviour {
 		if (this.bar_magic > this.max_magic)
 			this.bar_magic = this.max_magic;*/
 		//}
+		this.music.play_Recover_Life();
 
-		if (this.bar_magic < this.max_magic){
+		if(!this.mana_Effect){ 
+			this.mana_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/mana_recover")) as GameObject;
+			this.mana_effect.transform.position = transform.position;
+			this.mana_effect.transform.parent = transform;
+			this.mana_Effect = true;
 			
-			this.music.play_Recover_Life();
+			
+		}
+		
+		if (this.bar_magic < this.max_magic){
+
 			this.bar_magic += magic;
 			if(this.bar_magic > this.max_magic)
 				this.bar_magic = Mathf.FloorToInt(this.max_magic);
-			
-			if(!this.mana_Effect){ 
-				this.mana_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/mana_recover")) as GameObject;
-				this.mana_effect.transform.position = transform.position;
-				this.mana_effect.transform.parent = transform;
-				this.mana_Effect = true;
-				
-				
-			}
 		}
 	}
 
