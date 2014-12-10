@@ -16,10 +16,14 @@ public class FinalBoss_VideoAnimation_2 : MonoBehaviour {
 	private const int reference_height = 300;
 	private float timer;
 	private float camera_timer;
+
+	private Music_Engine_Script music;
+	private bool speak = false;
 	
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
+		music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		move_script = player.GetComponent <ClickToMove_lvl2> ();
 		skill_script = player.GetComponent <Skill_Controller_lvl2> ();
 		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript_lvl2> ();
@@ -51,6 +55,10 @@ public class FinalBoss_VideoAnimation_2 : MonoBehaviour {
 
 	void OnGUI () {
 		if(Time.time - camera_timer > 1.0f && current_dialog < 3) {
+			if (current_dialog == 0 && !speak) {
+				speak = true;
+				music.play_boss_speak2 ();
+			}
 			drawDialog (current_dialog);
 		}
 	}

@@ -60,7 +60,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 		this.respawn = transform.position;
 
 
-		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficulty"));
+		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficult"));
 
 		state = 0;
 		Anim.animation.CrossFade (IdleAnimation.name, 0.12f);
@@ -84,7 +84,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 			// Si ha acabado de atacar
 			if (t >= 1.5f) {
 				//Si esta cerca del player
-				if (distance <= 10.0f) {
+				if (distance <= atk_range) {
 					attackAnim ();
 					attackDone = false;
 					attackAudio = false;
@@ -151,13 +151,14 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	void attackEffect(float t, float distance) {
 		if (t>=0.3f && !attackAudio) {
 			music.play_Lethalknife_Shot ();
+			music.play_boss_attack ();
 			attackAudio = true;
 		}
 		if (t <= 0.5f && t >= 0.4f) {
 			if (!attackDone) {
 				attackDone = true;
-				if (distance <= 14.0f) {
-					music.play_Player_Hurt ();
+				if (distance <= atk_range) {
+					//music.play_Player_Hurt ();
 					player_script.setDamage ((int) base_dmg);
 				}
 			}
@@ -165,7 +166,10 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	}
 	
 	public void dieAnim() {
-		if (!killed) killed = true;
+		if (!killed) {
+			killed = true;
+			music.play_boss_die ();
+		}
 		Anim.animation.CrossFade (DeathAnimation.name, 0.12f);	
 	}
 	
@@ -176,9 +180,12 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	public void damage(float dmg) {
 		health -= dmg;
 		if (health <= 0.0f) {
+			if (state != 4) music.play_boss_fall ();
 			state = 4;
 			agressive = false;
 			if(death_video_delay == 0.0f) death_video_delay = Time.time;
+		} else {
+			music.play_boss_got_hit ();
 		}
 		/*if (health <= 0) {
 			dieAnim ();
@@ -195,7 +202,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 		last_skill_time -= Time.deltaTime;
 		if (nshots < maxshots && last_skill_time <= 0.0f) {
 			Vector3 skill_pos = player.transform.position;
-			skill_pos.y -= 2.0f;
+			//skill_pos.y -= 0.0f;
 			Instantiate (skill, skill_pos, skill.transform.rotation);
 			nshots += 1;
 			last_skill_time = 1.0f;
@@ -234,21 +241,20 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	private void setAtrributesDifficulty (string difficulty) {
 		if(difficulty.Equals("Easy")) {
 			base_dmg = base_dmg * 1;
-			atk_range = atk_range / 2.0f;
+			//atk_range = atk_range - 2.0f;
 			total_health = total_health / 4f;
 		}
 		else if(difficulty.Equals("Normal")) {
-			base_dmg = base_dmg * 1.5f;
+			base_dmg = base_dmg - 1f;
 			atk_range = atk_range / 1.5f;
 			total_health = total_health / 1.5f;
 		}
 		else if(difficulty.Equals("Hard")) {
 			base_dmg = base_dmg * 2;
-			atk_range = atk_range / 1.25f;
 		}
 		else if(difficulty.Equals("Extreme")) {
 			base_dmg = base_dmg * 3;
-			total_health = total_health * 1.5f;
+			total_health = total_health + 1f;
 		}
 		health = total_health;
 	}

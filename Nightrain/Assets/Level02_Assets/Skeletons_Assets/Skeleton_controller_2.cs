@@ -52,7 +52,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 
 		this.respawn = transform.position;
 
-		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficulty"));
+		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficult"));
 
 		state = 0;
 		idleAnim ();
@@ -108,7 +108,9 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	}
 
 	void rotateToPlayer(Vector3 playerPos) {
-		transform.rotation = Quaternion.LookRotation (playerPos - transform.position);
+		Vector3 newPlayerPos = playerPos;
+		newPlayerPos.y += 3f;
+		transform.rotation = Quaternion.LookRotation (newPlayerPos - transform.position);
 	}
 
 
@@ -132,13 +134,16 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	void attackEffect(float t, float distance) {
 		if (t>=0.3f && !attackAudio) {
 			music.play_Lethalknife_Shot ();
+			music.play_skel_attack ();
 			attackAudio = true;
 		}
 		if (t <= 0.5f && t >= 0.4f) {
 			if (!attackDone) {
 				attackDone = true;
+				//Para no buggear el trigger lo movemos ligeramemnte
+				transform.position += new Vector3(0.5f,0,0);
 				if (distance <= 9.0f) {
-					music.play_Player_Hurt ();
+					//music.play_Player_Hurt ();
 					player_script.setDamage (base_dmg);
 				}
 			}
@@ -156,6 +161,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	}
 
 	public void playerSeen() {
+		if (!player_seen) music.play_skel_shout ();
 		player_seen = true;
 		seen_time = Time.time;
 		if(state != 4) waitingAnim();
@@ -165,6 +171,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	public void damage(float dmg) {
 		actual_health -= dmg;
 		if (actual_health <= 0.0f) {
+			if(state != 4) music.play_skel_die ();
 			state = 4;
 			dieAnim ();
 			stage.dead_npc (this.gameObject.tag);

@@ -6,6 +6,7 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	public float speed = 30;
 	public GameObject attack_range;
 	public float one_atk_time = 0.30f;
+	public Animator anim;
 
 	private Player_Attack_System_lvl2 atk_script;
 	private CharacterController controller;
@@ -28,39 +29,41 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	private bool attacking = false;
 	private bool attack_target = false;
 	private float atk_cd = 1.0f;
+	private bool dead = false;
 
 	// Use this for initialization
 	void Start () {
 		atk_script = attack_range.GetComponent<Player_Attack_System_lvl2> ();
 		music = GameObject.FindGameObjectWithTag("music_engine").GetComponent<Music_Engine_Script> ();
 		controller = this.gameObject.GetComponent<CharacterController> ();
-		animation["metarig|Caminar"].speed = 2.75f;
-		animation ["metarig|Atacar"].speed = 1.25f;
+		//animation["metarig|Caminar"].speed = 2.75f;
+		//animation ["metarig|Atacar"].speed = 1.25f;
 		destinationPosition = transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.deltaTime != 0) {
+		if (Time.deltaTime != 0 && !dead) {
 			//if (attack_target) destinationPosition = getObjectScene.transform.position;
 			disToDestination = Mathf.Abs (transform.position.x - destinationPosition.x) + Mathf.Abs(destinationPosition.z - transform.position.z);
 
 			//Si llegamos a la position del click +-0.5f de distancia para evitar que se quede corriendo
 			if(disToDestination  < .5f){
-				if (!isAttacking()) {
-					animation.Stop ("metarig|Caminar");
-					animation.Stop ("metarig|Atacar");
-				}
-				else animation.Play ("metarig|Atacar");
 				speed = 0.0f;
-			} else {
-				//if ()
+				anim.SetFloat ("speed", speed);
 				if (!isAttacking()) {
-					animation.Play ("metarig|Caminar");
-					moveToPosition (destinationPosition);
+					anim.SetBool ("attack", false);
 				}
-				else animation.Play ("metarig|Atacar");
+				else anim.SetBool ("attack",true);
+			} else {
 				speed = 30.0f;
+				anim.SetFloat ("speed", speed);
+				moveToPosition (destinationPosition);
+				if (!isAttacking()) {
+					//animation.Play ("metarig|Caminar");
+					anim.SetBool ("attack", false);
+				}
+				else anim.SetBool ("attack", true);
 			}
 
 			// Si hacemos click o dejamos presionado el botón izquierdo del mouse, nos movemos al punto del mouse
@@ -132,6 +135,8 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 
 	public void teleport(Vector3 position) {
 		destinationPosition = position;
+		speed = 0.0f;
+		anim.SetFloat ("speed", speed);
 	}
 
 	private bool isAttacking() {
@@ -145,6 +150,16 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	}
 
 	public void attackAnim() {
-		animation.Play ("metarig|Atacar");	
+		anim.SetBool ("attack", true);
+		atk_time = Time.time;
+	}
+
+	public void dieAnim () {
+		anim.SetBool ("dead", true);
+		dead = true;
+	}
+
+	public void stopAttackAnim() {
+		anim.SetBool ("attack", false);
 	}
 }

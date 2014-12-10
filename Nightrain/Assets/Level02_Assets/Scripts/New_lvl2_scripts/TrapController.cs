@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class TrapController : MonoBehaviour {
+	public GameObject flame_sound;
+
+	private AudioSource sound;
 	private GameObject[] firetraps;
 	private ParticleSystem particle;
 
@@ -11,13 +14,15 @@ public class TrapController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		firetraps = GameObject.FindGameObjectsWithTag ("FireTrap");
+		sound = flame_sound.GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 		activated_firetrap = Time.time - firetraps_time;
-		if (activated_firetrap >= 1.5f) {
+		if (activated_firetrap >= 1.8f) {
 			firetraps = GameObject.FindGameObjectsWithTag ("FireTrap");
+			sound.PlayOneShot (sound.clip);
 			setFireTraps ();
 		}
 	}

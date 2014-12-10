@@ -29,16 +29,6 @@ public class Slot {
 		}
 	}
 
-
-
-
-
-
-
-
-
-
-
 	private float resizeTextureWidth(Texture2D texture){
 		return ((Screen.width * texture.width) / (reference_width * 1.0f));
 	}

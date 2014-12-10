@@ -17,6 +17,8 @@ public class CharacterScript : MonoBehaviour {
 
 
 	// === ATTRIBUTES ===
+	private int vit = 0;
+	private int pm = 0;
 	private int strength;
 	private int defense;
 	private int speed;
@@ -31,16 +33,13 @@ public class CharacterScript : MonoBehaviour {
 	private bool hasMagic = true;
 
 	// =========================
-	private GameObject[] NPCs;
-	private GameObject boss;
+	//private GameObject[] NPCs;
+	//private GameObject boss;
 
 	// MEMORY CARD 
 	private MemoryCard mc;
 	private SaveData save;
 	private LoadData load;
-
-	private GUIStyle text_style;
-	private GUIStyle guiStyleBack;
 
 	// MUSIC AND EFFECTS
 	private Music_Engine_Script music;
@@ -60,15 +59,20 @@ public class CharacterScript : MonoBehaviour {
 	private float heal_delay = 1f;
 	private bool heal_Effect = false; 
 
+	private GameObject mana_effect;
+	private float mana_delay = 1f;
+	private bool mana_Effect = false; 
+
 
 	// Use this for initialization
 	void Awake () {
 		
 		// ADD COMPONENT
+/*
 		// Buscamos al personaje principal
 		this.NPCs = GameObject.FindGameObjectsWithTag("Enemy");
 		this.boss = GameObject.FindGameObjectWithTag("Boss");
-
+*/
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
 		// Memory Card Save/Load data
@@ -82,15 +86,14 @@ public class CharacterScript : MonoBehaviour {
 
 	void Start(){
 		
-		this.text_style = new GUIStyle ();
+		/*this.text_style = new GUIStyle ();
 		this.text_style.normal.textColor = Color.black;
 		this.text_style.fontSize = 15;
 		//this.text_style.alignment = TextAnchor.UpperCenter ; 
-		this.text_style.wordWrap = true;
+		this.text_style.wordWrap = true;*/
 
 		// LOAD ATTRIBUTES
 		this.loadAttributes ();
-		this.printAttributes ();
 		this.calculateEXP ();
 	}
 	
@@ -121,6 +124,15 @@ public class CharacterScript : MonoBehaviour {
 				this.heal_delay = 2f;
 			}
 		}
+
+		if(this.mana_effect){
+			this.mana_delay -= Time.deltaTime;
+			if(this.mana_delay < 0){
+				Destroy(mana_effect);
+				this.mana_Effect = false;
+				this.mana_delay = 2f;
+			}
+		}
 		
 
 		if(this.level < 100)
@@ -139,7 +151,7 @@ public class CharacterScript : MonoBehaviour {
 		this.magicRegeneration (Time.deltaTime);
 	}
 
-
+/*
 	// ========================= COLISION CON NPC ==================================
 	
 	void OnTriggerEnter (Collider other){
@@ -157,7 +169,7 @@ public class CharacterScript : MonoBehaviour {
 	}
 	
 	// ==============================================================================
-
+*/
 
 	// === METHODS GET/SET ATTRIBUTES ===
 
@@ -183,6 +195,24 @@ public class CharacterScript : MonoBehaviour {
 	public void setHealth(int health){
 		this.max_health = health;
 	}
+
+	// Set actual strength value.
+	public void setVIT(int VIT){
+		this.vit += VIT;
+		this.bar_health += VIT;
+		
+		if(this.bar_health > 510)
+			this.bar_health = 510;
+		else if(this.bar_health <= 0)
+			this.bar_health = 0/*this.load.loadVIT()*/;
+
+		this.max_health = this.bar_health;
+		
+	}
+
+	public int getVIT(){
+		return this.vit;
+	}
 	
 	// Get the max value of health in the game.
 	public float getMaxHealth(){
@@ -202,6 +232,24 @@ public class CharacterScript : MonoBehaviour {
 	// Set the magic value.
 	public void setMagic(int magic){
 		this.max_magic = magic;
+	}
+
+	// Set actual strength value.
+	public void setPM(int PM){
+		this.pm += PM;
+		this.bar_magic += PM;
+		
+		if(this.bar_magic > 510)
+			this.bar_magic = 510;
+		else if(this.bar_magic <= 0)
+			this.bar_magic = this.load.loadPM();
+		
+		this.max_magic = this.bar_magic;
+		
+	}
+
+	public int getPM(){
+		return this.pm;
 	}
 
 	// Function magic regeneration
@@ -236,8 +284,7 @@ public class CharacterScript : MonoBehaviour {
 			this.strength = 255;
 		else if(this.strength <= 0)
 			this.strength = this.load.loadSTR();
-
-		this.printAttributes ();
+		
 	}
 
 	// Get the actual value of defense.
@@ -255,7 +302,6 @@ public class CharacterScript : MonoBehaviour {
 		else if(this.defense <= 0)
 			this.defense = this.load.loadDEF();
 
-		this.printAttributes ();
 	}
 
 	// Get the actual value of speed.
@@ -265,7 +311,12 @@ public class CharacterScript : MonoBehaviour {
 	
 	// Set actual speed value.
 	public void setSPD(int SPD){
-		this.speed = SPD;
+		this.speed += SPD;
+
+		if(this.speed > 255)
+			this.speed = 255;
+		else if(this.speed <= 0)
+			this.speed = this.load.loadSPD();
 	}
 
 	// Get the actual value of level.
@@ -281,12 +332,8 @@ public class CharacterScript : MonoBehaviour {
 
 	}
 
-	void printAttributes(){
-		/*Debug.Log ("VIT:" + this.bar_health 
-		           + " PM:" + this.bar_magic 
-		           + " STR:" + this.strength 
-		           + " DEF:" + this.defense 
-		           + " SPD:" + this.speed);*/
+	public int getNextExpLevel(){
+		return this.next;
 	}
 
 
@@ -318,21 +365,35 @@ public class CharacterScript : MonoBehaviour {
 	
 	// Method to Cure the 'Character'.
 	public void setCure(int heal){
-		if (this.bar_health < this.max_health) {
-			this.bar_health += heal;
+
+		this.music.play_Recover_Life();
+
+		if(!this.heal_Effect){ 
 			this.heal_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/heal")) as GameObject;
 			this.heal_effect.transform.position = transform.position;
 			this.heal_effect.transform.parent = transform;
 			this.heal_Effect = true;
-			this.music.play_Recover_Life();
+		}
+
+		if (this.bar_health < this.max_health){
+			this.bar_health += heal;
 			if(this.bar_health > this.max_health)
 				this.bar_health = Mathf.FloorToInt(this.max_health);
 		}
 	}
-	
+
+    // Method to compute Damage
+    public int computeDamage(){
+        return Random.Range((this.strength + 1) - (int)(4 + this.strength * 0.25f), this.strength + 1);
+    }
+
 	// Method to Damage the 'Character'
 	public void setDamage(int damage){
-		this.bar_health -= damage;
+
+		if(this.bar_health >= 0)
+			this.bar_health -= damage;
+		else if(this.bar_health < 0)
+			this.bar_health = 0;
 		// Reproducimos un sonido de dolor del personaje al recibir el golpe
 		if (music != null) music.play_Player_Hurt ();
 	}
@@ -342,6 +403,34 @@ public class CharacterScript : MonoBehaviour {
 		this.bar_magic -= spell;
 		// Reproducimos un sonido de dolor del personaje al recibir el golpe
 		//if (music != null) music.play_Player_Hurt ();
+	}
+
+	// Method to Cure the 'Character'.
+	public void setRecoverMagic(int magic){
+		//if (this.bar_magic < this.max_magic){	
+			//if(this.bar_magic > this.max_magic)
+				//this.bar_magic = Mathf.FloorToInt(this.max_magic);		
+		/*this.bar_magic += magic;
+		if (this.bar_magic > this.max_magic)
+			this.bar_magic = this.max_magic;*/
+		//}
+		this.music.play_Recover_Life();
+
+		if(!this.mana_Effect){ 
+			this.mana_effect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/mana_recover")) as GameObject;
+			this.mana_effect.transform.position = transform.position;
+			this.mana_effect.transform.parent = transform;
+			this.mana_Effect = true;
+			
+			
+		}
+		
+		if (this.bar_magic < this.max_magic){
+
+			this.bar_magic += magic;
+			if(this.bar_magic > this.max_magic)
+				this.bar_magic = Mathf.FloorToInt(this.max_magic);
+		}
 	}
 
 	void levelUP(){
@@ -373,7 +462,8 @@ public class CharacterScript : MonoBehaviour {
 	void updateCharacterAttributes(){
 
 		// SAVE ATTRIBUTES
-		this.save.saveLevel (this.level);
+		//this.save.saveLevel (this.level);
+		//this.save.saveStatus ("LVL", this.level);
 
 		int VIT = 0, PM = 0, STR = 0, DEF = 0, SPD = 0;
 
@@ -478,18 +568,7 @@ public class CharacterScript : MonoBehaviour {
 	}
 
 	void OnGUI(){
-
-		GUI.Label (new Rect (25 , Screen.height / 3, 150, 300),
-		           "Attribute Debug:\nLVL: " + this.getLVL() 
-		           + "\nVIT: " + this.getHealth() 
-		           + "\nPM: " + this.getMagic()
-		           + "\nFRZ: " + this.getFRZ()
-		           + "\nDEF: " + this.getDEF()
-		           + "\nSPD: " + this.getSPD()
-		           + "\nEXP: " + this.getEXP()
-		           + "\nnextLVL: " + this.next + " EXP.",
-		           this.text_style); 
-
+		
 		if(this.levelUp_Effect){
 
 			Vector2 xy = Camera.main.WorldToScreenPoint(new Vector3(this.transform.position.x,

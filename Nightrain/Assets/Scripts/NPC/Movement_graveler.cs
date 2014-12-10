@@ -31,7 +31,7 @@ public class Movement_graveler : MonoBehaviour {
 	
 	private string state = "None";
 	private string difficulty;
-	string[] states = {"Walk", "Find", "Attack", "Dead"};
+	//string[] states = {"Walk", "Find", "Attack", "Dead"};
 	private float rotationSpeed = 10.0f;
 	private float attackTime = 3.5f;
 	
@@ -52,10 +52,15 @@ public class Movement_graveler : MonoBehaviour {
 	//private GameObject NPCbar;
 	private Music_Engine_Script music;
 	
-	private int subir = 0;
-	private bool subirB = true;
+	//private int subir = 0;
+	//private bool subirB = true;
+
+	private GameObject health_sphere;
+	private GameObject mana_sphere;
 
 	private CharacterController controller;
+
+	private bool isDead = false;
 	
 	
 	// Metodo que se llama cuando una ruta ha sido calculada
@@ -79,7 +84,6 @@ public class Movement_graveler : MonoBehaviour {
 		
 		this.npcAttributes = new NPCAttributes (health, max_health, attackPower, defense, moveSpeed, experience);
 		//print ("Experiencia: " + this.npcAttributes.getExperience ());
-		
 	}
 	
 	// Use this for initialization
@@ -91,6 +95,10 @@ public class Movement_graveler : MonoBehaviour {
 		anim = GetComponent<Animator>();
 		difficulty = PlayerPrefs.GetString ("Difficulty");
 		npcAttributes.setDificulty (difficulty);
+
+		this.health_sphere = Resources.Load<GameObject> ("Prefabs/Effects/life_sphere");
+		this.mana_sphere = Resources.Load<GameObject> ("Prefabs/Effects/mana_sphere");
+
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
@@ -128,8 +136,19 @@ public class Movement_graveler : MonoBehaviour {
 				earth_blast.transform.position = transform.position;
 				earth_blast.transform.parent = transform;
 				activateEffect = false;
-			}else if(earth_delay < 0)
+			}else if(earth_delay < 0){
+				Vector3 newPosition_sphere = transform.position;
+				newPosition_sphere.y += 1.0f;
+				newPosition_sphere.x -= 1.0f;
+				int rand1 = Random.Range (0,3);
+				if (rand1 == 0) Instantiate (health_sphere, newPosition_sphere, health_sphere.transform.rotation);
+				newPosition_sphere.x += 2.0f;
+				newPosition_sphere.y += 1.0f;
+				int rand2 = Random.Range (3,6);
+				if (rand2 == 4) Instantiate (mana_sphere, newPosition_sphere, health_sphere.transform.rotation);
+
 				Destroy(gameObject);
+			}
 		}
 	}
 	
@@ -249,7 +268,8 @@ public class Movement_graveler : MonoBehaviour {
 		npcAttributes.setDamage (damage);
 		
 		//this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
-		if (npcAttributes.getHealth() < 1) {
+		if (npcAttributes.getHealth() < 1 && !isDead) {
+			this.isDead = true;
 			state = "Dead";
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;
@@ -301,13 +321,13 @@ public class Movement_graveler : MonoBehaviour {
 	
 	
 	
-	void OnTriggerEnter (Collider other){
+	/*void OnTriggerEnter (Collider other){
 		//print("Tocado."); 
-		/*if(other.gameObject == this.player){
+		if(other.gameObject == this.player){
 			this.player.GetComponent<CharacterScript>().setDamage(10);
 			print("Tocado."); 
 			Debug.Log("Debug:Tocado.");
 			System.Console.WriteLine("System:Tocado");	
-		}	*/
-	}
+		}	
+	}*/
 }

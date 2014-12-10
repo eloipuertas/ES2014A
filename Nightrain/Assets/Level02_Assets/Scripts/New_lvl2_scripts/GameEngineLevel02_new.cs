@@ -18,6 +18,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	// --- LIGHT
 	public GameObject ambientLight;
 	private CharacterScript_lvl2 cs;
+	private ClickToMove_lvl2 cm;
 	private Color c;
 	
 	// --- NPCs ---
@@ -33,31 +34,46 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	private bool end_game = false;
 	private float end_time = 0.0f;
 
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+	private LoadData load;
+
+	// Time Played
+	private static float time_play = 0;
+	private float time_dead = 0.0f;
+
 	
 	// Use this for initialization
 	void Awake () {
-		
+		print (PlayerPrefs.GetString("Difficult"));
 		// --- LOAD RESOURCES TO CHARACTER ---
 		//this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2");
-		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2");
+		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/"+PlayerPrefs.GetString("Player")+"_lvl2");
 		this.character = Instantiate (prefab, respawn.transform.position, prefab.transform.rotation) as GameObject;
 		this.cs = this.character.GetComponent<CharacterScript_lvl2> ();
-		
+		this.cm = this.character.GetComponent<ClickToMove_lvl2> ();
+
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData();
+		this.load = this.mc.loadData();
+		time_play = this.load.loadTimePlayed (); 
+
 		// --- LOAD RESOURCES TO MENU ---
-		gui = new PauseMenuGUI_lvl2 ();
+		gui = new PauseMenuGUI_lvl2();
 		gui.initResources ();
 		
 		
 		this.c = this.ambientLight.light.color;
-		
-		print ("Personaje:" + PlayerPrefs.GetString ("Character") + " Difficulty: " + PlayerPrefs.GetString ("Difficulty"));
-		
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		this.PauseScreen ();
 		this.StateMachine ();
+		time_play += Time.deltaTime;
 	}
 	
 	
@@ -91,7 +107,14 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	void isAlive(){
 		int num = this.character.GetComponent<CharacterScript_lvl2> ().getHealth();
 		//If the character is dead we show "game over" scene
-		if(num <= 0) Application.LoadLevel(6);
+		if(num <= 0) {
+			if(time_dead == 0.0f) time_dead = Time.time;
+			if(Time.time-time_dead > 3.0f) {
+				Application.LoadLevel(7);
+			} else {
+				cm.dieAnim ();
+			}
+		}
 	}
 
 	void PauseScreen(){	
@@ -135,6 +158,11 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		if (!end_game) {
 			end_game = true;
 			end_time = Time.time;
+			this.save.saveTimePlayed(time_play);
 		}
+	}
+
+	public static float getTimePlay(){
+		return time_play;
 	}
 }

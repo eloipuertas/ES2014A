@@ -8,6 +8,9 @@ public class EquipWeapons : MonoBehaviour {
 
 	private static GameObject w;
 	private static GameObject s;
+	private static Helmet h = null;
+	private static Armor a = null;
+	private static Boots b = null;
 
 	private static Transform weaponTransform;
 	private static Transform shieldTransform;
@@ -92,6 +95,95 @@ public class EquipWeapons : MonoBehaviour {
 			if(i.id == item.id){
 				cs.setDEF(-item.DEF);
 				Destroy (s);
+			}
+		}
+	}
+
+	public static void setHelmet(Helmet helmet){
+		
+		if(h == null){
+			h = helmet;
+			cs.setDEF(helmet.DEF);
+			cs.setVIT(helmet.VIT);
+			cs.setPM(helmet.PM);
+		}else{
+			cs.setDEF(-helmet.DEF);
+			cs.setVIT(-helmet.VIT);
+			cs.setPM(-helmet.PM);
+			h = helmet;
+			cs.setDEF(helmet.DEF);
+			cs.setVIT(helmet.VIT);
+			cs.setPM(helmet.PM);
+		}
+		//s.transform.rotation = Quaternion.Euler(new Vector3(20, 160, 0));
+	}
+	
+	
+	public static void removeHelmet(Item i){
+		
+		if(h != null){
+			if(i.id == h.id){
+				cs.setDEF(-h.DEF);
+				cs.setVIT(-h.VIT);
+				cs.setPM(-h.PM);
+				h = null;
+			}
+		}
+	}
+
+	public static void setArmor(Armor armor){
+		
+		if(a == null){
+			a = armor;
+			cs.setDEF(armor.DEF);
+			cs.setVIT(armor.VIT);
+			cs.setPM(armor.PM);
+		}else{
+			cs.setDEF(-armor.DEF);
+			cs.setVIT(-armor.VIT);
+			cs.setPM(-armor.PM);
+			a = armor;
+			cs.setDEF(armor.DEF);
+			cs.setVIT(armor.VIT);
+			cs.setPM(armor.PM);
+		}
+		//s.transform.rotation = Quaternion.Euler(new Vector3(20, 160, 0));
+	}
+	
+	
+	public static void removeArmor(Item i){
+		
+		if(a != null){
+			if(i.id == a.id){
+				cs.setDEF(-a.DEF);
+				cs.setVIT(-a.VIT);
+				cs.setPM(-a.PM);
+				a = null;
+			}
+		}
+	}
+
+	
+	public static void setBoots(Boots boot){
+		
+		if(b == null){
+			b = boot;
+			cs.setSPD(boot.SPD);
+		}else{
+			cs.setSPD(-boot.SPD);
+			b = boot;
+			cs.setSPD(boot.SPD);
+		}
+		//s.transform.rotation = Quaternion.Euler(new Vector3(20, 160, 0));
+	}
+	
+	
+	public static void removeBoots(Item i){
+		
+		if(b != null){
+			if(i.id == b.id){
+				cs.setSPD(-b.SPD);
+				b = null;
 			}
 		}
 	}

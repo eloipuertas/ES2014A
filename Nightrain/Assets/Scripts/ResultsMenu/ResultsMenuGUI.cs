@@ -29,7 +29,7 @@ public class ResultsMenuGUI : MonoBehaviour {
 	}
 	
 	// MENU RESULTS
-	public void menuGameOver(){
+	public void menuResults(){
 		
 		Rect background_box = new Rect (0, 0, Screen.width, Screen.height);
 		Graphics.DrawTexture (background_box, this.backgroundTexture);

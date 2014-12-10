@@ -13,6 +13,7 @@ public abstract class Item {
 	public int DEF;
 	public int SPD;
 	public int heal;
+	public int magic;
 	public Texture2D ItemTexture;
 	public int x;				// Position X in the inventory
 	public int y;				// Position Y in the iventoty

@@ -6,7 +6,9 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private PauseMenuGUI gui;
 	
 	private RaycastHit getObjectScene;
-	private bool pause = false;
+	private static bool pause = false;
+	private bool minimap = false;
+	private bool inventory = false;
 	
 	// --- CHARACTER ---
 	private Transform prefab;
@@ -15,6 +17,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 	// --- LIGHT
 	public GameObject ambientLight;
 	private CharacterScript cs;
+	private ClickToMove cm;
 	private Color c;
 	
 	// --- NPCs ---
@@ -32,17 +35,34 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private GameObject camera1;
 	private GameObject camera2;
 
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+	private LoadData load;
+
 	// --- Delays ---
 	public float delay = 2;
+	public float delay_death = 3f;
+	private bool anim_death = false;
+
+	// Time Played
+	private static float time_play = 0;
 	
 	// Use this for initialization
 	void Awake () {
 		
 		// --- LOAD RESOURCES TO CHARACTER ---
-		this.prefab = Resources.Load<Transform>("Prefabs/MainCharacters/" + PlayerPrefs.GetString("Character"));
+		this.prefab = Resources.Load<Transform>("Prefabs/MainCharacters/" + PlayerPrefs.GetString("Player"));
 		Instantiate (prefab);
 		this.character = GameObject.FindGameObjectWithTag ("Player");
+		this.cm = this.character.GetComponent<ClickToMove> ();
 		this.cs = this.character.GetComponent<CharacterScript> ();
+
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData();
+		this.load = this.mc.loadData();
+		time_play = this.load.loadTimePlayed (); 
 
 		this.npc_boss = GameObject.FindGameObjectWithTag("Boss");
 		this.npc_enemy = GameObject.FindGameObjectsWithTag("Enemy");
@@ -59,9 +79,8 @@ public class GameEngineLevel01 : MonoBehaviour {
 		
 		
 		this.c = this.ambientLight.light.color;
-		
-		//print ("Personaje:" + PlayerPrefs.GetString ("Character") + " Difficulty: " + PlayerPrefs.GetString ("Difficulty"));
-		
+		pause = false;
+
 	}
 	
 	// Update is called once per frame
@@ -71,16 +90,23 @@ public class GameEngineLevel01 : MonoBehaviour {
 		} 
 		this.PauseScreen ();
 		this.StateMachine ();
+		time_play += Time.deltaTime;
 	}
 	
 	
 	void StateMachine(){
-		
-		if (Input.GetKeyDown (KeyCode.Escape) && !this.pause) {
-			this.pause = true;
+
+		if (Input.GetKeyDown (KeyCode.Escape) && !pause) {
+			pause = true;
+			minimap = miniMapLv1.showMiniMap();
+			inventory = InventoryScript.showInventory();
+			miniMapLv1.setShowMiniMap(false);
+			InventoryScript.setShowInventory(false);
 			Time.timeScale = 0;
-		} else if (Input.GetKeyDown (KeyCode.Escape) && this.pause) {
-			this.pause = false;
+		} else if (Input.GetKeyDown (KeyCode.Escape) && pause) {
+			pause = false;
+			miniMapLv1.setShowMiniMap(minimap);
+			InventoryScript.setShowInventory(inventory);
 			Time.timeScale = 1;
 		}
 		
@@ -91,7 +117,15 @@ public class GameEngineLevel01 : MonoBehaviour {
 	void isAlive(){
 		int num = this.character.GetComponent<CharacterScript> ().getHealth();
 		//If the character is dead we show "game over" scene
-		if(num <= 0) Application.LoadLevel(6);
+		if (num <= 0) {
+			delay_death -= Time.deltaTime;
+			if(!anim_death){
+				this.cm.death();
+				anim_death = true;
+			}
+			if(delay_death < 0)
+				Application.LoadLevel (6);
+		}
 	}
 	
 	//Comprueba si los enemigos de la lista estan muertos
@@ -141,13 +175,13 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	void PauseScreen(){
 		
-		if (this.pause && !this.cs.isCritical ())
+		if (pause && !this.cs.isCritical ())
 			this.ambientLight.light.color = new Color (.2f, .2f, .2f);
-		else if (!this.pause && !this.cs.isCritical ())
+		else if (!pause && !this.cs.isCritical ())
 			this.ambientLight.light.color = new Color (1.0f, 1.0f, 1.0f);
-		else if (this.pause && this.cs.isCritical ())
+		else if (pause && this.cs.isCritical ())
 			this.ambientLight.light.color = new Color (.5f, .25f, .5f);
-		else if (!this.pause && this.cs.isCritical ())
+		else if (!pause && this.cs.isCritical ())
 			this.CautionScreen ();
 	}
 	
@@ -172,12 +206,20 @@ public class GameEngineLevel01 : MonoBehaviour {
 		}
 		
 	}
+
+	public static bool isPausedGame(){
+		return pause;
+	}
 	
 	void OnGUI(){	
-		if (this.pause) 
-			this.pause = this.gui.pauseMenu (this.pause);
+		if (pause) 
+			pause = this.gui.pauseMenu (pause);
 		
-		this.gui.confirmMenu(this.pause);
-		this.gui.optionKeyword (this.pause);
+		this.gui.confirmMenu(pause);
+		this.gui.optionKeyword (pause);
+	}
+
+	public static float getTimePlay(){
+		return time_play;
 	}
 }

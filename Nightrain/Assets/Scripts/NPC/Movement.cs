@@ -30,7 +30,7 @@ public class Movement : MonoBehaviour {
 	
 	private string state = "None";
 	private string difficulty;
-	string[] states = {"Walk", "Find", "Attack", "Dead"};
+	//string[] states = {"Walk", "Find", "Attack", "Dead"};
 	private float rotationSpeed = 10.0f;
 	private float attackTime = 3.0f;
 	

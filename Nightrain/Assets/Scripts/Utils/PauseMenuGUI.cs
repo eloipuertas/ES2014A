@@ -5,7 +5,9 @@ public class PauseMenuGUI {
 	
 	private const int reference_width = 1366; 
 	private const int reference_height = 598;
-	
+
+	private int level;
+
 	// ====== TEXTURES PAUSE MENU ======
 	private Texture2D backgroundTexture;
 	private Texture2D continueTexture;
@@ -36,13 +38,25 @@ public class PauseMenuGUI {
 	// Buttons sound effects
 	private Rect hoveredButton = new Rect();
 	private Music_Engine_Script music;
+
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+
 	
 	// CONSTRUCTOR
 	public PauseMenuGUI(){}
 	
 	// LOAD TEXTURE RESOURCES
 	public void initResources () {
-		
+
+		this.level = PlayerPrefs.GetInt ("Level");
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData ();
+
+
+
 		// MENU PAUSE
 		this.backgroundTexture = Resources.Load<Texture2D>("PauseMenu/background_pause");
 		
@@ -149,7 +163,13 @@ public class PauseMenuGUI {
 				if (Input.GetMouseButtonDown (0)) {
 					Time.timeScale = 1;
 					music.Play_Button_Click();
-					Application.LoadLevel (2);	
+
+					if(level == 3)
+						this.save.saveTimePlayed(GameEngineLevel01.getTimePlay());
+					else if(level == 4)
+						this.save.saveTimePlayed(GameEngineLevel02_new.getTimePlay());
+
+					Application.LoadLevel (PlayerPrefs.GetInt("Level"));	
 				}
 			} else {
 				Graphics.DrawTexture (reset_box, this.resetTexture);
@@ -237,6 +257,10 @@ public class PauseMenuGUI {
 				if (Input.GetMouseButtonDown (0)) { 
 					Time.timeScale = 1;
 					music.Play_Button_Click();
+					if(level == 3)
+						this.save.saveTimePlayed(GameEngineLevel01.getTimePlay());
+					else if(level == 4)
+						this.save.saveTimePlayed(GameEngineLevel02_new.getTimePlay());
 					Application.LoadLevel (1);	
 				}
 			} else {

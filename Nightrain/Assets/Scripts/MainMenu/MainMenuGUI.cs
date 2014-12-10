@@ -56,6 +56,15 @@ public class MainMenuGUI {
 	private Texture2D hardTexture;
 	private Texture2D extremeTexture;
 
+	// ====== TEXTURES DIFFICULTY SELECTOR ======
+	private Texture2D windowNotDataTexture;
+	private Texture2D windowDataGameTexture;
+	private Texture2D loadDataBtnTexture;
+	private Texture2D hoverLoadDataBtnTexture;
+	private Texture2D deleteDataBtnTexture;
+	private Texture2D hoverDeleteDataBtnTexture;
+
+	// ====== TEXTURES MAIN CHARACTERS ======
 	private Texture2D characterTexture;
 	private Texture2D attributeTexture;
 	private Texture2D difficultyTexture;
@@ -68,6 +77,7 @@ public class MainMenuGUI {
 	// Variable to check current mouse hover button
 	private Rect hoveredButton = new Rect();
 
+	float delay = .5f;
 	// SHOW MAIN MENU
 	private bool isMainMenu = true;
 	// SHOW CHARACTER SELECTOR
@@ -75,6 +85,8 @@ public class MainMenuGUI {
 	// SHOW DIFFICULTY SELECTOR
 	private bool isDifficultySelector = false;
 	private bool isInsideWindow = false;
+	// SHOW LOAD GAME
+	private bool isLoadGame = false;
 
 	// SAVE CHARACTER SELECTED
 	private string character = "hombre";
@@ -82,7 +94,10 @@ public class MainMenuGUI {
 	// MEMORY CARD 
 	private MemoryCard mc;
 	private SaveData save;
+	private LoadData load;
 
+	private GUIStyle text_style;
+	private GUIStyle guiStyleBack;
 
 	// CONSTRUCTOR
 	public MainMenuGUI(){}
@@ -90,6 +105,20 @@ public class MainMenuGUI {
 	// LOAD TEXTURE RESOURCES
 	public void initResources () {
 	
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData ();
+		this.load = this.mc.loadData (); 
+
+		// STYLES TEXT
+		this.text_style = new GUIStyle ();
+		this.text_style.font = Resources.Load<Font>("MainMenu/avqest");
+		this.text_style.fontStyle = FontStyle.Bold;
+		this.text_style.normal.textColor = new Color (42f/255f,26f/255f,16f/255f);
+		this.text_style.fontSize = 24;
+		//this.text_style.alignment = TextAnchor.UpperCenter ; 
+		this.text_style.wordWrap = true;
+
 		// MAIN MENU
 		this.backgroundTexture = Resources.Load<Texture2D>("MainMenu/background_mainmenu");		
 		this.logoTexture = Resources.Load<Texture2D>("MainMenu/logo");
@@ -156,17 +185,23 @@ public class MainMenuGUI {
 		this.hardTexture = Resources.Load<Texture2D>("MainMenu/difficulty_hard");
 		this.extremeTexture = Resources.Load<Texture2D>("MainMenu/difficulty_extreme");
 
+		// DIFFICULTY SELECTOR
+		this.windowNotDataTexture = Resources.Load<Texture2D>("MainMenu/window_nodata");
+		if(this.load.loadPlayer() != "")
+			this.windowDataGameTexture = Resources.Load<Texture2D>("MainMenu/window_data_"+this.load.loadPlayer());
+		this.loadDataBtnTexture = Resources.Load<Texture2D>("MainMenu/load_data");
+		this.hoverLoadDataBtnTexture = Resources.Load<Texture2D>("MainMenu/hover_load_data"); 
+		this.deleteDataBtnTexture = Resources.Load<Texture2D>("MainMenu/delete_data");
+		this.hoverDeleteDataBtnTexture = Resources.Load<Texture2D>("MainMenu/hover_delete_data"); 
+
+		// MAIN CHARACTER
 		this.characterTexture = this.warriorTexture;
 		this.attributeTexture = this.warriorAttributesTexture;
 		this.difficultyTexture = this.normalTexture;
 
 		//Hover button music gameobject
 		this.hoverSound = GameObject.FindGameObjectWithTag("music_engine");
-
-		// Memory Card Save/Load data
-		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
-		this.save = this.mc.saveData ();
-		this.save.WarriorAttributes ();
+		
 
 	}
 
@@ -226,102 +261,106 @@ public class MainMenuGUI {
 
 
 			// ============== ACTION BUTTONS ===================
-			
-			// ACTION PLAY GAME BUTTON
-			if (play_box.Contains (Event.current.mousePosition)) {
-				Graphics.DrawTexture (play_box, this.hoverNewGameTexture);
-				if (hoveredButton != play_box) {
-					hoverSound.audio.Play ();
-					hoveredButton = play_box;
-				}
-				if (Input.GetMouseButtonDown (0)) { 
-					this.clip.Play();
-					this.isMainMenu = false;
-					this.isCharacterSelector = true;
-				}
-			} else {
-				Graphics.DrawTexture (play_box, this.newGameTexture);
-				if(hoveredButton == play_box) hoveredButton = new Rect();
-			}
 
-			// ACTION LOAD GAME BUTTON
-			if (load_box.Contains (Event.current.mousePosition)) {
-				Graphics.DrawTexture (load_box, this.hoverLoadGameTexture);
-				if (hoveredButton != load_box) {
-					hoverSound.audio.Play ();
-					hoveredButton = load_box;
-				}
-				if (Input.GetMouseButtonDown (0)) { 
-					this.clip.Play();
-					Debug.Log ("Cargar Datos");
-				}
-			} else {
-				Graphics.DrawTexture (load_box, this.loadGameTexture);
-				if(hoveredButton == load_box) hoveredButton = new Rect();
-			}
 
-			// ACTION LOAD GAME BUTTON
-			if (load_box.Contains (Event.current.mousePosition)) {
-				Graphics.DrawTexture (load_box, this.hoverLoadGameTexture);
-				if (hoveredButton != load_box) {
-					hoverSound.audio.Play ();
-					hoveredButton = load_box;
+			if(!this.isLoadGame){
+				// ACTION PLAY GAME BUTTON
+				if (play_box.Contains (Event.current.mousePosition)) {
+					Graphics.DrawTexture (play_box, this.hoverNewGameTexture);
+					if (hoveredButton != play_box) {
+						hoverSound.audio.Play ();
+						hoveredButton = play_box;
+					}
+					if (Input.GetMouseButtonDown (0)) { 
+						this.clip.Play();
+						this.isMainMenu = false;
+						this.isCharacterSelector = true;
+					}
+				} else {
+					Graphics.DrawTexture (play_box, this.newGameTexture);
+					if(hoveredButton == play_box) hoveredButton = new Rect();
 				}
-				if (Input.GetMouseButtonDown (0)) { 
-					this.clip.Play();
-					Debug.Log ("Cargar Datos");
-				}
-			} else {
-				Graphics.DrawTexture (load_box, this.loadGameTexture);
-				if(hoveredButton == load_box) hoveredButton = new Rect();
-			}
 
-			// ACTION TROPHY'S BUTTON
-			if (trophies_box.Contains (Event.current.mousePosition)) {
-				Graphics.DrawTexture (trophies_box, this.hoverTrophiesTexture);
-				if (hoveredButton != trophies_box) {
-					hoverSound.audio.Play ();
-					hoveredButton = trophies_box;
+				// ACTION LOAD GAME BUTTON
+				if (load_box.Contains (Event.current.mousePosition)) {
+					Graphics.DrawTexture (load_box, this.hoverLoadGameTexture);
+					if (hoveredButton != load_box) {
+						hoverSound.audio.Play ();
+						hoveredButton = load_box;
+					}
+					if (Input.GetMouseButtonDown (0)) { 
+						this.clip.Play();
+						//Debug.Log ("Cargar Datos");
+					}
+				} else {
+					Graphics.DrawTexture (load_box, this.loadGameTexture);
+					if(hoveredButton == load_box) hoveredButton = new Rect();
 				}
-				if (Input.GetMouseButtonDown (0)) { 
-					this.clip.Play();
-					Debug.Log ("Trofeos");
-				}
-			} else {
-				Graphics.DrawTexture (trophies_box, this.trophiesTexture);
-				if(hoveredButton == trophies_box) hoveredButton = new Rect();
-			}
 
-			// ACTION CREDIT BUTTON
-			if (credit_box.Contains (Event.current.mousePosition)) {
-				Graphics.DrawTexture (credit_box, this.hoverCreditTexture);
-				if (hoveredButton != credit_box) {
-					hoverSound.audio.Play ();
-					hoveredButton = credit_box;
+				// ACTION LOAD GAME BUTTON
+				if (load_box.Contains (Event.current.mousePosition)) {
+					Graphics.DrawTexture (load_box, this.hoverLoadGameTexture);
+					if (hoveredButton != load_box) {
+						hoverSound.audio.Play ();
+						hoveredButton = load_box;
+					}
+					if (Input.GetMouseButtonDown (0)) { 
+						this.clip.Play();
+						this.isLoadGame = true;
+					}
+				} else {
+					Graphics.DrawTexture (load_box, this.loadGameTexture);
+					if(hoveredButton == load_box) hoveredButton = new Rect();
 				}
-				if (Input.GetMouseButtonDown (0)) { 
-					this.clip.Play();
-					Debug.Log ("Creditos");
-				}
-			} else {
-				Graphics.DrawTexture (credit_box, this.creditTexture);
-				if(hoveredButton == credit_box) hoveredButton = new Rect();
-			}
 
-			// ACTION EXIT GAME BUTTON
-			if (exit_box.Contains (Event.current.mousePosition)) {
-				Graphics.DrawTexture (exit_box, this.hoverExitGameTexture);
-				if (hoveredButton != exit_box) {
-					hoverSound.audio.Play ();
-					hoveredButton = exit_box;
+				// ACTION TROPHY'S BUTTON
+				if (trophies_box.Contains (Event.current.mousePosition)) {
+					Graphics.DrawTexture (trophies_box, this.hoverTrophiesTexture);
+					if (hoveredButton != trophies_box) {
+						hoverSound.audio.Play ();
+						hoveredButton = trophies_box;
+					}
+					if (Input.GetMouseButtonDown (0)) { 
+						this.clip.Play();
+						Debug.Log ("Trofeos");
+					}
+				} else {
+					Graphics.DrawTexture (trophies_box, this.trophiesTexture);
+					if(hoveredButton == trophies_box) hoveredButton = new Rect();
 				}
-				if (Input.GetMouseButtonDown (0)) { 
-					this.clip.Play();
-					Application.Quit();
+
+				// ACTION CREDIT BUTTON
+				if (credit_box.Contains (Event.current.mousePosition)) {
+					Graphics.DrawTexture (credit_box, this.hoverCreditTexture);
+					if (hoveredButton != credit_box) {
+						hoverSound.audio.Play ();
+						hoveredButton = credit_box;
+					}
+					if (Input.GetMouseButtonDown (0)) { 
+						this.clip.Play();
+						Application.LoadLevel (8);
+						Debug.Log ("Creditos");
+					}
+				} else {
+					Graphics.DrawTexture (credit_box, this.creditTexture);
+					if(hoveredButton == credit_box) hoveredButton = new Rect();
 				}
-			} else {
-				Graphics.DrawTexture (exit_box, this.exitGameTexture);
-				if(hoveredButton == exit_box) hoveredButton = new Rect();
+
+				// ACTION EXIT GAME BUTTON
+				if (exit_box.Contains (Event.current.mousePosition)) {
+					Graphics.DrawTexture (exit_box, this.hoverExitGameTexture);
+					if (hoveredButton != exit_box) {
+						hoverSound.audio.Play ();
+						hoveredButton = exit_box;
+					}
+					if (Input.GetMouseButtonDown (0)) { 
+						this.clip.Play();
+						Application.Quit();
+					}
+				} else {
+					Graphics.DrawTexture (exit_box, this.exitGameTexture);
+					if(hoveredButton == exit_box) hoveredButton = new Rect();
+				}
 			}
 		}
 
@@ -401,7 +440,7 @@ public class MainMenuGUI {
 				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
-					this.save.WarriorAttributes();
+					//this.save.WarriorAttributes();
 					this.character = "hombre";
 					this.characterTexture = this.warriorTexture;
 					this.attributeTexture = this.warriorAttributesTexture;
@@ -421,7 +460,7 @@ public class MainMenuGUI {
 				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
-					this.save.SageAttributes();
+					//this.save.SageAttributes();
 					this.character = "mujer";
 					this.characterTexture = this.sageTexture;
 					this.attributeTexture = this.sageAttributesTexture;
@@ -441,7 +480,7 @@ public class MainMenuGUI {
 				}
 				if (Input.GetMouseButtonDown (0)) { 
 					this.clip.Play();
-					this.save.ThiefAttributes();
+					//this.save.ThiefAttributes();
 					this.character = "joven";
 					this.characterTexture = this.thiefTexture;
 					this.attributeTexture = this.thiefAttributesTexture;
@@ -564,8 +603,8 @@ public class MainMenuGUI {
 					hoveredButton = squire_box;
 				}
 				if (Input.GetMouseButtonDown (0)) {
-					PlayerPrefs.SetString("Difficulty", "Easy");
-					PlayerPrefs.SetString("Character", this.character);
+					this.saveSettingsGame(3, "Easy", this.character);
+					this.loadAtributtesCharacter(this.character);
 					this.clip.Play();
 					Application.LoadLevel(2);
 				}
@@ -582,8 +621,8 @@ public class MainMenuGUI {
 					hoveredButton = warrior_box;
 				}
 				if (Input.GetMouseButtonDown (0)) {
-					PlayerPrefs.SetString("Difficulty", "Normal");
-					PlayerPrefs.SetString("Character", this.character);
+					this.saveSettingsGame(3, "Normal", this.character);
+					this.loadAtributtesCharacter(this.character);
 					this.clip.Play();
 					Application.LoadLevel(2);
 				}
@@ -601,8 +640,8 @@ public class MainMenuGUI {
 					hoveredButton = knight_box;
 				}
 				if (Input.GetMouseButtonDown (0)) {
-					PlayerPrefs.SetString("Difficulty", "Hard");
-					PlayerPrefs.SetString("Character", this.character);
+					this.saveSettingsGame(3, "Hard", this.character);
+					this.loadAtributtesCharacter(this.character);
 					this.clip.Play();
 					Application.LoadLevel(2);
 				}
@@ -620,8 +659,8 @@ public class MainMenuGUI {
 					hoveredButton = paladin_box;
 				}
 				if (Input.GetMouseButtonDown (0)) {
-					PlayerPrefs.SetString("Difficulty", "Extreme");
-					PlayerPrefs.SetString("Character", this.character);
+					this.saveSettingsGame(3, "Extreme", this.character);
+					this.loadAtributtesCharacter(this.character);
 					this.clip.Play();
 					Application.LoadLevel(2);
 				}
@@ -630,6 +669,139 @@ public class MainMenuGUI {
 				if (hoveredButton == paladin_box) hoveredButton = new Rect();
 			}
 		}
+	}
+
+	// DIFFICULTY SELECTOR
+	public void loadSaveGame(){
+
+		if (this.isLoadGame) {
+			
+			// DIFFICULTY WINDOW
+			Rect window_data_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.windowNotDataTexture)/3,
+			                            Screen.height/2 - this.resizeTextureHeight(this.windowNotDataTexture)/3,
+			                            this.resizeTextureWidth(this.windowNotDataTexture)/1.5f,
+			                            this.resizeTextureHeight(this.windowNotDataTexture)/1.5f);
+
+			if(this.load.loadLevel() != 0){
+				GUI.DrawTexture (window_data_box, this.windowDataGameTexture);
+
+				Rect loadbtn_box = new Rect (window_data_box.center.x/1.5f,
+				                             window_data_box.center.y*1.35f,
+				                             this.resizeTextureWidth(this.loadDataBtnTexture)/5f,
+				                             this.resizeTextureHeight(this.loadDataBtnTexture)/4f);
+				GUI.DrawTexture (loadbtn_box, this.loadDataBtnTexture);
+
+				Rect deletebtn_box = new Rect (window_data_box.center.x*1.05f,
+				                               window_data_box.center.y*1.35f,
+				                               this.resizeTextureWidth(this.deleteDataBtnTexture)/5f,
+				                               this.resizeTextureHeight(this.deleteDataBtnTexture)/4f);
+				GUI.DrawTexture (deletebtn_box, this.deleteDataBtnTexture);
+
+				GUI.Label (new Rect (window_data_box.center.x*1.1f , 
+				                     window_data_box.center.y/1.16f,
+				                     300, 
+				                     25),
+				           this.load.loadDifficulty(),
+				           this.text_style);
+
+				GUI.Label (new Rect (window_data_box.center.x*1.05f , 
+				                     window_data_box.center.y,
+				                     300, 
+				                     25),
+				           this.load.loadLevelName(),
+				           this.text_style); 
+
+				GUI.Label (new Rect (window_data_box.center.x*1.1f , 
+				                     window_data_box.center.y*1.145f,
+				                     300, 
+				                     25),
+				           this.load.loadTimeFormat(),
+				           this.text_style);
+
+
+				// ============== ACTION BUTTONS ===================
+				
+				// LOAD SAVEGAME BUTTON
+				if (loadbtn_box.Contains (Event.current.mousePosition) && isLoadGame) {
+					GUI.DrawTexture (loadbtn_box, this.hoverLoadDataBtnTexture);
+					delay -= Time.deltaTime;
+
+					if (hoveredButton != loadbtn_box) {
+						hoverSound.audio.Play ();
+						hoveredButton = loadbtn_box;
+					}
+
+					if (Input.GetMouseButtonUp(0) && delay <= 0) { 
+						this.isLoadGame = false;
+						this.isInsideWindow = false;
+						this.clip.Play();
+						Application.LoadLevel(2);
+					}
+				}else {
+					Graphics.DrawTexture (loadbtn_box, this.loadDataBtnTexture);
+					if (hoveredButton == loadbtn_box) hoveredButton = new Rect();
+				}
+
+				// DELETE SAVEGAME BUTTON
+				if (deletebtn_box.Contains (Event.current.mousePosition) && isLoadGame) {
+					GUI.DrawTexture (deletebtn_box, this.hoverDeleteDataBtnTexture);
+					delay -= Time.deltaTime;
+
+					if (hoveredButton != deletebtn_box) {
+						hoverSound.audio.Play ();
+						hoveredButton = deletebtn_box;
+					}
+
+					if (Input.GetMouseButtonUp(0) && delay <= 0) { 
+						this.isLoadGame = false;
+						this.isInsideWindow = false;
+						this.clip.Play();
+						PlayerPrefs.DeleteAll();
+					}
+				}else {
+					Graphics.DrawTexture (deletebtn_box, this.deleteDataBtnTexture);
+					if (hoveredButton == deletebtn_box) hoveredButton = new Rect();
+				}
+
+			}else{
+				GUI.DrawTexture (window_data_box, this.windowNotDataTexture);
+			}
+			
+			// ============== ACTION BUTTONS ===================
+			
+			// ACTION BUTTON
+			if (window_data_box.Contains (Event.current.mousePosition)) {
+				this.isInsideWindow = true;
+			} else{
+				if (Input.GetMouseButtonDown(0) && this.isInsideWindow) { 
+					this.isLoadGame = false;
+					this.isInsideWindow = false;
+					delay = .5f;
+				}
+			}
+
+		}
+		
+	}
+
+	public void saveSettingsGame(int level, string difficulty, string character){
+	
+		this.save.saveTimePlayed (0f);
+		this.save.saveTimeFormat ("");
+		this.save.saveLevel (level);
+		this.save.saveDifficult (difficulty);
+		this.save.savePlayer (character);
+
+	}
+
+	public void loadAtributtesCharacter(string character){
+
+		if(character == "hombre")
+			this.save.WarriorAttributes();
+		else if(character == "mujer")
+			this.save.SageAttributes();
+		else if(character == "joven")
+			this.save.ThiefAttributes();
 	}
 
 	public void setAudioClick(AudioSource clip){

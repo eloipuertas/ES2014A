@@ -10,34 +10,55 @@ public class InventoryScript : MonoBehaviour {
 	public Rect inventory_box;
 	private List<Item> list_inventory;
 	private Item[] equip;
-	private bool show_inventory = false;
+	private static bool show_inventory = false;
 
 	// ========== SLOT INVENTORY ============
 
 	// WEAPON REGION
 	public Rect weaponRegion_box;
-	private const int weaponX = 20;
-	private const int weaponY = 45;
-	private const int weaponW = 56;
-	private const int weaponH = 112;
+	private float weaponX = 210;	//20
+	private float weaponY = 192;	//45
+	private float weaponW = 65;	//56
+	private float weaponH = 157;	//112
 
 	// SHIELD REGION
 	public Rect shieldRegion_box;
-	private const int shieldX = 250;
-	private const int shieldY = 45;
-	private const int shieldW = 56;
-	private const int shieldH = 112;
+	private float shieldX = 383;	//250
+	private float shieldY = 192;	//45
+	private float shieldW = 65;	//56
+	private float shieldH = 157;	//112
+
+	// HELMET REGION
+	public Rect helmetRegion_box;
+	private float helmetX = 308;	
+	private float helmetY = 66;	
+	private float helmetW = 50;	
+	private float helmetH = 58;	
+
+	// HELMET REGION
+	public Rect armorRegion_box;
+	private float armorX = 0;	
+	private float armorY = 0;	
+	private float armorW = 0;	
+	private float armorH = 0;	
+	
+	// BOOTS REGION
+	public Rect bootRegion_box;
+	private float bootX = 293;	
+	private float bootY = 395;	
+	private float bootW = 71;	
+	private float bootH = 81;	
 
 	// ITEM REGION
 	public Rect slotRegion_box;
 	private Slot[,] slot;
 	private Rect[,] s;
-	private int slot_row = 10;
-	private int slot_column = 4;
-	private int slotX = 17;
-	private int slotY = 255;
-	private int slot_w = 29;
-	private int slot_h = 29;
+	private int slot_row = 11;  //11
+	private int slot_column = 5; //5
+	private float slotX = 15; //17
+	private float slotY = 522; //255
+	private float slot_w = 43; //29
+	private float slot_h = 43; // 29
 	private Vector2 slot_selected;
 	private Vector2 last_slot;
 
@@ -49,19 +70,53 @@ public class InventoryScript : MonoBehaviour {
 	// ========== TEXTURES ============
 	private Texture2D inventoryTexture;
 
+	private string character;
+
+	private CharacterScript cs;
 	private ClickToMove cm;
+	
+	private GUIStyle attributes_style;
+	private GUIStyle level_style;
+	private GUIStyle exp_style;
+	private GUIStyle guiStyleBack;
 
-
+	Texture2D prueba;
 	// Use this for initialization
 	void Start () {
 	
-		this.list_inventory = new List<Item>();
-		this.equip = new Item[3];
-		this.inventoryTexture = Resources.Load<Texture2D>("Inventory/Misc/inventory");
+		this.character = PlayerPrefs.GetString ("Player");
 
+		this.list_inventory = new List<Item>();
+		this.equip = new Item[5]; //"Weapon, Shield, Helmet, Armor, Boots"
+		this.inventoryTexture = Resources.Load<Texture2D>("Inventory/Misc/inventory_" + this.character);
+		this.prueba = Resources.Load<Texture2D>("Inventory/Misc/slot");
+
+		this.cs = GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterScript> ();
 		this.cm = GameObject.FindGameObjectWithTag ("Player").GetComponent<ClickToMove> ();
 
+		// STYLES TEXT
+		this.attributes_style = new GUIStyle ();
+		//this.text_style.font = Resources.Load<Font>("MainMenu/avqest");
+		this.attributes_style.fontStyle = FontStyle.Bold;
+		this.attributes_style.normal.textColor = new Color (236f/255f,219f/255f,31f/255f);
+		this.attributes_style.fontSize = 20;
+
+		this.exp_style = new GUIStyle ();
+		//this.text_style.font = Resources.Load<Font>("MainMenu/avqest");
+		this.exp_style.fontStyle = FontStyle.Bold;
+		this.exp_style.normal.textColor = new Color (236f/255f,219f/255f,31f/255f);
+		this.exp_style.fontSize = 17;
+
+		this.level_style = new GUIStyle ();
+		//this.text_style.font = Resources.Load<Font>("MainMenu/avqest");
+		this.level_style.fontStyle = FontStyle.Bold;
+		this.level_style.normal.textColor = new Color (236f/255f,219f/255f,31f/255f);
+		this.level_style.fontSize = 13;
+
+		show_inventory = false;
+
 		// CREATE INVENTORY
+		this.resizeInventory ();
 		this.createInventorySlot ();
 
 	}
@@ -69,16 +124,22 @@ public class InventoryScript : MonoBehaviour {
 
 	void Update(){
 
-		if (Input.GetKeyDown (KeyCode.I) && !this.show_inventory) 
-			this.show_inventory = true;
-		else if(Input.GetKeyDown (KeyCode.I) && this.show_inventory)
-			this.show_inventory = false;
+		if (Input.GetKeyDown (KeyCode.I) && !show_inventory){ 
+			if(miniMapLv1.showMiniMap()){
+				miniMapLv1.setShowMiniMap(false);
+				show_inventory = true;
+			}else
+				show_inventory = true;
+		}else if(Input.GetKeyDown (KeyCode.I) && show_inventory){
+			show_inventory = false;
+		}
 
 		// If cursor is inside inventory action "Don't walk" is outside walk
-		if (this.inventory_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y)) && show_inventory) {
-			this.cm.dontWalk();
-		}else
-			this.cm.Walk();
+		if(this.cm != null)
+			if (this.inventory_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y)) && show_inventory)
+				this.cm.dontWalk();
+			else
+				this.cm.Walk();
 	}
 
 
@@ -87,7 +148,7 @@ public class InventoryScript : MonoBehaviour {
 		
 		// COORDENATES INVENTORY REGION
 		this.inventory_box.x = Screen.width - this.inventory_box.width;
-		this.inventory_box.y = Screen.height - this.inventory_box.height - Screen.height*.2f;
+		this.inventory_box.y = 0;//Screen.height - this.inventory_box.height - Screen.height*.2f;
 		
 		// SLOTS REGIONS
 		
@@ -103,6 +164,25 @@ public class InventoryScript : MonoBehaviour {
 		                                  this.inventory_box.y + shieldY,
 		                                  shieldW,
 		                                  shieldH);
+
+		//HELMET REGION
+		this.helmetRegion_box = new Rect (this.inventory_box.x + helmetX,
+		                                  this.inventory_box.y + helmetY,
+		                                  helmetW,
+		                                  helmetH);
+
+		//ARMOR REGION
+		this.armorRegion_box = new Rect (this.inventory_box.x + armorX,
+		                                  this.inventory_box.y + armorY,
+		                                  armorW,
+		                                  armorH);
+
+		// BOOT REGION
+		this.bootRegion_box = new Rect (this.inventory_box.x + bootX,
+		                                  this.inventory_box.y + bootY,
+		                                  bootW,
+		                                  bootH);
+
 		
 		// ITEMS REGION
 		this.slot = new Slot[this.slot_row, this.slot_column];
@@ -110,6 +190,7 @@ public class InventoryScript : MonoBehaviour {
 		
 		for (int i = 0; i < this.slot_row; i++)
 		for (int j = 0; j < this.slot_column; j++){
+
 			this.slot [i, j] = new Slot (new Rect(this.slotX + (this.slot_w*i),
 			                                      this.slotY + (this.slot_h*j),
 			                                      this.slot_w,
@@ -188,6 +269,7 @@ public class InventoryScript : MonoBehaviour {
 									if (this.temp_item != null) {
 										//print ("Debug 8");
 										//this.checkUnquipedItem(this.temp_item);
+										this.checkRemoveItem(this.temp_item); // <-- Esto es lo ultimo k he tocado
 										this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item);
 										this.temp_item = null;
 									}
@@ -269,12 +351,150 @@ public class InventoryScript : MonoBehaviour {
 										if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){
 											//print ("Debug 21");
 											if(equip[1] == this.temp_item)
-												this.checkRemoveItem(equip[0]);
+												this.checkRemoveItem(equip[1]);
 										}
 										else{
 											//print ("Debug 22");
 											//print("Unequip Shield");
 											this.equip[1] = this.temp_item;
+											this.temp_item = null;
+										}
+									}	
+									//print ("Debug 23");
+									this.temp_item = null;		
+								}
+								
+							}
+						}
+						
+					}else if(this.helmetRegion_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y))){
+						
+						if (Event.current.isMouse && Input.GetMouseButtonDown (0)) {
+							this.temp_item = this.equip[2];
+							this.removeHelmet ();
+							//print ("Debug 17");
+							return;
+							
+						} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
+							
+							if (this.equip[2] == null && temp_item is Helmet) {
+								this.equip[2] = this.temp_item;
+								//print ("Debug 18");
+								EquipWeapons.setHelmet((Helmet)this.equip[2]);
+								this.removeItem(this.equip[2]);
+								this.temp_item = null;
+								
+							}else{
+								//print ("Debug 19");
+								this.last_slot.x = i;
+								this.last_slot.y = j;
+								
+								// If the slots are diferents drag the item to the new slot position
+								if (this.temp_item != null) {
+									if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
+										//print ("Debug 20");
+									} else {
+										if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){
+											//print ("Debug 21");
+											if(equip[2] == this.temp_item)
+												this.checkRemoveItem(equip[2]);
+										}
+										else{
+											//print ("Debug 22");
+											//print("Unequip Shield");
+											this.equip[2] = this.temp_item;
+											this.temp_item = null;
+										}
+									}	
+									//print ("Debug 23");
+									this.temp_item = null;		
+								}
+								
+							}
+						}
+						
+					}else if(this.armorRegion_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y))){
+						
+						if (Event.current.isMouse && Input.GetMouseButtonDown (0)) {
+							this.temp_item = this.equip[3];
+							this.removeArmor ();
+							//print ("Debug 17");
+							return;
+							
+						} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
+							
+							if (this.equip[3] == null && temp_item is Armor) {
+								this.equip[3] = this.temp_item;
+								//print ("Debug 18");
+								EquipWeapons.setArmor((Armor)this.equip[3]);
+								this.removeItem(this.equip[3]);
+								this.temp_item = null;
+								
+							}else{
+								//print ("Debug 19");
+								this.last_slot.x = i;
+								this.last_slot.y = j;
+								
+								// If the slots are diferents drag the item to the new slot position
+								if (this.temp_item != null) {
+									if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
+										//print ("Debug 20");
+									} else {
+										if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){
+											//print ("Debug 21");
+											if(equip[3] == this.temp_item)
+												this.checkRemoveItem(equip[3]);
+										}
+										else{
+											//print ("Debug 22");
+											//print("Unequip Shield");
+											this.equip[3] = this.temp_item;
+											this.temp_item = null;
+										}
+									}	
+									//print ("Debug 23");
+									this.temp_item = null;		
+								}
+								
+							}
+						}
+						
+					}else if(this.bootRegion_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y))){
+						
+						if (Event.current.isMouse && Input.GetMouseButtonDown (0)) {
+							this.temp_item = this.equip[4];
+							this.removeBoot ();
+							//print ("Debug 17");
+							return;
+							
+						} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
+							
+							if (this.equip[4] == null && temp_item is Boots) {
+								this.equip[4] = this.temp_item;
+								//print ("Debug 18");
+								EquipWeapons.setBoots((Boots)this.equip[4]);
+								this.removeItem(this.equip[4]);
+								this.temp_item = null;
+								
+							}else{
+								//print ("Debug 19");
+								this.last_slot.x = i;
+								this.last_slot.y = j;
+								
+								// If the slots are diferents drag the item to the new slot position
+								if (this.temp_item != null) {
+									if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
+										//print ("Debug 20");
+									} else {
+										if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){
+											//print ("Debug 21");
+											if(equip[4] == this.temp_item)
+												this.checkRemoveItem(equip[4]);
+										}
+										else{
+											//print ("Debug 22");
+											//print("Unequip Shield");
+											this.equip[4] = this.temp_item;
 											this.temp_item = null;
 										}
 									}	
@@ -348,6 +568,12 @@ public class InventoryScript : MonoBehaviour {
 			this.equip[0] = item;
 		}else if(item is Shield){
 			this.equip[1] = item;
+		}else if(item is Helmet){
+			this.equip[2] = item;
+		}else if(item is Armor){
+			this.equip[3] = item;
+		}else if(item is Boots){
+			this.equip[4] = item;
 		}
 	}
 
@@ -355,11 +581,15 @@ public class InventoryScript : MonoBehaviour {
 
 
 		if(item != null && item is Weapon){
-				EquipWeapons.removeWeapon(item);
-			//this.cs.setFRZ(-1*(item.FRZ));
+			EquipWeapons.removeWeapon(item);
 		}else if(item != null && item is Shield){
-				EquipWeapons.removeShield(item);
-			//this.cs.setDEF((-1 * item.DEF));
+			EquipWeapons.removeShield(item);
+		}else if(item != null && item is Helmet){
+			EquipWeapons.removeHelmet(item);
+		}else if(item != null && item is Armor){
+			EquipWeapons.removeArmor(item);
+		}else if(item != null && item is Boots){
+			EquipWeapons.removeBoots(item);
 		}
 			
 	}
@@ -454,6 +684,21 @@ public class InventoryScript : MonoBehaviour {
 		this.equip[1] = null;
 	}
 
+	void removeHelmet(){
+		//print ("Unequip: " + this.equip[0].ItemTexture.name.ToString());
+		this.equip[2] = null;
+	}
+
+	void removeArmor(){
+		//print ("Unequip: " + this.equip[1].ItemTexture.name.ToString());
+		this.equip[3] = null;
+	}
+	
+	void removeBoot(){
+		//print ("Unequip: " + this.equip[1].ItemTexture.name.ToString());
+		this.equip[4] = null;
+	}
+
 
 
 	// ====================================
@@ -483,22 +728,47 @@ public class InventoryScript : MonoBehaviour {
 
 	void drawWeapon(){
 
+		//GUI.DrawTexture(this.shieldRegion_box,this.prueba);
 		if(this.equip[0] != null)
 			GUI.DrawTexture (this.weaponRegion_box, this.equip [0].ItemTexture);
 	}
 
 	void drawShield(){
-		
+
+		//GUI.DrawTexture(this.weaponRegion_box,this.prueba);
 		if(this.equip[1] != null)
 			GUI.DrawTexture (this.shieldRegion_box, this.equip [1].ItemTexture);
+	}
+
+	void drawHelmet(){
+		
+		//GUI.DrawTexture(this.helmetRegion_box,this.prueba);
+		if(this.equip[2] != null)
+			GUI.DrawTexture (this.helmetRegion_box, this.equip [2].ItemTexture);
+	}
+
+	void drawArmor(){
+		
+		//GUI.DrawTexture(this.armorRegion_box,this.prueba);
+		if(this.equip[3] != null)
+			GUI.DrawTexture (this.armorRegion_box, this.equip [3].ItemTexture);
+	}
+
+	void drawBoot(){
+		
+		//GUI.DrawTexture(this.bootRegion_box,this.prueba);
+		if(this.equip[4] != null)
+			GUI.DrawTexture (this.bootRegion_box, this.equip [4].ItemTexture);
 	}
 
 	void drawSlots(){
 
 		for (int i = 0; i < this.slot_row; i++)
-			for (int j = 0; j < this.slot_column; j++)
+			for (int j = 0; j < this.slot_column; j++){
 				this.slot [i, j].drawSlot (this.inventory_box.x,
 				                           this.inventory_box.y);
+				//GUI.DrawTexture(this.s[i,j],this.prueba);
+			}
 
 	}
 
@@ -512,19 +782,175 @@ public class InventoryScript : MonoBehaviour {
 		GUI.DrawTexture (this.inventory_box, this.inventoryTexture);
 	}
 
+	void drawAttributes(){
+
+		// LABEL LEVEL VALUES
+		GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (415), 
+		                     this.inventory_box.y + resizeSlotY (66), 
+		                     resizeSlotX (75), 
+		                     resizeSlotY (25)),
+		           this.cs.getLVL().ToString(),
+		           this.level_style);
+
+		// LABEL VIT VALUES
+		if(this.cs.getHealth () >= 0)
+			GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (122), 
+			                    this.inventory_box.y + resizeSlotY (132), 
+			                    resizeSlotX (75), 
+			                    resizeSlotY (25)),
+			           this.cs.getHealth ().ToString(),
+			           this.attributes_style);
+		else if(this.cs.getHealth () < 0)
+			GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (122), 
+			                     this.inventory_box.y + resizeSlotY (132), 
+			                     resizeSlotX (75), 
+			                     resizeSlotY (25)),
+			           "0",
+			           this.attributes_style);
+
+		// LABEL PM VALUES
+		GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (111), 
+		                     this.inventory_box.y + resizeSlotY (170), 
+		                     resizeSlotX (75), 
+		                     resizeSlotY (25)),
+		           Mathf.FloorToInt(this.cs.getMagic ()).ToString(),
+		           this.attributes_style);
+
+		// LABEL FRZ VALUES
+		GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (125), 
+		                     this.inventory_box.y + resizeSlotY (207), 
+		                     resizeSlotX (75), 
+		                     resizeSlotY (25)),
+		           this.cs.getFRZ ().ToString(),
+		           this.attributes_style);
+
+		// LABEL DEF VALUES
+		GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (125), 
+		                     this.inventory_box.y + resizeSlotY (245), 
+		                     resizeSlotX (75), 
+		                     resizeSlotY (25)),
+		           this.cs.getDEF ().ToString(),
+		           this.attributes_style);
+
+		// LABEL SPD VALUES
+		GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (125), 
+		                     this.inventory_box.y + resizeSlotY (285), 
+		                     resizeSlotX (75), 
+		                     resizeSlotY (25)),
+		           this.cs.getSPD ().ToString(),
+		           this.attributes_style);
+
+		// LABEL EXP VALUES
+		GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (124), 
+		                     this.inventory_box.y + resizeSlotY (325), 
+		                     resizeSlotX (150), 
+		                     resizeSlotY (25)),
+		           this.cs.getEXP().ToString(),
+		           this.exp_style);
+
+		// LABEL NEXT EXP VALUES
+		GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (58), 
+		                     this.inventory_box.y + resizeSlotY (441), 
+		                     resizeSlotX (150), 
+		                     resizeSlotY (25)),
+		           "Next: " + this.cs.getNextExpLevel().ToString(),
+		           this.level_style);
+	}
+
 
 	// Update is called once per frame
 	void OnGUI () {
 
-		if (this.show_inventory) {
+		if (show_inventory) {
 			this.drawInventory ();
+			this.drawAttributes();
 			this.drawSlots ();
 			this.drawItems ();
 			this.drawWeapon();
 			this.drawShield();
+			this.drawHelmet();
+			this.drawArmor();
+			this.drawBoot();
 			this.drawDragItem ();
 			this.inventoryEngine ();
 		}
+	}
+
+	// Method to adapt all inventory to the scene.
+	void resizeInventory(){
+
+		this.inventory_box.width = resizeWidth (this.inventory_box.width);
+		this.inventory_box.height = Screen.height;
+		
+		slotX = resizeSlotX(slotX);
+		slotY = resizeSlotY(slotY); 
+		slot_w = resizeSlotX(slot_w); 
+		slot_h = resizeSlotY(slot_h); 
+
+		weaponX = resizeSlotX(weaponX);
+		weaponY = resizeSlotY(weaponY);
+		weaponW = resizeSlotX(weaponW);
+		weaponH = resizeSlotY(weaponH);
+
+		shieldX = resizeSlotX(shieldX);
+		shieldY = resizeSlotY(shieldY);
+		shieldW = resizeSlotX(shieldW);
+		shieldH = resizeSlotY(shieldH);
+
+		helmetX = resizeSlotX(helmetX);
+		helmetY = resizeSlotY(helmetY);
+		helmetW = resizeSlotX(helmetW);
+		helmetH = resizeSlotY(helmetH);
+
+		if (this.character == "hombre") {
+			armorX = resizeSlotX(291);
+			armorY = resizeSlotY(213);
+			armorW = resizeSlotX(84);
+			armorH = resizeSlotY(115);
+		}else if (this.character == "mujer") {
+			armorX = resizeSlotX(293);
+			armorY = resizeSlotY(191);
+			armorW = resizeSlotX(68);
+			armorH = resizeSlotY(125);
+		}else if (this.character == "joven") {
+			armorX = resizeSlotX(290);
+			armorY = resizeSlotY(238);
+			armorW = resizeSlotX(85);
+			armorH = resizeSlotY(95);
+		}
+		
+		bootX = resizeSlotX(bootX);
+		bootY = resizeSlotY(bootY);
+		bootW = resizeSlotX(bootW);
+		bootH = resizeSlotY(bootH);	
+		
+	
+	}
+
+	public static void setShowInventory(bool show){
+		show_inventory = show;
+	}
+	
+	public static bool showInventory(){
+		return show_inventory;
+	}
+
+	private float resizeWidth(float width){
+		return ((Screen.width * width) / (reference_width * 1.0f));
+	}
+
+	private float resizeSlotX(float width){
+		return ((this.inventory_box.width * (width/this.inventoryTexture.width))/* / (reference_width * 1.0f)*/);
+	}
+
+
+	
+	private float resizeSlotY(float height){
+		return ((this.inventory_box.height * (height/this.inventoryTexture.height))/* / (reference_height * 1.0f)*/);
+	}
+
+	private float resizeHeight(float height){
+		return ((Screen.height * height) / (reference_height * 1.0f));
 	}
 	
 }
