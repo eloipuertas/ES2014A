@@ -31,7 +31,7 @@ public class Movement_graveler : MonoBehaviour {
 	
 	private string state = "None";
 	private string difficulty;
-	string[] states = {"Walk", "Find", "Attack", "Dead"};
+	//string[] states = {"Walk", "Find", "Attack", "Dead"};
 	private float rotationSpeed = 10.0f;
 	private float attackTime = 3.5f;
 	
@@ -52,8 +52,8 @@ public class Movement_graveler : MonoBehaviour {
 	//private GameObject NPCbar;
 	private Music_Engine_Script music;
 	
-	private int subir = 0;
-	private bool subirB = true;
+	//private int subir = 0;
+	//private bool subirB = true;
 
 	private GameObject health_sphere;
 	private GameObject mana_sphere;
@@ -321,13 +321,13 @@ public class Movement_graveler : MonoBehaviour {
 	
 	
 	
-	void OnTriggerEnter (Collider other){
+	/*void OnTriggerEnter (Collider other){
 		//print("Tocado."); 
-		/*if(other.gameObject == this.player){
+		if(other.gameObject == this.player){
 			this.player.GetComponent<CharacterScript>().setDamage(10);
 			print("Tocado."); 
 			Debug.Log("Debug:Tocado.");
 			System.Console.WriteLine("System:Tocado");	
-		}	*/
-	}
+		}	
+	}*/
 }
