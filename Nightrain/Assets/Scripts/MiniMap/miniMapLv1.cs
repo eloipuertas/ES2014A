@@ -34,7 +34,7 @@ public class miniMapLv1 : MonoBehaviour {
 	//This values is because the terrain has 150 of offset to the second terrain.
 	private int offset = 150;
 
-	private bool mapVisible = false;
+	private static bool mapVisible = false;
 
 	// Use this for initialization
 	void Start () {
@@ -57,10 +57,14 @@ public class miniMapLv1 : MonoBehaviour {
 	void Update () {
 		this.iconHalfSize = this.iconSize/2;
 
-		if (Input.GetKeyDown (KeyCode.M) && !this.mapVisible) 
-			this.mapVisible = true;
-		else if (Input.GetKeyDown (KeyCode.M) && this.mapVisible) 
-			this.mapVisible = false;
+		if (Input.GetKeyDown (KeyCode.M) && !mapVisible){ 
+			if(InventoryScript.showInventory()){
+				InventoryScript.setShowInventory(false);
+				mapVisible = true;
+			}else
+				mapVisible = true;
+		}else if (Input.GetKeyDown (KeyCode.M) && mapVisible) 
+			mapVisible = false;
 	}
 	
 
@@ -127,6 +131,13 @@ public class miniMapLv1 : MonoBehaviour {
 
 	}
 
+	public static void setShowMiniMap(bool show){
+		mapVisible = show;
+	}
+
+	public static bool showMiniMap(){
+		return mapVisible;
+	}
 
 	private float GetMapPos(float pos, float mapSize, float sceneSize) {
 		return (pos * mapSize/sceneSize);

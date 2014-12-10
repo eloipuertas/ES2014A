@@ -6,7 +6,9 @@ public class GameEngineLevel01 : MonoBehaviour {
 	private PauseMenuGUI gui;
 	
 	private RaycastHit getObjectScene;
-	private bool pause = false;
+	private static bool pause = false;
+	private bool minimap = false;
+	private bool inventory = false;
 	
 	// --- CHARACTER ---
 	private Transform prefab;
@@ -77,9 +79,8 @@ public class GameEngineLevel01 : MonoBehaviour {
 		
 		
 		this.c = this.ambientLight.light.color;
-		
-		//print ("Personaje:" + PlayerPrefs.GetString ("Character") + " Difficulty: " + PlayerPrefs.GetString ("Difficulty"));
-		
+		pause = false;
+
 	}
 	
 	// Update is called once per frame
@@ -94,12 +95,18 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	
 	void StateMachine(){
-		
-		if (Input.GetKeyDown (KeyCode.Escape) && !this.pause) {
-			this.pause = true;
+
+		if (Input.GetKeyDown (KeyCode.Escape) && !pause) {
+			pause = true;
+			minimap = miniMapLv1.showMiniMap();
+			inventory = InventoryScript.showInventory();
+			miniMapLv1.setShowMiniMap(false);
+			InventoryScript.setShowInventory(false);
 			Time.timeScale = 0;
-		} else if (Input.GetKeyDown (KeyCode.Escape) && this.pause) {
-			this.pause = false;
+		} else if (Input.GetKeyDown (KeyCode.Escape) && pause) {
+			pause = false;
+			miniMapLv1.setShowMiniMap(minimap);
+			InventoryScript.setShowInventory(inventory);
 			Time.timeScale = 1;
 		}
 		
@@ -168,13 +175,13 @@ public class GameEngineLevel01 : MonoBehaviour {
 	
 	void PauseScreen(){
 		
-		if (this.pause && !this.cs.isCritical ())
+		if (pause && !this.cs.isCritical ())
 			this.ambientLight.light.color = new Color (.2f, .2f, .2f);
-		else if (!this.pause && !this.cs.isCritical ())
+		else if (!pause && !this.cs.isCritical ())
 			this.ambientLight.light.color = new Color (1.0f, 1.0f, 1.0f);
-		else if (this.pause && this.cs.isCritical ())
+		else if (pause && this.cs.isCritical ())
 			this.ambientLight.light.color = new Color (.5f, .25f, .5f);
-		else if (!this.pause && this.cs.isCritical ())
+		else if (!pause && this.cs.isCritical ())
 			this.CautionScreen ();
 	}
 	
@@ -199,13 +206,17 @@ public class GameEngineLevel01 : MonoBehaviour {
 		}
 		
 	}
+
+	public static bool isPausedGame(){
+		return pause;
+	}
 	
 	void OnGUI(){	
-		if (this.pause) 
-			this.pause = this.gui.pauseMenu (this.pause);
+		if (pause) 
+			pause = this.gui.pauseMenu (pause);
 		
-		this.gui.confirmMenu(this.pause);
-		this.gui.optionKeyword (this.pause);
+		this.gui.confirmMenu(pause);
+		this.gui.optionKeyword (pause);
 	}
 
 	public static float getTimePlay(){

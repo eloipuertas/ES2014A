@@ -131,7 +131,7 @@ public class HealthBarScript : MonoBehaviour {
 		if(this.health == 1.0f){
 			this.cs.setHealth(0);
 		}else{
-			this.health = 1 - (((this.cs.getHealth()+this.cs.getVIT()) / this.cs.getMaxHealth()));
+			this.health = 1 - ((this.cs.getHealth() / this.cs.getMaxHealth()));
 			this.HealthBarMaterial.SetFloat("_Cutoff", health);
 			this.DamageBarMaterial.SetFloat("_Cutoff", health);
 		}
@@ -142,7 +142,7 @@ public class HealthBarScript : MonoBehaviour {
 	// Este metodo debera ser implementado mas adelante con el tema de magias etc
 	void UpdateMagic () {
 
-		this.magic = 1 - (((this.cs.getMagic()+this.cs.getPM()) / this.cs.getMaxMagic()));
+		this.magic = 1 - (this.cs.getMagic() / this.cs.getMaxMagic());
 
 		if(this.magic >= 0.9f)
 			this.low_magic = true;

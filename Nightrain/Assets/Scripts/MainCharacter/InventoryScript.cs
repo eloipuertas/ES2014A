@@ -10,7 +10,7 @@ public class InventoryScript : MonoBehaviour {
 	public Rect inventory_box;
 	private List<Item> list_inventory;
 	private Item[] equip;
-	private bool show_inventory = false;
+	private static bool show_inventory = false;
 
 	// ========== SLOT INVENTORY ============
 
@@ -122,10 +122,15 @@ public class InventoryScript : MonoBehaviour {
 
 	void Update(){
 
-		if (Input.GetKeyDown (KeyCode.I) && !this.show_inventory) 
-			this.show_inventory = true;
-		else if(Input.GetKeyDown (KeyCode.I) && this.show_inventory)
-			this.show_inventory = false;
+		if (Input.GetKeyDown (KeyCode.I) && !show_inventory){ 
+			if(miniMapLv1.showMiniMap()){
+				miniMapLv1.setShowMiniMap(false);
+				show_inventory = true;
+			}else
+				show_inventory = true;
+		}else if(Input.GetKeyDown (KeyCode.I) && show_inventory){
+			show_inventory = false;
+		}
 
 		// If cursor is inside inventory action "Don't walk" is outside walk
 		if(this.cm != null)
@@ -846,7 +851,7 @@ public class InventoryScript : MonoBehaviour {
 	// Update is called once per frame
 	void OnGUI () {
 
-		if (this.show_inventory) {
+		if (show_inventory) {
 			this.drawInventory ();
 			this.drawAttributes();
 			this.drawSlots ();
@@ -910,6 +915,14 @@ public class InventoryScript : MonoBehaviour {
 		bootH = resizeSlotY(bootH);	
 		
 	
+	}
+
+	public static void setShowInventory(bool show){
+		show_inventory = show;
+	}
+	
+	public static bool showInventory(){
+		return show_inventory;
 	}
 
 	private float resizeWidth(float width){
