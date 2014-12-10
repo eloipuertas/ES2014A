@@ -51,6 +51,8 @@ public class miniMapLv1 : MonoBehaviour {
 		this.bossIcon = Resources.Load<Texture2D>("MiniMap/boss");
 		this.chestIcon = Resources.Load<Texture2D>("MiniMap/chest");
 		this.openChestIcon = Resources.Load<Texture2D>("MiniMap/chest_open");
+
+		mapVisible = false;
 	}
 	
 	// Update is called once per frame

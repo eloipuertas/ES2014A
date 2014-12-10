@@ -389,7 +389,11 @@ public class CharacterScript : MonoBehaviour {
 
 	// Method to Damage the 'Character'
 	public void setDamage(int damage){
-		this.bar_health -= damage;
+
+		if(this.bar_health >= 0)
+			this.bar_health -= damage;
+		else if(this.bar_health < 0)
+			this.bar_health = 0;
 		// Reproducimos un sonido de dolor del personaje al recibir el golpe
 		if (music != null) music.play_Player_Hurt ();
 	}

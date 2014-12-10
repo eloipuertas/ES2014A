@@ -107,10 +107,10 @@ public class HealthBarScript : MonoBehaviour {
 		VIT = this.cs.getMemoryCard ().load.loadVIT ();
 		PM = this.cs.getMemoryCard ().load.loadPM ();
 
-		this.resize_health = this.scale * Mathf.Pow((VIT + this.cs.getVIT())/ this.max_health, -1);
-		this.resize_bar_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.max_health, -1);
-		this.resize_magic = this.scale * Mathf.Pow((PM + this.cs.getPM()) / this.max_magic, -1);
-		this.resize_bar_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.max_magic, -1);
+		this.resize_health = this.scale * Mathf.Pow((VIT/* + this.cs.getVIT()*/)/ this.max_health, -1);
+		//this.resize_bar_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.max_health, -1);
+		this.resize_magic = this.scale * Mathf.Pow((PM /*+ this.cs.getPM()*/) / this.max_magic, -1);
+		//this.resize_bar_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.max_magic, -1);
 
 		this.UpdateHealth ();
 		this.UpdateMagic ();
@@ -168,7 +168,7 @@ public class HealthBarScript : MonoBehaviour {
 			// HEALTH BAR ZONE	
 			Rect healthbar_box = new Rect ((this.AvatarTexture.width / this.scale) - 2,
 			                                35, 
-			                                this.HealthBarTexture.width / this.resize_bar_health, 
+			                                this.HealthBarTexture.width / this.resize_health, 
 			                                this.HealthBarTexture.height*1.2f / this.scale);
 
 			if(!critical)
@@ -209,7 +209,7 @@ public class HealthBarScript : MonoBehaviour {
 
 			Rect magicbar_box = new Rect ((this.AvatarTexture.width / this.scale) - 3,
 	                             		   66, 
-			                              this.MagicBarTexture.width / this.resize_bar_magic, 
+			                              this.MagicBarTexture.width / this.resize_magic, 
 			                               (this.MagicBarTexture.height*1.2f / this.scale) - 8);
 
 			Graphics.DrawTexture (magicbar_box, this.MagicBarTexture, this.MagicBarMaterial);

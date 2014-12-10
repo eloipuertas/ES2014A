@@ -113,6 +113,8 @@ public class InventoryScript : MonoBehaviour {
 		this.level_style.normal.textColor = new Color (236f/255f,219f/255f,31f/255f);
 		this.level_style.fontSize = 13;
 
+		show_inventory = false;
+
 		// CREATE INVENTORY
 		this.resizeInventory ();
 		this.createInventorySlot ();
@@ -791,12 +793,20 @@ public class InventoryScript : MonoBehaviour {
 		           this.level_style);
 
 		// LABEL VIT VALUES
-		GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (122), 
-		                    this.inventory_box.y + resizeSlotY (132), 
-		                    resizeSlotX (75), 
-		                    resizeSlotY (25)),
-		           this.cs.getHealth ().ToString(),
-		           this.attributes_style);
+		if(this.cs.getHealth () >= 0)
+			GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (122), 
+			                    this.inventory_box.y + resizeSlotY (132), 
+			                    resizeSlotX (75), 
+			                    resizeSlotY (25)),
+			           this.cs.getHealth ().ToString(),
+			           this.attributes_style);
+		else if(this.cs.getHealth () < 0)
+			GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (122), 
+			                     this.inventory_box.y + resizeSlotY (132), 
+			                     resizeSlotX (75), 
+			                     resizeSlotY (25)),
+			           "0",
+			           this.attributes_style);
 
 		// LABEL PM VALUES
 		GUI.Label (new Rect (this.inventory_box.x + resizeSlotX (111), 
