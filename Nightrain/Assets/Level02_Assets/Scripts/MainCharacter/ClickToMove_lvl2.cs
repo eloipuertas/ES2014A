@@ -134,6 +134,8 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 
 	public void teleport(Vector3 position) {
 		destinationPosition = position;
+		speed = 0.0f;
+		anim.SetFloat ("speed", speed);
 	}
 
 	private bool isAttacking() {
