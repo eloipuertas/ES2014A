@@ -53,6 +53,8 @@ public class Movement : MonoBehaviour {
 	private Music_Engine_Script music;
 	
 	private CharacterController controller;
+
+	private bool isDead = false;
 	
 	
 	// Metodo que se llama cuando una ruta ha sido calculada
@@ -231,7 +233,8 @@ public class Movement : MonoBehaviour {
 	public void setDamage(float damage){
 		npcAttributes.setDamage (damage);
 		//this.NPCbar.renderer.material.SetFloat("_Cutoff", 1 - (this.health/this.max_health));
-		if (npcAttributes.getHealth() < 1) {
+		if (npcAttributes.getHealth() < 1 && !isDead) {
+			this.isDead = true;
 			state = "Dead";
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;

@@ -17,8 +17,6 @@ public class CharacterScript : MonoBehaviour {
 
 
 	// === ATTRIBUTES ===
-	private int vit = 0;
-	private int pm = 0;
 	private int strength;
 	private int defense;
 	private int speed;
@@ -198,20 +196,23 @@ public class CharacterScript : MonoBehaviour {
 
 	// Set actual strength value.
 	public void setVIT(int VIT){
-		this.vit += VIT;
-		this.bar_health += VIT;
-		
+
+		/*this.bar_health += VIT;
+		this.max_health += VIT;
+
 		if(this.bar_health > 510)
 			this.bar_health = 510;
 		else if(this.bar_health <= 0)
-			this.bar_health = 0/*this.load.loadVIT()*/;
+			this.bar_health = 0;*/
 
-		this.max_health = this.bar_health;
+		//this.bar_health += VIT;
+		this.max_health += VIT;
 		
-	}
+		if(this.max_health > 510)
+			this.max_health = 510;
+		/*else if(this.bar_health <= 0)
+			this.bar_health = 0;*/
 
-	public int getVIT(){
-		return this.vit;
 	}
 	
 	// Get the max value of health in the game.
@@ -236,20 +237,21 @@ public class CharacterScript : MonoBehaviour {
 
 	// Set actual strength value.
 	public void setPM(int PM){
-		this.pm += PM;
-		this.bar_magic += PM;
+
+		this.max_magic += PM;
+		
+		if(this.max_magic > 510)
+			this.max_magic = 510;
+
+		/*this.bar_magic += PM;
 		
 		if(this.bar_magic > 510)
 			this.bar_magic = 510;
 		else if(this.bar_magic <= 0)
 			this.bar_magic = this.load.loadPM();
 		
-		this.max_magic = this.bar_magic;
+		this.max_magic = this.bar_magic;*/
 		
-	}
-
-	public int getPM(){
-		return this.pm;
 	}
 
 	// Function magic regeneration
@@ -389,13 +391,9 @@ public class CharacterScript : MonoBehaviour {
 
 	// Method to Damage the 'Character'
 	public void setDamage(int damage){
-
-		if(this.bar_health >= 0)
-			this.bar_health -= damage;
-		else if(this.bar_health < 0)
-			this.bar_health = 0;
+		this.bar_health -= damage;
 		// Reproducimos un sonido de dolor del personaje al recibir el golpe
-		if (music != null) music.play_Player_Hurt ();
+		if (music != null && this.bar_health > 0) music.play_Player_Hurt ();
 	}
 
 	// Method to Spell magic the 'Character'
@@ -517,7 +515,13 @@ public class CharacterScript : MonoBehaviour {
 	void updateAttributes(int VIT, int PM, int STR, int DEF, int SPD){
 
 		this.level = this.load.loadLVL ();
-		if(this.bar_health + VIT < 510) this.bar_health += VIT; else this.bar_health = 510;
+		if (this.bar_health + VIT < 510) {
+			this.bar_health += VIT;
+			this.max_health += VIT;
+		}else{
+			this.bar_health = 510;
+			this.max_health = 510;
+		}
 		if(this.bar_magic + PM < 510) this.bar_magic += PM; else this.bar_magic = 510;
 		if(this.strength + STR < 255) this.strength += STR; else this.strength = 255;
 		if(this.defense + DEF < 255) this.defense += DEF; else this.defense = 255;

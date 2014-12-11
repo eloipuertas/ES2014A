@@ -47,6 +47,9 @@ public class GameEngineLevel01 : MonoBehaviour {
 
 	// Time Played
 	private static float time_play = 0;
+
+	// Music
+	private Music_Engine_Script music;
 	
 	// Use this for initialization
 	void Awake () {
@@ -72,7 +75,9 @@ public class GameEngineLevel01 : MonoBehaviour {
 		
 		this.camera2 = GameObject.FindGameObjectWithTag ("CameraGoal");
 		this.camera2.SetActive (false);
-		
+
+		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
+
 		// --- LOAD RESOURCES TO MENU ---
 		gui = new PauseMenuGUI ();
 		gui.initResources ();
@@ -121,6 +126,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 			delay_death -= Time.deltaTime;
 			if(!anim_death){
 				this.cm.death();
+				this.music.play_Player_Die();
 				anim_death = true;
 			}
 			if(delay_death < 0)

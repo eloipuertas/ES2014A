@@ -18,7 +18,7 @@ public class ClickToMove : MonoBehaviour {
 	private Component music;
 	private float rotationSpeed = 10.0f;
 	private float attackTime = 0.90f;
-	private float MIN_ENEMY_DIST =  7f;
+	private float MIN_ENEMY_DIST =  4.6f;
 	/* =================================== */
 
 	/* == PathFinding ==================== */
@@ -44,6 +44,9 @@ public class ClickToMove : MonoBehaviour {
 	//FIX TO INVENTORY
 	private bool walk = true;
 	// ====================================================
+
+	private float timer_w_attack = 1f;
+
 
 	public void Start () {
 		player = GameObject.FindWithTag("Player");
@@ -87,14 +90,12 @@ public class ClickToMove : MonoBehaviour {
 		} else {
 			// We can get here from previous attack animation!
 
-			if(anim.GetBool("w_attack")){
+			if(anim.GetBool("w_attack") && timer_w_attack <= 0f){
 				//Debug.Log ("@Udate: w_attack true -> stop WATTACK/WALK");
 				anim.SetBool("w_attack", false);
 				anim.SetBool ("w_stop",true);
 				anim.SetBool ("walk", false);
-			} 
-
-			else if(anim.GetBool("attack")){
+			}else if(anim.GetBool("attack")){
 				//Debug.Log ("@Udate: attack true -> stop ATTACK");
 				anim.SetBool("attack", false);
 			}
@@ -102,16 +103,17 @@ public class ClickToMove : MonoBehaviour {
 	}
 
 
-
 	public void FixedUpdate () {
 
+		Ray ray;
+		float hitdist;
+		float distance_to_enemy;
+
 		if (Input.GetMouseButton(0)) {
+
 			done = false; //assume every click is a new target -> done flag restart
-
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			float hitdist;
-
-
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			
 			//deteccion movimiento
 			if (playerPlane.Raycast(ray, out hitdist)){
 				targetPoint = ray.GetPoint(hitdist);
@@ -123,32 +125,83 @@ public class ClickToMove : MonoBehaviour {
 				}
 			}
 
+			if (Input.GetMouseButton(1)){	
 
+				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				
+				//Enemy Detection (was the pointed target an Enemy? -> Attack STATE)
+				if(Physics.Raycast(ray, out hitCheck, 100f)){
+					if(hitCheck.collider.gameObject.tag.Equals("Enemy")){
+						enemy = hitCheck.collider.gameObject;
+						
+						distance_to_enemy = Vector3.Distance(player.transform.position,enemy.transform.position);
+						
+						if(distance_to_enemy < 4.75f)
+							state = "Attack";
+						
+					}
+				}
+				
+				//Boss Detection (was the pointed target an Boss? -> Attack STATE)
+				if(Physics.Raycast(ray, out hitCheck, 100f)){
+					if(hitCheck.collider.gameObject.tag.Equals("Boss")){
+						enemy = hitCheck.collider.gameObject;
+						//Debug.Log(">> Boss targeted -> state = Attack");
+						distance_to_enemy = Vector3.Distance(player.transform.position,enemy.transform.position);
+						
+						if(distance_to_enemy < 4.75f)
+							state = "Attack";
+						//Debug.DrawRay(transform.position, transform.forward, Color.green);
+					}
+				}
+			}
+
+			if(anim.GetBool("w_attack") && timer_w_attack <= 0f){
+				//Debug.Log ("@Udate: w_attack true -> stop WATTACK/WALK");
+				anim.SetBool("w_attack", false);
+				anim.SetBool ("w_stop",true);
+				anim.SetBool ("walk", false);
+			} else if(timer_w_attack > 0){
+				timer_w_attack -= Time.deltaTime;
+			}
+
+		}else if (Input.GetMouseButton(1)){
+			
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			
 			//Enemy Detection (was the pointed target an Enemy? -> Attack STATE)
 			if(Physics.Raycast(ray, out hitCheck, 100f)){
 				if(hitCheck.collider.gameObject.tag.Equals("Enemy")){
 					enemy = hitCheck.collider.gameObject;
-					//Debug.Log(">> Enemy targeted -> state = Attack");
-					state = "Attack";
-					//Debug.DrawRay(transform.position, transform.forward, Color.green);
+					
+					distance_to_enemy = Vector3.Distance(player.transform.position,enemy.transform.position);
+					
+					if(distance_to_enemy < 4.75f)
+						state = "Attack";
+					
 				}
 			}
-
+			
 			//Boss Detection (was the pointed target an Boss? -> Attack STATE)
 			if(Physics.Raycast(ray, out hitCheck, 100f)){
 				if(hitCheck.collider.gameObject.tag.Equals("Boss")){
 					enemy = hitCheck.collider.gameObject;
 					//Debug.Log(">> Boss targeted -> state = Attack");
-					state = "Attack";
+					distance_to_enemy = Vector3.Distance(player.transform.position,enemy.transform.position);
+					
+					if(distance_to_enemy < 4.75f)
+						state = "Attack";
 					//Debug.DrawRay(transform.position, transform.forward, Color.green);
 				}
 			}
+		}else if(Input.GetMouseButtonUp(1))
+			this.timer_w_attack = 1f;
 
-			// If is outside the inventory region the character recalculate path
-			if(walk)
-				//Once we've noticed if the target is an enemy or targetPosition, lets repath
-				computePath(targetPosition); //Start a new path to the targetPosition, return the result to the OnPathComplete function
-		}
+		// If is outside the inventory region the character recalculate path
+		if(walk)
+			//Once we've noticed if the target is an enemy or targetPosition, lets repath
+			computePath(targetPosition); //Start a new path to the targetPosition, return the result to the OnPathComplete function
+	
 
 
 	}
@@ -172,7 +225,6 @@ public class ClickToMove : MonoBehaviour {
 		} else if(state.Equals("Attack") && enemy!=null){
 			
 			float distance_to_enemy = Vector3.Distance(player.transform.position, enemy.transform.position);
-			//Debug.Log("@tracking -> Distance To Enemy:" + distance_to_enemy);
 			
 			if (distance_to_enemy <= MIN_ENEMY_DIST ) {
 				enemy_closer = true;
@@ -222,15 +274,17 @@ public class ClickToMove : MonoBehaviour {
 
 		if (Time.time > attackTime && enemy != null) {
 
+			float distance_to_enemy = Vector3.Distance(player.transform.position, enemy.transform.position);
 			//ENEMY DAMAGE
-			if(enemy.tag == "Boss") enemy.GetComponent<Movement>().setDamage( character.computeDamage() );
-			else if(enemy.tag == "Enemy") enemy.GetComponent<Movement_graveler>().setDamage( character.computeDamage() );
+			if(enemy.tag == "Boss" && distance_to_enemy <= 7f) enemy.GetComponent<Movement>().setDamage( character.computeDamage() );
+			else if(enemy.tag == "Enemy" && distance_to_enemy <= 5f) enemy.GetComponent<Movement_graveler>().setDamage( character.computeDamage() );
 
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.SendMessage("play_Player_Sword_Attack");
 			}
 		}
+
 	}
 
 

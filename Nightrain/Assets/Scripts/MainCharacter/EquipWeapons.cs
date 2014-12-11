@@ -157,6 +157,7 @@ public class EquipWeapons : MonoBehaviour {
 			if(i.id == a.id){
 				cs.setDEF(-a.DEF);
 				cs.setVIT(-a.VIT);
+				print ("Remove Armor: " + -a.VIT);
 				cs.setPM(-a.PM);
 				a = null;
 			}
