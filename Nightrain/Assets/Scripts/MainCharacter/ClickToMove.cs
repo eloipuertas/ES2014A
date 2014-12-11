@@ -18,7 +18,11 @@ public class ClickToMove : MonoBehaviour {
 	private Component music;
 	private float rotationSpeed = 10.0f;
 	private float attackTime = 0.90f;
+<<<<<<< HEAD
 	private float MIN_ENEMY_DIST =  4.6f;
+=======
+	private float MIN_ENEMY_DIST =  7f;
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 	/* =================================== */
 
 	/* == PathFinding ==================== */
@@ -45,9 +49,12 @@ public class ClickToMove : MonoBehaviour {
 	private bool walk = true;
 	// ====================================================
 
+<<<<<<< HEAD
 	private float timer_w_attack = 1f;
 
 
+=======
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 	public void Start () {
 		player = GameObject.FindWithTag("Player");
 		music = GameObject.Find("MusicEngine").GetComponent("Music_Engine_Script");
@@ -90,12 +97,22 @@ public class ClickToMove : MonoBehaviour {
 		} else {
 			// We can get here from previous attack animation!
 
+<<<<<<< HEAD
 			if(anim.GetBool("w_attack") && timer_w_attack <= 0f){
+=======
+			if(anim.GetBool("w_attack")){
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 				//Debug.Log ("@Udate: w_attack true -> stop WATTACK/WALK");
 				anim.SetBool("w_attack", false);
 				anim.SetBool ("w_stop",true);
 				anim.SetBool ("walk", false);
+<<<<<<< HEAD
 			}else if(anim.GetBool("attack")){
+=======
+			} 
+
+			else if(anim.GetBool("attack")){
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 				//Debug.Log ("@Udate: attack true -> stop ATTACK");
 				anim.SetBool("attack", false);
 			}
@@ -103,17 +120,29 @@ public class ClickToMove : MonoBehaviour {
 	}
 
 
+<<<<<<< HEAD
 	public void FixedUpdate () {
+=======
+
+	public void FixedUpdate () {
+
+		if (Input.GetMouseButton(0)) {
+			done = false; //assume every click is a new target -> done flag restart
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 
 		Ray ray;
 		float hitdist;
 		float distance_to_enemy;
 
+<<<<<<< HEAD
 		if (Input.GetMouseButton(0)) {
 
 			done = false; //assume every click is a new target -> done flag restart
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			
+=======
+
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 			//deteccion movimiento
 			if (playerPlane.Raycast(ray, out hitdist)){
 				targetPoint = ray.GetPoint(hitdist);
@@ -125,6 +154,7 @@ public class ClickToMove : MonoBehaviour {
 				}
 			}
 
+<<<<<<< HEAD
 			if (Input.GetMouseButton(1)){	
 
 				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -169,10 +199,14 @@ public class ClickToMove : MonoBehaviour {
 			
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			
+=======
+
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 			//Enemy Detection (was the pointed target an Enemy? -> Attack STATE)
 			if(Physics.Raycast(ray, out hitCheck, 100f)){
 				if(hitCheck.collider.gameObject.tag.Equals("Enemy")){
 					enemy = hitCheck.collider.gameObject;
+<<<<<<< HEAD
 					
 					distance_to_enemy = Vector3.Distance(player.transform.position,enemy.transform.position);
 					
@@ -182,11 +216,20 @@ public class ClickToMove : MonoBehaviour {
 				}
 			}
 			
+=======
+					//Debug.Log(">> Enemy targeted -> state = Attack");
+					state = "Attack";
+					//Debug.DrawRay(transform.position, transform.forward, Color.green);
+				}
+			}
+
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 			//Boss Detection (was the pointed target an Boss? -> Attack STATE)
 			if(Physics.Raycast(ray, out hitCheck, 100f)){
 				if(hitCheck.collider.gameObject.tag.Equals("Boss")){
 					enemy = hitCheck.collider.gameObject;
 					//Debug.Log(">> Boss targeted -> state = Attack");
+<<<<<<< HEAD
 					distance_to_enemy = Vector3.Distance(player.transform.position,enemy.transform.position);
 					
 					if(distance_to_enemy < 4.75f)
@@ -203,6 +246,19 @@ public class ClickToMove : MonoBehaviour {
 			computePath(targetPosition); //Start a new path to the targetPosition, return the result to the OnPathComplete function
 	
 
+=======
+					state = "Attack";
+					//Debug.DrawRay(transform.position, transform.forward, Color.green);
+				}
+			}
+
+			// If is outside the inventory region the character recalculate path
+			if(walk)
+				//Once we've noticed if the target is an enemy or targetPosition, lets repath
+				computePath(targetPosition); //Start a new path to the targetPosition, return the result to the OnPathComplete function
+		}
+
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 
 	}
 
@@ -225,6 +281,10 @@ public class ClickToMove : MonoBehaviour {
 		} else if(state.Equals("Attack") && enemy!=null){
 			
 			float distance_to_enemy = Vector3.Distance(player.transform.position, enemy.transform.position);
+<<<<<<< HEAD
+=======
+			//Debug.Log("@tracking -> Distance To Enemy:" + distance_to_enemy);
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 			
 			if (distance_to_enemy <= MIN_ENEMY_DIST ) {
 				enemy_closer = true;
@@ -254,6 +314,7 @@ public class ClickToMove : MonoBehaviour {
 		if (Vector3.Distance (transform.position,path.vectorPath[currentWaypoint]) < nextWaypointDistance) {
 			currentWaypoint++;
 			return;
+<<<<<<< HEAD
 		}
 
 	}
@@ -285,9 +346,69 @@ public class ClickToMove : MonoBehaviour {
 			}
 		}
 
+=======
+		}
+
 	}
 
 
+	public void attack(){
+		//Debug.Log ("@attack!!");
+		Vector3 p = player.transform.position;
+
+		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(p - transform.position), rotationSpeed * Time.deltaTime);
+
+		anim.SetBool ("w_stop",true);
+		anim.SetBool ("walk", false);
+		anim.SetBool ("attack", true);
+		anim.SetBool ("w_attack", true);
+		//anim.SetBool ("run_attack", true);
+
+
+		if (Time.time > attackTime && enemy != null) {
+
+			//ENEMY DAMAGE
+			if(enemy.tag == "Boss") enemy.GetComponent<Movement>().setDamage( character.computeDamage() );
+			else if(enemy.tag == "Enemy") enemy.GetComponent<Movement_graveler>().setDamage( character.computeDamage() );
+
+			attackTime = Time.time + 1.0f;
+			if(music != null) {
+				music.SendMessage("play_Player_Sword_Attack");
+			}
+		}
+	}
+
+
+	public void death(){
+	
+		anim.SetBool ("w_stop",true);
+		anim.SetBool ("walk", false);
+		anim.SetBool ("attack", false);
+		anim.SetBool ("w_attack", false);
+		anim.SetBool ("death", true);
+		walk = false;
+	}
+	// ====================================================
+	// UPDATE TO INVENTORY FIX
+
+	public void dontWalk(){
+
+		//Debug.Log ("@don't walk!!");
+
+		anim.SetBool ("w_stop",true);
+		anim.SetBool ("walk", false);
+		anim.SetBool ("attack", false);
+		anim.SetBool ("w_attack", false);
+
+		walk = false;
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
+	}
+
+	public void Walk(){
+		walk = true;
+	}
+
+<<<<<<< HEAD
 	public void death(){
 	
 		anim.SetBool ("w_stop",true);
@@ -316,6 +437,8 @@ public class ClickToMove : MonoBehaviour {
 		walk = true;
 	}
 
+=======
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 	// ====================================================
 
 

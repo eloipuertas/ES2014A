@@ -106,10 +106,17 @@ public class HealthBarScript : MonoBehaviour {
 
 		VIT = this.cs.getMemoryCard ().load.loadVIT ();
 		PM = this.cs.getMemoryCard ().load.loadPM ();
+<<<<<<< HEAD
 		//print ("VIT:" + VIT + " GetHealth: " + this.cs.getHealth () + " GetMaxHealth: " + this.cs.getMaxHealth () + " MaxHealth: " + this.max_health);
 		this.resize_health = this.scale * Mathf.Pow((this.cs.getMaxHealth()/*VIT/* + this.cs.getVIT()*/)/ this.max_health, -1);
 		//this.resize_bar_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.max_health, -1);
 		this.resize_magic = this.scale * Mathf.Pow((this.cs.getMaxMagic() /*+ this.cs.getPM()*/) / this.max_magic, -1);
+=======
+
+		this.resize_health = this.scale * Mathf.Pow((VIT/* + this.cs.getVIT()*/)/ this.max_health, -1);
+		//this.resize_bar_health = this.scale * Mathf.Pow(this.cs.getHealth() / this.max_health, -1);
+		this.resize_magic = this.scale * Mathf.Pow((PM /*+ this.cs.getPM()*/) / this.max_magic, -1);
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 		//this.resize_bar_magic = this.scale * Mathf.Pow(this.cs.getMagic() / this.max_magic, -1);
 
 		this.UpdateHealth ();

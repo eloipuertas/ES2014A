@@ -17,6 +17,8 @@ public class CharacterScript : MonoBehaviour {
 
 
 	// === ATTRIBUTES ===
+	private int vit = 0;
+	private int pm = 0;
 	private int strength;
 	private int defense;
 	private int speed;
@@ -196,6 +198,7 @@ public class CharacterScript : MonoBehaviour {
 
 	// Set actual strength value.
 	public void setVIT(int VIT){
+<<<<<<< HEAD
 
 		/*this.bar_health += VIT;
 		this.max_health += VIT;
@@ -213,6 +216,22 @@ public class CharacterScript : MonoBehaviour {
 		/*else if(this.bar_health <= 0)
 			this.bar_health = 0;*/
 
+=======
+		this.vit += VIT;
+		this.bar_health += VIT;
+		
+		if(this.bar_health > 510)
+			this.bar_health = 510;
+		else if(this.bar_health <= 0)
+			this.bar_health = 0/*this.load.loadVIT()*/;
+
+		this.max_health = this.bar_health;
+		
+	}
+
+	public int getVIT(){
+		return this.vit;
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 	}
 	
 	// Get the max value of health in the game.
@@ -237,6 +256,7 @@ public class CharacterScript : MonoBehaviour {
 
 	// Set actual strength value.
 	public void setPM(int PM){
+<<<<<<< HEAD
 
 		this.max_magic += PM;
 		
@@ -244,16 +264,31 @@ public class CharacterScript : MonoBehaviour {
 			this.max_magic = 510;
 
 		/*this.bar_magic += PM;
+=======
+		this.pm += PM;
+		this.bar_magic += PM;
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 		
 		if(this.bar_magic > 510)
 			this.bar_magic = 510;
 		else if(this.bar_magic <= 0)
 			this.bar_magic = this.load.loadPM();
 		
+<<<<<<< HEAD
 		this.max_magic = this.bar_magic;*/
 		
 	}
 
+=======
+		this.max_magic = this.bar_magic;
+		
+	}
+
+	public int getPM(){
+		return this.pm;
+	}
+
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 	// Function magic regeneration
 	public void magicRegeneration(float magic){
 		if ((this.bar_magic + magic) < this.max_magic)
@@ -391,7 +426,11 @@ public class CharacterScript : MonoBehaviour {
 
 	// Method to Damage the 'Character'
 	public void setDamage(int damage){
-		this.bar_health -= damage;
+
+		if(this.bar_health >= 0)
+			this.bar_health -= damage;
+		else if(this.bar_health < 0)
+			this.bar_health = 0;
 		// Reproducimos un sonido de dolor del personaje al recibir el golpe
 		if (music != null && this.bar_health > 0) music.play_Player_Hurt ();
 	}

@@ -7,7 +7,10 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip npc_golem_agresive;
 	public AudioClip character_attack;
 	public AudioClip[] character_hurt;
+<<<<<<< HEAD
 	public AudioClip[] character_die;
+=======
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 	public AudioClip character_steps;
 	public AudioClip barrel_open;
 	public AudioClip button_click;
@@ -49,7 +52,10 @@ public class Music_Engine_Script : MonoBehaviour {
 	private string character;
 	private bool normal_audio = true;
 	private float player_hurt = -0.5f;
+<<<<<<< HEAD
 	private float player_die = -0.5f;
+=======
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 	
 	// Use this for initialization
 	void Start () {
@@ -80,6 +86,7 @@ public class Music_Engine_Script : MonoBehaviour {
 	
 	public void play_Player_Hurt() {
 		//Debug.Log ("Reproduciendo sonido");
+<<<<<<< HEAD
 		if(this.character == "hombre") {
 			audio.PlayOneShot (character_hurt[0]);
 		}
@@ -102,6 +109,19 @@ public class Music_Engine_Script : MonoBehaviour {
 		}
 		else if(this.character == "joven") {
 			audio.PlayOneShot (character_die[2]);
+=======
+		if(this.character == "hombre" && Time.time-player_hurt>0.5f) {
+			audio.PlayOneShot (character_hurt[0]);
+			player_hurt = Time.time;
+		}
+		else if(this.character == "mujer" && Time.time-player_hurt>0.5f) {
+			audio.PlayOneShot (character_hurt[1]);
+			player_hurt = Time.time;
+		}
+		else if(this.character == "joven" && Time.time-player_hurt>0.5f) {
+			audio.PlayOneShot (character_hurt[2]);
+			player_hurt = Time.time;
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 		}
 	}
 	

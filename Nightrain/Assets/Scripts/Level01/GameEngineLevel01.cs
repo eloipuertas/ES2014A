@@ -47,9 +47,12 @@ public class GameEngineLevel01 : MonoBehaviour {
 
 	// Time Played
 	private static float time_play = 0;
+<<<<<<< HEAD
 
 	// Music
 	private Music_Engine_Script music;
+=======
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 	
 	// Use this for initialization
 	void Awake () {
@@ -126,7 +129,10 @@ public class GameEngineLevel01 : MonoBehaviour {
 			delay_death -= Time.deltaTime;
 			if(!anim_death){
 				this.cm.death();
+<<<<<<< HEAD
 				this.music.play_Player_Die();
+=======
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 				anim_death = true;
 			}
 			if(delay_death < 0)

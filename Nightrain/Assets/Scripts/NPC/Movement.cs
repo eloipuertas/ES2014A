@@ -53,8 +53,11 @@ public class Movement : MonoBehaviour {
 	private Music_Engine_Script music;
 	
 	private CharacterController controller;
+<<<<<<< HEAD
 
 	private bool isDead = false;
+=======
+>>>>>>> 710a951727f91ce211db816c812bc01edeb77703
 	
 	
 	// Metodo que se llama cuando una ruta ha sido calculada
