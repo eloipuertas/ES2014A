@@ -322,6 +322,7 @@ public class MainMenuGUI {
 					}
 					if (Input.GetMouseButtonDown (0)) { 
 						this.clip.Play();
+						Application.LoadLevel (9);
 						Debug.Log ("Trofeos");
 					}
 				} else {
@@ -786,6 +787,7 @@ public class MainMenuGUI {
 
 	public void saveSettingsGame(int level, string difficulty, string character){
 	
+		this.load.deleteData ();
 		this.save.saveTimePlayed (0f);
 		this.save.saveTimeFormat ("");
 		this.save.saveLevel (level);

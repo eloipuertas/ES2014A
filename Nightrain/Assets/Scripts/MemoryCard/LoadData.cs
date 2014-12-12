@@ -75,7 +75,80 @@ public class LoadData : MonoBehaviour {
 		return PlayerPrefs.GetInt ("NumItemsInventory");
 	}
 
-	public void loadInventoryItems(){
+	public void loadInventoryItems(int num){
+
+		InventoryScript inventory = GameObject.FindGameObjectWithTag ("Inventory").GetComponent<InventoryScript> ();
+		
+		Item inventory_item = null;
+		string[] item = null;
+
+
+		for (int i = 0; i < num; i++) {
+			string healing_item = PlayerPrefs.GetString ("Item"+i);
+			item = healing_item.Split(new char[] {','});
+
+			if(item[2] == "Weapon"){
+
+				inventory_item = (Weapon)GetItem.setWeapon(int.Parse(item[0]), item[1], item[2],
+				                                      int.Parse(item[3]), int.Parse(item[4]), int.Parse(item[5]),
+				                                      int.Parse(item[6]), int.Parse(item[7]),item[10], 
+				                                      int.Parse(item[13]), int.Parse(item[14]));
+				
+				ItemsInventory.addWeapon (int.Parse(item[0]), (Weapon)inventory_item);
+				inventory.addItem (int.Parse(item[11]), int.Parse(item[12]), ItemsInventory.getWeapon (int.Parse(item[0])));
+
+			}else if(item[2] == "Shield"){
+
+				inventory_item = (Shield)GetItem.setShield(int.Parse(item[0]), item[1], item[2],
+				                                      int.Parse(item[3]), int.Parse(item[4]), int.Parse(item[5]),
+				                                      int.Parse(item[6]), int.Parse(item[7]),item[10], 
+				                                      int.Parse(item[13]), int.Parse(item[14]));
+				
+				ItemsInventory.addShield (int.Parse(item[0]), (Shield)inventory_item);
+				inventory.addItem (int.Parse(item[11]), int.Parse(item[12]), ItemsInventory.getShield (int.Parse(item[0])));
+
+			}else if(item[2] == "Helmet"){
+
+				inventory_item = (Helmet)GetItem.setHelmet(int.Parse(item[0]), item[1], item[2],
+				                                      int.Parse(item[3]), int.Parse(item[4]), int.Parse(item[5]),
+				                                      int.Parse(item[6]), int.Parse(item[7]),item[10], 
+				                                      int.Parse(item[13]), int.Parse(item[14]));
+				
+				ItemsInventory.addHelmet (int.Parse(item[0]), (Helmet)inventory_item);
+				inventory.addItem (int.Parse(item[11]), int.Parse(item[12]), ItemsInventory.getHelmet (int.Parse(item[0])));
+
+			}else if(item[2] == "Armor"){
+
+				inventory_item = (Armor)GetItem.setArmor(int.Parse(item[0]), item[1], item[2],
+				                                      int.Parse(item[3]), int.Parse(item[4]), int.Parse(item[5]),
+				                                      int.Parse(item[6]), int.Parse(item[7]),item[10], 
+				                                      int.Parse(item[13]), int.Parse(item[14]));
+				
+				ItemsInventory.addArmor (int.Parse(item[0]), (Armor)inventory_item);
+				inventory.addItem (int.Parse(item[11]), int.Parse(item[12]), ItemsInventory.getArmor (int.Parse(item[0])));
+
+			}else if(item[2] == "Boots"){
+
+				inventory_item = (Boots)GetItem.setBoots(int.Parse(item[0]), item[1], item[2],
+				                                      int.Parse(item[3]), int.Parse(item[4]), int.Parse(item[5]),
+				                                      int.Parse(item[6]), int.Parse(item[7]), item[10], 
+				                                      int.Parse(item[13]), int.Parse(item[14]));
+				
+				ItemsInventory.addBoots (int.Parse(item[0]), (Boots)inventory_item);
+				inventory.addItem (int.Parse(item[11]), int.Parse(item[12]), ItemsInventory.getBoots (int.Parse(item[0])));
+
+			}else if(item[2] == "Healing"){
+
+				inventory_item = (Healing)GetItem.setHealing(int.Parse(item[0]), item[1], item[2],
+				                                       int.Parse(item[3]), int.Parse(item[4]), int.Parse(item[5]),
+				                                       int.Parse(item[6]), int.Parse(item[7]), int.Parse(item[8]),
+				                                       int.Parse(item[9]),item[10], int.Parse(item[13]), int.Parse(item[14]));
+				
+				ItemsInventory.addHealing (int.Parse(item[0]), (Healing)inventory_item);
+				inventory.addItem (int.Parse(item[11]), int.Parse(item[12]), ItemsInventory.getHealing (int.Parse(item[0])));
+				inventory.setPotion (1);
+			}
+		}
 
 	}
 
@@ -100,7 +173,7 @@ public class LoadData : MonoBehaviour {
 			                             int.Parse(item[6]), int.Parse(item[7]), item[10],
 			                             int.Parse(item[13]), int.Parse(item[14]));
 
-			print ("Weapon\nId: " + int.Parse(item[0]) +
+			/*print ("Weapon\nId: " + int.Parse(item[0]) +
 			       "\nName: " + item[1] +
 			       "\nType: " + item[2] +
 			       "\nVIT: " + item[3] +
@@ -112,11 +185,9 @@ public class LoadData : MonoBehaviour {
 			       "\nMagic: " + item[9] +
 			       "\nIcon Name: " + item[10] +
 			       "\nslot_x: " + item[11] +
-			       "\nslot_y: " + item[12]);
+			       "\nslot_y: " + item[12]);*/
 
-			ItemsInventory.addWeapon (int.Parse(item[0]), equip[0]);
-			//inventory.addItem (ItemsInventory.getWeapon (int.Parse(item[0])));
-			//inventory.removeItem(equip[0]);
+			ItemsInventory.addWeapon (int.Parse(item[0]), (Weapon)equip[0]);
 			EquipWeapons.setWeapon((Weapon)equip[0]);
 
 		}else equip[0] = null;
@@ -128,23 +199,8 @@ public class LoadData : MonoBehaviour {
 			                             int.Parse(item[6]), int.Parse(item[7]), item[10],
 			                             int.Parse(item[13]), int.Parse(item[14]));
 
-			print ("Shield\nId: " + int.Parse(item[0]) +
-			       "\nName: " + item[1] +
-			       "\nType: " + item[2] +
-			       "\nVIT: " + item[3] +
-			       "\nPM: " + item[4] +
-			       "\nFRZ: " + item[5] +
-			       "\nDEF: " + item[6] +
-			       "\nSPD: " + item[7] +
-			       "\nHeal: " + item[8] +
-			       "\nMagic: " + item[9] +
-			       "\nIcon Name: " + item[10] +
-			       "\nslot_x: " + item[11] +
-			       "\nslot_y: " + item[12]);
 
-			ItemsInventory.addShield (int.Parse(item[0]), equip[1]);
-			//inventory.addItem (ItemsInventory.getShield (int.Parse(item[0])));
-			//inventory.removeItem(equip[1]);
+			ItemsInventory.addShield (int.Parse(item[0]), (Shield)equip[1]);
 			EquipWeapons.setShield((Shield)equip[1]);
 			
 		}else equip[1] = null;
@@ -156,23 +212,8 @@ public class LoadData : MonoBehaviour {
 			                             int.Parse(item[6]), int.Parse(item[7]), item[10],
 			                             int.Parse(item[13]), int.Parse(item[14]));
 
-			print ("Helmet\nId: " + int.Parse(item[0]) +
-			       "\nName: " + item[1] +
-			       "\nType: " + item[2] +
-			       "\nVIT: " + item[3] +
-			       "\nPM: " + item[4] +
-			       "\nFRZ: " + item[5] +
-			       "\nDEF: " + item[6] +
-			       "\nSPD: " + item[7] +
-			       "\nHeal: " + item[8] +
-			       "\nMagic: " + item[9] +
-			       "\nIcon Name: " + item[10] +
-			       "\nslot_x: " + item[11] +
-			       "\nslot_y: " + item[12]);
 
-			ItemsInventory.addHelmet (int.Parse(item[0]), equip[2]);
-			//inventory.addItem (ItemsInventory.getHelmet (int.Parse(item[0])));
-			//inventory.removeItem(equip[2]);
+			ItemsInventory.addHelmet (int.Parse(item[0]), (Helmet)equip[2]);
 			EquipWeapons.setHelmet((Helmet)equip[2]);
 			
 		}else equip[2] = null;
@@ -184,23 +225,8 @@ public class LoadData : MonoBehaviour {
 			                            int.Parse(item[6]), int.Parse(item[7]), item[10],
 			                            int.Parse(item[13]), int.Parse(item[14]));
 
-			print ("Armor\nId: " + int.Parse(item[0]) +
-			       "\nName: " + item[1] +
-			       "\nType: " + item[2] +
-			       "\nVIT: " + item[3] +
-			       "\nPM: " + item[4] +
-			       "\nFRZ: " + item[5] +
-			       "\nDEF: " + item[6] +
-			       "\nSPD: " + item[7] +
-			       "\nHeal: " + item[8] +
-			       "\nMagic: " + item[9] +
-			       "\nIcon Name: " + item[10] +
-			       "\nslot_x: " + item[11] +
-			       "\nslot_y: " + item[12]);
 
-			ItemsInventory.addArmor (int.Parse(item[0]), equip[3]);
-			//inventory.addItem (ItemsInventory.getArmor (int.Parse(item[0])));
-			//inventory.removeItem(equip[3]);
+			ItemsInventory.addArmor (int.Parse(item[0]), (Armor)equip[3]);
 			EquipWeapons.setArmor((Armor)equip[3]);
 			
 		}else equip[3] = null;
@@ -212,29 +238,31 @@ public class LoadData : MonoBehaviour {
 			                            int.Parse(item[6]), int.Parse(item[7]), item[10],
 			                            int.Parse(item[13]), int.Parse(item[14]));
 
-			print ("Boots\nId: " + int.Parse(item[0]) +
-			       "\nName: " + item[1] +
-			       "\nType: " + item[2] +
-			       "\nVIT: " + item[3] +
-			       "\nPM: " + item[4] +
-			       "\nFRZ: " + item[5] +
-			       "\nDEF: " + item[6] +
-			       "\nSPD: " + item[7] +
-			       "\nHeal: " + item[8] +
-			       "\nMagic: " + item[9] +
-			       "\nIcon Name: " + item[10] +
-			       "\nslot_x: " + item[11] +
-			       "\nslot_y: " + item[12]);
 
-			ItemsInventory.addBoots (int.Parse(item[0]), equip[4]);
-			//inventory.addItem (ItemsInventory.getBoots (int.Parse(item[0])));
-			//inventory.removeItem(equip[4]);
+
+			ItemsInventory.addBoots (int.Parse(item[0]), (Boots)equip[4]);
 			EquipWeapons.setBoots((Boots)equip[4]);
 			
 		}else equip[4] = null;
 
 
 		return equip;
+
+	}
+
+	public void deleteData(){
+
+		int items = PlayerPrefs.GetInt ("NumItemsInventory");
+		PlayerPrefs.DeleteKey ("NumItemsInventory");
+
+		for (int i = 0; i < items; i++) 
+			PlayerPrefs.DeleteKey ("Item"+i);
+
+		PlayerPrefs.DeleteKey ("Equip_weapon");
+		PlayerPrefs.DeleteKey ("Equip_shield");
+		PlayerPrefs.DeleteKey ("Equip_helmet");
+		PlayerPrefs.DeleteKey ("Equip_armor");
+		PlayerPrefs.DeleteKey ("Equip_boots");
 
 	}
 

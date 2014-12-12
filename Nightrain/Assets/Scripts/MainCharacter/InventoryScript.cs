@@ -129,10 +129,12 @@ public class InventoryScript : MonoBehaviour {
 		this.resizeInventory ();
 		this.createInventorySlot ();
 
+		int num = this.load.loadNumItemsInventory ();
 
-		//if (this.load.loadNumItemsInventory() > 0)
+		if (num > 0)
+			this.load.loadInventoryItems (num);
+
 		this.equip = load.loadEquipItem ();
-
 	}
 	
 
@@ -252,28 +254,28 @@ public class InventoryScript : MonoBehaviour {
 								this.last_slot.y = j;
 
 								//this.checkRemoveItem(this.temp_item);
-								//print ("Debug 1");
+								print ("Debug 1");
 								// If the slots are diferents drag the item to the new slot position
 								if (this.slot_selected.x != this.last_slot.x ||
 									this.slot_selected.y != this.last_slot.y) {
-									//print ("Debug 2");
+									print ("Debug 2");
 									//this.checkRemoveItem(this.temp_item);
 
 									if (this.temp_item != null) {
 										if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
-											//print ("Debug 3");
+											print ("Debug 3");
 										} else {
 											if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){
-												//print ("Debug 4");
+												print ("Debug 4");
 												this.checkRemoveItem(this.temp_item);
 											}else{
-												//print ("Debug 5");
+												print ("Debug 5");
 												this.checkUnquipedItem(this.temp_item);
 												this.temp_item = null;
 											}
-											//print ("Debug 6");
+											print ("Debug 6");
 										}	
-										//print ("Debug 7");
+										print ("Debug 7");
 										this.checkRemoveItem(this.temp_item);
 										//this.checkUnquipedItem(null);
 										this.temp_item = null;
@@ -281,13 +283,13 @@ public class InventoryScript : MonoBehaviour {
 								
 								} else {
 									if (this.temp_item != null) {
-										//print ("Debug 8");
+										print ("Debug 8");
 										//this.checkUnquipedItem(this.temp_item);
 										this.checkRemoveItem(this.temp_item); // <-- Esto es lo ultimo k he tocado
 										this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item);
 										this.temp_item = null;
 									}
-									//print ("Debug 9");
+									print ("Debug 9");
 								}
 							} 
 							return;
@@ -297,39 +299,44 @@ public class InventoryScript : MonoBehaviour {
 						if (Event.current.isMouse && Input.GetMouseButtonDown (0)) {
 							this.temp_item = this.equip[0];
 							this.removeWeapon ();
-							//print ("Debug 10");
+							print ("Debug 10");
 							return;
 							
 						} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
 
 							if (this.equip[0] == null && temp_item is Weapon) {
 								this.equip[0] = this.temp_item;
+								print ("TypeW: " + this.temp_item.GetType());
 								EquipWeapons.setWeapon((Weapon)this.equip[0]);
 								this.removeItem(this.equip[0]);
 								this.temp_item = null;
-								//print ("Debug 11");
+								print ("Debug 11");
 							}else{
 
 								this.last_slot.x = i;
 								this.last_slot.y = j;
-								//print ("Debug 12");
+								print ("Debug 12");
+								print ("LastX: " + i + " LastY: " + j);
 								// If the slots are diferents drag the item to the new slot position
 								if (this.temp_item != null) {
 									if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
-										//print ("Debug 13");
+										print ("Debug 13");
 									} else {
 										if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){
-											//print ("Debug 14");
+											print ("Debug 14");
 											if(equip[0] == this.temp_item)
 												this.checkRemoveItem(equip[0]);
 										}else{
-											this.equip[0] = this.temp_item;
-											//print ("Debug 15");
-											this.temp_item = null;
+											if(this.temp_item is Weapon){
+												this.equip[0] = this.temp_item;
+												print ("Debug 15");
+												this.temp_item = null;
+											}
 										}
 									}	
+
 									this.temp_item = null;
-									//print ("Debug 16");
+									print ("Debug 16");
 								}
 
 							}
@@ -340,41 +347,43 @@ public class InventoryScript : MonoBehaviour {
 						if (Event.current.isMouse && Input.GetMouseButtonDown (0)) {
 							this.temp_item = this.equip[1];
 							this.removeShield ();
-							//print ("Debug 17");
+							print ("Debug 17");
 							return;
 							
 						} else if (Event.current.isMouse && Input.GetMouseButtonUp (0)) {
 
 							if (this.equip[1] == null && temp_item is Shield) {
 								this.equip[1] = this.temp_item;
-								//print ("Debug 18");
+								print ("Debug 18");
 								EquipWeapons.setShield((Shield)this.equip[1]);
 								this.removeItem(this.equip[1]);
 								this.temp_item = null;
 
 							}else{
-								//print ("Debug 19");
+								print ("Debug 19");
 								this.last_slot.x = i;
 								this.last_slot.y = j;
 								
 								// If the slots are diferents drag the item to the new slot position
 								if (this.temp_item != null) {
 									if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
-										//print ("Debug 20");
+										print ("Debug 20");
 									} else {
 										if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){
-											//print ("Debug 21");
+											print ("Debug 21");
 											if(equip[1] == this.temp_item)
 												this.checkRemoveItem(equip[1]);
 										}
 										else{
-											//print ("Debug 22");
+											print ("Debug 22");
 											//print("Unequip Shield");
-											this.equip[1] = this.temp_item;
-											this.temp_item = null;
+											if(this.temp_item is Shield){
+												this.equip[1] = this.temp_item;
+												this.temp_item = null;
+											}
 										}
 									}	
-									//print ("Debug 23");
+									print ("Debug 23");
 									this.temp_item = null;		
 								}
 								
@@ -550,24 +559,24 @@ public class InventoryScript : MonoBehaviour {
 
 					this.last_slot.x = i;
 					this.last_slot.y = j;
-					//print ("Debug 29");
+					print ("Debug 29");
 
 					// If the slots are diferents drag the item to the new slot position
 					if (this.temp_item != null) {
 						if (this.addItem ((int)last_slot.x, (int)last_slot.y, this.temp_item)) {
-							//print ("Debug 30");
+							print ("Debug 30");
 							this.checkRemoveItem(this.temp_item);
 						} else {
 							if(this.addItem (this.temp_item.x, this.temp_item.y, this.temp_item)){
-								//print ("Debug 31");
+								print ("Debug 31");
 								this.checkRemoveItem(this.temp_item);
 							}else{
-								//print ("Debug 32");
+								print ("Debug 32");
 								this.checkUnquipedItem(this.temp_item);
 								this.temp_item = null;
 							}
 						}	
-						//print ("Debug 33");
+						print ("Debug 33");
 						this.temp_item = null;
 					}
 				}
@@ -643,7 +652,7 @@ public class InventoryScript : MonoBehaviour {
 		return false;
 	}
 
-	bool addItem(int x, int y, Item item){
+	public bool addItem(int x, int y, Item item){
 
 		// Comprove if the grid is empty.
 		for (int i = 0; i < item.width; i++)
