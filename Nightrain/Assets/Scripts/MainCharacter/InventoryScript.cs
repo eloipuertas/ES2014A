@@ -6,6 +6,11 @@ public class InventoryScript : MonoBehaviour {
 	private const int reference_width = 1366; 
 	private const int reference_height = 598;
 
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+	private LoadData load;
+
 	// ========== INVENTORY ============
 	public Rect inventory_box;
 	private List<Item> list_inventory;
@@ -94,6 +99,11 @@ public class InventoryScript : MonoBehaviour {
 		this.cs = GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterScript> ();
 		this.cm = GameObject.FindGameObjectWithTag ("Player").GetComponent<ClickToMove> ();
 
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData();
+		this.load = this.mc.loadData();
+
 		// STYLES TEXT
 		this.attributes_style = new GUIStyle ();
 		//this.text_style.font = Resources.Load<Font>("MainMenu/avqest");
@@ -118,6 +128,10 @@ public class InventoryScript : MonoBehaviour {
 		// CREATE INVENTORY
 		this.resizeInventory ();
 		this.createInventorySlot ();
+
+
+		//if (this.load.loadNumItemsInventory() > 0)
+		this.equip = load.loadEquipItem ();
 
 	}
 	
@@ -663,7 +677,7 @@ public class InventoryScript : MonoBehaviour {
 	}
 
 
-	void removeItem(Item item){
+	public void removeItem(Item item){
 
 		// Dismark the position where the item was assigned.
 		for (int i = item.x; i < item.width + item.x; i++)
@@ -713,8 +727,11 @@ public class InventoryScript : MonoBehaviour {
 			                           this.temp_item.width * this.slot_w,
 			                           this.temp_item.height * this.slot_h),
 			                 this.temp_item.ItemTexture);
-	}
 
+		if(temp_item != null)
+			print ("Width: " + this.temp_item.width + "\nHeight: " + this.temp_item.height);
+	}
+	
 	void drawItems(){
 
 		for (int i = 0; i < this.list_inventory.Count; i++)
@@ -925,6 +942,22 @@ public class InventoryScript : MonoBehaviour {
 		bootH = resizeSlotY(bootH);	
 		
 	
+	}
+
+	public void saveInventory(){
+
+		this.save.saveNumItemsInventory (list_inventory.Count);
+		this.save.saveEquipedItem (equip);
+		
+		for (int i = 0; i < list_inventory.Count; i++) {
+			this.save.saveInventoryItem(i, list_inventory[i]);
+		}
+
+	}
+
+	public void loadInventory(){
+
+
 	}
 
 	public static void setShowInventory(bool show){
