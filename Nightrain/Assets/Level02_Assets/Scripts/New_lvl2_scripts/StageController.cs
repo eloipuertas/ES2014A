@@ -20,6 +20,7 @@ public class StageController : MonoBehaviour {
 			
 			if(i==4 || i==6) stage_npcs[i] = 1;
 			else stage_npcs[i] = GameObject.FindGameObjectsWithTag (str).Length;
+			stage_npcs[8] += 1;
 		}
 		
 		music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
@@ -65,6 +66,10 @@ public class StageController : MonoBehaviour {
 			break;
 			
 		case "MiniIceDemon8":
+			stage_npcs[8] -= 1;
+			break;
+		
+		case "IceGolem":
 			stage_npcs[8] -= 1;
 			break;
 		}

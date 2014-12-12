@@ -103,7 +103,7 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 	void drawDialog (int pos) {
 		//if (Screen.height * 1.5f < Screen.width) height_rate = 0.5f; 
 		Rect continue_box = new Rect (Screen.width/5.0f, 
-		                              Screen.height - (Screen.height/3.6f), 
+		                              Screen.height - (Screen.height/2.8f), 
 		                              //this.dialog1.width / 1.0f, 
 		                              //this.dialog1.height / 1.0f);
 		                              this.resizeTextureWidth(this.dialogs[pos]) / 2.75f, 
