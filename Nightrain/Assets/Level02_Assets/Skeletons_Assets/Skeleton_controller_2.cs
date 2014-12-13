@@ -122,7 +122,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 		rotateToPlayer (playerPos);
 		Vector3 dir = playerPos - transform.position;
 
-		gravity -= 9.81f * Time.deltaTime;
+		gravity -= 100f * Time.deltaTime;
 		if (ctrl.isGrounded)	gravity = 0.0f;
 		dir.y = gravity;
 
@@ -197,6 +197,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 			transform.position = newPosition;
 			Destroy (this.GetComponent<CharacterController>());
 			Destroy (this.GetComponent<Rigidbody> ());
+			Destroy (this.GetComponent<CapsuleCollider> ());
 		} else {
 			music.play_skel_die ();
 		}

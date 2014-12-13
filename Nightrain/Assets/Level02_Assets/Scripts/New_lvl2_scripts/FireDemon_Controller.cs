@@ -126,7 +126,7 @@ public class FireDemon_Controller : MonoBehaviour {
 		rotateToPlayer (playerPos);
 		Vector3 dir = playerPos - transform.position;
 		
-		gravity -= 9.81f * Time.deltaTime;
+		gravity -= 100f * Time.deltaTime;
 		if (ctrl.isGrounded)	gravity = 0.0f;
 		dir.y = gravity;
 		
@@ -202,6 +202,7 @@ public class FireDemon_Controller : MonoBehaviour {
 			state = 4;
 			Destroy (this.GetComponent<CharacterController>());
 			Destroy (this.GetComponent<Rigidbody> ());
+			Destroy (this.GetComponent<CapsuleCollider> ());
 		} else {
 			music.play_demon_got_hit ();
 			if (!player_seen) playerSeen ();

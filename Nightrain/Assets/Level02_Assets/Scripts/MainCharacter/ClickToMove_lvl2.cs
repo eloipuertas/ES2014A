@@ -56,14 +56,17 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 				}
 				else anim.SetBool ("attack",true);
 			} else {
-				speed = 30.0f;
 				anim.SetFloat ("speed", speed);
 				moveToPosition (destinationPosition);
 				if (!isAttacking()) {
+					speed = 30.0f;
 					//animation.Play ("metarig|Caminar");
 					anim.SetBool ("attack", false);
 				}
-				else anim.SetBool ("attack", true);
+				else {
+					speed = 20.0f;
+					anim.SetBool ("attack", true);				
+				}
 			}
 
 			// Si hacemos click o dejamos presionado el botón izquierdo del mouse, nos movemos al punto del mouse
@@ -110,11 +113,13 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	
 
 	public void rotateToMouse () {
-		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		targetPoint = ray.GetPoint(hitdist);
-		targetPoint.y = transform.position.y;
-		Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-		transform.rotation = targetRotation;
+		if (Time.time - atk_time > 0.5f) {
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			targetPoint = ray.GetPoint(hitdist);
+			targetPoint.y = transform.position.y;
+			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+			transform.rotation = targetRotation;
+		}
 	}
 
 	public void rotateToPos(Vector3 position) {
@@ -124,7 +129,7 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 
 	void moveToPosition (Vector3 position) {
 		Vector3 dir = position - transform.position;
-		gravity -= 9.81f * Time.deltaTime;
+		gravity -= 100f * Time.deltaTime;
 		if (controller.isGrounded)	gravity = 0.0f;
 		dir.y = gravity;
 		Vector3 movement = dir.normalized * speed * Time.deltaTime;
