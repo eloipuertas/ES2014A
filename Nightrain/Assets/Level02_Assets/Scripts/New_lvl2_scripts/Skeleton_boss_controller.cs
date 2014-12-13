@@ -16,6 +16,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	public GameObject camera_death;
 
 	private GameObject game_engine;
+	private NPCHealthBar_lvl2 health_bar;
 	private GameEngineLevel02_new game_script;
 	private CharacterController ctrl;
 	private GameObject player;
@@ -30,7 +31,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	private float skill_cd = 0.0f;
 	private float actual_time;
 	private float attack_time = -2.0f;
-	private float health;
+	public float health;
 
 	//0 idle, 1 running, 2 attacking, 3 hited, 4 death, 5 waiting, 6 dancing
 	private int state = 0;
@@ -50,6 +51,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.game_engine = GameObject.FindGameObjectWithTag ("GameController");
+		this.health_bar = this.gameObject.GetComponent<NPCHealthBar_lvl2> ();
 		this.game_script = game_engine.GetComponent <GameEngineLevel02_new> ();
 		this.player = GameObject.FindGameObjectWithTag("Player");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
@@ -58,7 +60,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 		this.skill = Resources.Load<GameObject> ("Prefabs/Boss_Skills/Boss_skill_2");
 
 		this.respawn = transform.position;
-
+		this.health_bar.enabled = false;
 
 		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficult"));
 
@@ -232,6 +234,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 
 	public void setAgressive (bool b) {
 		agressive = b;
+		health_bar.enabled = true;
 	}
 
 	public void prepareAnim() {

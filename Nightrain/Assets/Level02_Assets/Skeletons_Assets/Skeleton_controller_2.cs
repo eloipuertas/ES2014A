@@ -14,6 +14,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	public int base_dmg = 10;
 	
 	private CharacterController ctrl;
+	private NPCHealthBar_lvl2 health_bar;
 	private GameObject player;
 	private CharacterScript_lvl2 player_script;
 	private StageController stage;
@@ -24,7 +25,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	private bool returningRespawn = false;
 	private bool player_seen = false;
 
-	private float actual_health;
+	public float actual_health;
 	private float actual_time;
 	private float attack_time = -2.0f;
 	public float destroy_time = 10.0f;
@@ -43,9 +44,12 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	void Start () {
 		this.player = GameObject.FindGameObjectWithTag("Player");
 		this.player_script = player.GetComponent<CharacterScript_lvl2> ();
+		this.health_bar = this.gameObject.GetComponent<NPCHealthBar_lvl2> ();
 		this.ctrl = GetComponent<CharacterController> ();
 		this.stage = GameObject.FindGameObjectWithTag ("GameController").GetComponent<StageController> ();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
+
+		this.health_bar.enabled = false;
 
 		this.health_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Life_sphere_lvl2");
 		this.mana_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Mana_sphere_lvl2");
@@ -161,6 +165,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	}
 
 	public void playerSeen() {
+		this.health_bar.enabled = true;
 		if (!player_seen) music.play_skel_shout ();
 		player_seen = true;
 		seen_time = Time.time;
@@ -170,6 +175,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 
 	public void damage(float dmg) {
 		actual_health -= dmg;
+		if (!player_seen) setAgressive ();
 		if (actual_health <= 0.0f) {
 			if(state != 4) music.play_skel_die ();
 			state = 4;
@@ -191,7 +197,9 @@ public class Skeleton_controller_2 : MonoBehaviour {
 			transform.position = newPosition;
 			Destroy (this.GetComponent<CharacterController>());
 			Destroy (this.GetComponent<Rigidbody> ());
-		} 
+		} else {
+			music.play_skel_die ();
+		}
 	}
 
 	// ANIMATIONS

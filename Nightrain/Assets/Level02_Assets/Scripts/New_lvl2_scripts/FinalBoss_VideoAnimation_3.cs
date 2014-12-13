@@ -4,14 +4,15 @@ using System.Collections;
 public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 	public GameObject boss;
 	public GameObject playerPos;
-	public GameObject end_camera;
+	public GameObject fade;
 	
 	private Skeleton_boss_controller boss_ctrl;
 	private GameObject player;
 	private ClickToMove_lvl2 move_script;
 	private Skill_Controller_lvl2 skill_script;
 	private ActionBarScript_lvl2 action_bar;
-	
+	private FadeOut_lvl2 fade_out;
+
 	private GameObject player_hand;
 	private GameObject firepunch;
 	private GameObject finalFireball;
@@ -36,7 +37,8 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 		skill_script = player.GetComponent <Skill_Controller_lvl2> ();
 		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript_lvl2> ();
 		boss_ctrl = boss.GetComponent <Skeleton_boss_controller> ();
-		
+		fade_out = fade.GetComponent<FadeOut_lvl2> ();
+
 		boss_ctrl.teleportToRespawn ();
 		boss_ctrl.rotateToPlayer (playerPos.transform.position);
 		
@@ -53,18 +55,21 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 		finalFireball = Resources.Load <GameObject> ("Lvl2/prefabs/Final_Fireball");
 		
 		dialogs[0] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_6");
-		dialogs[1] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_7");
+		dialogs[1] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_7_"+PlayerPrefs.GetString ("Player"));
 		
 		timer = Time.time + 1.5f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (Time.time - timer > 2.0f && killed) {
+			fade_out.Fading(1);
+		}
 		if (Time.time - timer > 5.0f && killed) {
-			end_camera.SetActive (true);
+			PlayerPrefs.SetInt ("Final_Credits", 1);
+			Application.LoadLevel (8);
 			gameObject.SetActive (false);
 		}
-		
 		if (current_dialog == 1) {
 			if (firepunch_actual == null) {
 				firepunch_actual = Instantiate (firepunch, player_hand.transform.position, firepunch.transform.rotation) as GameObject;

@@ -83,11 +83,9 @@ public class LethalKnife_controller : MonoBehaviour {
 					skill_hit = true;
 				}
 			}
-		}
-		else if (name == "Boss") {
 			if(!skill_hit && other != null) {
-
-				other.gameObject.GetComponent<Skeleton_boss_controller>().damage(skill_damage);
+				if(other.gameObject.GetComponent<Skeleton_boss_controller>() != null)
+					other.gameObject.GetComponent<Skeleton_boss_controller>().damage(skill_damage);
 				skill_hit = true;
 			}
 		}

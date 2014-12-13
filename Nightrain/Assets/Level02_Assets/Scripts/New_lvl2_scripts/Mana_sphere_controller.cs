@@ -19,7 +19,7 @@ public class Mana_sphere_controller : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Player") {
-			mana.setManaRestore (10);
+			mana.setRecoverMagic(10);
 			
 			Destroy (this.gameObject);
 		}

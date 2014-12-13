@@ -15,6 +15,7 @@ public class FireDemon_Controller : MonoBehaviour {
 	public bool preanimation = true;
 
 	private CharacterController ctrl;
+	private NPCHealthBar_lvl2 health_bar;
 	private GameObject player;
 	private CharacterScript_lvl2 player_script;
 	private StageController stage;
@@ -26,7 +27,7 @@ public class FireDemon_Controller : MonoBehaviour {
 	private bool player_seen = false;
 	private bool notAnim = false;
 	
-	private float actual_health;
+	public float actual_health;
 	private float actual_time;
 	private float attack_time = -2.0f;
 	public float destroy_time = 10.0f;
@@ -45,10 +46,13 @@ public class FireDemon_Controller : MonoBehaviour {
 	void Start () {
 		this.player = GameObject.FindGameObjectWithTag("Player");
 		this.player_script = player.GetComponent<CharacterScript_lvl2> ();
+		this.health_bar = this.gameObject.GetComponent<NPCHealthBar_lvl2> ();
 		this.ctrl = GetComponent<CharacterController> ();
 		this.stage = GameObject.FindGameObjectWithTag ("GameController").GetComponent<StageController> ();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		this.respawn = transform.position;
+
+		//this.health_bar.enabled = false;
 
 		this.health_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Life_sphere_lvl2");
 		this.mana_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Mana_sphere_lvl2");
@@ -168,6 +172,7 @@ public class FireDemon_Controller : MonoBehaviour {
 	}*/
 	
 	public void playerSeen() {
+		this.health_bar.enabled = true;
 		if (!player_seen) music.play_demon_shout ();
 		player_seen = true;
 		seen_time = Time.time;
@@ -199,6 +204,7 @@ public class FireDemon_Controller : MonoBehaviour {
 			Destroy (this.GetComponent<Rigidbody> ());
 		} else {
 			music.play_demon_got_hit ();
+			if (!player_seen) playerSeen ();
 		}
 	}
 	

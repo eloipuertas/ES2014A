@@ -19,7 +19,7 @@ public class Mana_Major_sphere_controller : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Player") {
-			mana.setManaRestore ((int) mana.getMaxMagic());
+			mana.setRecoverMagic ((int) mana.getMaxMagic());
 			
 			Destroy (this.gameObject);
 		}

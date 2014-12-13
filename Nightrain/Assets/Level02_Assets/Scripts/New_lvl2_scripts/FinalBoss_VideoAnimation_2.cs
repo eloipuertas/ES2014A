@@ -31,7 +31,7 @@ public class FinalBoss_VideoAnimation_2 : MonoBehaviour {
 
 		dialogs[0] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_3");
 		dialogs[1] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_4");
-		dialogs[2] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_5");
+		dialogs[2] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_5_"+PlayerPrefs.GetString ("Player"));
 
 		timer = Time.time + 1.5f;
 		camera_timer = Time.time;
