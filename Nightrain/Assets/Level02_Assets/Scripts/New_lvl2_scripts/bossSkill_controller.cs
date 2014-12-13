@@ -7,10 +7,10 @@ public class bossSkill_controller : MonoBehaviour {
 	
 	public GameObject sparks;
 	public BoxCollider sparks_area;
-	public int skill_damage = 20;
+	public float skill_damage = 20;
 	
 	private bool skill_hit = false;
-	private float time_sparks = 1.0f;
+	public float time_sparks = 1.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -31,11 +31,10 @@ public class bossSkill_controller : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		string name = other.gameObject.tag;
 
-		print ("Tocado");
-
+		//print ("Tocado");
 		if (name == "Player" && !skill_hit) {
 			music.play_Player_Hurt ();
-			char_script.setDamage (skill_damage);
+			char_script.setDamage ((int) skill_damage);
 			skill_hit = true;
 		}
 	}
@@ -43,11 +42,10 @@ public class bossSkill_controller : MonoBehaviour {
 	void OnTriggerStay(Collider other) {
 		string name = other.gameObject.tag;
 		
-		print ("Tocado");
-		
+		//print ("Tocado");
 		if (name == "Player" && !skill_hit) {
 			music.play_Player_Hurt ();
-			char_script.setDamage (skill_damage);
+			char_script.setDamage ((int) skill_damage);
 			skill_hit = true;
 		}
 	}
@@ -55,11 +53,10 @@ public class bossSkill_controller : MonoBehaviour {
 	void OnTriggerExit(Collider other) {
 		string name = other.gameObject.tag;
 		
-		print ("Tocado");
-		
+		//print ("Tocado");
 		if (name == "Player" && !skill_hit) {
 			music.play_Player_Hurt ();
-			char_script.setDamage (skill_damage);
+			char_script.setDamage ((int) skill_damage);
 			skill_hit = true;
 		}
 	}

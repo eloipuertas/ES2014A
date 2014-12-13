@@ -30,6 +30,7 @@ public class Skeleton_controller_2 : MonoBehaviour {
 	private float attack_time = -2.0f;
 	public float destroy_time = 10.0f;
 	private float seen_time = 0.0f;
+	private float atk_range = 9.0f;
 
 	//0 idle, 1 running, 2 attacking, 3 hited, 4 death, 5 waiting, 6 dancing
 	int state = 0;
@@ -232,16 +233,22 @@ public class Skeleton_controller_2 : MonoBehaviour {
 		if(difficulty.Equals("Easy")) {
 			base_dmg = base_dmg / 2;
 			health = health / 2;
+			atk_range = atk_range - 1f;
 		}
 		else if(difficulty.Equals("Normal")) {
+			base_dmg = base_dmg;
+			health = health;
+			atk_range = atk_range;
 		}
 		else if(difficulty.Equals("Hard")) {
-			base_dmg = base_dmg * 2;
-			health = health * 2;
+			base_dmg = base_dmg*2;
+			health = health*2;
+			atk_range = atk_range+1.5f;
 		}
 		else if(difficulty.Equals("Extreme")) {
-			base_dmg = base_dmg * 3;
-			health = health * 3;
+			base_dmg = base_dmg*3;
+			health = health*2.5f;
+			atk_range = atk_range+2.5f;
 		}
 		actual_health = health;
 	}
