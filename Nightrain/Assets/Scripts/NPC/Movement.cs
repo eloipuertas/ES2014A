@@ -54,6 +54,8 @@ public class Movement : MonoBehaviour {
 	
 	private CharacterController controller;
 
+	private TrophyEngine trofeos;
+
 	private bool isDead = false;
 	
 	
@@ -87,6 +89,8 @@ public class Movement : MonoBehaviour {
 		difficulty = PlayerPrefs.GetString ("Difficulty");
 		npcAttributes.setDificulty (difficulty);
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
+		
+		this.trofeos = GameObject.FindGameObjectWithTag("Trofeos").GetComponent<TrophyEngine>();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		
 		controller = GetComponent<CharacterController>();
@@ -236,6 +240,7 @@ public class Movement : MonoBehaviour {
 		if (npcAttributes.getHealth() < 1 && !isDead) {
 			this.isDead = true;
 			state = "Dead";
+			trofeos.TrophyGolemLava();
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;
 			//Debug.Log ("NPC muerto");

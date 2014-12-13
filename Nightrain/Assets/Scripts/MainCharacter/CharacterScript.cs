@@ -61,6 +61,8 @@ public class CharacterScript : MonoBehaviour {
 	private float mana_delay = 1f;
 	private bool mana_Effect = false; 
 
+	private TrophyEngine trofeos;
+
 
 	// Use this for initialization
 	void Awake () {
@@ -71,6 +73,7 @@ public class CharacterScript : MonoBehaviour {
 		this.NPCs = GameObject.FindGameObjectsWithTag("Enemy");
 		this.boss = GameObject.FindGameObjectWithTag("Boss");
 */
+		this.trofeos = GameObject.FindGameObjectWithTag("Trofeos").GetComponent<TrophyEngine>();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
 		// Memory Card Save/Load data
@@ -448,6 +451,7 @@ public class CharacterScript : MonoBehaviour {
 
 			//UPDATE STATS
 			this.setLevel(1);
+			this.trofeos.TrophyLevels(getLVL());
 			this.calculateEXP();
 			this.updateCharacterAttributes();
 

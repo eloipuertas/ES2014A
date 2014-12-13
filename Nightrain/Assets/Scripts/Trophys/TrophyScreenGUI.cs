@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TrophyEngineScript : MonoBehaviour {
+public class TrophyScreenGUI : MonoBehaviour {
 
 	private const int reference_width = 1366; 
 	private const int reference_height = 598;
@@ -35,21 +35,28 @@ public class TrophyEngineScript : MonoBehaviour {
 	// Variable to check current mouse hover button
 	private Rect hoveredButton = new Rect();
 
+	private string[] list_trophies;
+	private TrophyEngine trofeos;
+
 	// MEMORY CARD 
 	private MemoryCard mc;
 	private SaveData save;
 	private LoadData load;
-
-
+	
 	// Use this for initialization
 	void Start () {
-	
+
 		// Memory Card Save/Load data
 		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
 		this.save = this.mc.saveData ();
 		this.load = this.mc.loadData (); 
 
+		this.trofeos = GameObject.FindGameObjectWithTag("Trofeos").GetComponent<TrophyEngine>();
+		string[] list_trophies = new string[18];
+		this.trofeos.getTrophys (list_trophies);
+
 		string str = "lock_";
+
 		// MAIN MENU
 		this.backgroundTexture = Resources.Load<Texture2D>("Trofeos/background_trophyv2");
 		this.PlatinoTexture = Resources.Load<Texture2D>("Trofeos/"+str+"platino");
@@ -61,15 +68,14 @@ public class TrophyEngineScript : MonoBehaviour {
 		this.SageTexture = Resources.Load<Texture2D>("Trofeos/"+str+"maga");
 		this.ThiefTexture = Resources.Load<Texture2D>("Trofeos/"+str+"ladron");
 		this.AllTexture = Resources.Load<Texture2D>("Trofeos/"+str+"todos");
-		this.BusterSwordTexture = Resources.Load<Texture2D>("Trofeos/"+str+"bustersword");
-
-		this.Level5Texture = Resources.Load<Texture2D>("Trofeos/"+str+"level5");
-		this.Level10Texture = Resources.Load<Texture2D>("Trofeos/"+str+"level10");
-		this.Level20Texture = Resources.Load<Texture2D>("Trofeos/"+str+"level20");
-		this.Level50Texture = Resources.Load<Texture2D>("Trofeos/"+str+"level50");
-		this.miniGolemTexture = Resources.Load<Texture2D>("Trofeos/"+str+"minigolem");
+		this.BusterSwordTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[6]+"bustersword");
+		this.Level5Texture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[2]+"level5");
+		this.Level10Texture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[3]+"level10");
+		this.Level20Texture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[4]+"level20");
+		this.Level50Texture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[5]+"level50");
+		this.miniGolemTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[0]+"minigolem");
 		this.EsqueletoTexture = Resources.Load<Texture2D>("Trofeos/"+str+"esqueleto");
-		this.GolemLavaTexture = Resources.Load<Texture2D>("Trofeos/"+str+"golemlava");
+		this.GolemLavaTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[1]+"golemlava");
 		this.GolemHieloTexture = Resources.Load<Texture2D>("Trofeos/"+str+"golemhielo");
 
 		this.btnExitTexture = Resources.Load<Texture2D>("MainMenu/exit");
@@ -78,7 +84,8 @@ public class TrophyEngineScript : MonoBehaviour {
 		this.hoverSound = GameObject.FindGameObjectWithTag("music_engine");
 
 	}
-	
+
+
 	void OnGUI(){
 
 		// BACKGROUND MAINMENU

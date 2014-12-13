@@ -60,6 +60,8 @@ public class Movement_graveler : MonoBehaviour {
 
 	private CharacterController controller;
 
+	private TrophyEngine trofeos;
+
 	private bool isDead = false;
 	
 	
@@ -99,7 +101,7 @@ public class Movement_graveler : MonoBehaviour {
 		this.health_sphere = Resources.Load<GameObject> ("Prefabs/Effects/life_sphere");
 		this.mana_sphere = Resources.Load<GameObject> ("Prefabs/Effects/mana_sphere");
 
-		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
+		this.trofeos = GameObject.FindGameObjectWithTag("Trofeos").GetComponent<TrophyEngine>();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
 		controller = GetComponent<CharacterController>();
@@ -271,6 +273,7 @@ public class Movement_graveler : MonoBehaviour {
 		if (npcAttributes.getHealth() < 1 && !isDead) {
 			this.isDead = true;
 			state = "Dead";
+			trofeos.countMiniGolem(1);
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;
 			anim.SetBool("a_walk", false);

@@ -43,6 +43,10 @@ public class Music_Engine_Script : MonoBehaviour {
 
 	public AudioClip bckg_song1;
 	public AudioClip bckg_song2;
+
+	public AudioClip sound_bustersword;
+	public AudioClip sound_trophy;
+
 	public GameObject bckg_audio_object;
 	
 	private AudioSource bckg_audio;
@@ -224,6 +228,14 @@ public class Music_Engine_Script : MonoBehaviour {
 
 	public void play_boss_fall () {
 		audio.PlayOneShot (boss_fall);
+	}
+
+	public void play_trophy(){
+		audio.PlayOneShot (sound_trophy);
+	}
+
+	public void play_BusterSword(){
+		audio.PlayOneShot (sound_bustersword);
 	}
 
 	public void setBattleAudio() {

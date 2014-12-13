@@ -77,6 +77,12 @@ public class ItemDrop : MonoBehaviour {
 		weapon.ItemTexture = imageTexture;
 		weapon.width = slot_x;
 		weapon.height = slot_y;*/
+		if (name == "Buster Sword") {
+			Music_Engine_Script music = GameObject.FindGameObjectWithTag("music_engine").GetComponent<Music_Engine_Script>();
+			TrophyEngine trofeo = GameObject.FindGameObjectWithTag("Trofeos").GetComponent<TrophyEngine>();
+			music.play_BusterSword();
+			trofeo.TrophyBusterSword();
+		}
 
 		Weapon weapon = GetItem.setWeapon (id, name, type, VIT, PM, FRZ, DEF, SPD, imageTexture.name, slot_x, slot_y);
 		ItemsInventory.addWeapon (id, weapon);
