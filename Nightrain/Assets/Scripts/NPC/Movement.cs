@@ -86,7 +86,7 @@ public class Movement : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
-		difficulty = PlayerPrefs.GetString ("Difficulty");
+		difficulty = PlayerPrefs.GetString ("Difficult");
 		npcAttributes.setDificulty (difficulty);
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
 		
@@ -224,7 +224,7 @@ public class Movement : MonoBehaviour {
 		anim.SetBool ("w_attack", true);
 		//p.y += 5f;
 		if (Time.time > attackTime) {
-			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
+			player.GetComponent<CharacterScript>().setDamage((int) npcAttributes.getAttackPower());
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.play_Golem_Agresive();

@@ -144,6 +144,8 @@ public class TrophyEngine : MonoBehaviour {
 		                            resizeTextureWidth(TrophyTexture),
 		                            resizeTextureHeight(TrophyTexture));
 
+		/*if(trophyQ.Count != 0)
+			print ("Hlaa: " + trophyQ.Peek().ToString());*/
 
 		if(trophyQ.Count >= 1 && (int)timer == 0){
 			if(trophyQ.Count == 0)

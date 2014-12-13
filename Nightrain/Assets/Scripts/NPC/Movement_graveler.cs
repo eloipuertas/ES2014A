@@ -95,7 +95,7 @@ public class Movement_graveler : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
-		difficulty = PlayerPrefs.GetString ("Difficulty");
+		difficulty = PlayerPrefs.GetString ("Difficult");
 		npcAttributes.setDificulty (difficulty);
 
 		this.health_sphere = Resources.Load<GameObject> ("Prefabs/Effects/life_sphere");
@@ -256,7 +256,7 @@ public class Movement_graveler : MonoBehaviour {
 		anim.SetBool ("attack", true);
 		//p.y -= 10f;
 		if (Time.time > attackTime) {
-			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
+			player.GetComponent<CharacterScript>().setDamage((int) npcAttributes.getAttackPower());
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.play_Golem_Agresive();
