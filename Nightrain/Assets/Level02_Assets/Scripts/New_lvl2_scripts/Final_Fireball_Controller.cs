@@ -18,7 +18,7 @@ public class Final_Fireball_Controller : MonoBehaviour {
 		music.play_fire_explosion ();
 
 		string name = other.gameObject.tag;
-		print (name);
+		//print (name);
 		if (name == "Boss") {
 			other.gameObject.GetComponent<Skeleton_boss_controller> ().dieAnim ();
 		}
