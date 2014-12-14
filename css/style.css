@@ -50,6 +50,7 @@ article .des li{
 	margin-right: 10%;
 	margin-left: 10%;
 }
+
 article .des img{
 	margin-top:70%;
 }
@@ -73,6 +74,25 @@ article#personajes{
 	background-repeat:no-repeat;
 	background-position:center;
 }
+
+article .per li{
+	display: inline-block;
+	margin-right: 10%;
+	margin-left: 10%;
+}
+
+article .per div{
+	margin-top:50%;
+}
+
+article .info {
+	float: left;
+}
+
+article .info img{
+	margin-top: 15%;
+}
+
 article#about{
 	background-color:#FFF;
 }
