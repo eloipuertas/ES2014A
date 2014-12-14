@@ -80,26 +80,17 @@ public class ClickToMove : MonoBehaviour {
 
 		if (/*!state.Equals ("Dead") && */!state.Equals("None")) {
             if (path != null){
-               
-                if (!anim.GetBool("walk")){
-                    //Debug.Log ("@Update: STARTING WALK ANIMATION!");
-                    anim.SetBool("w_stop", false);
-                    anim.SetBool("walk", true);
-                }
+                /*
+                 * @ivanUB: IF WE ARE NOT WALKING YET --> PLAY ANIMATION WALK
+                 */
                 tracking();
             }
 		} else {
 			// We can get here from previous attack animation!
+           /*
+            * @ivanUB: IF PLAYER IS ATTACKING AND ATACKTIME is FINISHED ---> STOP ATTACK ANIMATION
+            */
 
-			if(anim.GetBool("w_attack") && timer_w_attack <= 0f){
-				//Debug.Log ("@Udate: w_attack true -> stop WATTACK/WALK");
-				anim.SetBool("w_attack", false);
-				anim.SetBool ("w_stop",true);
-				anim.SetBool ("walk", false);
-			}else if(anim.GetBool("attack")){
-				//Debug.Log ("@Udate: attack true -> stop ATTACK");
-				anim.SetBool("attack", false);
-			}
 		}	
 	}
 
@@ -126,21 +117,7 @@ public class ClickToMove : MonoBehaviour {
                     state = "Walk";
                     Walk();
                 }
-
-                if (anim.GetBool("w_attack") && timer_w_attack <= 0f)
-                {
-                    //Debug.Log ("@Udate: w_attack true -> stop WATTACK/WALK");
-                    anim.SetBool("w_attack", false);
-                    anim.SetBool("w_stop", true);
-                    anim.SetBool("walk", false);
-                }
-                else if (timer_w_attack > 0)
-                {
-                    timer_w_attack -= Time.deltaTime;
-                }
             }
-
-
 
 
 		} else if (Input.GetMouseButton(1)) {
@@ -179,8 +156,9 @@ public class ClickToMove : MonoBehaviour {
 			done = true;
 
 			//Debug.Log ("@tracking -> targetPosition reached!!");
-			anim.SetBool ("walk", false);
-			anim.SetBool("w_stop", true);
+            /*
+             * @ivanUB STOP WALK ANIMATION
+             */
 			state = "None";
 
 		} else if(state.Equals("Attack") && enemy!=null){
@@ -229,9 +207,9 @@ public class ClickToMove : MonoBehaviour {
 
         if (enemy != null) transform.LookAt(enemy.transform.position);
 
-		if(anim.GetBool("walk")) anim.SetBool ("w_attack", true);
-        else anim.SetBool("attack", true);
-
+        /*
+         * @ivanUB PLAY ATTACK ANIMATION
+         */
 		if (Time.time > attackTime){
             attackTime = Time.time + 0.90f;
 			if(music != null) music.SendMessage("play_Player_Sword_Attack");
@@ -250,11 +228,9 @@ public class ClickToMove : MonoBehaviour {
 
 	public void death(){
 	
-		anim.SetBool ("w_stop",true);
-		anim.SetBool ("walk", false);
-		anim.SetBool ("attack", false);
-		anim.SetBool ("w_attack", false);
-		anim.SetBool ("death", true);
+        /*
+         * START ANIMATION --> DEATH
+         */
 		walk = false;
 	}
 	// ====================================================
@@ -264,10 +240,9 @@ public class ClickToMove : MonoBehaviour {
 
 		//Debug.Log ("@don't walk!!");
 
-        if (!anim.GetBool("w_stop")) anim.SetBool("w_stop", true);
-        if (anim.GetBool("walk")) anim.SetBool("walk", false);
-        if (anim.GetBool("attack")) anim.SetBool("attack", false);
-		if(anim.GetBool("w_attack")) anim.SetBool ("w_attack", false);
+        /*
+         * @ivanUB STOP ALL ANIMATIONS EXCEPT IDLE
+         */
 
 		walk = false;
 	}
