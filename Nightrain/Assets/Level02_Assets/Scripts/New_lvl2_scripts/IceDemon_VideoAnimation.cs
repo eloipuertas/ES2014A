@@ -6,7 +6,7 @@ public class IceDemon_VideoAnimation : MonoBehaviour {
 
 	private GameObject player;
 	private ClickToMove_lvl2 move_script;
-	private Skill_Controller_lvl2 skill_script;
+	private Skill_Controller skill_script;
 
 	private StageController stage;
 
@@ -26,7 +26,7 @@ public class IceDemon_VideoAnimation : MonoBehaviour {
 
 		player = GameObject.FindGameObjectWithTag ("Player");
 		move_script = player.GetComponent <ClickToMove_lvl2> ();
-		skill_script = player.GetComponent <Skill_Controller_lvl2> ();
+		skill_script = player.GetComponent <Skill_Controller> ();
 
 		demon_anim = demon.GetComponent<FireDemon_Controller> ();
 

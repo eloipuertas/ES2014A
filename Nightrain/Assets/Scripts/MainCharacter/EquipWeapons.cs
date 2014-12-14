@@ -36,6 +36,7 @@ public class EquipWeapons : MonoBehaviour {
 	public static void setWeapon(Weapon weapon){
 
 		if(w == null){
+			print("Weapon Name: " + weapon.name);
 			w = Instantiate(Resources.Load<GameObject>("Prefabs/Inventory/Weapons/" + weapon.name)) as GameObject;
 			w.transform.position = weaponTransform.position;
 			w.transform.parent = weaponTransform;

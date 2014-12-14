@@ -7,6 +7,7 @@ public class TrophyEngine : MonoBehaviour {
 	private const int reference_height = 598;
 
 	private int MiniGolem;
+	private int Skull;
 	private float timer = 5f;
 	private bool[] trofeos;
 	private string[] trophy_unlock;
@@ -45,6 +46,13 @@ public class TrophyEngine : MonoBehaviour {
 		print ("MiniGolem: " + MiniGolem);
 		TrophyMiniGolems ();
 	}
+
+	public void countSkulls(int count){
+		PlayerPrefs.SetInt ("Skull", PlayerPrefs.GetInt ("Skull") + count);
+		Skull = PlayerPrefs.GetInt ("Skull");
+		print ("Skull: " + Skull);
+		TrophySkulls ();
+	}
 	
 	private void TrophyMiniGolems(){
 
@@ -57,6 +65,21 @@ public class TrophyEngine : MonoBehaviour {
 			trophyQ.Enqueue(TrophyTexture);
 		}
 
+		TrophyPlatino ();
+	}
+
+	private void TrophySkulls(){
+		
+		if(Skull == 10 && !trofeos[7]){
+			print ("Trophy Skull");
+			trofeos[7] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_Esqueleto", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_esqueleto");
+			trophyQ.Enqueue(TrophyTexture);
+		}
+
+		TrophyPlatino ();
 	}
 
 	public void TrophyGolemLava(){
@@ -70,7 +93,23 @@ public class TrophyEngine : MonoBehaviour {
 			trophyQ.Enqueue(TrophyTexture);
 		}
 
+		TrophyPlatino ();
 	}
+
+	public void TrophyGolemIce(){
+		
+		print ("Trophy Golem Ice");
+		if(!trofeos[8]){
+			trofeos[8] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_GolemHielo", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_golemhielo");
+			trophyQ.Enqueue(TrophyTexture);
+		}
+
+		TrophyPlatino ();
+	}
+
 
 	public void TrophyLevels(int level){
 
@@ -99,8 +138,74 @@ public class TrophyEngine : MonoBehaviour {
 			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_level50");
 			trophyQ.Enqueue(TrophyTexture);
 		}
-		
+
+		TrophyPlatino ();
 	}
+
+	public void TrophyDifficult(string dificult){
+		
+		if(!trofeos[9] && dificult == "Easy"){
+			trofeos[9] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_Easy", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_easy");
+			trophyQ.Enqueue(TrophyTexture);
+		}else if(!trofeos[10] && dificult == "Normal"){
+			trofeos[10] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_Normal", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_normal");
+			trophyQ.Enqueue(TrophyTexture);
+		}else if(!trofeos[11] && dificult == "Hard"){
+			trofeos[11] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_Hard", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_hard");
+			trophyQ.Enqueue(TrophyTexture);
+		}else if(!trofeos[12] && dificult == "Extreme"){
+			trofeos[12] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_Extreme", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_extreme");
+			trophyQ.Enqueue(TrophyTexture);
+		}	
+
+		TrophyPlatino ();
+	}
+
+	public void TrophyCharacter(string character){
+		
+		if(!trofeos[13] && character == "hombre"){
+			trofeos[13] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_Guerrero", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_guerrero");
+			trophyQ.Enqueue(TrophyTexture);
+		}else if(!trofeos[14] && character == "mujer"){
+			trofeos[14] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_Maga", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_maga");
+			trophyQ.Enqueue(TrophyTexture);
+		}else if(!trofeos[15] && character == "joven"){
+			trofeos[15] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_Ladron", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_ladron");
+			trophyQ.Enqueue(TrophyTexture);
+		}
+
+		if (trofeos [13] && trofeos [14] && trofeos [15] && !trofeos [16]) {
+			trofeos[16] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_Todos", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_todos");
+			trophyQ.Enqueue(TrophyTexture);
+		}
+
+		TrophyPlatino ();
+	}
+
 
 	public void TrophyBusterSword(){
 		
@@ -112,7 +217,26 @@ public class TrophyEngine : MonoBehaviour {
 			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_bustersword");
 			trophyQ.Enqueue(TrophyTexture);
 		}
+
+		TrophyPlatino ();
 		
+	}
+
+	private bool TrophyPlatino(){
+
+		for (int i = 0; i < trofeos.Length-1; i++) 
+			if(!trofeos[i])
+				return false;
+
+		if(!trofeos[17]){
+			trofeos[17] = true;
+			unlock = true;
+			PlayerPrefs.SetInt("Trofeo_Platino", 1);
+			TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_platino");
+			trophyQ.Enqueue(TrophyTexture);
+		}
+
+		return true;
 	}
 
 	void loadTrophys(){
@@ -123,6 +247,17 @@ public class TrophyEngine : MonoBehaviour {
 		trofeos [4] = PlayerPrefs.GetInt("Trofeo_Level20")==1?true:false;
 		trofeos [5] = PlayerPrefs.GetInt("Trofeo_Level50")==1?true:false;
 		trofeos [6] = PlayerPrefs.GetInt("Trofeo_BusterSword")==1?true:false;
+		trofeos [7] = PlayerPrefs.GetInt("Trofeo_Esqueleto")==1?true:false;
+		trofeos [8] = PlayerPrefs.GetInt("Trofeo_GolemHielo")==1?true:false;
+		trofeos [9] = PlayerPrefs.GetInt("Trofeo_Easy")==1?true:false;
+		trofeos [10] = PlayerPrefs.GetInt("Trofeo_Normal")==1?true:false;
+		trofeos [11] = PlayerPrefs.GetInt("Trofeo_Hard")==1?true:false;
+		trofeos [12] = PlayerPrefs.GetInt("Trofeo_Extreme")==1?true:false;
+		trofeos [13] = PlayerPrefs.GetInt("Trofeo_Guerrero")==1?true:false;
+		trofeos [14] = PlayerPrefs.GetInt("Trofeo_Maga")==1?true:false;
+		trofeos [15] = PlayerPrefs.GetInt("Trofeo_Ladron")==1?true:false;
+		trofeos [16] = PlayerPrefs.GetInt("Trofeo_Todos")==1?true:false;
+		trofeos [17] = PlayerPrefs.GetInt("Trofeo_Platino")==1?true:false;
 	}
 
 	public void getTrophys(string[] trophy_unlock){
@@ -134,6 +269,17 @@ public class TrophyEngine : MonoBehaviour {
 		trophy_unlock [4] = PlayerPrefs.GetInt("Trofeo_Level20")==1?"unlock_":"lock_";
 		trophy_unlock [5] = PlayerPrefs.GetInt("Trofeo_Level50")==1?"unlock_":"lock_";
 		trophy_unlock [6] = PlayerPrefs.GetInt("Trofeo_BusterSword")==1?"unlock_":"lock_";
+		trophy_unlock [7] = PlayerPrefs.GetInt("Trofeo_Esqueleto")==1?"unlock_":"lock_";
+		trophy_unlock [8] = PlayerPrefs.GetInt("Trofeo_GolemHielo")==1?"unlock_":"lock_";
+		trophy_unlock [9] = PlayerPrefs.GetInt("Trofeo_Easy")==1?"unlock_":"lock_";
+		trophy_unlock [10] = PlayerPrefs.GetInt("Trofeo_Normal")==1?"unlock_":"lock_";
+		trophy_unlock [11] = PlayerPrefs.GetInt("Trofeo_Hard")==1?"unlock_":"lock_";
+		trophy_unlock [12] = PlayerPrefs.GetInt("Trofeo_Extreme")==1?"unlock_":"lock_";
+		trophy_unlock [13] = PlayerPrefs.GetInt("Trofeo_Guerrero")==1?"unlock_":"lock_";
+		trophy_unlock [14] = PlayerPrefs.GetInt("Trofeo_Maga")==1?"unlock_":"lock_";
+		trophy_unlock [15] = PlayerPrefs.GetInt("Trofeo_Ladron")==1?"unlock_":"lock_";
+		trophy_unlock [16] = PlayerPrefs.GetInt("Trofeo_Todos")==1?"unlock_":"lock_";
+		trophy_unlock [17] = PlayerPrefs.GetInt("Trofeo_Platino")==1?"unlock_":"lock_";
 	}
 
 	void OnGUI(){
@@ -151,7 +297,6 @@ public class TrophyEngine : MonoBehaviour {
 			if(trophyQ.Count == 0)
 				unlock = false;
 			sound = false;
-			trofeos[0] = false;
 			timer = 5f;
 			trophyQ.Dequeue();
 		}else if(trophyQ.Count >= 1 && unlock){

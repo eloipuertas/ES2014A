@@ -9,8 +9,8 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 	private Skeleton_boss_controller boss_ctrl;
 	private GameObject player;
 	private ClickToMove_lvl2 move_script;
-	private Skill_Controller_lvl2 skill_script;
-	private ActionBarScript_lvl2 action_bar;
+	private Skill_Controller skill_script;
+	private ActionBarScript action_bar;
 	private FadeOut_lvl2 fade_out;
 
 	private GameObject player_hand;
@@ -34,8 +34,8 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		move_script = player.GetComponent <ClickToMove_lvl2> ();
-		skill_script = player.GetComponent <Skill_Controller_lvl2> ();
-		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript_lvl2> ();
+		skill_script = player.GetComponent <Skill_Controller> ();
+		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript> ();
 		boss_ctrl = boss.GetComponent <Skeleton_boss_controller> ();
 		fade_out = fade.GetComponent<FadeOut_lvl2> ();
 

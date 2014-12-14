@@ -14,7 +14,7 @@ public class Volcan_VideoAnimator : MonoBehaviour {
 	private GameObject player;
 	private Music_Engine_Script music;
 	private ClickToMove_lvl2 move_script;
-	private Skill_Controller_lvl2 skill_script;
+	private Skill_Controller skill_script;
 
 	private float time = 0.0f;
 	private float anim_time = 0.0f;
@@ -34,7 +34,7 @@ public class Volcan_VideoAnimator : MonoBehaviour {
 
 		demon_anim = demon.GetComponent<FireDemon_Controller> ();
 		move_script = player.GetComponent <ClickToMove_lvl2> ();
-		skill_script = player.GetComponent <Skill_Controller_lvl2> ();
+		skill_script = player.GetComponent <Skill_Controller> ();
 		
 		move_script.enabled = false;
 		skill_script.enabled = false;

@@ -12,12 +12,13 @@ public class Ice_Golem_controller : MonoBehaviour {
 	public Transform Anim;
 	public float health = 10.0f;
 	public int base_dmg = 10;
+	public int exp = 500;
 
 	private Animator anim_ctrl;
 	private CharacterController ctrl;
 	private NPCHealthBar_lvl2 health_bar;
 	private GameObject player;
-	private CharacterScript_lvl2 player_script;
+	private CharacterScript player_script;
 	private StageController stage;
 	private GameObject health_sphere;
 	private GameObject mana_sphere;
@@ -45,7 +46,7 @@ public class Ice_Golem_controller : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.player = GameObject.FindGameObjectWithTag("Player");
-		this.player_script = player.GetComponent<CharacterScript_lvl2> ();
+		this.player_script = player.GetComponent<CharacterScript> ();
 		this.health_bar = this.gameObject.GetComponent<NPCHealthBar_lvl2> ();
 		this.ctrl = GetComponent<CharacterController> ();
 		this.stage = GameObject.FindGameObjectWithTag ("GameController").GetComponent<StageController> ();
@@ -201,6 +202,7 @@ public class Ice_Golem_controller : MonoBehaviour {
 			Destroy (this.GetComponent<CharacterController>());
 			Destroy (this.GetComponent<Rigidbody> ());
 			Destroy (this.GetComponent<CapsuleCollider> ());
+			this.player_script.setEXP(exp);
 		} else {
 			music.play_skel_die ();
 		}

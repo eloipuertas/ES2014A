@@ -7,8 +7,8 @@ public class FinalBoss_VideoAnimation_2 : MonoBehaviour {
 	private Skeleton_boss_controller boss_ctrl;
 	private GameObject player;
 	private ClickToMove_lvl2 move_script;
-	private Skill_Controller_lvl2 skill_script;
-	private ActionBarScript_lvl2 action_bar;
+	private Skill_Controller skill_script;
+	private ActionBarScript action_bar;
 	
 	private Texture2D [] dialogs = new Texture2D[3];
 	private int current_dialog = 0;
@@ -25,8 +25,8 @@ public class FinalBoss_VideoAnimation_2 : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		move_script = player.GetComponent <ClickToMove_lvl2> ();
-		skill_script = player.GetComponent <Skill_Controller_lvl2> ();
-		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript_lvl2> ();
+		skill_script = player.GetComponent <Skill_Controller> ();
+		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript> ();
 		boss_ctrl = boss.GetComponent <Skeleton_boss_controller> ();
 
 		dialogs[0] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_3");

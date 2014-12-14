@@ -3,12 +3,12 @@ using System.Collections;
 
 public class life_Major_sphere_controller : MonoBehaviour {
 
-	private CharacterScript_lvl2 health;
+	private CharacterScript health;
 	//private int max_health;
 	
 	// Use this for initialization
 	void Start () {
-		health = GameObject.FindGameObjectWithTag ("Player").GetComponent <CharacterScript_lvl2>();
+		health = GameObject.FindGameObjectWithTag ("Player").GetComponent <CharacterScript>();
 		//max_health = (int) health.getMaxHealth();
 		Destroy (this.gameObject, 15.0f);
 	}

@@ -37,7 +37,8 @@ public class Skill_Controller : MonoBehaviour {
 		this.player = GameObject.FindGameObjectWithTag("Player");
 		this.cs = this.player.GetComponent<CharacterScript> ();
 		this.cm = this.player.GetComponent<ClickToMove> ();
-		
+
+		effect = false;
 		actual_time = Time.time;
 	}
 	
@@ -57,7 +58,8 @@ public class Skill_Controller : MonoBehaviour {
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
 						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
-						this.cm.attack();
+						if(cm != null)
+							this.cm.attack();
 						this.cs.setSpell(15);		// to cast a spell cost 15PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y += 2;
@@ -78,7 +80,8 @@ public class Skill_Controller : MonoBehaviour {
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
 						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
-						this.cm.attack();
+						if(cm != null)
+							this.cm.attack();
 						this.cs.setSpell(10);		// to cast a spell cost 10PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y += 2;
@@ -101,7 +104,8 @@ public class Skill_Controller : MonoBehaviour {
 						rotatePlayerToMouse();
 						// Dispara la bola en la direccion que apunta el personaje
 						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
-						this.cm.attack();
+						if(cm != null)
+							this.cm.attack();
 						this.cs.setSpell(30);		// to cast a spell cost 30PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y = 0;

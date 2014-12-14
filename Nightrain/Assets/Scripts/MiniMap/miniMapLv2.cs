@@ -49,7 +49,7 @@ public class miniMapLv2 : MonoBehaviour {
 	private float iconHalfSize;
 	//This values is because the terrain has 150 of offset to the second terrain.
 	private int offset_w = 0;
-	private int offset_h = 100;
+	private int offset_h = 0;
 
 	private bool mapVisible = false;
 

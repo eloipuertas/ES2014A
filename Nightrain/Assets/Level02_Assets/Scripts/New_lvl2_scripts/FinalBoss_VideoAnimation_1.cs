@@ -10,8 +10,8 @@ public class FinalBoss_VideoAnimation_1 : MonoBehaviour {
 	private GameObject boss;
 	private GameObject player;
 	private ClickToMove_lvl2 move_script;
-	private Skill_Controller_lvl2 skill_script;
-	private ActionBarScript_lvl2 action_bar;
+	private Skill_Controller skill_script;
+	private ActionBarScript action_bar;
 	
 	private Texture2D [] dialogs = new Texture2D[2];
 	private int current_dialog = 0;
@@ -28,8 +28,8 @@ public class FinalBoss_VideoAnimation_1 : MonoBehaviour {
 		boss = GameObject.FindGameObjectWithTag ("Boss");
 		player = GameObject.FindGameObjectWithTag ("Player");
 		move_script = player.GetComponent <ClickToMove_lvl2> ();
-		skill_script = player.GetComponent <Skill_Controller_lvl2> ();
-		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript_lvl2> ();
+		skill_script = player.GetComponent <Skill_Controller> ();
+		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript> ();
 
 		move_script.teleport (position.transform.position);
 		player.transform.position = position.transform.position;

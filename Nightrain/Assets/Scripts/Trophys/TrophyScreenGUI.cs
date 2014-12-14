@@ -59,24 +59,24 @@ public class TrophyScreenGUI : MonoBehaviour {
 
 		// MAIN MENU
 		this.backgroundTexture = Resources.Load<Texture2D>("Trofeos/background_trophyv2");
-		this.PlatinoTexture = Resources.Load<Texture2D>("Trofeos/"+str+"platino");
-		this.EasyTexture = Resources.Load<Texture2D>("Trofeos/"+str+"easy");
-		this.NormalTexture = Resources.Load<Texture2D>("Trofeos/"+str+"normal");
-		this.HardTexture = Resources.Load<Texture2D>("Trofeos/"+str+"hard");
-		this.ExtremeTexture = Resources.Load<Texture2D>("Trofeos/"+str+"extreme");
-		this.WarriorTexture = Resources.Load<Texture2D>("Trofeos/"+str+"guerrero");
-		this.SageTexture = Resources.Load<Texture2D>("Trofeos/"+str+"maga");
-		this.ThiefTexture = Resources.Load<Texture2D>("Trofeos/"+str+"ladron");
-		this.AllTexture = Resources.Load<Texture2D>("Trofeos/"+str+"todos");
+		this.PlatinoTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[17]+"platino");
+		this.EasyTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[9]+"easy");
+		this.NormalTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[10]+"normal");
+		this.HardTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[11]+"hard");
+		this.ExtremeTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[12]+"extreme");
+		this.WarriorTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[13]+"guerrero");
+		this.SageTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[14]+"maga");
+		this.ThiefTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[15]+"ladron");
+		this.AllTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[16]+"todos");
 		this.BusterSwordTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[6]+"bustersword");
 		this.Level5Texture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[2]+"level5");
 		this.Level10Texture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[3]+"level10");
 		this.Level20Texture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[4]+"level20");
 		this.Level50Texture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[5]+"level50");
 		this.miniGolemTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[0]+"minigolem");
-		this.EsqueletoTexture = Resources.Load<Texture2D>("Trofeos/"+str+"esqueleto");
+		this.EsqueletoTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[7]+"esqueleto");
 		this.GolemLavaTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[1]+"golemlava");
-		this.GolemHieloTexture = Resources.Load<Texture2D>("Trofeos/"+str+"golemhielo");
+		this.GolemHieloTexture = Resources.Load<Texture2D>("Trofeos/"+list_trophies[8]+"golemhielo");
 
 		this.btnExitTexture = Resources.Load<Texture2D>("MainMenu/exit");
 		this.hoverBtnExitTexture = Resources.Load<Texture2D>("MainMenu/hover_exit");

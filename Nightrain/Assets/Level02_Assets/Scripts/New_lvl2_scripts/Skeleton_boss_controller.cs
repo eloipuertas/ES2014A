@@ -13,6 +13,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	public float destroy_time = 10.0f;
 	public float total_health = 500.0f;
 	public float base_dmg = 15.0f;
+	public int exp = 1000;
 	public GameObject camera_death;
 
 	private GameObject game_engine;
@@ -21,7 +22,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	private CharacterController ctrl;
 	private GameObject player;
 	private Transform player_transform;
-	private CharacterScript_lvl2 player_script;
+	private CharacterScript player_script;
 	private GameObject skill;
 	
 	private Vector3 respawn;
@@ -58,7 +59,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 		this.player = GameObject.FindGameObjectWithTag("Player");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		this.player_transform = player.transform;
-		this.player_script = player.GetComponent<CharacterScript_lvl2> ();
+		this.player_script = player.GetComponent<CharacterScript> ();
 		this.skill = Resources.Load<GameObject> ("Prefabs/Boss_Skills/Boss_skill_2");
 
 		this.respawn = transform.position;
@@ -173,6 +174,11 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	public void dieAnim() {
 		if (!killed) {
 			killed = true;
+			this.player_script.setEXP(exp);
+			TrophyEngine trofeos = GameObject.FindGameObjectWithTag("Trofeos").GetComponent<TrophyEngine>();
+			trofeos.TrophyGolemIce();
+			trofeos.TrophyCharacter(PlayerPrefs.GetString ("Player"));
+			trofeos.TrophyDifficult(PlayerPrefs.GetString("Difficult"));
 			music.play_boss_die ();
 		}
 		Anim.animation.CrossFade (DeathAnimation.name, 0.12f);	

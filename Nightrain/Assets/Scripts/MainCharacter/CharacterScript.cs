@@ -397,6 +397,9 @@ public class CharacterScript : MonoBehaviour {
 		this.bar_health -= damage;
 		// Reproducimos un sonido de dolor del personaje al recibir el golpe
 		if (music != null && this.bar_health > 0) music.play_Player_Hurt ();
+
+		//ClickToMove cm = this.GetComponent<ClickToMove>();
+		//cm.death();
 	}
 
 	// Method to Spell magic the 'Character'

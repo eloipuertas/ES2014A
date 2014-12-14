@@ -78,7 +78,9 @@ public class ClickToMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (/*!state.Equals ("Dead") && */!state.Equals("None")) {
+		if (state.Equals ("Dead")) {
+
+		}else if (/*!state.Equals ("Dead") && */!state.Equals("None")) {
 			if(path != null) {
 				if(!anim.GetBool("walk")) {
 					//Debug.Log ("@Update: STARTING WALK ANIMATION!");
@@ -108,9 +110,9 @@ public class ClickToMove : MonoBehaviour {
 		Ray ray;
 		float hitdist;
 		float distance_to_enemy;
-
-		if (Input.GetMouseButton(0)) {
-
+		
+		if (Input.GetMouseButton(0) && !state.Equals("Dead")) {
+			print ("State: " + state);
 			done = false; //assume every click is a new target -> done flag restart
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			
@@ -165,7 +167,7 @@ public class ClickToMove : MonoBehaviour {
 				timer_w_attack -= Time.deltaTime;
 			}
 
-		}else if (Input.GetMouseButton(1)){
+		}else if (Input.GetMouseButton(1) && !state.Equals("Dead")){
 			
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			
@@ -196,6 +198,7 @@ public class ClickToMove : MonoBehaviour {
 			}
 		}else if(Input.GetMouseButtonUp(1))
 			this.timer_w_attack = 1f;
+		
 
 		// If is outside the inventory region the character recalculate path
 		if(walk)
@@ -290,6 +293,9 @@ public class ClickToMove : MonoBehaviour {
 
 	public void death(){
 	
+
+		state = "Dead";
+		//print ("State: " + state);
 		anim.SetBool ("w_stop",true);
 		anim.SetBool ("walk", false);
 		anim.SetBool ("attack", false);

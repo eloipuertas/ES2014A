@@ -3,7 +3,7 @@ using System.Collections;
 
 public class bossSkill_controller : MonoBehaviour {
 	private Music_Engine_Script music;
-	private CharacterScript_lvl2 char_script;
+	private CharacterScript char_script;
 	
 	public GameObject sparks;
 	public BoxCollider sparks_area;
@@ -18,7 +18,7 @@ public class bossSkill_controller : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		music = GameObject.FindGameObjectWithTag("music_engine").GetComponent<Music_Engine_Script>();
-		char_script = GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterScript_lvl2> ();
+		char_script = GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterScript> ();
 		music.Play_Barrel_Open ();
 		boss = GameObject.FindGameObjectWithTag ("Boss").GetComponent<Skeleton_boss_controller> ();
 	}
