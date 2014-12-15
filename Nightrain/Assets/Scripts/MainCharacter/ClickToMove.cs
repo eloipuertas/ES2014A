@@ -97,19 +97,7 @@ public class ClickToMove : MonoBehaviour {
 						music.play_Player_Sword_Attack ();
 					}
 				}
-				
-				/*if (Input.GetKeyDown (KeyCode.Mouse1)) {
-					if (canAttack ()) {
-						rayAttack = Camera.main.ScreenPointToRay(Input.mousePosition);
-						if(Physics.Raycast(rayAttack, out getObjectScene, 100.0f)){
-							string npc_tag = getObjectScene.transform.gameObject.tag;
-							if(atk_script.isEnemy(npc_tag)) {
-								attack_target = true;
-								rotateToPos (getObjectScene.transform.position);
-							}
-						}
-					}
-				}*/
+
 			}
 		}
 	}
@@ -186,5 +174,16 @@ public class ClickToMove : MonoBehaviour {
 	
 	public void stopAttackAnim() {
 		anim.SetBool ("attack", false);
+	}
+
+	/*
+	 * @ivanUB: Al tocar el Chest el mainCharacter s'ha d'aturar totalment.
+	 * No acava de fer-ho be.
+	 */ 
+	void OnControllerColliderHit(ControllerCOlliderHit hit){
+		if (hit.gameObject.tag == "Chest") {
+			speed = 0.0f;
+			dontWalk ();
+		}
 	}
 }
