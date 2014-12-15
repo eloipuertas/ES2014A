@@ -23,7 +23,7 @@ public class tower_attack : MonoBehaviour {
 			//buscar el player
 			this.player = GameObject.FindGameObjectWithTag("Player");
 			
-			if(this.player != null) {        
+			if(this.player != null && player.transform.position.z > 25f) {        
 				
 				//Si esta dentro del rango de vision, atacaremos y no hay nada entre medio
 				if (Vector3.Distance(transform.position, this.player.transform.position) <= range) {
