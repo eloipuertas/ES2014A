@@ -31,8 +31,6 @@ public class TrophyEngine : MonoBehaviour {
 
 		this.loadTrophys ();
 
-		print ("MiniGolem: " + trofeos [0]);
-
 		TrophyTexture = Resources.Load<Texture2D>("Trofeos/trophy_platino");
 
 		this.music = GameObject.FindGameObjectWithTag("music_engine").GetComponent<Music_Engine_Script>();
@@ -43,21 +41,18 @@ public class TrophyEngine : MonoBehaviour {
 	public void countMiniGolem(int count){
 		PlayerPrefs.SetInt ("MiniGolem", PlayerPrefs.GetInt ("MiniGolem") + count);
 		MiniGolem = PlayerPrefs.GetInt ("MiniGolem");
-		print ("MiniGolem: " + MiniGolem);
 		TrophyMiniGolems ();
 	}
 
 	public void countSkulls(int count){
 		PlayerPrefs.SetInt ("Skull", PlayerPrefs.GetInt ("Skull") + count);
 		Skull = PlayerPrefs.GetInt ("Skull");
-		print ("Skull: " + Skull);
 		TrophySkulls ();
 	}
 	
 	private void TrophyMiniGolems(){
 
 		if(MiniGolem == 3 && !trofeos[0]){
-			print ("Trophy MiniGolems");
 			trofeos[0] = true;
 			unlock = true;
 			PlayerPrefs.SetInt("Trofeo_MiniGolem", 1);
@@ -71,7 +66,6 @@ public class TrophyEngine : MonoBehaviour {
 	private void TrophySkulls(){
 		
 		if(Skull == 10 && !trofeos[7]){
-			print ("Trophy Skull");
 			trofeos[7] = true;
 			unlock = true;
 			PlayerPrefs.SetInt("Trofeo_Esqueleto", 1);
@@ -84,7 +78,6 @@ public class TrophyEngine : MonoBehaviour {
 
 	public void TrophyGolemLava(){
 
-		print ("Trophy Golem Lava");
 		if(!trofeos[1]){
 			trofeos[1] = true;
 			unlock = true;
@@ -97,8 +90,7 @@ public class TrophyEngine : MonoBehaviour {
 	}
 
 	public void TrophyGolemIce(){
-		
-		print ("Trophy Golem Ice");
+
 		if(!trofeos[8]){
 			trofeos[8] = true;
 			unlock = true;
@@ -208,8 +200,7 @@ public class TrophyEngine : MonoBehaviour {
 
 
 	public void TrophyBusterSword(){
-		
-		print ("Trophy Buster Sword");
+
 		if(!trofeos[6]){
 			trofeos[6] = true;
 			unlock = true;
