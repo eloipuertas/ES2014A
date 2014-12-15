@@ -180,10 +180,9 @@ public class ClickToMove : MonoBehaviour {
 	 * @ivanUB: Al tocar el Chest el mainCharacter s'ha d'aturar totalment.
 	 * No acava de fer-ho be.
 	 */ 
-	void OnControllerColliderHit(ControllerCOlliderHit hit){
+	void OnControllerColliderHit(ControllerColliderHit hit){
 		if (hit.gameObject.tag == "Chest") {
-			speed = 0.0f;
-			dontWalk ();
+			destinationPosition = transform.position;
 		}
 	}
 }
