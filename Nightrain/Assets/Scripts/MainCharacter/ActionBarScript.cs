@@ -82,14 +82,7 @@ public class ActionBarScript : MonoBehaviour {
 
 	void Update() {
 
-		if (Input.GetMouseButtonDown (1)) {
-			//MOUSE BUTTON RIGHT ATTACK
-			if(cm != null)
-				this.cm.attack();
-			//else if(cm2 != null)
-				//cm2.attackAnim();
-				//print ("Click to Move lvl2");
-		} else if (Input.GetKeyDown(KeyCode.Q) && inventory.getPotion() != 0) {
+		if (Input.GetKeyDown(KeyCode.Q) && inventory.getPotion() != 0) {
 			// ACTION TAKE POTION
 			this.cs.setCure(999);
 			this.cs.setRecoverMagic(999);	

@@ -21,6 +21,11 @@ public class EquipWeapons : MonoBehaviour {
 	private GameObject character;
 	private static CharacterScript cs;
 
+	private Vector3 weaponRotation;
+	private Vector3 weaponPosition;
+	private static bool weaponRotated = false;
+	private static string weaponName = "";
+
 	void Start(){
 
 		
@@ -31,9 +36,19 @@ public class EquipWeapons : MonoBehaviour {
 		shieldTransform = shield.transform;
  
 	}
+
+	void Update() {
+		//print (weapon.name);
+		if (w != null && !weaponRotated) {
+			print (weaponName);
+			setWeaponRotation();
+		}
+	}
 	
 
 	public static void setWeapon(Weapon weapon){
+		//if(weapon.name.Equals("Iron Axe"));
+		weaponName = weapon.name;
 
 		if(w == null){
 			print("Weapon Name: " + weapon.name);
@@ -41,19 +56,55 @@ public class EquipWeapons : MonoBehaviour {
 			w.transform.position = weaponTransform.position;
 			w.transform.parent = weaponTransform;
 			cs.setFRZ(weapon.FRZ);
+			weaponRotated = false;
 		}else{
 			item = w.GetComponent<ItemDrop> ();
 			cs.setFRZ(-item.FRZ);
 			Destroy(w);
+
 			w = Instantiate(Resources.Load<GameObject>("Prefabs/Inventory/Weapons/" + weapon.name)) as GameObject;
 			w.transform.position = weaponTransform.position;
 			w.transform.parent = weaponTransform;
 			cs.setFRZ(weapon.FRZ);
+			weaponRotated = false;
 		}
 		//w.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
 
 	}
-	
+
+	private void setWeaponRotation () {
+		switch (weaponName) {
+			case "Iron Axe":
+				weaponRotation = new Vector3(90f,1f,1f);
+				weaponPosition = new Vector3(-0.07f,-0.05f,-0.008f);
+				break;
+			case "Baston de mago":
+				weaponRotation = new Vector3(90f,1f,1f);
+				weaponPosition = new Vector3(-0.02f,-0.0001f,0.01f);
+				break;
+			case "Buster Sword":
+				weaponRotation = new Vector3(1f,1f,180f);
+				if (PlayerPrefs.GetString ("Player").Equals("joven")) {
+					weaponPosition = new Vector3(0f,0.1f,0.05f);
+				} else if (PlayerPrefs.GetString ("Player").Equals("hombre")) {
+					weaponPosition = new Vector3(-0.07f,0.07f,0.02f);	
+				} else if (PlayerPrefs.GetString ("Player").Equals("mujer")) {
+					weaponPosition = new Vector3(-0.025f,0.03f,0.015f);
+				}
+				break;
+			case "Daga":
+				weaponRotation = new Vector3(1,180f,180f);
+				weaponPosition = new Vector3(0f,-0.25f,0.02f);
+				break;
+		}
+
+
+		w.transform.localPosition = weaponPosition;
+		w.transform.localEulerAngles = weaponRotation;
+
+		weaponRotated = true;
+	}
+
 
 	public static void removeWeapon(Item i){
 
@@ -64,6 +115,7 @@ public class EquipWeapons : MonoBehaviour {
 				cs.setFRZ(-item.FRZ);
 				Destroy (w);
 			}
+			weaponRotated = false;
 		}
 	}
 
