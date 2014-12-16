@@ -49,6 +49,8 @@ public class ClickToMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Time.deltaTime != 0 && !dead) {
+			if (anim.GetBool("attack")) anim.SetBool("attack",false);
+
 			//if (attack_target) destinationPosition = getObjectScene.transform.position;
 			disToDestination = Mathf.Abs (transform.position.x - destinationPosition.x) + Mathf.Abs(destinationPosition.z - transform.position.z);
 			
@@ -56,21 +58,11 @@ public class ClickToMove : MonoBehaviour {
 			if(disToDestination  < .90f){
 				speed = 0.0f;
 				anim.SetFloat ("speed", speed);
-				if (!isAttacking()) {
-					anim.SetBool ("attack", false);
-				}
-				else anim.SetBool ("attack",true);
 			} else {
-				anim.SetFloat ("speed", speed);
 				if(allowMovement) moveToPosition (destinationPosition);
-				if (!isAttacking()) {
-					speed = 30.0f;
-					anim.SetBool ("attack", false);
-				}
-				else {
-					speed = 20.0f;
-					anim.SetBool ("attack", true);				
-				}
+				if (!isAttacking()) speed = 30.0f;
+				else speed = 20.0f;
+				anim.SetFloat ("speed", speed);
 			}
 			
 			// Si hacemos click o dejamos presionado el botón izquierdo del mouse, nos movemos al punto del mouse
@@ -97,7 +89,7 @@ public class ClickToMove : MonoBehaviour {
 					// Si ha pasado mas de 1 segundo del inicio del ultimo ataque
 					if (canAttack()) {
                         enableCollider();   // Si estamos en el cofre activamos de nuevo el SphereCollider
-
+						attackAnim ();
 						rotateToMouse ();
 						atk_script.makeAttack();
                         atk_time = Time.time;
