@@ -8,8 +8,8 @@
 }
 
 html {
-    position: relative;
-    min-height: 100%;
+	position: relative;
+	min-height: 100%;
 }
 
 body {
@@ -75,18 +75,26 @@ article#personajes{
 	background-position:center;
 }
 
-article .per li{
-	display: inline-block;
-	margin-right: 10%;
-	margin-left: 10%;
-}
-
-article .per div{
-	margin-top:50%;
+.perso {
+	max-width:100%;
+	margin: 0 auto;
+	text-align: center;
 }
 
 article .info {
 	float: left;
+	width:27%;
+	margin-top: 2%;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+.texto{
+	max-width: 80%;
+	text-align: left;
+	/*text-align : justify;*/
+	margin: 0 auto;
+	margin-top: 30px;
 }
 
 article .info img{
