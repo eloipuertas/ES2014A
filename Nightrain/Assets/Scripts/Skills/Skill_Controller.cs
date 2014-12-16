@@ -123,6 +123,7 @@ public class Skill_Controller : MonoBehaviour {
 						warrior_aura_actual = Instantiate (warrior_aura, newPosition, player.transform.rotation) as GameObject;
 						// asignamos al personaje como padre
 						warrior_aura_actual.transform.parent = player.transform;
+						warrior_aura_actual.transform.localPosition = new Vector3(0, 0, 0);
 						warrior_aura_time = Time.time; // para el cooldown
 						ActionBarScript.disabledSkill3 = true;
 					}
