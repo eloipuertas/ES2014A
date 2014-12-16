@@ -23,7 +23,9 @@ public class ClickToMove : MonoBehaviour {
 	private Ray ray;
 	private Ray rayAttack;
 	private float hitdist = 0.0f;
-	
+    private bool chestHit = false;
+    private SphereCollider atk_range;
+
 	//MODIFICACIO PER MANTENIRLO SOBRE EL TERRA
 	private float gravity;
 	private float atk_time = -1.0f;
@@ -38,6 +40,8 @@ public class ClickToMove : MonoBehaviour {
 		atk_script = attack_range.GetComponent<Player_Attack_System_lvl1> ();
 		music = GameObject.FindGameObjectWithTag("music_engine").GetComponent<Music_Engine_Script> ();
 		controller = this.gameObject.GetComponent<CharacterController> ();
+        atk_range = attack_range.GetComponent<SphereCollider>();
+	
 		anim = this.gameObject.GetComponent<Animator> ();
 		destinationPosition = transform.position;
 	}
@@ -61,7 +65,6 @@ public class ClickToMove : MonoBehaviour {
 				if(allowMovement) moveToPosition (destinationPosition);
 				if (!isAttacking()) {
 					speed = 30.0f;
-					//animation.Play ("metarig|Caminar");
 					anim.SetBool ("attack", false);
 				}
 				else {
@@ -73,6 +76,11 @@ public class ClickToMove : MonoBehaviour {
 			// Si hacemos click o dejamos presionado el botón izquierdo del mouse, nos movemos al punto del mouse
 			if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0)) { 			
 				attack_target = false;
+                if (chestHit){
+                    chestHit = false;
+                    atk_range.enabled = true;
+                }
+
 				playerPlane = new Plane(Vector3.up, transform.position);
 				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				hitdist = 0.0f;
@@ -176,13 +184,13 @@ public class ClickToMove : MonoBehaviour {
 		anim.SetBool ("attack", false);
 	}
 
-	/*
-	 * @ivanUB: Al tocar el Chest el mainCharacter s'ha d'aturar totalment.
-	 * No acava de fer-ho be.
-	 */ 
 	void OnControllerColliderHit(ControllerColliderHit hit){
-		if (hit.gameObject.tag == "Chest") {
-			destinationPosition = transform.position;
+		if (!chestHit && hit.gameObject.tag == "Chest") {
+            //Debug.Log("chest collision detected");
+            chestHit = true;
+            atk_range.enabled = false;
+
+            destinationPosition = transform.position;
 		}
 	}
 }
