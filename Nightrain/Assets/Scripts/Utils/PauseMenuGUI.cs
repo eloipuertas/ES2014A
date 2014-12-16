@@ -28,7 +28,7 @@ public class PauseMenuGUI {
 
 	// ====== TEXTURES KEYWORD OPTION ======
 	private Texture2D keywordTexture;
-	
+
 	// SHOW MENU CONFIRM
 	private bool confirm = false;
 
@@ -87,6 +87,7 @@ public class PauseMenuGUI {
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		
 	}
+
 	
 	// PAUSE MENU
 	public bool pauseMenu(bool pause){
@@ -307,6 +308,14 @@ public class PauseMenuGUI {
 				}
 			}
 		}
+	}
+
+	public void setConfirm(bool confirm){
+		this.confirm = confirm;
+	}
+
+	public void setKeyword(bool keyword){
+		this.keyword = keyword;
 	}
 	
 	

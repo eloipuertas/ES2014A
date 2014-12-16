@@ -25,10 +25,10 @@ public class Fireball_controller : MonoBehaviour {
 				music_done = true;
 			}
 
-			Skill_Controller.setEffect(false);
+			//Skill_Controller.setEffect(false);
 			ActionBarScript.disabledSkill1 = false;
-			ActionBarScript.disabledSkill2 = false;
-			ActionBarScript.disabledSkill3 = false;
+			//ActionBarScript.disabledSkill2 = false;
+			//ActionBarScript.disabledSkill3 = false;
 			Destroy (gameObject, 0.1f);
 		}
 		

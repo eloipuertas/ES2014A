@@ -6,6 +6,8 @@ public class miniMapLv1 : MonoBehaviour {
 	private const int reference_width = 1366; 
 	private const int reference_height = 598;
 
+	private bool pause = false;
+
 	// ====== TEXTURES MINIMAP ======
 	public Texture2D miniMapTexture;
 
@@ -21,7 +23,9 @@ public class miniMapLv1 : MonoBehaviour {
 	private GameObject[] enemies;
 	private GameObject[] chest;
 	private GameObject boss;
-	
+
+	private InventoryScript inventory;
+
 	//The width and height of your map as it'll appear on screen,
 	public float mapWidth = 200;
 	public float mapHeight = 200;
@@ -41,6 +45,7 @@ public class miniMapLv1 : MonoBehaviour {
 
 		// REFERENCE GAMEOBJECTS
 		this.character = GameObject.FindGameObjectWithTag("Player");
+		this.inventory = character.GetComponentInChildren <InventoryScript> ();
 		this.enemies = GameObject.FindGameObjectsWithTag("Enemy");
 		this.boss = GameObject.FindGameObjectWithTag("Boss");
 		this.chest = GameObject.FindGameObjectsWithTag("Chest");
@@ -59,13 +64,13 @@ public class miniMapLv1 : MonoBehaviour {
 	void Update () {
 		this.iconHalfSize = this.iconSize/2;
 
-		if (Input.GetKeyDown (KeyCode.M) && !mapVisible){ 
-			if(InventoryScript.showInventory()){
-				InventoryScript.setShowInventory(false);
+		if (Input.GetKeyDown (KeyCode.M) && !mapVisible && !pause){ 
+			if(inventory.showInventory()){
+				inventory.setShowInventory(false);
 				mapVisible = true;
 			}else
 				mapVisible = true;
-		}else if (Input.GetKeyDown (KeyCode.M) && mapVisible) 
+		}else if (Input.GetKeyDown (KeyCode.M) && mapVisible && !pause) 
 			mapVisible = false;
 	}
 	
@@ -133,11 +138,15 @@ public class miniMapLv1 : MonoBehaviour {
 
 	}
 
-	public static void setShowMiniMap(bool show){
+	public void setPause(bool pause){
+		this.pause = pause;
+	}
+
+	public void setShowMiniMap(bool show){
 		mapVisible = show;
 	}
 
-	public static bool showMiniMap(){
+	public bool showMiniMap(){
 		return mapVisible;
 	}
 

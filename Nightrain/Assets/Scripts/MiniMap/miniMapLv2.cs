@@ -6,6 +6,8 @@ public class miniMapLv2 : MonoBehaviour {
 	private const int reference_width = 1366; 
 	private const int reference_height = 598;
 
+	private bool pause = false;
+
 	// ====== TEXTURES MINIMAP ======
 	public Texture2D miniMapTexture;
 
@@ -29,6 +31,8 @@ public class miniMapLv2 : MonoBehaviour {
 	private GameObject[] skeleton5; 
 	private GameObject[] miniicedemon7;
 	private GameObject[] miniicedemon8;
+
+	private InventoryScript inventory;
 
 	// BOSS
 	private GameObject firedemon4;
@@ -72,6 +76,8 @@ public class miniMapLv2 : MonoBehaviour {
 
 		this.chest = GameObject.FindGameObjectsWithTag("Chest");
 
+		this.inventory = character.GetComponentInChildren <InventoryScript> ();
+
 		// LOAD TEXTURES
 		this.playerIcon = Resources.Load<Texture2D>("MiniMap/character_v2");
 		this.enemyIcon = Resources.Load<Texture2D>("MiniMap/enemy");
@@ -84,10 +90,14 @@ public class miniMapLv2 : MonoBehaviour {
 	void Update () {
 		this.iconHalfSize = this.iconSize/2;
 
-		if (Input.GetKeyDown (KeyCode.M) && !this.mapVisible) 
-			this.mapVisible = true;
-		else if (Input.GetKeyDown (KeyCode.M) && this.mapVisible) 
-			this.mapVisible = false;
+		if (Input.GetKeyDown (KeyCode.M) && !mapVisible && !pause){ 
+			if(inventory.showInventory()){
+				inventory.setShowInventory(false);
+				mapVisible = true;
+			}else
+				mapVisible = true;
+		}else if (Input.GetKeyDown (KeyCode.M) && mapVisible && !pause) 
+			mapVisible = false;
 	}
 	
 
@@ -254,6 +264,18 @@ public class miniMapLv2 : MonoBehaviour {
 			                playerIcon);
 		}
 
+	}
+
+	public void setPause(bool pause){
+		this.pause = pause;
+	}
+	
+	public void setShowMiniMap(bool show){
+		mapVisible = show;
+	}
+	
+	public bool showMiniMap(){
+		return mapVisible;
 	}
 
 

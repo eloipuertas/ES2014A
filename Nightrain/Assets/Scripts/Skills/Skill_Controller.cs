@@ -24,6 +24,7 @@ public class Skill_Controller : MonoBehaviour {
 	private GameObject player;
 	private CharacterScript cs;
 	private ClickToMove cm;
+	private ClickToMove_lvl2 cm2;
 
 	private static bool effect = false;
 	
@@ -37,6 +38,7 @@ public class Skill_Controller : MonoBehaviour {
 		this.player = GameObject.FindGameObjectWithTag("Player");
 		this.cs = this.player.GetComponent<CharacterScript> ();
 		this.cm = this.player.GetComponent<ClickToMove> ();
+		this.cm2 = this.player.GetComponent<ClickToMove_lvl2> ();
 
 		effect = false;
 		actual_time = Time.time;
@@ -50,7 +52,7 @@ public class Skill_Controller : MonoBehaviour {
 			actual_time = Time.time;
 			
 			// Al presionar el boton 1 del teclado disparamos la bola de fuego
-			if (Input.GetKeyDown (KeyCode.Alpha1) && !effect) {
+			if (Input.GetKeyDown (KeyCode.Alpha1)/* && !effect*/) {
 
 				if(this.cs.HasEnoughtMagic(15)){ //<-- 15PM
 					if (!skillOnCD(fireball_time, fireball_cooldown)) {
@@ -60,6 +62,9 @@ public class Skill_Controller : MonoBehaviour {
 						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
 						if(cm != null)
 							this.cm.attack();
+						else if(cm2 != null)
+							this.cm2.attackAnim();
+
 						this.cs.setSpell(15);		// to cast a spell cost 15PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y += 2;
@@ -71,7 +76,7 @@ public class Skill_Controller : MonoBehaviour {
 				}
 			}
 			
-			if (Input.GetKeyDown (KeyCode.Alpha2) && !effect) {
+			if (Input.GetKeyDown (KeyCode.Alpha2)/* && !effect*/) {
 				actual_time = Time.time;
 
 				if(this.cs.HasEnoughtMagic(10)){ //<-- 10PM
@@ -82,6 +87,9 @@ public class Skill_Controller : MonoBehaviour {
 						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
 						if(cm != null)
 							this.cm.attack();
+						else if(cm2 != null)
+							this.cm2.attackAnim();
+
 						this.cs.setSpell(10);		// to cast a spell cost 10PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y += 2;
@@ -94,7 +102,7 @@ public class Skill_Controller : MonoBehaviour {
 			}
 			
 			// Al presionar el boton 2 del teclado lanzamos la daga
-			if (Input.GetKeyDown (KeyCode.Alpha3) && !effect) {
+			if (Input.GetKeyDown (KeyCode.Alpha3)/* && !effect*/) {
 				actual_time = Time.time;
 
 				if(this.cs.HasEnoughtMagic(30)){ //<-- 30PM
@@ -106,6 +114,9 @@ public class Skill_Controller : MonoBehaviour {
 						//this.player.animation.CrossFade ("metarig|Atacar", 0.2f);
 						if(cm != null)
 							this.cm.attack();
+						else if(cm2 != null)
+							this.cm2.attackAnim();
+
 						this.cs.setSpell(30);		// to cast a spell cost 30PM.
 						Vector3 newPosition = player.transform.position;
 						newPosition.y = 0;

@@ -30,6 +30,7 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	private bool attack_target = false;
 	private float atk_cd = 1.0f;
 	private bool dead = false;
+	private bool allowMovement = true;
 
 	// Use this for initialization
 	void Start () {
@@ -57,7 +58,8 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 				else anim.SetBool ("attack",true);
 			} else {
 				anim.SetFloat ("speed", speed);
-				moveToPosition (destinationPosition);
+				if(allowMovement) moveToPosition (destinationPosition);
+				//moveToPosition (destinationPosition);
 				if (!isAttacking()) {
 					speed = 30.0f;
 					//animation.Play ("metarig|Caminar");
@@ -78,8 +80,12 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 				
 				if (playerPlane.Raycast(ray, out hitdist)) {
 					targetPoint = ray.GetPoint(hitdist);
-					destinationPosition = ray.GetPoint(hitdist);
-					rotateToMouse();
+					if(allowMovement) {
+						destinationPosition = ray.GetPoint(hitdist);
+						rotateToMouse();
+					}
+					//destinationPosition = ray.GetPoint(hitdist);
+					//rotateToMouse();
 				}
 			}
 
@@ -142,6 +148,14 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 		destinationPosition = position;
 		speed = 0.0f;
 		anim.SetFloat ("speed", speed);
+	}
+
+	public void dontWalk() {
+		allowMovement = false;
+	}
+	
+	public void Walk() {
+		allowMovement = true;
 	}
 
 	private bool isAttacking() {

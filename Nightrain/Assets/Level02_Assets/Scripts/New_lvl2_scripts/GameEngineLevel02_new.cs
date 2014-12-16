@@ -7,6 +7,8 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	
 	private RaycastHit getObjectScene;
 	private bool pause = false;
+	private bool minimap = false;
+	private bool inventory = false;
 	
 	// --- CHARACTER ---
 	private GameObject prefab;
@@ -42,7 +44,13 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	// Time Played
 	private static float time_play = 0;
 	private float time_dead = 0.0f;
+	private bool anim_death = false;
 
+	private InventoryScript invent;
+	private miniMapLv2 map;
+
+	// Music
+	private Music_Engine_Script music;
 	
 	// Use this for initialization
 	void Awake () {
@@ -54,12 +62,17 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		this.cs = this.character.GetComponent<CharacterScript> ();
 		this.cm = this.character.GetComponent<ClickToMove_lvl2> ();
 
+		this.invent = this.character.GetComponentInChildren <InventoryScript> ();
+		this.map = GameObject.FindGameObjectWithTag ("Minimap").GetComponent<miniMapLv2> ();
+		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
+
 		// Memory Card Save/Load data
 		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
 		this.save = this.mc.saveData();
 		this.load = this.mc.loadData();
 		time_play = this.load.loadTimePlayed (); 
 		print ("Time begin: " + time_play);
+
 
 		// --- LOAD RESOURCES TO MENU ---
 		gui = new PauseMenuGUI();
@@ -80,13 +93,25 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	
 	void StateMachine(){
 		
-		if (Input.GetKeyDown (KeyCode.Escape) && !this.pause) {
-			this.pause = true;
+		if (Input.GetKeyDown (KeyCode.Escape) && !pause) {
+			pause = true;
+			minimap = map.showMiniMap();
+			inventory = invent.showInventory();
+			map.setShowMiniMap(false);
+			map.setPause(pause);
+			invent.setShowInventory(false);
+			invent.setPause(pause);
 			Time.timeScale = 0;
-		} else if (Input.GetKeyDown (KeyCode.Escape) && this.pause) {
-			this.pause = false;
+		} else if (Input.GetKeyDown (KeyCode.Escape) && pause) {
+			pause = false;
+			this.gui.setConfirm(false);
+			this.gui.setKeyword(false);
+			map.setShowMiniMap(minimap);
+			map.setPause(pause);
+			invent.setShowInventory(inventory);
+			invent.setPause(pause);
 			Time.timeScale = 1;
-		} 
+		}
 		/*else if (Input.GetKeyDown (KeyCode.C)) {
 			Vector3 pos = character.transform.position;
 			Quaternion rot = character.transform.rotation;
@@ -112,7 +137,9 @@ public class GameEngineLevel02_new : MonoBehaviour {
 			if(time_dead == 0.0f) time_dead = Time.time;
 			if(Time.time-time_dead > 3.0f) {
 				Application.LoadLevel(7);
-			} else {
+			} else if(!anim_death){
+				anim_death = true;
+				music.play_Player_Die();
 				cm.dieAnim ();
 			}
 		}
@@ -153,6 +180,8 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		if (this.pause) 
 			this.pause = this.gui.pauseMenu (this.pause);		
 		this.gui.confirmMenu(this.pause);
+		this.gui.optionKeyword (this.pause);
+
 	}
 
 	public void finish_game() {

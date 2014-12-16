@@ -21,6 +21,7 @@ public class Music_Engine_Script : MonoBehaviour {
 	public AudioClip recover_life;
 	public AudioClip low_PM;
 	public AudioClip levelUp;
+	public AudioClip destroybarrel;
 
 	public AudioClip firewall;
 
@@ -168,6 +169,10 @@ public class Music_Engine_Script : MonoBehaviour {
 	
 	public void play_level_Up () {
 		audio.PlayOneShot (levelUp);
+	}
+
+	public void play_destroyBarrel () {
+		audio.PlayOneShot (destroybarrel);
 	}
 
 	public void play_firewall () {
