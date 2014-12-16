@@ -26,6 +26,11 @@ public class EquipWeapons : MonoBehaviour {
 	private static bool weaponRotated = false;
 	private static string weaponName = "";
 
+	private Vector3 shieldRotation;
+	private Vector3 shieldPosition;
+	private static bool shieldRotated = false;
+	private static string shieldName = "";
+
 	void Start(){
 
 		
@@ -40,8 +45,11 @@ public class EquipWeapons : MonoBehaviour {
 	void Update() {
 		//print (weapon.name);
 		if (w != null && !weaponRotated) {
-			print (weaponName);
 			setWeaponRotation();
+		}
+
+		if (s != null && !shieldRotated) {
+			setShieldRotation();
 		}
 	}
 	
@@ -51,7 +59,6 @@ public class EquipWeapons : MonoBehaviour {
 		weaponName = weapon.name;
 
 		if(w == null){
-			print("Weapon Name: " + weapon.name);
 			w = Instantiate(Resources.Load<GameObject>("Prefabs/Inventory/Weapons/" + weapon.name)) as GameObject;
 			w.transform.position = weaponTransform.position;
 			w.transform.parent = weaponTransform;
@@ -105,6 +112,29 @@ public class EquipWeapons : MonoBehaviour {
 		weaponRotated = true;
 	}
 
+	private void setShieldRotation () {
+		switch (shieldName) {
+			case "Leather Shield":
+				if (PlayerPrefs.GetString ("Player").Equals("joven")) {
+					shieldRotation = new Vector3(0f,0f,15f);
+					shieldPosition = new Vector3(0f,-0.05f,-0.05f);
+				} else if (PlayerPrefs.GetString ("Player").Equals("hombre")) {
+					shieldRotation = new Vector3(0f,0f,15f);
+					shieldPosition = new Vector3(0f,-0.05f,-0.05f);
+				} else if (PlayerPrefs.GetString ("Player").Equals("mujer")) {
+					shieldRotation = new Vector3(0f,0f,15f);
+					shieldPosition = new Vector3(0f,-0.05f,-0.05f);
+				}
+
+			break;
+		}
+		
+		//s.transform.localPosition = shieldPosition;
+		s.transform.localEulerAngles = shieldRotation;
+		
+		shieldRotated = true;
+	}
+
 
 	public static void removeWeapon(Item i){
 
@@ -122,11 +152,15 @@ public class EquipWeapons : MonoBehaviour {
 
 	public static void setShield(Shield shield){
 
+		shieldName = shield.name;
+
 		if(s == null){
+			print("Shield Name: " + shield.name);
 			s = Instantiate(Resources.Load<GameObject>("Prefabs/Inventory/Shields/" + shield.name)) as GameObject;
 			s.transform.position = shieldTransform.position;
 			s.transform.parent = shieldTransform;
 			cs.setDEF(shield.DEF);
+			shieldRotated = false;
 		}else{
 			item = s.GetComponent<ItemDrop> ();
 			cs.setDEF(-item.DEF);
@@ -135,6 +169,7 @@ public class EquipWeapons : MonoBehaviour {
 			s.transform.position = shieldTransform.position;
 			s.transform.parent = shieldTransform;
 			cs.setDEF(shield.DEF);
+			shieldRotated = false;
 		}
 		//s.transform.rotation = Quaternion.Euler(new Vector3(20, 160, 0));
 	}
@@ -149,6 +184,7 @@ public class EquipWeapons : MonoBehaviour {
 				cs.setDEF(-item.DEF);
 				Destroy (s);
 			}
+			shieldRotated = false;
 		}
 	}
 
