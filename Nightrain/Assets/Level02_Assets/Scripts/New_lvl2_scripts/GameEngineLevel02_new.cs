@@ -70,8 +70,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
 		this.save = this.mc.saveData();
 		this.load = this.mc.loadData();
-		time_play = this.load.loadTimePlayed (); 
-		print ("Time begin: " + time_play);
+		time_play = this.load.loadTimePlayed ();
 
 
 		// --- LOAD RESOURCES TO MENU ---
@@ -138,6 +137,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 			if(Time.time-time_dead > 3.0f) {
 				Application.LoadLevel(7);
 			} else if(!anim_death){
+				this.save.saveTimePlayed(time_play);
 				anim_death = true;
 				music.play_Player_Die();
 				cm.dieAnim ();
@@ -188,8 +188,6 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		if (!end_game) {
 			end_game = true;
 			end_time = Time.time;
-			print ("Time finish: " + time_play);
-			this.save.saveTimePlayed(time_play);
 		}
 	}
 

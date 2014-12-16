@@ -36,7 +36,6 @@ public class Credits_Camera_Movement : MonoBehaviour {
 	}
 
 	void Update(){
-		print ("Press Esc: " + press_esc);
 		if (Input.GetKeyDown (KeyCode.Escape) && press_esc) {
 			Application.LoadLevel(1);
 		}

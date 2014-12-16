@@ -71,7 +71,7 @@ public class Player_Attack_System_lvl2 : MonoBehaviour {
 	
 	void attack(GameObject npc) {
 		string tag1 = npc.tag.Substring (0, npc.tag.Length - 1);
-		print (tag1);
+
 		if (tag1 == "Skeleton") {
 			npc.GetComponent <Skeleton_controller_2> ().damage(this.cs.computeDamage());
 			enemyHit = true;

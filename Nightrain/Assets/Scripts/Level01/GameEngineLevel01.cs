@@ -136,6 +136,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 		if (num <= 0) {
 			delay_death -= Time.deltaTime;
 			if(!anim_death){
+				this.save.saveTimePlayed(time_play);
 				this.cm.death();
 				this.music.play_Player_Die();
 				anim_death = true;

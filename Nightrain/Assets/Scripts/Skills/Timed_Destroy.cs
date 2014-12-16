@@ -14,7 +14,7 @@ public class Timed_Destroy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		destroyTime -= Time.deltaTime;
-		print ("Skill: " + this.name);
+
 		/*actualTime = Time.time;
 		if (actualTime - initTime > destroyTime) {*/
 		if (Mathf.Round(destroyTime) <= 0) {

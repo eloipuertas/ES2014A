@@ -43,7 +43,7 @@ public class EquipWeapons : MonoBehaviour {
 	}
 
 	void Update() {
-		//print (weapon.name);
+
 		if (w != null && !weaponRotated) {
 			setWeaponRotation();
 		}
@@ -155,7 +155,6 @@ public class EquipWeapons : MonoBehaviour {
 		shieldName = shield.name;
 
 		if(s == null){
-			print("Shield Name: " + shield.name);
 			s = Instantiate(Resources.Load<GameObject>("Prefabs/Inventory/Shields/" + shield.name)) as GameObject;
 			s.transform.position = shieldTransform.position;
 			s.transform.parent = shieldTransform;
@@ -246,7 +245,6 @@ public class EquipWeapons : MonoBehaviour {
 			if(i.id == a.id){
 				cs.setDEF(-a.DEF);
 				cs.setVIT(-a.VIT);
-				print ("Remove Armor: " + -a.VIT);
 				cs.setPM(-a.PM);
 				a = null;
 			}

@@ -29,6 +29,11 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 	
 	private bool killed = false;
 	private float atk_anim = 0.0f;
+
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+	private LoadData load;
 	
 	// Use this for initialization
 	void Start () {
@@ -38,6 +43,11 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript> ();
 		boss_ctrl = boss.GetComponent <Skeleton_boss_controller> ();
 		fade_out = fade.GetComponent<FadeOut_lvl2> ();
+
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData();
+		this.load = this.mc.loadData();
 
 		boss_ctrl.teleportToRespawn ();
 		boss_ctrl.rotateToPlayer (playerPos.transform.position);
@@ -66,6 +76,7 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 			fade_out.Fading(1);
 		}
 		if (Time.time - timer > 5.0f && killed) {
+			this.save.saveTimePlayed(GameEngineLevel02_new.getTimePlay());
 			PlayerPrefs.SetInt ("Final_Credits", 1);
 			Application.LoadLevel (8);
 			gameObject.SetActive (false);

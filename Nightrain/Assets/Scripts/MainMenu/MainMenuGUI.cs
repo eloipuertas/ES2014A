@@ -290,7 +290,6 @@ public class MainMenuGUI {
 					}
 					if (Input.GetMouseButtonDown (0)) { 
 						this.clip.Play();
-						//Debug.Log ("Cargar Datos");
 					}
 				} else {
 					Graphics.DrawTexture (load_box, this.loadGameTexture);
@@ -323,7 +322,6 @@ public class MainMenuGUI {
 					if (Input.GetMouseButtonDown (0)) { 
 						this.clip.Play();
 						Application.LoadLevel (9);
-						Debug.Log ("Trofeos");
 					}
 				} else {
 					Graphics.DrawTexture (trophies_box, this.trophiesTexture);
@@ -340,7 +338,6 @@ public class MainMenuGUI {
 					if (Input.GetMouseButtonDown (0)) { 
 						this.clip.Play();
 						Application.LoadLevel (8);
-						Debug.Log ("Creditos");
 					}
 				} else {
 					Graphics.DrawTexture (credit_box, this.creditTexture);
@@ -445,7 +442,6 @@ public class MainMenuGUI {
 					this.character = "hombre";
 					this.characterTexture = this.warriorTexture;
 					this.attributeTexture = this.warriorAttributesTexture;
-					Debug.Log ("Click en Warrior");
 				}
 			} else {
 				Graphics.DrawTexture (warrior_box, this.btnWarriorTexture);
@@ -465,7 +461,6 @@ public class MainMenuGUI {
 					this.character = "mujer";
 					this.characterTexture = this.sageTexture;
 					this.attributeTexture = this.sageAttributesTexture;
-					Debug.Log ("Click en Sage");
 				}
 			} else {
 				Graphics.DrawTexture (sage_box, this.btnSageTexture);
@@ -485,7 +480,6 @@ public class MainMenuGUI {
 					this.character = "joven";
 					this.characterTexture = this.thiefTexture;
 					this.attributeTexture = this.thiefAttributesTexture;
-					Debug.Log ("Click en Thief");
 				}
 			} else {
 				Graphics.DrawTexture (thief_box, this.btnThiefTexture);
@@ -584,14 +578,12 @@ public class MainMenuGUI {
 			
 			// ACTION BUTTON
 			if (window_box.Contains (Event.current.mousePosition)) {
-				//Debug.Log("Estoi dentro de la window");
 				this.isInsideWindow = true;
 			} else{
 				if (Input.GetMouseButtonDown(0) && this.isInsideWindow) { 
 					this.isDifficultySelector = false;
 					this.isInsideWindow = false;
 				}
-				//Debug.Log ("Estoi fuera la window");
 			}
 
 

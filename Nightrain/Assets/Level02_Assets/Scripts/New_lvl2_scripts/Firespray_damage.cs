@@ -19,7 +19,6 @@ public class Firespray_damage : MonoBehaviour {
 		if (name == "Player") {
 				//music.play_Fireball_Explosion ();
 			other.gameObject.GetComponent<CharacterScript>().setDamage(1);
-			print ("hitting u");
 		}
 			
 		if (name == "Enemy") {
