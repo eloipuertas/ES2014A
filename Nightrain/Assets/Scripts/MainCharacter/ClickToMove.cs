@@ -76,11 +76,8 @@ public class ClickToMove : MonoBehaviour {
 			// Si hacemos click o dejamos presionado el botón izquierdo del mouse, nos movemos al punto del mouse
 			if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0)) { 			
 				attack_target = false;
-                if (chestHit){
-                    chestHit = false;
-                    atk_range.enabled = true;
-                }
 
+                enableCollider();    // Si estabamos en un cofre dehabilitamos el flag y habilitamos de nuevo el SphereCollider
 				playerPlane = new Plane(Vector3.up, transform.position);
 				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				hitdist = 0.0f;
@@ -99,9 +96,11 @@ public class ClickToMove : MonoBehaviour {
 				if (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.Mouse1)) { // Al puslar espacio
 					// Si ha pasado mas de 1 segundo del inicio del ultimo ataque
 					if (canAttack()) {
+                        enableCollider();   // Si estamos en el cofre activamos de nuevo el SphereCollider
+
 						rotateToMouse ();
 						atk_script.makeAttack();
-						atk_time = Time.time;
+                        atk_time = Time.time;
 						music.play_Player_Sword_Attack ();
 					}
 				}
@@ -110,7 +109,13 @@ public class ClickToMove : MonoBehaviour {
 		}
 	}
 	
-	
+	private void enableCollider(){
+        if (chestHit){
+            chestHit = false;
+            atk_range.enabled = true;
+        }
+    }
+
 	public void rotateToMouse () {
 		if (Time.time - atk_time > 0.5f) {
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
