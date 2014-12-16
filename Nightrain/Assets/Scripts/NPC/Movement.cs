@@ -100,7 +100,7 @@ public class Movement : MonoBehaviour {
 	void FixedUpdate () {
 		if (!state.Equals("Dead")) {
 			float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
-			if (distance_to_player < 7) {
+			if (distance_to_player < 8) {
 				atack ();
 			} else if (distance_to_player < 30) {
 				perseguir ();
