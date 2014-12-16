@@ -37,6 +37,7 @@ article{
 	max-height: 1000px;
 	background-color:#FFF;
 	top: 0;
+	bottom: 0;
 	text-align:center;
 }
 
@@ -98,8 +99,7 @@ article .info {
 }
 
 article .info img{
-	margin-top: 8%;
-	margin-bottom: 8%;
+	margin-top: 15%;
 }
 
 article#about{
