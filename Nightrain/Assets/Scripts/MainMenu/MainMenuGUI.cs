@@ -19,6 +19,9 @@ public class MainMenuGUI {
 	private Texture2D hoverTrophiesTexture;
 	private Texture2D exitGameTexture;
 	private Texture2D hoverExitGameTexture;
+	private Texture2D controlsTexture;
+	private Texture2D hoverControlsTexture;
+	private Texture2D backgroundControlsTexture;
 	
 	// ====== TEXTURES CHARACTER SELECTOR ======
 	private Texture2D selectorCharacterTexture;
@@ -87,6 +90,8 @@ public class MainMenuGUI {
 	private bool isInsideWindow = false;
 	// SHOW LOAD GAME
 	private bool isLoadGame = false;
+	// SHOW CONTROLS GAME
+	private bool isControlsGame = false;
 
 	// SAVE CHARACTER SELECTED
 	private string character = "hombre";
@@ -134,9 +139,15 @@ public class MainMenuGUI {
 
 		this.trophiesTexture = Resources.Load<Texture2D>("MainMenu/trophy");
 		this.hoverTrophiesTexture = Resources.Load<Texture2D> ("MainMenu/hover_trophy");
+
+		this.controlsTexture = Resources.Load<Texture2D>("MainMenu/controls");
+		this.hoverControlsTexture = Resources.Load<Texture2D> ("MainMenu/hover_controls");
 		
 		this.exitGameTexture = Resources.Load<Texture2D>("MainMenu/exit");
 		this.hoverExitGameTexture = Resources.Load<Texture2D>("MainMenu/hover_exit");
+
+		// CONTROLS BACKGROUND
+		this.backgroundControlsTexture = Resources.Load<Texture2D>("MainMenu/controles_menu");	
 
 		// CHARACTER SELECTOR
 		this.selectorCharacterTexture = Resources.Load<Texture2D>("MainMenu/logo_selector");	
@@ -226,35 +237,42 @@ public class MainMenuGUI {
 
 			// NEW GAME
 			Rect play_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.newGameTexture)/2,
-			                          Screen.height/1.95f,
+			                          Screen.height/2.25f,
 			                          this.resizeTextureWidth(this.newGameTexture),
 			                          this.resizeTextureHeight(this.newGameTexture));
 			Graphics.DrawTexture (play_box, this.newGameTexture);
 
 			// LOAD GAME
 			Rect load_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.loadGameTexture)/2,
-			                          Screen.height/1.65f,
+			                          Screen.height/1.87f,
 			                          this.resizeTextureWidth(this.loadGameTexture),
 			                          this.resizeTextureHeight(this.loadGameTexture));
 			Graphics.DrawTexture (load_box, this.loadGameTexture);
 
 			// TROPHIES GAME
 			Rect trophies_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.trophiesTexture)/2,
-			                          	  Screen.height/1.44f,
+			                          	  Screen.height/1.6f,
 			                              this.resizeTextureWidth(this.trophiesTexture),
 			                              this.resizeTextureHeight(this.trophiesTexture));
 			Graphics.DrawTexture (trophies_box, this.trophiesTexture);
 
+			// CONTROL GAME
+			Rect control_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.controlsTexture)/2,
+			                              Screen.height/1.4075f,
+			                             this.resizeTextureWidth(this.controlsTexture),
+			                             this.resizeTextureHeight(this.controlsTexture));
+			Graphics.DrawTexture (control_box, this.controlsTexture);
+
 			// CREDITS GAME
 			Rect credit_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.creditTexture)/2,
-			                          	Screen.height/1.28f,
+			                          	Screen.height/1.25f,
 			                            this.resizeTextureWidth(this.creditTexture),
 			                            this.resizeTextureHeight(this.creditTexture));
 			Graphics.DrawTexture (credit_box, this.creditTexture);
 
 			// EXIT GAME
 			Rect exit_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.exitGameTexture)/2,
-			                          Screen.height/1.15f,
+			                          Screen.height/1.13f,
 			                          this.resizeTextureWidth(this.exitGameTexture),
 			                          this.resizeTextureHeight(this.exitGameTexture));
 			Graphics.DrawTexture (exit_box, this.exitGameTexture);
@@ -263,7 +281,7 @@ public class MainMenuGUI {
 			// ============== ACTION BUTTONS ===================
 
 
-			if(!this.isLoadGame){
+			if(!this.isLoadGame && !this.isControlsGame){
 				// ACTION PLAY GAME BUTTON
 				if (play_box.Contains (Event.current.mousePosition)) {
 					Graphics.DrawTexture (play_box, this.hoverNewGameTexture);
@@ -326,6 +344,23 @@ public class MainMenuGUI {
 				} else {
 					Graphics.DrawTexture (trophies_box, this.trophiesTexture);
 					if(hoveredButton == trophies_box) hoveredButton = new Rect();
+				}
+
+				// ACTION CONTROLS BUTTON
+				if (control_box.Contains (Event.current.mousePosition)) {
+					Graphics.DrawTexture (control_box, this.hoverControlsTexture);
+					if (hoveredButton != control_box) {
+						hoverSound.audio.Play ();
+						hoveredButton = control_box;
+					}
+					if (Input.GetMouseButtonDown (0)) { 
+						this.clip.Play();
+						this.isControlsGame = true;
+						Debug.Log("IsControlGame: " + this.isControlsGame);
+					}
+				} else {
+					Graphics.DrawTexture (control_box, this.controlsTexture);
+					if(hoveredButton == control_box) hoveredButton = new Rect();
 				}
 
 				// ACTION CREDIT BUTTON
@@ -773,6 +808,38 @@ public class MainMenuGUI {
 				}
 			}
 
+		}
+		
+	}
+
+	// DIFFICULTY SELECTOR
+	public void showControls(){
+		Debug.Log ("Desde ShowCotrnosl: " + this.isControlsGame);
+		if (this.isControlsGame) {
+			
+			// DIFFICULTY WINDOW
+			Rect window_data_box = new Rect (Screen.width/2 - this.resizeTextureWidth(this.backgroundControlsTexture)/3,
+			                                 Screen.height/2 - this.resizeTextureHeight(this.backgroundControlsTexture)/3,
+			                                 this.resizeTextureWidth(this.backgroundControlsTexture)/1.5f,
+			                                 this.resizeTextureHeight(this.backgroundControlsTexture)/1.5f);
+
+			GUI.DrawTexture (window_data_box, this.backgroundControlsTexture);
+			
+
+			
+			// ============== ACTION BUTTONS ===================
+			
+			// ACTION BUTTON
+			if (window_data_box.Contains (Event.current.mousePosition)) {
+				this.isInsideWindow = true;
+			} else{
+				if (Input.GetMouseButtonDown(0) && this.isInsideWindow) { 
+					this.isControlsGame = false;
+					this.isInsideWindow = false;
+					delay = .5f;
+				}
+			}
+			
 		}
 		
 	}
