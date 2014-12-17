@@ -19,7 +19,7 @@ public class ResultsMenuGUI : MonoBehaviour {
 	
 	// LOAD TEXTURE RESOURCES
 	public void initResources () {
-		this.backgroundTexture = Resources.Load<Texture2D>("ResultsStage/background_results");
+		this.backgroundTexture = Resources.Load<Texture2D>("ResultsStage/background_results_" + PlayerPrefs.GetString("Player"));
 		
 		this.mainMenuTexture = Resources.Load<Texture2D>("ResultsStage/backmenu_button");
 		this.hoverMainMenuTexture = Resources.Load<Texture2D>("ResultsStage/backmenu_button_hover");

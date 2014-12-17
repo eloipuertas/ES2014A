@@ -13,10 +13,10 @@ public class FadeOut_lvl2 : MonoBehaviour {
 	private bool activate = false;
 	private bool death = false;
 	
-	private CharacterScript_lvl2 cs;
+	private CharacterScript cs;
 	
 	void Start(){
-		this.cs = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterScript_lvl2> ();
+		this.cs = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterScript> ();
 	}
 	
 	void Update(){

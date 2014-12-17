@@ -2,128 +2,113 @@
 using System.Collections;
 
 public class GetItem : MonoBehaviour {
-
-	private CharacterScript cs;
-	private GameObject character;
 	
-	private RaycastHit getObjectScene;
-	
-	public static InventoryScript inventory;
-	
-	// ITEM ATTRIBUTES
-	
-	public int id;
-	public string name;
-	public string type;			// Type: Weapon, Shield, Armor, Healing
-	public int VIT;
-	public int PM;
-	public int FRZ;
-	public int DEF;
-	public int SPD;
-	public int heal;
-	public Texture2D imageTexture;
-	public int slot_x;
-	public int slot_y;
-	
-	public float distance = 10;
-	
-	
-	
-	void Start(){
-		
-		this.character = GameObject.FindGameObjectWithTag ("Player");
-		this.cs = this.character.GetComponent<CharacterScript> ();
-		inventory = GameObject.FindGameObjectWithTag ("Inventory").GetComponent<InventoryScript> ();
-		
-	}
-	
-	
-	void OnMouseDown() {
-		
-		Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
-		RaycastHit hit;
-		
-		if( Physics.Raycast( ray, out hit, 100 ) ){
-			
-			if (Vector3.Distance (this.character.transform.position, hit.transform.position) < this.distance) {
-				
-				if(this.type.Equals("Weapon"))
-					this.TypeWeapon();
-				else if(this.type.Equals("Shield"))
-					this.TypeShield();
-				else if(this.type.Equals("Armor"))
-					this.TypeArmor();
-				else if(this.type.Equals("Healing"))
-					this.TypeHealing();
-				
-			}
-		}
-	}
-	
-	void TypeWeapon(){
+	public static Weapon setWeapon(int id, string name, string type, int VIT, int PM, int FRZ,
+	                                int DEF, int SPD, string icon_name, int slot_x, int slot_y){
 		
 		Weapon weapon = new Weapon ();
 		weapon.id = id;
+		weapon.name = name;
 		weapon.type = type;
 		weapon.VIT = VIT;
 		weapon.PM = PM;
 		weapon.FRZ = FRZ;
 		weapon.DEF = DEF;
 		weapon.SPD = SPD;
-		weapon.ItemTexture = imageTexture;
+		weapon.ItemTexture = Resources.Load<Texture2D>("Inventory/"+type+"/"+icon_name);
 		weapon.width = slot_x;
 		weapon.height = slot_y;
 		
-		ItemsInventory.addWeapon (id, weapon);
-		inventory.addItem (ItemsInventory.getWeapon (id));
-		Destroy (gameObject);
+		return weapon;
 		
 	}
 	
-	void TypeShield(){
+	public static Shield setShield(int id, string name, string type, int VIT, int PM, int FRZ,
+	                               int DEF, int SPD, string icon_name, int slot_x, int slot_y){
 		
 		Shield shield = new Shield ();
 		shield.id = id;
+		shield.name = name;
 		shield.type = type;
 		shield.VIT = VIT;
 		shield.PM = PM;
 		shield.FRZ = FRZ;
 		shield.DEF = DEF;
 		shield.SPD = SPD;
-		shield.ItemTexture = imageTexture;
+		shield.ItemTexture = Resources.Load<Texture2D>("Inventory/"+type+"/"+icon_name);
 		shield.width = slot_x;
 		shield.height = slot_y;
+
+		return shield;
 		
-		ItemsInventory.addShield (id, shield);
-		inventory.addItem (ItemsInventory.getShield (id));
-		Destroy (gameObject);
+	}
+
+	public static Helmet setHelmet(int id, string name, string type, int VIT, int PM, int FRZ,
+	                               int DEF, int SPD, string icon_name, int slot_x, int slot_y){
+		
+		Helmet helmet = new Helmet ();
+		helmet.id = id;
+		helmet.name = name;
+		helmet.type = type;
+		helmet.VIT = VIT;
+		helmet.PM = PM;
+		helmet.FRZ = FRZ;
+		helmet.DEF = DEF;
+		helmet.SPD = SPD;
+		helmet.ItemTexture = Resources.Load<Texture2D>("Inventory/"+type+"/"+icon_name);
+		helmet.width = slot_x;
+		helmet.height = slot_y;
+		
+		return helmet;
 		
 	}
 	
-	void TypeArmor(){
+	public static Armor setArmor(int id, string name, string type, int VIT, int PM, int FRZ,
+	                             int DEF, int SPD, string icon_name, int slot_x, int slot_y){
 		
 		Armor armor = new Armor ();
 		armor.id = id;
+		armor.name = name;
 		armor.type = type;
 		armor.VIT = VIT;
 		armor.PM = PM;
 		armor.FRZ = FRZ;
 		armor.DEF = DEF;
 		armor.SPD = SPD;
-		armor.ItemTexture = imageTexture;
+		armor.ItemTexture = Resources.Load<Texture2D>("Inventory/"+type+"/"+icon_name);
 		armor.width = slot_x;
 		armor.height = slot_y;
+
+		return armor;
+	}
+
+	public static Boots setBoots(int id, string name, string type, int VIT, int PM, int FRZ,
+	                             int DEF, int SPD, string icon_name, int slot_x, int slot_y){
 		
-		ItemsInventory.addArmor (id, armor);
-		inventory.addItem (ItemsInventory.getArmor (id));
-		Destroy (gameObject);
+		Boots boots = new Boots ();
+		boots.id = id;
+		boots.name = name;
+		boots.type = type;
+		boots.VIT = VIT;
+		boots.PM = PM;
+		boots.FRZ = FRZ;
+		boots.DEF = DEF;
+		boots.SPD = SPD;
+		boots.ItemTexture = Resources.Load<Texture2D>("Inventory/"+type+"/"+icon_name);
+		boots.width = slot_x;
+		boots.height = slot_y;
+		
+		return boots;
 		
 	}
 	
-	void TypeHealing(){
+	public static Healing setHealing(int id, string name, string type, int VIT, int PM, int FRZ,
+	                                 int DEF, int SPD, int heal, int magic, string icon_name, 
+	                                 int slot_x, int slot_y){
 		
 		Healing healing = new Healing ();
 		healing.id = id;
+		healing.name = name;
 		healing.type = type;
 		healing.VIT = VIT;
 		healing.PM = PM;
@@ -131,15 +116,12 @@ public class GetItem : MonoBehaviour {
 		healing.DEF = DEF;
 		healing.SPD = SPD;
 		healing.heal = heal;
-		healing.ItemTexture = imageTexture;
+		healing.magic = magic;
+		healing.ItemTexture = Resources.Load<Texture2D>("Inventory/"+type+"/"+icon_name);
 		healing.width = slot_x;
 		healing.height = slot_y;
-		
-		ItemsInventory.addHealing (id, healing);
-		inventory.setPotion (1);
-		inventory.addItem (ItemsInventory.getHealing (id));
-		Destroy (gameObject);
-		
+
+		return healing;
 	}
 
 }

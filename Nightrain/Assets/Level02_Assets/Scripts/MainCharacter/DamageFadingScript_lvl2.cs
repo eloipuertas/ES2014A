@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DamageFadingScript_lvl2 : MonoBehaviour {
 
-	private CharacterScript_lvl2 cs;
+	private CharacterScript cs;
 	private GameObject character;
 
 	// --- TEXTURES ---
@@ -16,7 +16,7 @@ public class DamageFadingScript_lvl2 : MonoBehaviour {
 	void Start () {
 
 		this.character = GameObject.FindGameObjectWithTag ("Player");
-		this.cs = this.character.GetComponent<CharacterScript_lvl2> ();
+		this.cs = this.character.GetComponent<CharacterScript> ();
 
 		// ADD TEXTURES
 		this.DamageFadeTexture = Resources.Load<Texture>("DamageFading/bloodscreen");

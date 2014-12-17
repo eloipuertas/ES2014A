@@ -14,6 +14,8 @@ public class PauseMenuGUI {
 	private Texture2D hoverContinueTexture;
 	private Texture2D resetTexture;
 	private Texture2D hoverResetTexture;
+	private Texture2D controlTexture;
+	private Texture2D hoverControlTexture;
 	private Texture2D optionTexture;
 	private Texture2D hoverOptionTexture;
 	private Texture2D exitTexture;
@@ -26,14 +28,24 @@ public class PauseMenuGUI {
 	private Texture2D noTexture;
 	private Texture2D hoverNoTexture;
 
+	// ====== TEXTURES OPTION MENU ======
+	private Texture2D backgroundOptionTexture;
+	private Texture2D checkTexture;
+	private Texture2D unCheckTexture;
+
 	// ====== TEXTURES KEYWORD OPTION ======
 	private Texture2D keywordTexture;
-	
+
 	// SHOW MENU CONFIRM
 	private bool confirm = false;
 
 	// SHOW MENU KEYWORD
 	private bool keyword = false;
+
+	// SHOW MENU OPTION
+	private bool option = false;
+	private bool sound = true;
+	private bool light = true;
 	
 	// Buttons sound effects
 	private Rect hoveredButton = new Rect();
@@ -43,7 +55,18 @@ public class PauseMenuGUI {
 	private MemoryCard mc;
 	private SaveData save;
 
-	
+	private InventoryScript invent;
+	private miniMapLv1 map;
+	private miniMapLv2 map2;
+
+	private bool minimap;
+	private bool inventory;
+
+	private int delay = 0;
+
+	private GameObject shadow;
+	private GameObject audio;
+
 	// CONSTRUCTOR
 	public PauseMenuGUI(){}
 	
@@ -55,7 +78,12 @@ public class PauseMenuGUI {
 		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
 		this.save = this.mc.saveData ();
 
+		this.invent = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren <InventoryScript> ();
+		this.map = GameObject.FindGameObjectWithTag ("Minimap").GetComponent<miniMapLv1> ();
+		this.map2 = GameObject.FindGameObjectWithTag ("Minimap").GetComponent<miniMapLv2> ();
 
+		this.shadow = GameObject.FindGameObjectWithTag("Light");
+		this.audio = GameObject.FindGameObjectWithTag("Audio");
 
 		// MENU PAUSE
 		this.backgroundTexture = Resources.Load<Texture2D>("PauseMenu/background_pause");
@@ -65,7 +93,10 @@ public class PauseMenuGUI {
 		
 		this.resetTexture = Resources.Load<Texture2D>("PauseMenu/reset");
 		this.hoverResetTexture = Resources.Load<Texture2D>("PauseMenu/hover_reset");
-		
+
+		this.controlTexture = Resources.Load<Texture2D>("PauseMenu/controls");
+		this.hoverControlTexture = Resources.Load<Texture2D>("PauseMenu/hover_controls");
+
 		this.optionTexture = Resources.Load<Texture2D>("PauseMenu/option");
 		this.hoverOptionTexture = Resources.Load<Texture2D>("PauseMenu/hover_option");
 		
@@ -77,7 +108,12 @@ public class PauseMenuGUI {
 
 		// MENU CONFIRM
 		this.confirmTexture = Resources.Load<Texture2D>("PauseMenu/background_confirm");
-		
+
+		// MENU OPTION
+		this.backgroundOptionTexture = Resources.Load<Texture2D>("PauseMenu/background_opciones");
+		this.checkTexture = Resources.Load<Texture2D>("PauseMenu/checked_checkbox");
+		this.unCheckTexture = Resources.Load<Texture2D>("PauseMenu/unchecked_checkbox");
+
 		this.yesTexture = Resources.Load<Texture2D>("PauseMenu/yes");
 		this.hoverYesTexture = Resources.Load<Texture2D>("PauseMenu/hover_yes");
 		
@@ -87,11 +123,12 @@ public class PauseMenuGUI {
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		
 	}
+
 	
 	// PAUSE MENU
 	public bool pauseMenu(bool pause){
 		
-		if (!this.confirm && !this.keyword) {
+		if (!this.confirm && !this.keyword && !option) {
 			
 			// PAUSE INTERFACE
 			Rect menu_box = new Rect ((Screen.width / 2) - (this.resizeTextureWidth(this.backgroundTexture) / 2),
@@ -104,7 +141,7 @@ public class PauseMenuGUI {
 			
 			// BUTTON CONTINUE
 			Rect continue_box = new Rect (menu_box.center.x - (this.resizeTextureWidth(this.continueTexture) / 2),
-			                              menu_box.center.y - (this.resizeTextureHeight(this.continueTexture) * 1.4f),
+			                              menu_box.center.y - (this.resizeTextureHeight(this.continueTexture) * 1.75f),
 			                              this.resizeTextureWidth(this.continueTexture),
 			                              this.resizeTextureHeight(this.continueTexture) / 1.25f);
 			Graphics.DrawTexture (continue_box, this.continueTexture);
@@ -117,10 +154,18 @@ public class PauseMenuGUI {
 			                           this.resizeTextureHeight(this.resetTexture) / 1.25f);
 			Graphics.DrawTexture (reset_box, this.resetTexture);
 			
-			
+
+			// BUTTON CONTROLS
+			Rect control_box = new Rect (reset_box.position.x,
+			                            reset_box.position.y + (this.resizeTextureHeight(this.controlTexture) / 1.1f),
+			                             this.resizeTextureWidth(this.controlTexture),
+			                             this.resizeTextureHeight(this.controlTexture) / 1.25f);
+			Graphics.DrawTexture (control_box, this.controlTexture);
+
+
 			// BUTTON OPTION
-			Rect option_box = new Rect (reset_box.position.x,
-			                            reset_box.position.y + (this.resizeTextureHeight(this.optionTexture) / 1.1f),
+			Rect option_box = new Rect (control_box.position.x,
+			                            control_box.position.y + (this.resizeTextureHeight(this.optionTexture) / 1.1f),
 			                            this.resizeTextureWidth(this.optionTexture),
 			                            this.resizeTextureHeight(this.optionTexture) / 1.25f);
 			Graphics.DrawTexture (option_box, this.optionTexture);
@@ -145,6 +190,7 @@ public class PauseMenuGUI {
 				}
 				if (Input.GetMouseButtonDown (0)) { 
 					pause = false;
+					this.activateMapAndInventory();
 					Time.timeScale = 1;
 					music.Play_Button_Click();
 				}
@@ -175,7 +221,24 @@ public class PauseMenuGUI {
 				Graphics.DrawTexture (reset_box, this.resetTexture);
 				if(hoveredButton == reset_box) hoveredButton = new Rect();
 			}
-			
+
+			// ACTION OPTION BUTTON
+			if (control_box.Contains (Event.current.mousePosition)) {
+				Graphics.DrawTexture (control_box, this.hoverControlTexture);
+				if (hoveredButton != control_box) {
+					music.Play_Button_Hover ();
+					hoveredButton = control_box;
+				}
+				if (Input.GetMouseButtonDown (0)) {
+					this.keyword = true;
+					music.Play_Button_Click();
+				}
+			}
+			else {
+				Graphics.DrawTexture (control_box, this.controlTexture);
+				if(hoveredButton == control_box) hoveredButton = new Rect();
+			}
+
 			// ACTION OPTION BUTTON
 			if (option_box.Contains (Event.current.mousePosition)) {
 				Graphics.DrawTexture (option_box, this.hoverOptionTexture);
@@ -184,7 +247,7 @@ public class PauseMenuGUI {
 					hoveredButton = option_box;
 				}
 				if (Input.GetMouseButtonDown (0)) {
-					this.keyword = true;
+					this.option = true;
 					music.Play_Button_Click();
 				}
 			}
@@ -307,6 +370,136 @@ public class PauseMenuGUI {
 				}
 			}
 		}
+	}
+
+	public float x1 = 1f;
+	public float y1 = 1f;
+	public float x2 = 1f;
+	public float y2 = 1f;
+
+	// Option MENU
+	public void showOptionMenu(bool pause){
+		
+		if (pause && this.option) {
+
+			delay--;
+
+			if(delay <= 0)
+				delay = 0;
+
+			// KEYWORD INTERFACE
+			Rect option_box = new Rect ((Screen.width / 2) - (this.resizeTextureWidth (this.confirmTexture)*1.25f / 2),
+			                             (Screen.height / 2) - (this.resizeTextureHeight (this.confirmTexture)*1.25f / 2),
+			                             this.resizeTextureWidth (this.confirmTexture) * 1.25f,
+			                             this.resizeTextureHeight (this.confirmTexture) * 1.25f);
+			
+			
+			Graphics.DrawTexture (option_box, this.backgroundOptionTexture);
+
+
+			Rect sound_box = new Rect (option_box.x * 2.15f,
+			                           option_box.y * 1.42f,
+			                           this.resizeTextureWidth (this.unCheckTexture)/ 10f,
+			                           this.resizeTextureHeight (this.unCheckTexture)/ 12f);
+
+			if(!sound)
+				Graphics.DrawTexture (sound_box, this.unCheckTexture);
+			else if(sound)
+				Graphics.DrawTexture (sound_box, this.checkTexture);
+
+
+			Rect light_box = new Rect (option_box.x * 2.15f,
+			                           option_box.y * 1.75f,
+			                           this.resizeTextureWidth (this.unCheckTexture)/ 10f,
+			                           this.resizeTextureHeight (this.unCheckTexture)/ 12f);
+
+
+			if(!light)
+				Graphics.DrawTexture (light_box, this.unCheckTexture);
+			else if(light)
+				Graphics.DrawTexture (light_box, this.checkTexture);
+
+			// ACTION EXIT
+			if (Input.GetMouseButtonDown (0)) { 
+				if (!option_box.Contains (Event.current.mousePosition)) {
+					this.option = false;
+				}
+
+				if (sound_box.Contains (Event.current.mousePosition) && delay <= 0) {
+
+					if(!this.sound)
+						this.sound = true;
+					else if(this.sound)
+						this.sound = false;
+
+					if(audio != null)
+						this.audio.SetActive(sound);
+					//AudioListener audio = GameObject.FindObjectOfType<AudioListener>();
+					//audio.enabled = sound;
+					delay = 5;
+				}
+
+				if (light_box.Contains (Event.current.mousePosition) && delay <= 0) {
+
+					if(!this.light)
+						this.light = true;
+					else if(this.light)
+						this.light = false;
+
+					if(shadow != null)
+						this.shadow.SetActive(light);
+
+					delay = 5;
+				}
+			}
+		}
+	}
+
+	public void setMapAndInventory(bool minimap, bool inventory){
+			
+		this.minimap = minimap;
+		this.inventory = inventory;
+
+		if(map != null)
+			map.setShowMiniMap(false);
+
+		if(map2 != null)
+			map2.setShowMiniMap(false);
+
+		invent.setShowInventory(false);
+
+	}
+
+	public void activateMapAndInventory(){
+
+		this.confirm = false;
+		this.keyword = false;
+		this.option = false;
+
+		if(map != null){
+			map.setShowMiniMap(minimap);
+			map.setPause(false);
+		}
+		if(map2 != null){
+			map2.setShowMiniMap(minimap);
+			map2.setPause(false);
+		}
+
+		invent.setShowInventory(inventory);
+		invent.setPause(false);
+
+	}
+
+	public void setConfirm(bool confirm){
+		this.confirm = confirm;
+	}
+
+	public void setKeyword(bool keyword){
+		this.keyword = keyword;
+	}
+
+	public void setOption(bool option){
+		this.option = option;
 	}
 	
 	

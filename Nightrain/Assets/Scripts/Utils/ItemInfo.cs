@@ -17,11 +17,11 @@ public class ItemInfo : MonoBehaviour {
 	private Vector2 hotSpot = Vector2.zero;
 
 	// ====== SHADERS ======
-	public Shader shader1;
-	public Shader shader2;
+	//public Shader shader1;
+	//public Shader shader2;
 
 
-	private int frames = 0;
+	private float timer = 1;
 	private bool isHover = false;
 	
 	// Use this for initialization
@@ -49,8 +49,10 @@ public class ItemInfo : MonoBehaviour {
 
 	void Update(){
 		if (this.isHover) {
-			this.frames++;
-			Cursor.SetCursor(cursorTexture[1+((frames%80)/10)], hotSpot, mode);
+			timer += 8*Time.deltaTime;
+			if(timer > 9f)
+				timer = 1f;
+			Cursor.SetCursor(cursorTexture[(int)timer], hotSpot, mode);
 		}
 	}
 
@@ -59,24 +61,25 @@ public class ItemInfo : MonoBehaviour {
 		CursorScript.isHover = true;
 		this.isHover = true;
 
-		for (int i = 0; i < this.renderer.materials.Length; i++) {
+		/*for (int i = 0; i < this.renderer.materials.Length; i++) {
 			this.renderer.materials[i].SetColor ("_OutlineColor", new Color(1f, 0f ,0f));
 			this.renderer.materials[i].shader = shader1;
-		}
+		}*/
 
 	}
 
 	void OnMouseExit () { 
 		this.text = "";
 		CursorScript.isHover = false;
-		//Cursor.SetCursor(cursorTexture[0], hotSpot, mode);
-		this.frames = 0;
+		if(cursorTexture[0] != null)
+			Cursor.SetCursor(cursorTexture[0], hotSpot, mode);
+		this.timer = 1f;
 		this.isHover = false;
 
-		for (int i = 0; i < this.renderer.materials.Length; i++) {
+		/*for (int i = 0; i < this.renderer.materials.Length; i++) {
 			this.renderer.materials[i].SetColor ("_OutlineColor", new Color(0f, 0f ,0f));
 			this.renderer.materials[i].shader = shader2;
-		}
+		}*/
 	}
 
 	void OnDestroy() {

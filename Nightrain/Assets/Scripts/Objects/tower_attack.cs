@@ -3,7 +3,7 @@ using System.Collections;
 
 public class tower_attack : MonoBehaviour {
 	// Arrow
-	public Bala ArrowPrefab;
+	public GameObject ArrowPrefab;
 	
 	private GameObject player;
 	// intervalo tiempo entre ataques
@@ -23,17 +23,17 @@ public class tower_attack : MonoBehaviour {
 			//buscar el player
 			this.player = GameObject.FindGameObjectWithTag("Player");
 			
-			if(this.player != null) {        
+			if(this.player != null && player.transform.position.z > 25f) {        
 				
 				//Si esta dentro del rango de vision, atacaremos y no hay nada entre medio
 				if (Vector3.Distance(transform.position, this.player.transform.position) <= range) {
 					//creamos una bala
-					GameObject g = (GameObject)Instantiate(ArrowPrefab.gameObject, transform.position, Quaternion.identity);
-					Bala b = g.GetComponent<Bala>();
+					Instantiate(ArrowPrefab.gameObject, transform.position, Quaternion.identity);
+					//if(g != null) Bala b = g.GetComponent<Bala>();
 
 					//le assignamos como destino, la posicion del player 
 					this.audio.Play();
-					b.setDestination(this.player.transform);
+					//b.setDestination(this.player.transform);
 					
 					timeLeft = interval;
 				}

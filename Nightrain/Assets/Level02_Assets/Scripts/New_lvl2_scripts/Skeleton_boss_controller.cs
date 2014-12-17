@@ -13,24 +13,28 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	public float destroy_time = 10.0f;
 	public float total_health = 500.0f;
 	public float base_dmg = 15.0f;
+	public int exp = 1000;
 	public GameObject camera_death;
 
 	private GameObject game_engine;
+	private NPCHealthBar_lvl2 health_bar;
 	private GameEngineLevel02_new game_script;
 	private CharacterController ctrl;
 	private GameObject player;
 	private Transform player_transform;
-	private CharacterScript_lvl2 player_script;
+	private CharacterScript player_script;
 	private GameObject skill;
 	
 	private Vector3 respawn;
 	private bool returningRespawn = false;
 
-	private float atk_range = 10.0f;
+	private float atk_range = 9.0f;
+	private float sparks_cd = 1.0f;
+	private float sparks_dmg = 20.0f;
 	private float skill_cd = 0.0f;
 	private float actual_time;
 	private float attack_time = -2.0f;
-	private float health;
+	public float health;
 
 	//0 idle, 1 running, 2 attacking, 3 hited, 4 death, 5 waiting, 6 dancing
 	private int state = 0;
@@ -50,15 +54,16 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.game_engine = GameObject.FindGameObjectWithTag ("GameController");
+		this.health_bar = this.gameObject.GetComponent<NPCHealthBar_lvl2> ();
 		this.game_script = game_engine.GetComponent <GameEngineLevel02_new> ();
 		this.player = GameObject.FindGameObjectWithTag("Player");
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		this.player_transform = player.transform;
-		this.player_script = player.GetComponent<CharacterScript_lvl2> ();
+		this.player_script = player.GetComponent<CharacterScript> ();
 		this.skill = Resources.Load<GameObject> ("Prefabs/Boss_Skills/Boss_skill_2");
 
 		this.respawn = transform.position;
-
+		this.health_bar.enabled = false;
 
 		setAtrributesDifficulty (PlayerPrefs.GetString ("Difficult"));
 
@@ -84,7 +89,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 			// Si ha acabado de atacar
 			if (t >= 1.5f) {
 				//Si esta cerca del player
-				if (distance <= atk_range) {
+				if (distance <= 8.0f) {
 					attackAnim ();
 					attackDone = false;
 					attackAudio = false;
@@ -168,6 +173,11 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	public void dieAnim() {
 		if (!killed) {
 			killed = true;
+			this.player_script.setEXP(exp);
+			TrophyEngine trofeos = GameObject.FindGameObjectWithTag("Trofeos").GetComponent<TrophyEngine>();
+			trofeos.TrophyGolemIce();
+			trofeos.TrophyCharacter(PlayerPrefs.GetString ("Player"));
+			trofeos.TrophyDifficult(PlayerPrefs.GetString("Difficult"));
 			music.play_boss_die ();
 		}
 		Anim.animation.CrossFade (DeathAnimation.name, 0.12f);	
@@ -208,18 +218,18 @@ public class Skeleton_boss_controller : MonoBehaviour {
 			last_skill_time = 1.0f;
 			attackAnim ();
 			if (percent < 0.56f) {
-				skill_pos.z += 10;
+				skill_pos.z += 20;
 				Instantiate (skill, skill_pos, skill.transform.rotation);
 			}
 			if (percent < 0.40f) {
-				skill_pos.z -= 20;
+				skill_pos.z -= 40;
 				Instantiate (skill, skill_pos, skill.transform.rotation);
-				skill_pos.z += 10;
+				skill_pos.z += 20;
 			}
 			if (percent < 0.25f) {
-				skill_pos.x += 10;
+				skill_pos.x += 20;
 				Instantiate (skill, skill_pos, skill.transform.rotation);
-				skill_pos.x -= 20;
+				skill_pos.x -= 40;
 				Instantiate (skill, skill_pos, skill.transform.rotation);
 			}
 		} else if (nshots == maxshots) {
@@ -232,6 +242,7 @@ public class Skeleton_boss_controller : MonoBehaviour {
 
 	public void setAgressive (bool b) {
 		agressive = b;
+		health_bar.enabled = true;
 	}
 
 	public void prepareAnim() {
@@ -241,22 +252,34 @@ public class Skeleton_boss_controller : MonoBehaviour {
 	private void setAtrributesDifficulty (string difficulty) {
 		if(difficulty.Equals("Easy")) {
 			base_dmg = base_dmg * 1;
-			//atk_range = atk_range - 2.0f;
+			atk_range = atk_range - 1f;
 			total_health = total_health / 4f;
+			sparks_cd = sparks_cd;
+			sparks_dmg = sparks_dmg;
 		}
 		else if(difficulty.Equals("Normal")) {
-			base_dmg = base_dmg - 1f;
-			atk_range = atk_range / 1.5f;
+			base_dmg = base_dmg * 1.5f;
+			atk_range = atk_range;
 			total_health = total_health / 1.5f;
+			sparks_cd = sparks_cd;
+			sparks_dmg = sparks_dmg*1.5f;
 		}
 		else if(difficulty.Equals("Hard")) {
-			base_dmg = base_dmg * 2;
+			base_dmg = base_dmg * 2f;
+			atk_range = atk_range+2f;
+			sparks_cd = sparks_cd - 0.30f;
+			sparks_dmg = sparks_dmg*2f;
 		}
 		else if(difficulty.Equals("Extreme")) {
-			base_dmg = base_dmg * 3;
-			total_health = total_health + 1f;
+			base_dmg = base_dmg * 4f;
+			total_health = total_health * 2;
+			atk_range = atk_range+3.5f;
+			sparks_cd = sparks_cd - 0.55f;
+			sparks_dmg = sparks_dmg*3.5f;
 		}
 		health = total_health;
+		skill.GetComponent<bossSkill_controller> ().skill_damage = sparks_dmg;
+		skill.GetComponent<bossSkill_controller> ().time_sparks = sparks_cd;
 	}
 
 	public void teleportToRespawn() {

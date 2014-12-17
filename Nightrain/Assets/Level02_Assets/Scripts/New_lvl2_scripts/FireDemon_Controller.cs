@@ -12,11 +12,13 @@ public class FireDemon_Controller : MonoBehaviour {
 	public Transform Anim;
 	public float health = 40.0f;
 	public int base_dmg = 15;
+	public int exp = 125;
 	public bool preanimation = true;
 
 	private CharacterController ctrl;
+	private NPCHealthBar_lvl2 health_bar;
 	private GameObject player;
-	private CharacterScript_lvl2 player_script;
+	private CharacterScript player_script;
 	private StageController stage;
 	private GameObject health_sphere;
 	private GameObject mana_sphere;
@@ -26,11 +28,12 @@ public class FireDemon_Controller : MonoBehaviour {
 	private bool player_seen = false;
 	private bool notAnim = false;
 	
-	private float actual_health;
+	public float actual_health;
 	private float actual_time;
 	private float attack_time = -2.0f;
 	public float destroy_time = 10.0f;
 	private float seen_time = 0.0f;
+	private float atk_range = 9.0f;
 	
 	//0 idle, 1 running, 2 attacking, 3 hited, 4 death, 5 waiting, 6 dancing
 	int state = 0;
@@ -44,11 +47,14 @@ public class FireDemon_Controller : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.player = GameObject.FindGameObjectWithTag("Player");
-		this.player_script = player.GetComponent<CharacterScript_lvl2> ();
+		this.player_script = player.GetComponent<CharacterScript> ();
+		this.health_bar = this.gameObject.GetComponent<NPCHealthBar_lvl2> ();
 		this.ctrl = GetComponent<CharacterController> ();
 		this.stage = GameObject.FindGameObjectWithTag ("GameController").GetComponent<StageController> ();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		this.respawn = transform.position;
+
+		//this.health_bar.enabled = false;
 
 		this.health_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Life_sphere_lvl2");
 		this.mana_sphere = Resources.Load<GameObject> ("Lvl2/prefabs/Mana_sphere_lvl2");
@@ -122,7 +128,7 @@ public class FireDemon_Controller : MonoBehaviour {
 		rotateToPlayer (playerPos);
 		Vector3 dir = playerPos - transform.position;
 		
-		gravity -= 9.81f * Time.deltaTime;
+		gravity -= 100f * Time.deltaTime;
 		if (ctrl.isGrounded)	gravity = 0.0f;
 		dir.y = gravity;
 		
@@ -168,6 +174,7 @@ public class FireDemon_Controller : MonoBehaviour {
 	}*/
 	
 	public void playerSeen() {
+		this.health_bar.enabled = true;
 		if (!player_seen) music.play_demon_shout ();
 		player_seen = true;
 		seen_time = Time.time;
@@ -197,8 +204,11 @@ public class FireDemon_Controller : MonoBehaviour {
 			state = 4;
 			Destroy (this.GetComponent<CharacterController>());
 			Destroy (this.GetComponent<Rigidbody> ());
+			Destroy (this.GetComponent<CapsuleCollider> ());
+			this.player_script.setEXP(exp);
 		} else {
 			music.play_demon_got_hit ();
+			if (!player_seen) playerSeen ();
 		}
 	}
 	
@@ -235,16 +245,22 @@ public class FireDemon_Controller : MonoBehaviour {
 		if(difficulty.Equals("Easy")) {
 			base_dmg = base_dmg / 2;
 			health = health / 2;
+			atk_range = atk_range - 1f;
 		}
 		else if(difficulty.Equals("Normal")) {
-			health = health / 2;
+			base_dmg = base_dmg;
+			health = health;
+			atk_range = atk_range;
 		}
 		else if(difficulty.Equals("Hard")) {
-			base_dmg = base_dmg * 2;
+			base_dmg = base_dmg*2;
+			health = health*2;
+			atk_range = atk_range+1.5f;
 		}
 		else if(difficulty.Equals("Extreme")) {
-			base_dmg = base_dmg * 3;
-			health = health * 2;
+			base_dmg = base_dmg*3;
+			health = health*2.5f;
+			atk_range = atk_range+2.5f;
 		}
 		actual_health = health;
 	}

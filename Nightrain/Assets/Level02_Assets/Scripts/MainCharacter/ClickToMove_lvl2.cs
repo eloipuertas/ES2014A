@@ -30,6 +30,7 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	private bool attack_target = false;
 	private float atk_cd = 1.0f;
 	private bool dead = false;
+	private bool allowMovement = true;
 
 	// Use this for initialization
 	void Start () {
@@ -44,26 +45,20 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Time.deltaTime != 0 && !dead) {
+			if (anim.GetBool("attack")) anim.SetBool("attack",false);
+			
 			//if (attack_target) destinationPosition = getObjectScene.transform.position;
 			disToDestination = Mathf.Abs (transform.position.x - destinationPosition.x) + Mathf.Abs(destinationPosition.z - transform.position.z);
-
+			
 			//Si llegamos a la position del click +-0.5f de distancia para evitar que se quede corriendo
-			if(disToDestination  < .5f){
+			if(disToDestination  < .90f){
 				speed = 0.0f;
 				anim.SetFloat ("speed", speed);
-				if (!isAttacking()) {
-					anim.SetBool ("attack", false);
-				}
-				else anim.SetBool ("attack",true);
 			} else {
-				speed = 30.0f;
+				if(allowMovement) moveToPosition (destinationPosition);
+				if (!isAttacking()) speed = 30.0f;
+				else speed = 20.0f;
 				anim.SetFloat ("speed", speed);
-				moveToPosition (destinationPosition);
-				if (!isAttacking()) {
-					//animation.Play ("metarig|Caminar");
-					anim.SetBool ("attack", false);
-				}
-				else anim.SetBool ("attack", true);
 			}
 
 			// Si hacemos click o dejamos presionado el botón izquierdo del mouse, nos movemos al punto del mouse
@@ -75,8 +70,12 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 				
 				if (playerPlane.Raycast(ray, out hitdist)) {
 					targetPoint = ray.GetPoint(hitdist);
-					destinationPosition = ray.GetPoint(hitdist);
-					rotateToMouse();
+					if(allowMovement) {
+						destinationPosition = ray.GetPoint(hitdist);
+						rotateToMouse();
+					}
+					//destinationPosition = ray.GetPoint(hitdist);
+					//rotateToMouse();
 				}
 			}
 
@@ -86,6 +85,7 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 					// Si ha pasado mas de 1 segundo del inicio del ultimo ataque
 					if (canAttack()) {
 						rotateToMouse ();
+						attackAnim ();
 						atk_script.makeAttack();
 						atk_time = Time.time;
 						music.play_Player_Sword_Attack ();
@@ -110,11 +110,13 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 	
 
 	public void rotateToMouse () {
-		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		targetPoint = ray.GetPoint(hitdist);
-		targetPoint.y = transform.position.y;
-		Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-		transform.rotation = targetRotation;
+		if (Time.time - atk_time > 0.5f) {
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			targetPoint = ray.GetPoint(hitdist);
+			targetPoint.y = transform.position.y;
+			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+			transform.rotation = targetRotation;
+		}
 	}
 
 	public void rotateToPos(Vector3 position) {
@@ -124,7 +126,7 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 
 	void moveToPosition (Vector3 position) {
 		Vector3 dir = position - transform.position;
-		gravity -= 9.81f * Time.deltaTime;
+		gravity -= 100f * Time.deltaTime;
 		if (controller.isGrounded)	gravity = 0.0f;
 		dir.y = gravity;
 		Vector3 movement = dir.normalized * speed * Time.deltaTime;
@@ -137,6 +139,14 @@ public class ClickToMove_lvl2 : MonoBehaviour {
 		destinationPosition = position;
 		speed = 0.0f;
 		anim.SetFloat ("speed", speed);
+	}
+
+	public void dontWalk() {
+		allowMovement = false;
+	}
+	
+	public void Walk() {
+		allowMovement = true;
 	}
 
 	private bool isAttacking() {

@@ -15,6 +15,8 @@ public class CameraGoal : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		GameObject.FindGameObjectWithTag ("Player").GetComponent<ClickToMove>().enabled = false;
+		GameObject.FindGameObjectWithTag ("Player").GetComponent<Skill_Controller>().enabled = false;
 		CameraSetUp ();
 	}
 	
@@ -40,6 +42,8 @@ public class CameraGoal : MonoBehaviour {
 		} 
 
 		if (timeLeft < 0) {
+			GameObject.FindGameObjectWithTag ("Player").GetComponent<ClickToMove>().enabled = true;
+			GameObject.FindGameObjectWithTag ("Player").GetComponent<Skill_Controller>().enabled = true;
 			GameObject.FindGameObjectWithTag ("CameraGoal").SetActive(false);
 		}
 	}

@@ -2,12 +2,12 @@
 using System.Collections;
 
 public class Mana_sphere_controller : MonoBehaviour {
-	private CharacterScript_lvl2 mana;
+	private CharacterScript mana;
 	//private int max_health;
 	
 	// Use this for initialization
 	void Start () {
-		mana = GameObject.FindGameObjectWithTag ("Player").GetComponent <CharacterScript_lvl2>();
+		mana = GameObject.FindGameObjectWithTag ("Player").GetComponent <CharacterScript>();
 		//max_health = (int) health.getMaxHealth();
 		Destroy (this.gameObject, 15.0f);
 	}
@@ -19,7 +19,7 @@ public class Mana_sphere_controller : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Player") {
-			mana.setManaRestore (10);
+			mana.setRecoverMagic(10);
 			
 			Destroy (this.gameObject);
 		}

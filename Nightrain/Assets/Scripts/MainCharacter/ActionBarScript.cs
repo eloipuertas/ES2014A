@@ -28,6 +28,7 @@ public class ActionBarScript : MonoBehaviour {
 
 	private CharacterScript cs;
 	private ClickToMove cm;
+	//private ClickToMove_lvl2 cm2;
 	private GameObject character;
 
 	private bool takePotion = false;
@@ -42,6 +43,7 @@ public class ActionBarScript : MonoBehaviour {
 		this.character = GameObject.FindGameObjectWithTag ("Player");
 		this.cs = this.character.GetComponent<CharacterScript> ();
 		this.cm = this.character.GetComponent<ClickToMove> ();
+		//this.cm2 = this.character.GetComponent<ClickToMove_lvl2> ();
 
 		// ADD TEXTURES
 		this.actionBarTexture = Resources.Load<Texture2D>("ActionBar/actionbar");
@@ -71,16 +73,16 @@ public class ActionBarScript : MonoBehaviour {
 		this.text_style.alignment = TextAnchor.UpperCenter ; 
 		this.text_style.wordWrap = true; 
 
+		disabledSkill1 = false;
+		disabledSkill2 = false;
+		disabledSkill3 = false;
 
 
 	}
 
 	void Update() {
 
-		if (Input.GetMouseButtonDown (1)) {
-			//MOUSE BUTTON RIGHT ATTACK
-			this.cm.attack();
-		} else if (Input.GetKeyDown(KeyCode.Q) && inventory.getPotion() != 0) {
+		if (Input.GetKeyDown(KeyCode.Q) && inventory.getPotion() != 0) {
 			// ACTION TAKE POTION
 			this.cs.setCure(999);
 			this.cs.setRecoverMagic(999);	

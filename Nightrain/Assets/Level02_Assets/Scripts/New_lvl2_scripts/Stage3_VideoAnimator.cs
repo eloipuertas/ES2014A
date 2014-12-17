@@ -6,7 +6,7 @@ public class Stage3_VideoAnimator : MonoBehaviour {
 
 	private GameObject player;
 	private ClickToMove_lvl2 player_move;
-	private Skill_Controller_lvl2 skill_ctrl;
+	private Skill_Controller skill_ctrl;
 	private GameObject action_bar;
 
 	private Texture2D dialog1;
@@ -21,7 +21,7 @@ public class Stage3_VideoAnimator : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		player_move = player.GetComponent<ClickToMove_lvl2> ();
-		skill_ctrl = player.GetComponent<Skill_Controller_lvl2> ();
+		skill_ctrl = player.GetComponent<Skill_Controller> ();
 		action_bar = GameObject.FindGameObjectWithTag ("ActionBar");
 		player_move.enabled = false;
 		skill_ctrl.enabled = false;
@@ -66,7 +66,7 @@ public class Stage3_VideoAnimator : MonoBehaviour {
 		float height_rate = 1.0f;
 		//if (Screen.height * 1.5f < Screen.width) height_rate = 0.5f; 
 		Rect continue_box = new Rect (Screen.width/5.0f, 
-		                              Screen.height - (Screen.height/3.6f), 
+		                              Screen.height - (Screen.height/2.8f), 
 		                              //this.dialog1.width / 1.0f, 
 		                              //this.dialog1.height / 1.0f);
 		                              this.resizeTextureWidth(this.dialog1) / 2.75f, 

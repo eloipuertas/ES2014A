@@ -34,10 +34,10 @@ public class LethalKnife_controller : MonoBehaviour {
 				music.play_Lethalknife_Collision ();
 				music_done = true;
 			}
-			Skill_Controller.setEffect(false);
-			ActionBarScript.disabledSkill1 = false;
+			//Skill_Controller.setEffect(false);
+			//ActionBarScript.disabledSkill1 = false;
 			ActionBarScript.disabledSkill2 = false;
-			ActionBarScript.disabledSkill3 = false;
+			//ActionBarScript.disabledSkill3 = false;
 			collisionEffect.SetActive(true);
 			Destroy (gameObject, 0.1f);
 		}
@@ -69,6 +69,12 @@ public class LethalKnife_controller : MonoBehaviour {
 				skill_hit = true;
 			}
 		}
+		else if (name == "IceGolem") {
+			if(!skill_hit) {
+				other.gameObject.GetComponent<Ice_Golem_controller>().damage(skill_damage);
+				skill_hit = true;
+			}
+		}
 		else if (name == "Boss") {
 			if(!skill_hit && other != null) {
 				if(other.gameObject.name == "Golem_lava_surface"){
@@ -77,11 +83,9 @@ public class LethalKnife_controller : MonoBehaviour {
 					skill_hit = true;
 				}
 			}
-		}
-		else if (name == "Boss") {
 			if(!skill_hit && other != null) {
-
-				other.gameObject.GetComponent<Skeleton_boss_controller>().damage(skill_damage);
+				if(other.gameObject.GetComponent<Skeleton_boss_controller>() != null)
+					other.gameObject.GetComponent<Skeleton_boss_controller>().damage(skill_damage);
 				skill_hit = true;
 			}
 		}

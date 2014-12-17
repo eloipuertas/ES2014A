@@ -3,10 +3,12 @@ using System.Collections;
 
 public class GameEngineLevel02_new : MonoBehaviour {
 	
-	private PauseMenuGUI_lvl2 gui;
+	private PauseMenuGUI gui;
 	
 	private RaycastHit getObjectScene;
 	private bool pause = false;
+	private bool minimap = false;
+	private bool inventory = false;
 	
 	// --- CHARACTER ---
 	private GameObject prefab;
@@ -17,7 +19,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	
 	// --- LIGHT
 	public GameObject ambientLight;
-	private CharacterScript_lvl2 cs;
+	private CharacterScript cs;
 	private ClickToMove_lvl2 cm;
 	private Color c;
 	
@@ -42,26 +44,37 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	// Time Played
 	private static float time_play = 0;
 	private float time_dead = 0.0f;
+	private bool anim_death = false;
 
+	private InventoryScript invent;
+	private miniMapLv2 map;
+
+	// Music
+	private Music_Engine_Script music;
 	
 	// Use this for initialization
 	void Awake () {
-		print (PlayerPrefs.GetString("Difficult"));
+		//print (PlayerPrefs.GetString("Difficult"));
 		// --- LOAD RESOURCES TO CHARACTER ---
 		//this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/hombre_lvl2");
 		this.prefab = Resources.Load<GameObject>("Prefabs/MainCharacters/Level02/"+PlayerPrefs.GetString("Player")+"_lvl2");
 		this.character = Instantiate (prefab, respawn.transform.position, prefab.transform.rotation) as GameObject;
-		this.cs = this.character.GetComponent<CharacterScript_lvl2> ();
+		this.cs = this.character.GetComponent<CharacterScript> ();
 		this.cm = this.character.GetComponent<ClickToMove_lvl2> ();
+
+		this.invent = this.character.GetComponentInChildren <InventoryScript> ();
+		this.map = GameObject.FindGameObjectWithTag ("Minimap").GetComponent<miniMapLv2> ();
+		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
 		// Memory Card Save/Load data
 		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
 		this.save = this.mc.saveData();
 		this.load = this.mc.loadData();
-		time_play = this.load.loadTimePlayed (); 
+		time_play = this.load.loadTimePlayed ();
+
 
 		// --- LOAD RESOURCES TO MENU ---
-		gui = new PauseMenuGUI_lvl2();
+		gui = new PauseMenuGUI();
 		gui.initResources ();
 		
 		
@@ -79,13 +92,27 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	
 	void StateMachine(){
 		
-		if (Input.GetKeyDown (KeyCode.Escape) && !this.pause) {
-			this.pause = true;
+		if (Input.GetKeyDown (KeyCode.Escape) && !pause) {
+			pause = true;
+			minimap = map.showMiniMap();
+			inventory = invent.showInventory();
+			map.setShowMiniMap(false);
+			map.setPause(pause);
+			invent.setShowInventory(false);
+			invent.setPause(pause);
+			this.gui.setMapAndInventory(minimap, inventory);
 			Time.timeScale = 0;
-		} else if (Input.GetKeyDown (KeyCode.Escape) && this.pause) {
-			this.pause = false;
+		} else if (Input.GetKeyDown (KeyCode.Escape) && pause) {
+			pause = false;
+			this.gui.setConfirm(false);
+			this.gui.setKeyword(false);
+			this.gui.setOption(false);
+			map.setShowMiniMap(minimap);
+			map.setPause(pause);
+			invent.setShowInventory(inventory);
+			invent.setPause(pause);
 			Time.timeScale = 1;
-		} 
+		}
 		/*else if (Input.GetKeyDown (KeyCode.C)) {
 			Vector3 pos = character.transform.position;
 			Quaternion rot = character.transform.rotation;
@@ -105,13 +132,16 @@ public class GameEngineLevel02_new : MonoBehaviour {
 	
 	//Comprueba si el personaje sigue vivo
 	void isAlive(){
-		int num = this.character.GetComponent<CharacterScript_lvl2> ().getHealth();
+		int num = this.character.GetComponent<CharacterScript> ().getHealth();
 		//If the character is dead we show "game over" scene
 		if(num <= 0) {
 			if(time_dead == 0.0f) time_dead = Time.time;
 			if(Time.time-time_dead > 3.0f) {
 				Application.LoadLevel(7);
-			} else {
+			} else if(!anim_death){
+				this.save.saveTimePlayed(time_play);
+				anim_death = true;
+				music.play_Player_Die();
 				cm.dieAnim ();
 			}
 		}
@@ -152,13 +182,15 @@ public class GameEngineLevel02_new : MonoBehaviour {
 		if (this.pause) 
 			this.pause = this.gui.pauseMenu (this.pause);		
 		this.gui.confirmMenu(this.pause);
+		this.gui.optionKeyword (this.pause);
+		this.gui.showOptionMenu (this.pause);
+
 	}
 
 	public void finish_game() {
 		if (!end_game) {
 			end_game = true;
 			end_time = Time.time;
-			this.save.saveTimePlayed(time_play);
 		}
 	}
 

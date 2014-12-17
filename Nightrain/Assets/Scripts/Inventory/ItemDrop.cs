@@ -65,7 +65,7 @@ public class ItemDrop : MonoBehaviour {
 
 	void TypeWeapon(){
 		
-		Weapon weapon = new Weapon ();
+		/*Weapon weapon = new Weapon ();
 		weapon.id = id;
 		weapon.name = name;
 		weapon.type = type;
@@ -76,17 +76,28 @@ public class ItemDrop : MonoBehaviour {
 		weapon.SPD = SPD;
 		weapon.ItemTexture = imageTexture;
 		weapon.width = slot_x;
-		weapon.height = slot_y;
-		
+		weapon.height = slot_y;*/
+		if (name == "Buster Sword") {
+			Music_Engine_Script music = GameObject.FindGameObjectWithTag("music_engine").GetComponent<Music_Engine_Script>();
+			TrophyEngine trofeo = GameObject.FindGameObjectWithTag("Trofeos").GetComponent<TrophyEngine>();
+			music.play_BusterSword();
+			trofeo.TrophyBusterSword();
+		}
+
+		Weapon weapon = GetItem.setWeapon (id, name, type, VIT, PM, FRZ, DEF, SPD, imageTexture.name, slot_x, slot_y);
 		ItemsInventory.addWeapon (id, weapon);
-		inventory.addItem (ItemsInventory.getWeapon (id));
-		Destroy (gameObject);
+
+		if(inventory.addItem (ItemsInventory.getWeapon (id))){
+			Destroy (gameObject);
+		}else
+			print ("Full inventory.");
+
 		
 	}
 
 	void TypeShield(){
 		
-		Shield shield = new Shield ();
+		/*Shield shield = new Shield ();
 		shield.id = id;
 		shield.name = name;
 		shield.type = type;
@@ -97,17 +108,22 @@ public class ItemDrop : MonoBehaviour {
 		shield.SPD = SPD;
 		shield.ItemTexture = imageTexture;
 		shield.width = slot_x;
-		shield.height = slot_y;
-		
+		shield.height = slot_y;*/
+
+		Shield shield = GetItem.setShield (id, name, type, VIT, PM, FRZ, DEF, SPD, imageTexture.name, slot_x, slot_y);
 		ItemsInventory.addShield (id, shield);
-		inventory.addItem (ItemsInventory.getShield (id));
-		Destroy (gameObject);
+
+		if(inventory.addItem (ItemsInventory.getShield (id))){
+			Destroy (gameObject);
+		}else
+			print ("Full inventory.");
+
 		
 	}
 
 	void TypeHelmet(){
 		
-		Helmet helmet = new Helmet ();
+		/*Helmet helmet = new Helmet ();
 		helmet.id = id;
 		helmet.name = name;
 		helmet.type = type;
@@ -118,17 +134,21 @@ public class ItemDrop : MonoBehaviour {
 		helmet.SPD = SPD;
 		helmet.ItemTexture = imageTexture;
 		helmet.width = slot_x;
-		helmet.height = slot_y;
-
+		helmet.height = slot_y;*/
+		Helmet helmet = GetItem.setHelmet (id, name, type, VIT, PM, FRZ, DEF, SPD, imageTexture.name, slot_x, slot_y);
 		ItemsInventory.addHelmet (id, helmet);
-		inventory.addItem (ItemsInventory.getHelmet (id));
-		Destroy (gameObject);
+
+		if(inventory.addItem (ItemsInventory.getHelmet (id))){
+			Destroy (gameObject);
+		}else
+			print ("Full inventory.");
+
 		
 	}
 
 	void TypeArmor(){
 
-		Armor armor = new Armor ();
+		/*Armor armor = new Armor ();
 		armor.id = id;
 		armor.name = name;
 		armor.type = type;
@@ -139,17 +159,21 @@ public class ItemDrop : MonoBehaviour {
 		armor.SPD = SPD;
 		armor.ItemTexture = imageTexture;
 		armor.width = slot_x;
-		armor.height = slot_y;
-
+		armor.height = slot_y;*/
+		Armor armor = GetItem.setArmor (id, name, type, VIT, PM, FRZ, DEF, SPD, imageTexture.name, slot_x, slot_y);
 		ItemsInventory.addArmor (id, armor);
-		inventory.addItem (ItemsInventory.getArmor (id));
-		Destroy (gameObject);
+
+		if(inventory.addItem (ItemsInventory.getArmor (id))){
+			Destroy (gameObject);
+		}else
+			print ("Full inventory.");
+
 
 	}
 
 	void TypeBoots(){
 		
-		Boots boots = new Boots ();
+		/*Boots boots = new Boots ();
 		boots.id = id;
 		boots.name = name;
 		boots.type = type;
@@ -160,17 +184,22 @@ public class ItemDrop : MonoBehaviour {
 		boots.SPD = SPD;
 		boots.ItemTexture = imageTexture;
 		boots.width = slot_x;
-		boots.height = slot_y;
-		
+		boots.height = slot_y;*/
+		Boots boots = GetItem.setBoots (id, name, type, VIT, PM, FRZ, DEF, SPD, imageTexture.name, slot_x, slot_y);
 		ItemsInventory.addBoots (id, boots);
-		inventory.addItem (ItemsInventory.getBoots (id));
-		Destroy (gameObject);
+
+
+		if(inventory.addItem (ItemsInventory.getBoots (id))){
+			Destroy (gameObject);
+		}else
+			print ("Full inventory.");
+		
 		
 	}
 
 	void TypeHealing(){
 		
-		Healing healing = new Healing ();
+		/*Healing healing = new Healing ();
 		healing.id = id;
 		healing.name = name;
 		healing.type = type;
@@ -183,12 +212,15 @@ public class ItemDrop : MonoBehaviour {
 		healing.magic = magic;
 		healing.ItemTexture = imageTexture;
 		healing.width = slot_x;
-		healing.height = slot_y;
-		
+		healing.height = slot_y;*/
+		Healing healing = GetItem.setHealing (id, name, type, VIT, PM, FRZ, DEF, SPD, heal, magic, imageTexture.name, slot_x, slot_y);
 		ItemsInventory.addHealing (id, healing);
-		inventory.setPotion (1);
-		inventory.addItem (ItemsInventory.getHealing (id));
-		Destroy (gameObject);
+
+		if(inventory.addItem (ItemsInventory.getHealing (id))){
+			inventory.setPotion (1);
+			Destroy (gameObject);
+		}else
+			print ("Full inventory.");
 		
 	}
 

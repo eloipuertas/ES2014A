@@ -3,6 +3,7 @@ using System.Collections;
 
 public class FadeOut : MonoBehaviour {
 
+	private InventoryScript inventory;
 	public Texture2D fadeOutTexture;
 	public float fadeSpeed = 0.8f;	
 
@@ -18,6 +19,7 @@ public class FadeOut : MonoBehaviour {
 
 	void Start(){
 		this.cs = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterScript> ();
+		this.inventory = GameObject.FindGameObjectWithTag ("Inventory").GetComponent<InventoryScript> ();
 	}
 
 	void Update(){
@@ -60,16 +62,11 @@ public class FadeOut : MonoBehaviour {
 
 	// When I collider with the invisible wall I call a corutine and load next level.
 	void OnTriggerEnter (Collider other){
-		if (other.tag == "Player"){
+		if (other.tag == "Goal"){
+			this.inventory.saveInventory();
 			this.activate = true;
 			Fading (1);
 		}
-			//StartCoroutine(corutineFade());
 	}
 
-	/*IEnumerator corutineFade() {
-		float time = Fading (1);
-		yield return new WaitForSeconds(time);
-		Application.LoadLevel(5);
-	}*/
 }

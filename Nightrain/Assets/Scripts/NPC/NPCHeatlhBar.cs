@@ -5,6 +5,10 @@ public class NPCHeatlhBar : MonoBehaviour {
 	
 	private Movement boss;
 	private Movement_graveler enemy;
+	private Skeleton_controller_2 skel;
+	private FireDemon_Controller demon;
+	private Ice_Golem_controller golem;
+	private Skeleton_boss_controller boss2;
 
 	public GameObject npc;
 	

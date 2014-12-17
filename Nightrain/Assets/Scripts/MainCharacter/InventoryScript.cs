@@ -6,11 +6,22 @@ public class InventoryScript : MonoBehaviour {
 	private const int reference_width = 1366; 
 	private const int reference_height = 598;
 
+	// MINIMAPS
+	private miniMapLv1 map_lvl1;
+	private miniMapLv2 map_lvl2;
+
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+	private LoadData load;
+
+	private bool pause = false;
+
 	// ========== INVENTORY ============
 	public Rect inventory_box;
 	private List<Item> list_inventory;
 	private Item[] equip;
-	private static bool show_inventory = false;
+	private bool show_inventory = false;
 
 	// ========== SLOT INVENTORY ============
 
@@ -74,13 +85,13 @@ public class InventoryScript : MonoBehaviour {
 
 	private CharacterScript cs;
 	private ClickToMove cm;
-	
+	private ClickToMove_lvl2 cm2;
+
 	private GUIStyle attributes_style;
 	private GUIStyle level_style;
 	private GUIStyle exp_style;
 	private GUIStyle guiStyleBack;
 
-	Texture2D prueba;
 	// Use this for initialization
 	void Start () {
 	
@@ -89,10 +100,18 @@ public class InventoryScript : MonoBehaviour {
 		this.list_inventory = new List<Item>();
 		this.equip = new Item[5]; //"Weapon, Shield, Helmet, Armor, Boots"
 		this.inventoryTexture = Resources.Load<Texture2D>("Inventory/Misc/inventory_" + this.character);
-		this.prueba = Resources.Load<Texture2D>("Inventory/Misc/slot");
+		this.map_lvl1 = GameObject.FindGameObjectWithTag ("Minimap").GetComponent<miniMapLv1> ();
+		this.map_lvl2 = GameObject.FindGameObjectWithTag ("Minimap").GetComponent<miniMapLv2> ();
+		//this.prueba = Resources.Load<Texture2D>("Inventory/Misc/slot");
 
 		this.cs = GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterScript> ();
 		this.cm = GameObject.FindGameObjectWithTag ("Player").GetComponent<ClickToMove> ();
+		this.cm2 = GameObject.FindGameObjectWithTag ("Player").GetComponent<ClickToMove_lvl2> ();
+
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData();
+		this.load = this.mc.loadData();
 
 		// STYLES TEXT
 		this.attributes_style = new GUIStyle ();
@@ -113,24 +132,35 @@ public class InventoryScript : MonoBehaviour {
 		this.level_style.normal.textColor = new Color (236f/255f,219f/255f,31f/255f);
 		this.level_style.fontSize = 13;
 
-		show_inventory = false;
-
 		// CREATE INVENTORY
 		this.resizeInventory ();
 		this.createInventorySlot ();
 
+		int num = this.load.loadNumItemsInventory ();
+
+		if (num > 0)
+			this.load.loadInventoryItems (num);
+
+		this.equip = load.loadEquipItem ();
 	}
 	
 
 	void Update(){
-
-		if (Input.GetKeyDown (KeyCode.I) && !show_inventory){ 
-			if(miniMapLv1.showMiniMap()){
-				miniMapLv1.setShowMiniMap(false);
+		
+		if (Input.GetKeyDown (KeyCode.I) && !show_inventory && !pause){ 
+			if(map_lvl1 != null && map_lvl1.showMiniMap()){
+				map_lvl1.setShowMiniMap(false);
 				show_inventory = true;
 			}else
 				show_inventory = true;
-		}else if(Input.GetKeyDown (KeyCode.I) && show_inventory){
+
+			if(map_lvl2 != null && map_lvl2.showMiniMap()){
+				map_lvl2.setShowMiniMap(false);
+				show_inventory = true;
+			}else
+				show_inventory = true;
+
+		}else if(Input.GetKeyDown (KeyCode.I) && show_inventory && !pause){
 			show_inventory = false;
 		}
 
@@ -140,6 +170,12 @@ public class InventoryScript : MonoBehaviour {
 				this.cm.dontWalk();
 			else
 				this.cm.Walk();
+
+		if(this.cm2 != null)
+			if (this.inventory_box.Contains (new Vector2 (Input.mousePosition.x, Screen.height - Input.mousePosition.y)) && show_inventory)
+				this.cm2.dontWalk();
+		else
+			this.cm2.Walk();
 	}
 
 
@@ -309,11 +345,14 @@ public class InventoryScript : MonoBehaviour {
 											if(equip[0] == this.temp_item)
 												this.checkRemoveItem(equip[0]);
 										}else{
-											this.equip[0] = this.temp_item;
-											//print ("Debug 15");
-											this.temp_item = null;
+											if(this.temp_item is Weapon){
+												this.equip[0] = this.temp_item;
+												//print ("Debug 15");
+												this.temp_item = null;
+											}
 										}
 									}	
+
 									this.temp_item = null;
 									//print ("Debug 16");
 								}
@@ -356,8 +395,10 @@ public class InventoryScript : MonoBehaviour {
 										else{
 											//print ("Debug 22");
 											//print("Unequip Shield");
-											this.equip[1] = this.temp_item;
-											this.temp_item = null;
+											if(this.temp_item is Shield){
+												this.equip[1] = this.temp_item;
+												this.temp_item = null;
+											}
 										}
 									}	
 									//print ("Debug 23");
@@ -629,7 +670,7 @@ public class InventoryScript : MonoBehaviour {
 		return false;
 	}
 
-	bool addItem(int x, int y, Item item){
+	public bool addItem(int x, int y, Item item){
 
 		// Comprove if the grid is empty.
 		for (int i = 0; i < item.width; i++)
@@ -663,7 +704,7 @@ public class InventoryScript : MonoBehaviour {
 	}
 
 
-	void removeItem(Item item){
+	public void removeItem(Item item){
 
 		// Dismark the position where the item was assigned.
 		for (int i = item.x; i < item.width + item.x; i++)
@@ -713,8 +754,11 @@ public class InventoryScript : MonoBehaviour {
 			                           this.temp_item.width * this.slot_w,
 			                           this.temp_item.height * this.slot_h),
 			                 this.temp_item.ItemTexture);
-	}
 
+		/*if(temp_item != null)
+			print ("Width: " + this.temp_item.width + "\nHeight: " + this.temp_item.height);*/
+	}
+	
 	void drawItems(){
 
 		for (int i = 0; i < this.list_inventory.Count; i++)
@@ -927,11 +971,31 @@ public class InventoryScript : MonoBehaviour {
 	
 	}
 
-	public static void setShowInventory(bool show){
+	public void saveInventory(){
+
+		this.save.saveNumItemsInventory (list_inventory.Count);
+		this.save.saveEquipedItem (equip);
+		
+		for (int i = 0; i < list_inventory.Count; i++) {
+			this.save.saveInventoryItem(i, list_inventory[i]);
+		}
+
+	}
+
+	public void loadInventory(){
+
+
+	}
+
+	public void setPause(bool pause){
+		this.pause = pause;
+	}
+
+	public void setShowInventory(bool show){
 		show_inventory = show;
 	}
 	
-	public static bool showInventory(){
+	public bool showInventory(){
 		return show_inventory;
 	}
 

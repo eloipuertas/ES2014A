@@ -51,8 +51,14 @@ public class GameEngineLevel01 : MonoBehaviour {
 
 	// Music
 	private Music_Engine_Script music;
+<<<<<<< HEAD
 =======
 >>>>>>> 710a951727f91ce211db816c812bc01edeb77703
+=======
+
+	private InventoryScript invent;
+	private miniMapLv1 map;
+>>>>>>> Devel
 	
 	// Use this for initialization
 	void Awake () {
@@ -61,6 +67,8 @@ public class GameEngineLevel01 : MonoBehaviour {
 		this.prefab = Resources.Load<Transform>("Prefabs/MainCharacters/" + PlayerPrefs.GetString("Player"));
 		Instantiate (prefab);
 		this.character = GameObject.FindGameObjectWithTag ("Player");
+		this.invent = this.character.GetComponentInChildren <InventoryScript> ();
+		this.map = GameObject.FindGameObjectWithTag ("Minimap").GetComponent<miniMapLv1> ();
 		this.cm = this.character.GetComponent<ClickToMove> ();
 		this.cs = this.character.GetComponent<CharacterScript> ();
 
@@ -106,15 +114,23 @@ public class GameEngineLevel01 : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Escape) && !pause) {
 			pause = true;
-			minimap = miniMapLv1.showMiniMap();
-			inventory = InventoryScript.showInventory();
-			miniMapLv1.setShowMiniMap(false);
-			InventoryScript.setShowInventory(false);
+			minimap = map.showMiniMap();
+			inventory = invent.showInventory();
+			map.setShowMiniMap(false);
+			map.setPause(pause);
+			invent.setShowInventory(false);
+			invent.setPause(pause);
+			this.gui.setMapAndInventory(minimap, inventory);
 			Time.timeScale = 0;
 		} else if (Input.GetKeyDown (KeyCode.Escape) && pause) {
 			pause = false;
-			miniMapLv1.setShowMiniMap(minimap);
-			InventoryScript.setShowInventory(inventory);
+			this.gui.setConfirm(false);
+			this.gui.setKeyword(false);
+			this.gui.setOption(false);
+			map.setShowMiniMap(minimap);
+			map.setPause(pause);
+			invent.setShowInventory(inventory);
+			invent.setPause(pause);
 			Time.timeScale = 1;
 		}
 		
@@ -128,6 +144,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 		if (num <= 0) {
 			delay_death -= Time.deltaTime;
 			if(!anim_death){
+				this.save.saveTimePlayed(time_play);
 				this.cm.death();
 <<<<<<< HEAD
 				this.music.play_Player_Die();
@@ -219,9 +236,9 @@ public class GameEngineLevel01 : MonoBehaviour {
 		
 	}
 
-	public static bool isPausedGame(){
+	/*public static bool isPausedGame(){
 		return pause;
-	}
+	}*/
 	
 	void OnGUI(){	
 		if (pause) 
@@ -229,6 +246,7 @@ public class GameEngineLevel01 : MonoBehaviour {
 		
 		this.gui.confirmMenu(pause);
 		this.gui.optionKeyword (pause);
+		this.gui.showOptionMenu (pause);
 	}
 
 	public static float getTimePlay(){

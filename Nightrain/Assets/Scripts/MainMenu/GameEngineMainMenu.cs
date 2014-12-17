@@ -20,5 +20,6 @@ public class GameEngineMainMenu : MonoBehaviour {
 		this.gui.characterSelector ();
 		this.gui.difficultySelector ();
 		this.gui.loadSaveGame ();
+		this.gui.showControls ();
 	}
 }

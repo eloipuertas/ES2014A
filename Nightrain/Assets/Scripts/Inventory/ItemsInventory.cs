@@ -171,6 +171,7 @@ public class ItemsInventory : MonoBehaviour {
 		healing.DEF = ItemsInventory.healing_list [id].DEF;
 		healing.SPD = ItemsInventory.healing_list [id].SPD;
 		healing.heal = ItemsInventory.healing_list [id].heal;
+		healing.magic = ItemsInventory.healing_list [id].magic;
 		healing.ItemTexture = ItemsInventory.healing_list [id].ItemTexture;
 		healing.width = ItemsInventory.healing_list [id].width;
 		healing.height = ItemsInventory.healing_list [id].height;

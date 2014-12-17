@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Nightrain/Assets/Extern/Elementals/Media/Desktop/Textures/Burst_02.tga.meta~710a951727f91ce211db816c812bc01edeb77703_0
 guid: 83e92695bb5dc8d488cf14c7b0fbe920
+=======
+guid: 5e53f35ea1a42fd4db13a462bb9d983f
+>>>>>>> Devel:Nightrain/Assets/Extern/montaña_toon1.jpg.meta
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 2

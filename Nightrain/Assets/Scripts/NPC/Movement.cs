@@ -55,6 +55,8 @@ public class Movement : MonoBehaviour {
 	private CharacterController controller;
 <<<<<<< HEAD
 
+	private TrophyEngine trofeos;
+
 	private bool isDead = false;
 =======
 >>>>>>> 710a951727f91ce211db816c812bc01edeb77703
@@ -87,9 +89,11 @@ public class Movement : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
-		difficulty = PlayerPrefs.GetString ("Difficulty");
+		difficulty = PlayerPrefs.GetString ("Difficult");
 		npcAttributes.setDificulty (difficulty);
 		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
+		
+		this.trofeos = GameObject.FindGameObjectWithTag("Trofeos").GetComponent<TrophyEngine>();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 		
 		controller = GetComponent<CharacterController>();
@@ -99,7 +103,7 @@ public class Movement : MonoBehaviour {
 	void FixedUpdate () {
 		if (!state.Equals("Dead")) {
 			float distance_to_player = Vector3.Distance(player_transform.position,transform.position);
-			if (distance_to_player < 7) {
+			if (distance_to_player < 8) {
 				atack ();
 			} else if (distance_to_player < 30) {
 				perseguir ();
@@ -223,7 +227,7 @@ public class Movement : MonoBehaviour {
 		anim.SetBool ("w_attack", true);
 		//p.y += 5f;
 		if (Time.time > attackTime) {
-			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
+			player.GetComponent<CharacterScript>().setDamage((int) npcAttributes.getAttackPower());
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.play_Golem_Agresive();
@@ -239,6 +243,7 @@ public class Movement : MonoBehaviour {
 		if (npcAttributes.getHealth() < 1 && !isDead) {
 			this.isDead = true;
 			state = "Dead";
+			trofeos.TrophyGolemLava();
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;
 			//Debug.Log ("NPC muerto");

@@ -127,4 +127,58 @@ public class SaveData : MonoBehaviour {
 			PlayerPrefs.SetInt (attribute, 255);
 	}
 
+	public void saveNumItemsInventory(int items){
+		PlayerPrefs.SetInt ("NumItemsInventory", items);
+	}
+
+	public void saveInventoryItem(int i, Item item){
+
+		string str_item = item.id + "," + item.name + "," + item.type + "," + item.VIT + "," + item.PM +
+						"," + item.FRZ + "," + item.DEF + "," + item.SPD + "," + item.heal + "," + item.magic +
+						"," + item.ItemTexture.name + "," + item.x + "," + item.y + "," + item.width + "," + item.height;
+		print ("Heal: " + item.heal + " Magic: " + item.magic );
+		PlayerPrefs.SetString ("Item" + i, str_item);
+	}
+
+	public void saveEquipedItem(Item[] equip){
+		//"Weapon, Shield, Helmet, Armor, Boots"
+		string weapon_item = "";
+		string shield_item = "";
+		string helmet_item = "";
+		string armor_item = "";
+		string boots_item = "";
+
+		if(equip[0] != null)
+			weapon_item = equip [0].id + "," + equip [0].name + "," + equip [0].type + "," + equip [0].VIT + "," + equip [0].PM +
+						  "," + equip [0].FRZ + "," + equip [0].DEF + "," + equip [0].SPD + "," + equip [0].heal + "," + equip [0].magic +
+						  "," + equip [0].ItemTexture.name + "," + equip [0].x + "," + equip [0].y + "," + equip [0].width + "," + equip [0].height;
+
+		if(equip[1] != null)
+			shield_item = equip [1].id + "," + equip [1].name + "," + equip [1].type + "," + equip [1].VIT + "," + equip [1].PM +
+						  "," + equip [1].FRZ + "," + equip [1].DEF + "," + equip [1].SPD + "," + equip [1].heal + "," + equip [1].magic +
+						  "," + equip [1].ItemTexture.name + "," + equip [1].x + "," + equip [1].y + "," + equip [1].width + "," + equip [1].height;
+
+		if(equip[2] != null)
+			helmet_item = equip [2].id + "," + equip [2].name + "," + equip [2].type + "," + equip [2].VIT + "," + equip [2].PM +
+						  "," + equip [2].FRZ + "," + equip [2].DEF + "," + equip [2].SPD + "," + equip [2].heal + "," + equip [2].magic +
+						  "," + equip [2].ItemTexture.name + "," + equip [2].x + "," + equip [2].y + "," + equip [2].width + "," + equip [2].height;
+
+		if(equip[3] != null)
+			armor_item = equip [3].id + "," + equip [3].name + "," + equip [3].type + "," + equip [3].VIT + "," + equip [3].PM +
+						  "," + equip [3].FRZ + "," + equip [3].DEF + "," + equip [3].SPD + "," + equip [3].heal + "," + equip [3].magic +
+						  "," + equip [3].ItemTexture.name + "," + equip [3].x + "," + equip [3].y + "," + equip [3].width + "," + equip [3].height;
+
+		if(equip[4] != null)
+			boots_item = equip [4].id + "," + equip [4].name + "," + equip [4].type + "," + equip [4].VIT + "," + equip [4].PM +
+						  "," + equip [4].FRZ + "," + equip [4].DEF + "," + equip [4].SPD + "," + equip [4].heal + "," + equip [4].magic +
+						  "," + equip [4].ItemTexture.name + "," + equip [4].x + "," + equip [4].y + "," + equip [4].width + "," + equip [4].height;
+		
+
+		PlayerPrefs.SetString ("Equip_weapon", weapon_item);
+		PlayerPrefs.SetString ("Equip_shield", shield_item);
+		PlayerPrefs.SetString ("Equip_helmet", helmet_item);
+		PlayerPrefs.SetString ("Equip_armor", armor_item);
+		PlayerPrefs.SetString ("Equip_boots", boots_item);
+	}
+
 }

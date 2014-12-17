@@ -4,14 +4,15 @@ using System.Collections;
 public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 	public GameObject boss;
 	public GameObject playerPos;
-	public GameObject end_camera;
+	public GameObject fade;
 	
 	private Skeleton_boss_controller boss_ctrl;
 	private GameObject player;
 	private ClickToMove_lvl2 move_script;
-	private Skill_Controller_lvl2 skill_script;
-	private ActionBarScript_lvl2 action_bar;
-	
+	private Skill_Controller skill_script;
+	private ActionBarScript action_bar;
+	private FadeOut_lvl2 fade_out;
+
 	private GameObject player_hand;
 	private GameObject firepunch;
 	private GameObject finalFireball;
@@ -28,15 +29,26 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 	
 	private bool killed = false;
 	private float atk_anim = 0.0f;
+
+	// MEMORY CARD 
+	private MemoryCard mc;
+	private SaveData save;
+	private LoadData load;
 	
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		move_script = player.GetComponent <ClickToMove_lvl2> ();
-		skill_script = player.GetComponent <Skill_Controller_lvl2> ();
-		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript_lvl2> ();
+		skill_script = player.GetComponent <Skill_Controller> ();
+		action_bar = GameObject.FindGameObjectWithTag ("ActionBar").GetComponent <ActionBarScript> ();
 		boss_ctrl = boss.GetComponent <Skeleton_boss_controller> ();
-		
+		fade_out = fade.GetComponent<FadeOut_lvl2> ();
+
+		// Memory Card Save/Load data
+		this.mc = GameObject.FindGameObjectWithTag ("MemoryCard").GetComponent<MemoryCard> ();
+		this.save = this.mc.saveData();
+		this.load = this.mc.loadData();
+
 		boss_ctrl.teleportToRespawn ();
 		boss_ctrl.rotateToPlayer (playerPos.transform.position);
 		
@@ -53,18 +65,22 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 		finalFireball = Resources.Load <GameObject> ("Lvl2/prefabs/Final_Fireball");
 		
 		dialogs[0] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_6");
-		dialogs[1] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_7");
+		dialogs[1] = Resources.Load<Texture2D>("Lvl2/Dialogs/boss_dialog_7_"+PlayerPrefs.GetString ("Player"));
 		
 		timer = Time.time + 1.5f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (Time.time - timer > 2.0f && killed) {
+			fade_out.Fading(1);
+		}
 		if (Time.time - timer > 5.0f && killed) {
-			end_camera.SetActive (true);
+			this.save.saveTimePlayed(GameEngineLevel02_new.getTimePlay());
+			PlayerPrefs.SetInt ("Final_Credits", 1);
+			Application.LoadLevel (8);
 			gameObject.SetActive (false);
 		}
-		
 		if (current_dialog == 1) {
 			if (firepunch_actual == null) {
 				firepunch_actual = Instantiate (firepunch, player_hand.transform.position, firepunch.transform.rotation) as GameObject;
@@ -103,7 +119,7 @@ public class FinalBoss_VideoAnimation_3 : MonoBehaviour {
 	void drawDialog (int pos) {
 		//if (Screen.height * 1.5f < Screen.width) height_rate = 0.5f; 
 		Rect continue_box = new Rect (Screen.width/5.0f, 
-		                              Screen.height - (Screen.height/3.6f), 
+		                              Screen.height - (Screen.height/2.8f), 
 		                              //this.dialog1.width / 1.0f, 
 		                              //this.dialog1.height / 1.0f);
 		                              this.resizeTextureWidth(this.dialogs[pos]) / 2.75f, 

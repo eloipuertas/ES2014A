@@ -5,6 +5,7 @@ public class Credits_Camera_Movement : MonoBehaviour {
 	private float start_time;
 	private float timer;
 	private bool normal_credits = true;
+	private bool press_esc = false;
 
 	// Use this for initialization
 	void Start () {
@@ -14,6 +15,7 @@ public class Credits_Camera_Movement : MonoBehaviour {
 			normal_credits = false;
 		} else {
 			this.transform.position += new Vector3 (0.0f,0.0f,-6.1f);
+			press_esc = true;
 			normal_credits = true;
 		}
 	}
@@ -32,4 +34,11 @@ public class Credits_Camera_Movement : MonoBehaviour {
 			this.gameObject.GetComponent <Credits_FadeOut> ().fade_out ();
 		if (timer > 66.5f) Application.LoadLevel(1);
 	}
+
+	void Update(){
+		if (Input.GetKeyDown (KeyCode.Escape) && press_esc) {
+			Application.LoadLevel(1);
+		}
+	}
+
 }

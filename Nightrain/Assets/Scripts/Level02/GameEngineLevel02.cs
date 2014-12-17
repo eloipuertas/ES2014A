@@ -22,24 +22,24 @@ public class GameEngineLevel02 : MonoBehaviour {
 	
 	void StateMachine(){
 		
-		if (Input.GetKeyDown (KeyCode.Escape) && !this.pause) {
+		/*if (Input.GetKeyDown (KeyCode.Escape) && !this.pause) {
 			this.pause = true;
 			Time.timeScale = 0;
 		} else if (Input.GetKeyDown (KeyCode.Escape) && this.pause) {
 			this.pause = false;
 			Time.timeScale = 1;
-		}
+		}*/
 
 	}
 
 
-	void OnGUI(){	
+	/*void OnGUI(){	
 		if (this.pause) 
 			this.pause = this.gui.pauseMenu (this.pause);
 		
 		this.gui.confirmMenu(this.pause);
 		this.gui.optionKeyword (this.pause);
 		
-	}
+	}*/
 	
 }

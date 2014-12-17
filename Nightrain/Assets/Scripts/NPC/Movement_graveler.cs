@@ -60,6 +60,8 @@ public class Movement_graveler : MonoBehaviour {
 
 	private CharacterController controller;
 
+	private TrophyEngine trofeos;
+
 	private bool isDead = false;
 	
 	
@@ -93,13 +95,13 @@ public class Movement_graveler : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player");
 		player_transform = player.transform;
 		anim = GetComponent<Animator>();
-		difficulty = PlayerPrefs.GetString ("Difficulty");
+		difficulty = PlayerPrefs.GetString ("Difficult");
 		npcAttributes.setDificulty (difficulty);
 
 		this.health_sphere = Resources.Load<GameObject> ("Prefabs/Effects/life_sphere");
 		this.mana_sphere = Resources.Load<GameObject> ("Prefabs/Effects/mana_sphere");
 
-		//this.NPCbar = GameObject.FindGameObjectWithTag("NPCHealth");
+		this.trofeos = GameObject.FindGameObjectWithTag("Trofeos").GetComponent<TrophyEngine>();
 		this.music = GameObject.FindGameObjectWithTag ("music_engine").GetComponent<Music_Engine_Script> ();
 
 		controller = GetComponent<CharacterController>();
@@ -254,7 +256,7 @@ public class Movement_graveler : MonoBehaviour {
 		anim.SetBool ("attack", true);
 		//p.y -= 10f;
 		if (Time.time > attackTime) {
-			player.GetComponent<CharacterScript>().setDamage((int) attackPower);
+			player.GetComponent<CharacterScript>().setDamage((int) npcAttributes.getAttackPower());
 			attackTime = Time.time + 1.0f;
 			if(music != null) {
 				music.play_Golem_Agresive();
@@ -271,6 +273,7 @@ public class Movement_graveler : MonoBehaviour {
 		if (npcAttributes.getHealth() < 1 && !isDead) {
 			this.isDead = true;
 			state = "Dead";
+			trofeos.countMiniGolem(1);
 			player.GetComponent<CharacterScript>().setEXP(npcAttributes.getExperience());
 			this.collider.enabled = false;
 			anim.SetBool("a_walk", false);
