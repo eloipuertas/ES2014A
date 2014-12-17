@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+	<link rel="shortcut icon" href="images/fav.ico">
+	<link rel="stylesheet" href="css/style.css"/>
+	<script src="js/functions.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('.ancla').click(function(){
+			var link = $(this);
+			var anchor  = link.attr('href');
+			$('html, body').stop().animate({
+				scrollTop: jQuery(anchor).offset().top
+			}, 1000);
+			return false;
+		});
+	});
+	</script>
+	<title>War of Gods</title>
+</head>
+
+<body>
+	<header>
+		<div class="head">
+			<div class="logo">
+				<a href="index.html"><img src="images/logo3.png" width="200" height="90" /></a>
+			</div>
+
+			<div class="menus">
+				<lu>
+					<li><a href="#home" class="ancla">Home</a></li>
+					<li><a href="#personajes" class="ancla">Personajes</a></li>
+					<li><a href="#download" class="ancla">Download</a></li>
+					<li><a href="#about" class="ancla">About Us</a></li>
+				</lu>
+			</div>
+		</div>
+	</header>
+
+	<section id="container">
+		<article id="home" class="full-page">
+			<div id="contenido">
+				<h1>Trailer War of Gods</h1>
+				<iframe id="video" class="youtube-player" type="text/html" width="1000" height="600" src="http://www.youtube.com/embed/Hiieqlgbn2c" frameborder="0"></iframe>
+				<script type="text/javascript">
+				$(document).ready(function () {
+					$("#video").width($(".head").width() / 1.1);
+					$("#video").height(($(".head").width()) /1.1 * 0.56);
+				});
+				</script>
+			</div>
+		</article>
+
+		<article id="personajes" class="full-page">
+			<div id="contenido">
+				<h1>Personajes</h1>
+				<span>
+					Mira la descripción de nuestros personajes y elige el que más se adapte
+					a tus gustos!
+				</span>
+				<img src="images/linia.png"/>
+				<div class="perso">
+					<div class ="info">
+						<img src="images/warrior.png" width="236" height="256" />
+						<h2>Warrior</h2>
+						<div class="texto">
+							<p>
+								Desde los inicios de las guerras, los héroes de cada raza han tratado
+								de cultivarse en las artes de la batalla.
+							</p>
+							<br />
+							<p>
+								Los guerreros combinan fuerza, liderazgo,
+								y un amplio conocimiento sobre la manipulación de armas y armaduras
+								para hacer estragos en el glorioso combate.
+							</p>
+						</div>
+					</div>
+					<div class ="info">
+						<img src="images/sage.png" width="236" height="256"/>
+						<h2>Mage</h2>
+						<div class="texto">
+							<p>
+								Los magos destruyen a sus enemigos con todo tipo de encantamientos.
+							</p>
+							<br />
+							<p>
+								Aunque controlan poderosos hechizos ofensivos, los magos son frágiles y
+								su armadura es ligera, lo que los hace particularmente vulnerables a
+								los ataques a corta distancia.
+							</p>
+						</div>
+					</div>
+					<div class ="info">
+						<img src="images/thief.png" width="236" height="256" />
+						<h2>Thief</h2>
+						<div class="texto">
+							<p>
+								Los ladrones el único código es el contrato y su honor se compra con oro.
+								Libres de las limitaciones de una conciencia, estos mercenarios
+								se apoyan en tácticas brutales y eficientes.
+							</p>
+							<br />
+							<p>
+								Disponen de una gran agilidad en el campo de batalla, con la que se
+								defienden esquivando los ataques.
+							</p>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</article>
+
+
+	<article id="download" class="full-page">
+		<div id="contenido">
+			<h1>Download</h1>
+			<span>Descárgate War of Gods en tu plataforma preferida y empieza tu aventura</span>
+			<img src="images/linia.png"/>
+			<div class="des">
+				<ul>
+					<li><br><a href="#"><img src="images/windowslogo.png" width="130" height="130" /></a></li>
+					<li><a href="#"><img src="images/applelogo.png" width="130" height="130"/></a></li>
+					<li><a href="#"><img src="images/linuxlogo.png" width="130" height="130" /></a></li>
+				</ul>
+			</div>
+		</div>
+	</article>
+
+	<article id="about" class="full-page">
+		<div id="contenido">
+			<h1>About Us</h1>
+			<img src="images/aboutus.jpg"/>
+		</div>
+	</article>
+
+</section>
+
+<footer>
+	<div class="foot">
+		<br />
+		<p>Copyright ES2014A - Prohibida la reproducción total o parcial de estos
+			contenidos sin el permiso expreso de los autores.
+		</p>
+		<br />
+		<img src="images/iconos_sociales.png" />
+	</div>
+</footer>
+
+<script type="text/javascript">
+	vpw = $(window).width();
+	vph = $(window).height();
+	$('.full-page').height(vph*1.3);
+</script>
+</body>
+</html>
