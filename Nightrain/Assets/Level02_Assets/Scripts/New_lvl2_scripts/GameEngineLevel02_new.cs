@@ -100,11 +100,13 @@ public class GameEngineLevel02_new : MonoBehaviour {
 			map.setPause(pause);
 			invent.setShowInventory(false);
 			invent.setPause(pause);
+			this.gui.setMapAndInventory(minimap, inventory);
 			Time.timeScale = 0;
 		} else if (Input.GetKeyDown (KeyCode.Escape) && pause) {
 			pause = false;
 			this.gui.setConfirm(false);
 			this.gui.setKeyword(false);
+			this.gui.setOption(false);
 			map.setShowMiniMap(minimap);
 			map.setPause(pause);
 			invent.setShowInventory(inventory);
@@ -181,6 +183,7 @@ public class GameEngineLevel02_new : MonoBehaviour {
 			this.pause = this.gui.pauseMenu (this.pause);		
 		this.gui.confirmMenu(this.pause);
 		this.gui.optionKeyword (this.pause);
+		this.gui.showOptionMenu (this.pause);
 
 	}
 
