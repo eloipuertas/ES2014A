@@ -65,7 +65,8 @@ public class PauseMenuGUI {
 	private int delay = 0;
 
 	private GameObject shadow;
-	
+	private GameObject audio;
+
 	// CONSTRUCTOR
 	public PauseMenuGUI(){}
 	
@@ -82,6 +83,7 @@ public class PauseMenuGUI {
 		this.map2 = GameObject.FindGameObjectWithTag ("Minimap").GetComponent<miniMapLv2> ();
 
 		this.shadow = GameObject.FindGameObjectWithTag("Light");
+		this.audio = GameObject.FindGameObjectWithTag("Audio");
 
 		// MENU PAUSE
 		this.backgroundTexture = Resources.Load<Texture2D>("PauseMenu/background_pause");
@@ -430,13 +432,15 @@ public class PauseMenuGUI {
 					else if(this.sound)
 						this.sound = false;
 
-					AudioListener audio = GameObject.FindObjectOfType<AudioListener>();
-					audio.enabled = sound;
+					if(audio != null)
+						this.audio.SetActive(sound);
+					//AudioListener audio = GameObject.FindObjectOfType<AudioListener>();
+					//audio.enabled = sound;
 					delay = 5;
 				}
 
 				if (light_box.Contains (Event.current.mousePosition) && delay <= 0) {
-					Debug.Log("Light");
+
 					if(!this.light)
 						this.light = true;
 					else if(this.light)

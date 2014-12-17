@@ -55,10 +55,12 @@ public class Music_Engine_Script : MonoBehaviour {
 	private bool normal_audio = true;
 	private float player_hurt = -0.5f;
 	private float player_die = -0.5f;
+
 	
 	// Use this for initialization
 	void Start () {
 		this.character = PlayerPrefs.GetString("Player");
+
 		if (bckg_audio_object != null) {
 			bckg_audio = bckg_audio_object.GetComponent<AudioSource> ();
 		}
@@ -98,15 +100,13 @@ public class Music_Engine_Script : MonoBehaviour {
 
 	public void play_Player_Die() {
 		//Debug.Log ("Reproduciendo sonido");
-		if(this.character == "hombre") {
-			audio.PlayOneShot (character_die[0]);
-		}
-		else if(this.character == "mujer") {
-			audio.PlayOneShot (character_die[1]);
-			player_die = Time.time;
-		}
-		else if(this.character == "joven") {
-			audio.PlayOneShot (character_die[2]);
+		if (this.character == "hombre") {
+				audio.PlayOneShot (character_die [0]);
+		} else if (this.character == "mujer") {
+				audio.PlayOneShot (character_die [1]);
+				player_die = Time.time;
+		} else if (this.character == "joven") {
+				audio.PlayOneShot (character_die [2]);
 		}
 	}
 	
@@ -165,7 +165,7 @@ public class Music_Engine_Script : MonoBehaviour {
 	
 	public void play_low_PM () {
 		audio.PlayOneShot (low_PM);
-	}
+	}	
 	
 	public void play_level_Up () {
 		audio.PlayOneShot (levelUp);
