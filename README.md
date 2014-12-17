@@ -1,48 +1,30 @@
-NIGHTRAIN Project
+War Of Gods Project
 ==================
-This is the mainCharacter pathFinding final branch
+
+War of God es un "juego" desarrollado por los estudiantes de la Universidad de Barcelona del Grupo A de Ingeniería del Software. 
+Este juego ha sido desarrollado en un periodo de 2 meses y medio donde se ve el esfuerzo de cada uno de los integrantes:
+* Joshua García Palacios
+* Ivan Alcoba
+* Iván Álvarez Ferreiro
+* Sergi Carmona Castro
+* Victor Cortada
+* Dani Urdas
+* Oskar Daniels
+* Vicent Roig
+* Javier Gómez
+* Marc Rodriguez Artieda
+* Oriol Suils Pérez
+* Michel Dennis Quitaquis
+* Francesc Bosch Florit
+* Pablo Martinez
+* Jonatan Nieto
+* Tian Lan 
 
 
+Official Website
+-----------------
+http://eloipuertas.github.io/ES2014A/
 
-* * * * * * * * * * * * * * * * * * * *
-* Files to be merged into Devel branch.
-* * * * * * * * * * * * * * * * * * * *
-
->[NEW MODEL FILES]:
--------------------
-	/Assets/Models/MainCharacter/Main Controller.controller
-	/Assets/Models/MainCharacter/Main Controller.controller.meta
-	
-	/Assets/Models/MainCharacter/Kid/Materials/*.*
-	/Assets/Models/MainCharacter/Kid/*.*
-	
-	/Assets/Models/MainCharacter/Fat/Materials/*.*
-	/Assets/Models/MainCharacter/Fat/*.*		->[ including new version of "escudo.blend" & "hacha.blend" ]
-
-	/Assets/Models/MainCharacter/Woman/Materials/*.*
-	/Assets/Models/MainCharacter/Woman/*.*		->[ including new files "baston.blend" & "cuchillo.blend" ]
-
->[NEW PREFAB FILES]:
--------------------
-	/Assets/Resources/Prefabs/MainCharacters/fat.prefab
-	/Assets/Resources/Prefabs/MainCharacters/fat.prefab.meta
-
-	/Assets/Resources/Prefabs/MainCharacters/woman.prefab
-	/Assets/Resources/Prefabs/MainCharacters/woman.prefab.meta
-
-	/Assets/Resources/Prefabs/MainCharacters/kid.prefab
-	/Assets/Resources/Prefabs/MainCharacters/kid.prefab.meta
->[PATHFINDING MOV. SCRIPT]:
---------------------------
-	/Assets/Scripts/MainCharacter/ClickToMove.cs
-	/Assets/Scripts/MainCharacter/ClickToMove.cs.meta
-
-* * * * * * * * * * * * * * * * * * * *
-* IMPORTANT NOTE:
-* * * * * * * * * * * * * * * * * * * *
-Final file hierarchy for the directories
-  - /Assets/Models/MainCharacter/..
-  - /Assets/Resources/Prefabs/MainCharacters/.. 
-should be exactly this one (all obsolete versions has been removed).
-However, old models and prefabs could be probably required by other developers
-as they has been working with old prefab versions.
+Download @MEGA
+----------------
+https://mega.co.nz/#!vRAHCRST!GxsR-ca7XmWlh1jlo-mdSLbJ8kIAE0Ova7h8rTS-fME
