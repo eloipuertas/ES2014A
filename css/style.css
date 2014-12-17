@@ -42,8 +42,13 @@ article{
 }
 
 article #contenido p {
-	font-size:18px;
+	font-size:14px;
 }
+
+article #contenido span {
+	font-size:20px;
+}
+
 
 article .des li{
 	display: inline-block;
@@ -53,7 +58,7 @@ article .des li{
 }
 
 article .des img{
-	margin-top:70%;
+	/*margin-top:70%;*/
 }
 
 article#home{
@@ -99,7 +104,8 @@ article .info {
 }
 
 article .info img{
-	margin-top: 15%;
+	margin-top: 8%;
+	margin-bottom: 5%;
 }
 
 article#about{
